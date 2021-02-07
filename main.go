@@ -98,6 +98,9 @@ func setupRouter() *gin.Engine {
 	router.Use(cors.New(config))
 
 	// チーム打撃成績を取得
+	router.GET("/team/pitching", getTeamPitching)
+
+	// チーム打撃成績を取得
 	router.GET("/team/batting", getTeamBatting)
 
 	// チーム成績を取得
@@ -108,6 +111,17 @@ func setupRouter() *gin.Engine {
 
 	return router
 
+}
+
+func getTeamPitching(c *gin.Context) {
+	db := getDB()
+	fromYear, _ := strconv.Atoi(c.Query("from_year"))
+	toYear, _ := strconv.Atoi(c.Query("to_year"))
+	years := makeRange(fromYear, toYear)
+	teamPitchingMap := team.GetTeamPitching(years, db)
+	c.JSON(http.StatusOK, gin.H{
+		"teamPitching": teamPitchingMap,
+	})
 }
 
 func getTeamBatting(c *gin.Context) {

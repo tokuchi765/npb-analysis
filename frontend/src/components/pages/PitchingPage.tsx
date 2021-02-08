@@ -1,7 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
+import TablePages, { HeadCell } from './TablePages';
 import axios from 'axios';
 import _ from 'lodash';
+
+const years = [
+  '2005',
+  '2006',
+  '2007',
+  '2008',
+  '2009',
+  '2010',
+  '2011',
+  '2012',
+  '2013',
+  '2014',
+  '2015',
+  '2016',
+  '2017',
+  '2018',
+  '2019',
+  '2020',
+];
 
 interface PitchingData {
   main: string;
@@ -13,6 +33,17 @@ interface PitchingData {
   baseOnBalls: number;
   strikeOut: number;
 }
+
+const headCells: HeadCell[] = [
+  { id: 'main', numeric: false, disablePadding: true, label: 'チーム名' },
+  { id: 'earnedRunAverage', numeric: true, disablePadding: false, label: '防御率' },
+  { id: 'games', numeric: true, disablePadding: false, label: '試合' },
+  { id: 'save', numeric: true, disablePadding: false, label: 'セーブ' },
+  { id: 'hold', numeric: true, disablePadding: false, label: 'ホールド' },
+  { id: 'homeRun', numeric: true, disablePadding: false, label: '被本塁打' },
+  { id: 'baseOnBalls', numeric: true, disablePadding: false, label: '与四球' },
+  { id: 'strikeOut', numeric: true, disablePadding: false, label: '三振' },
+];
 
 function createPitchingData(
   main: string,
@@ -125,7 +156,28 @@ const PitchingPage: React.FC = () => {
     })();
   }, []);
 
-  return <GenericTemplate title="チーム投手成績ページ">チーム投手成績ページ</GenericTemplate>;
+  return (
+    <GenericTemplate title="チーム投手成績ページ">
+      <TablePages
+        title={'シーズン投手成績(セ)'}
+        getTeamDataList={getCentralPitchingDataList}
+        teamDatas={centralDatas}
+        years={years}
+        headCells={headCells}
+        initSorted={'earnedRunAverage'}
+        initYear={'2020'}
+      />
+      <TablePages
+        title={'シーズン投手成績(パ)'}
+        getTeamDataList={getPacificPitchingDataList}
+        teamDatas={pacificDatas}
+        years={years}
+        headCells={headCells}
+        initSorted={'earnedRunAverage'}
+        initYear={'2020'}
+      />
+    </GenericTemplate>
+  );
 };
 
 export default PitchingPage;

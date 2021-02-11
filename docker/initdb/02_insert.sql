@@ -2,6 +2,7 @@
 -- システム設定登録
 INSERT INTO system_setting(setting,value) VALUES('created_player_grades','false');
 INSERT INTO system_setting(setting,value) VALUES('created_team_stats','false');
+INSERT INTO system_setting(setting,value) VALUES('created_add_value','false');
 
 -- チーム名登録
 INSERT INTO team_name(team_name_id,team_name) VALUES('01','Giants');

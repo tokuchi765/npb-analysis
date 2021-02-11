@@ -12,6 +12,36 @@ import (
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 )
 
+// GetTeamPitching 引数で受け取った年に紐づくチーム投手成績を取得します。
+func GetTeamPitching(years []int, db *sql.DB) (teamPitchingMap map[string][]teamData.TeamPitching) {
+	teamPitchingMap = make(map[string][]teamData.TeamPitching)
+	for _, year := range years {
+		strYear := strconv.Itoa(year)
+		rows, err := db.Query("SELECT * FROM team_pitching where year = $1", strYear)
+
+		defer rows.Close()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		var teamPitchings []teamData.TeamPitching
+		for rows.Next() {
+			var teamPitching teamData.TeamPitching
+			rows.Scan(&teamPitching.TeamID, &teamPitching.Year, &teamPitching.EarnedRunAverage,
+				&teamPitching.Games, &teamPitching.Win, &teamPitching.Lose,
+				&teamPitching.Save, &teamPitching.Hold, &teamPitching.HoldPoint,
+				&teamPitching.CompleteGame, &teamPitching.Shutout, &teamPitching.NoWalks,
+				&teamPitching.WinningRate, &teamPitching.Batter, &teamPitching.InningsPitched,
+				&teamPitching.Hit, &teamPitching.HomeRun, &teamPitching.BaseOnBalls,
+				&teamPitching.IntentionalWalk, &teamPitching.HitByPitches, &teamPitching.StrikeOut,
+				&teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun)
+			teamPitchings = append(teamPitchings, teamPitching)
+		}
+		teamPitchingMap[strYear] = teamPitchings
+	}
+	return teamPitchingMap
+}
+
 // GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
 func GetTeamBatting(years []int, db *sql.DB) (teamBattingMap map[string][]teamData.TeamBatting) {
 	teamBattingMap = make(map[string][]teamData.TeamBatting)

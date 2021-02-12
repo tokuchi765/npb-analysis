@@ -57,9 +57,23 @@ func main() {
 		setSystemSetting("created_team_stats", "true", db)
 	}
 
+	// 算出が必要なDB項目を登録する
+	createdAddValue, _ := strconv.ParseBool(getSystemSetting("created_add_value", db))
+	if !createdAddValue {
+		setTeamStatsAddValue(db)
+		setSystemSetting("created_add_value", "true", db)
+	}
+
 	// webサーバーを起動
 	router := setupRouter()
 	router.Run(":8081")
+}
+
+func setTeamStatsAddValue(db *sql.DB) {
+	years := makeRange(2005, 2020)
+	teamBattings := team.GetTeamBatting(years, db)
+	teamPitching := team.GetTeamPitching(years, db)
+	team.InsertPythagoreanExpectation(years, teamBattings, teamPitching, db)
 }
 
 func getSystemSetting(setting string, db *sql.DB) (value string) {

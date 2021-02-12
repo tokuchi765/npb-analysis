@@ -126,7 +126,8 @@ func GetTeamStats(years []int, db *sql.DB) (teamStatsMap map[string][]teamData.T
 			rows.Scan(&teamStats.TeamID, &teamStats.Year, &teamStats.Games, &teamStats.Win, &teamStats.Lose, &teamStats.Draw,
 				&teamStats.WinningRate, &teamStats.ExchangeWin, &teamStats.ExchangeLose, &teamStats.ExchangeDraw,
 				&teamStats.HomeWin, &teamStats.HomeLose, &teamStats.HomeDraw,
-				&teamStats.LoadWin, &teamStats.LoadLose, &teamStats.LoadDraw)
+				&teamStats.LoadWin, &teamStats.LoadLose, &teamStats.LoadDraw,
+				&teamStats.PythagoreanExpectation)
 
 			teamStatses = append(teamStatses, teamStats)
 		}

@@ -11,6 +11,7 @@
  2. DB起動<br>
  /npb-analysis/ 配下で `docker-compose up -d` を実行<br>
  ※dockerが使える環境前提です
+ ※docker-compose.ymlファイルの `volumes` をインストールしたディレクトリに書きかえて実行する
   
  3. アプリケーション起動<br>
  /npb-analysis/ 配下で `go run .\main.go` を実行する

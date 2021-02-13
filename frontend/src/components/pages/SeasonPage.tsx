@@ -26,11 +26,13 @@ const years = [
 const createTeamData = (
   main: string,
   winningRate: number,
+  pythagoreanExpectation: number,
+  winningRateDifference: number,
   win: number,
   lose: number,
   draw: number
 ) => {
-  return { main, winningRate, win, lose, draw };
+  return { main, winningRate, pythagoreanExpectation, winningRateDifference, win, lose, draw };
 };
 
 interface CentralTeams {
@@ -55,6 +57,8 @@ function createTeamDataList(teams: CentralTeams[] | PacificTeams[]) {
   const teamDataList: {
     main: string;
     winningRate: number;
+    pythagoreanExpectation: number;
+    winningRateDifference: number;
     win: number;
     lose: number;
     draw: number;
@@ -62,7 +66,17 @@ function createTeamDataList(teams: CentralTeams[] | PacificTeams[]) {
 
   teams.forEach((team: any) => {
     _.forEach(team, (val, key) => {
-      teamDataList.push(createTeamData(key, val.WinningRate, val.Win, val.Lose, val.Draw));
+      teamDataList.push(
+        createTeamData(
+          key,
+          val.WinningRate,
+          val.PythagoreanExpectation,
+          val.WinningRate - val.PythagoreanExpectation,
+          val.Win,
+          val.Lose,
+          val.Draw
+        )
+      );
     });
   });
 
@@ -72,6 +86,8 @@ function createTeamDataList(teams: CentralTeams[] | PacificTeams[]) {
 const headCells: HeadCell[] = [
   { id: 'main', numeric: false, disablePadding: true, label: 'チーム名' },
   { id: 'winningRate', numeric: true, disablePadding: false, label: '勝率' },
+  { id: 'pythagoreanExpectation', numeric: true, disablePadding: false, label: 'ピタゴラス勝率' },
+  { id: 'winningRateDifference', numeric: true, disablePadding: false, label: '勝率との差分' },
   { id: 'win', numeric: true, disablePadding: false, label: '勝数' },
   { id: 'lose', numeric: true, disablePadding: false, label: '負数' },
   { id: 'draw', numeric: true, disablePadding: false, label: '引き分け' },

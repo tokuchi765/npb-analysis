@@ -12,6 +12,42 @@ import (
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 )
 
+// InsertPythagoreanExpectation ピタゴラス勝率をDBに登録します。
+func InsertPythagoreanExpectation(years []int, teamBattingMap map[string][]teamData.TeamBatting, teamPitchingMap map[string][]teamData.TeamPitching, db *sql.DB) {
+	for _, year := range years {
+		strYear := strconv.Itoa(year)
+		teamBattings := teamBattingMap[strYear]
+		teamPitchings := teamPitchingMap[strYear]
+		insertPythagoreanExpectation(teamBattings, teamPitchings, db)
+	}
+}
+
+func insertPythagoreanExpectation(teamBattings []teamData.TeamBatting, teamPitchings []teamData.TeamPitching, db *sql.DB) {
+	stmt, err := db.Prepare("UPDATE team_season_stats SET pythagorean_expectation = $1 WHERE team_id = $2 AND year = $3")
+	if err != nil {
+		log.Print(err)
+	}
+	defer stmt.Close()
+
+	for _, teamBatting := range teamBattings {
+		for _, teamPitching := range teamPitchings {
+			if teamBatting.TeamID == teamPitching.TeamID {
+				pythagoreanExpectation := calcPythagoreanExpectation(teamBatting.Score, teamPitching.RunsAllowed)
+				if _, err := stmt.Exec(pythagoreanExpectation, teamPitching.TeamID, teamPitching.Year); err != nil {
+					fmt.Println(teamPitching.TeamID + ":" + teamPitching.Year)
+					log.Print(err)
+				}
+			}
+		}
+	}
+}
+
+func calcPythagoreanExpectation(score int, runsAllowed int) float64 {
+	fScore := float64(score)
+	fRunsAllowed := float64(runsAllowed)
+	return (fScore * fScore) / ((fScore * fScore) + (fRunsAllowed * fRunsAllowed))
+}
+
 // GetTeamPitching 引数で受け取った年に紐づくチーム投手成績を取得します。
 func GetTeamPitching(years []int, db *sql.DB) (teamPitchingMap map[string][]teamData.TeamPitching) {
 	teamPitchingMap = make(map[string][]teamData.TeamPitching)
@@ -90,7 +126,8 @@ func GetTeamStats(years []int, db *sql.DB) (teamStatsMap map[string][]teamData.T
 			rows.Scan(&teamStats.TeamID, &teamStats.Year, &teamStats.Games, &teamStats.Win, &teamStats.Lose, &teamStats.Draw,
 				&teamStats.WinningRate, &teamStats.ExchangeWin, &teamStats.ExchangeLose, &teamStats.ExchangeDraw,
 				&teamStats.HomeWin, &teamStats.HomeLose, &teamStats.HomeDraw,
-				&teamStats.LoadWin, &teamStats.LoadLose, &teamStats.LoadDraw)
+				&teamStats.LoadWin, &teamStats.LoadLose, &teamStats.LoadDraw,
+				&teamStats.PythagoreanExpectation)
 
 			teamStatses = append(teamStatses, teamStats)
 		}

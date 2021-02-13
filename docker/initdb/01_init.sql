@@ -1,5 +1,5 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2021/01/31 22:31:34
+-- Date/Time    : 2021/02/11 19:41:58
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -50,6 +50,7 @@ create table TEAM_SEASON_STATS (
   , load_win integer
   , load_lose integer
   , load_draw integer
+  , pythagorean_expectation real
   , constraint TEAM_SEASON_STATS_PKC primary key (team_id,year)
 ) ;
 
@@ -239,6 +240,7 @@ comment on column TEAM_SEASON_STATS.home_draw is 'ホーム引き分け';
 comment on column TEAM_SEASON_STATS.load_win is 'ロード勝利';
 comment on column TEAM_SEASON_STATS.load_lose is 'ロード敗北';
 comment on column TEAM_SEASON_STATS.load_draw is 'ロード引き分け';
+comment on column TEAM_SEASON_STATS.pythagorean_expectation is 'ピタゴラス勝率';
 
 comment on table TEAM_PITCHING is 'チーム投手成績';
 comment on column TEAM_PITCHING.team_id is 'チームID';

@@ -44,7 +44,7 @@ func GetPlayers(url string) (players [][]string) {
 // ReadCareers 引数で受け取った選手リストをもとに、経歴をまとめたデータクラスのリストを返す
 func ReadCareers(playersPath string, initial string, players [][]string) (careerList []data.CAREER) {
 	for _, player := range players {
-		id := strings.Replace(strings.Replace(player[0], "/bis/players/", "", 1), ".html", "", 1)
+		id := extractionPlayerID(player[0])
 		url := playersPath + initial + "/careers/" + id + "_" + player[1] + "_career.csv"
 		if exists(url) {
 			career := readCareer(url)
@@ -52,6 +52,10 @@ func ReadCareers(playersPath string, initial string, players [][]string) (career
 		}
 	}
 	return careerList
+}
+
+func extractionPlayerID(url string) string {
+	return strings.Replace(strings.Replace(url, "/bis/players/", "", 1), ".html", "", 1)
 }
 
 // ExtractionCareers 引数で受け取ったCAREERリストから重複選手を除外する

@@ -194,6 +194,8 @@ func setPlayerGrades(initial string, db *sql.DB) {
 
 	players := grades.GetPlayers(current + "/csv/teams/" + initial + "_players.csv")
 
+	grades.InsertTeamPlayers(initial, players, db)
+
 	playersPath := current + "/csv/players/"
 	careers := grades.ReadCareers(playersPath, initial, players)
 

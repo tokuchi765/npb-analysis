@@ -14,6 +14,41 @@ import (
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
+// InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
+func InsertTeamPlayers(initial string, players [][]string, db *sql.DB) {
+	stmt, err := db.Prepare("INSERT INTO team_players(year,team_id,team_name,player_id,player_name) VALUES($1,$2,$3,$4,$5)")
+	if err != nil {
+		log.Print(err)
+	}
+	defer stmt.Close()
+
+	teamID := team.GetTeamID(initial)
+	teamName := getTeamName(teamID, db)
+	for _, player := range players {
+		playerID := extractionPlayerID(player[0])
+		if _, err := stmt.Exec("2020", teamID, teamName, playerID, player[1]); err != nil {
+			fmt.Println(teamID + ":" + playerID)
+			log.Print(err)
+		}
+	}
+}
+
+func getTeamName(teamID string, db *sql.DB) (teamName string) {
+	rows, err := db.Query("SELECT team_name FROM team_name WHERE team_name_id = $1", teamID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&teamName)
+	}
+
+	return teamName
+}
+
 // GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
 func GetPlayers(url string) (players [][]string) {
 	// バイト列を読み込む

@@ -159,19 +159,21 @@ const SeasonPage: React.FC = () => {
         title={'シーズン成績(セ)'}
         getTeamDataList={getTeamCentralDataList}
         teamDatas={centralTeamDatas}
-        years={years}
+        selects={years}
         headCells={headCells}
         initSorted={'winningRate'}
-        initYear={'2020'}
+        initSelect={'2020'}
+        selectLabel={'年'}
       />
       <TablePages
         title={'シーズン成績(パ)'}
         getTeamDataList={getTeamPacificDataList}
         teamDatas={pacificTeamDatas}
-        years={years}
+        selects={years}
         headCells={headCells}
         initSorted={'winningRate'}
-        initYear={'2020'}
+        initSelect={'2020'}
+        selectLabel={'年'}
       />
     </GenericTemplate>
   );

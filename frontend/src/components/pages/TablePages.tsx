@@ -94,13 +94,14 @@ export default function TablePages(props: {
   title: string;
   getTeamDataList: (year: string) => void;
   teamDatas: { main: string }[];
-  years: string[];
+  selects: string[];
   headCells: HeadCell[];
   initSorted: string;
-  initYear: string;
+  initSelect: string;
+  selectLabel: string;
 }) {
   const classes = useStyles();
-  const [year, setYear] = React.useState(props.initYear);
+  const [initSelect, setYear] = React.useState(props.initSelect);
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -123,23 +124,23 @@ export default function TablePages(props: {
           <Grid container className={classes.grid}>
             <Grid key={1} item>
               <Paper className={classes.paper}>
-                {year}
+                {initSelect}
                 {props.title}
               </Paper>
             </Grid>
             <Grid key={2} item>
               <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">年</InputLabel>
+                <InputLabel id="demo-simple-select-label">{props.selectLabel}</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={year}
+                  value={initSelect}
                   onChange={handleChange}
                 >
-                  {props.years.map((year) => {
+                  {props.selects.map((select) => {
                     return (
-                      <MenuItem key={year} value={year}>
-                        {year}
+                      <MenuItem key={select} value={select}>
+                        {select}
                       </MenuItem>
                     );
                   })}

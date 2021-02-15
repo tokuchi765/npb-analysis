@@ -162,19 +162,21 @@ const PitchingPage: React.FC = () => {
         title={'シーズン投手成績(セ)'}
         getTeamDataList={getCentralPitchingDataList}
         teamDatas={centralDatas}
-        years={years}
+        selects={years}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
-        initYear={'2020'}
+        initSelect={'2020'}
+        selectLabel={'年'}
       />
       <TablePages
         title={'シーズン投手成績(パ)'}
         getTeamDataList={getPacificPitchingDataList}
         teamDatas={pacificDatas}
-        years={years}
+        selects={years}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
-        initYear={'2020'}
+        initSelect={'2020'}
+        selectLabel={'年'}
       />
     </GenericTemplate>
   );

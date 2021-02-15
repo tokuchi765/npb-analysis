@@ -173,19 +173,21 @@ const BattingPage: React.FC = () => {
         title={'シーズン打撃成績(セ)'}
         getTeamDataList={getBattingCentralDataList}
         teamDatas={centralBattingDatas}
-        years={years}
+        selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}
-        initYear={'2020'}
+        initSelect={'2020'}
+        selectLabel={'年'}
       />
       <TablePages
         title={'シーズン打撃成績(パ)'}
         getTeamDataList={getBattingPacificDataList}
         teamDatas={pacificBattingDatas}
-        years={years}
+        selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}
-        initYear={'2020'}
+        initSelect={'2020'}
+        selectLabel={'年'}
       />
     </GenericTemplate>
   );

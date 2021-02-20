@@ -14,6 +14,41 @@ import (
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
+func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
+	rows, err := db.Query("SELECT * FROM players WHERE player_id = $1", playerID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&career.PlayerID, &career.Name, &career.Position, &career.PitchingAndBatting,
+			&career.Height, &career.Weight, &career.Birthday, &career.Draft, &career.Career)
+	}
+
+	return career
+}
+
+func GetPlayersByTeamIDandYear(teamID string, year string, db *sql.DB) (players []data.PLAYER) {
+	rows, err := db.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var player data.PLAYER
+		rows.Scan(&player.Year, &player.TeamID, &player.Team, &player.PlayerID, &player.Name)
+		players = append(players, player)
+	}
+
+	return players
+}
+
 // InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
 func InsertTeamPlayers(initial string, players [][]string, db *sql.DB) {
 	stmt, err := db.Prepare("INSERT INTO team_players(year,team_id,team_name,player_id,player_name) VALUES($1,$2,$3,$4,$5)")

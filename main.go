@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
+	"github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/grades"
 	"github.com/tokuchi765/npb-analysis/team"
 )
@@ -120,11 +121,31 @@ func setupRouter() *gin.Engine {
 	// チーム成績を取得
 	router.GET("/team/stats", getTeamStats)
 
+	// チームごとの選手情報一覧を取得
+	router.GET("/team/careers/:teamId/:year", getCareers)
+
 	// 画面表示
 	router.Use(static.Serve("/", static.LocalFile("./frontend/build", true)))
 
 	return router
 
+}
+
+func getCareers(c *gin.Context) {
+	db := getDB()
+	defer db.Close()
+	teamID := c.Param("teamId")
+	year := c.Param("year")
+
+	players := grades.GetPlayersByTeamIDandYear(teamID, year, db)
+	var careers []player.CAREER
+	for _, player := range players {
+		career := grades.GetCareer(player.PlayerID, db)
+		careers = append(careers, career)
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"careers": careers,
+	})
 }
 
 func getTeamPitching(c *gin.Context) {

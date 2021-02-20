@@ -22,6 +22,7 @@ import TableChartIcon from '@material-ui/icons/TableChart';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import PersonIcon from '@material-ui/icons/Person';
 
 const drawerWidth = 240;
 
@@ -231,6 +232,14 @@ const GenericTemplate: React.FC<GenericTemplateProps> = ({ children, title }) =>
                   <TableChartIcon />
                 </ListItemIcon>
                 <ListItemText primary="投手成績ページ" />
+              </ListItem>
+            </Link>
+            <Link to="/players" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <PersonIcon />
+                </ListItemIcon>
+                <ListItemText primary="選手一覧ページ" />
               </ListItem>
             </Link>
           </List>

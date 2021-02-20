@@ -5,6 +5,7 @@ import SeasonPage from './components/pages/SeasonPage';
 import HomePage from './components/pages/HomePage';
 import BattingPage from './components/pages/BattingPage';
 import PitchingPage from './components/pages/PitchingPage';
+import PlayersPage from './components/pages/PlayersPage';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
         <Route path="/" component={HomePage} exact />
         <Route path="/batting" component={BattingPage} exact />
         <Route path="/pitching" component={PitchingPage} exact />
+        <Route path="/players" component={PlayersPage} exact />
       </Switch>
     </Router>
   );

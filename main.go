@@ -65,6 +65,8 @@ func main() {
 		setSystemSetting("created_add_value", "true", db)
 	}
 
+	defer db.Close()
+
 	// webサーバーを起動
 	router := setupRouter()
 	router.Run(":8081")
@@ -150,6 +152,7 @@ func getCareers(c *gin.Context) {
 
 func getTeamPitching(c *gin.Context) {
 	db := getDB()
+	defer db.Close()
 	fromYear, _ := strconv.Atoi(c.Query("from_year"))
 	toYear, _ := strconv.Atoi(c.Query("to_year"))
 	years := makeRange(fromYear, toYear)
@@ -161,6 +164,7 @@ func getTeamPitching(c *gin.Context) {
 
 func getTeamBatting(c *gin.Context) {
 	db := getDB()
+	defer db.Close()
 	fromYear, _ := strconv.Atoi(c.Query("from_year"))
 	toYear, _ := strconv.Atoi(c.Query("to_year"))
 	years := makeRange(fromYear, toYear)
@@ -172,6 +176,7 @@ func getTeamBatting(c *gin.Context) {
 
 func getTeamStats(c *gin.Context) {
 	db := getDB()
+	defer db.Close()
 	fromYear, _ := strconv.Atoi(c.Query("from_year"))
 	toYear, _ := strconv.Atoi(c.Query("to_year"))
 	years := makeRange(fromYear, toYear)

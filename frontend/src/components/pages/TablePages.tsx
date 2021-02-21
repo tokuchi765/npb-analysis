@@ -109,8 +109,8 @@ function Main(props: { mainLink: boolean; main: string; value: string }) {
 
 export default function TablePages(props: {
   title: string;
-  getTeamDataList: (year: string) => void;
-  teamDatas: { main: string }[];
+  getDataList: (year: string) => void;
+  datas: { main: string }[];
   selects: string[];
   headCells: HeadCell[];
   initSorted: string;
@@ -124,7 +124,7 @@ export default function TablePages(props: {
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setYear(event.target.value as string);
-    props.getTeamDataList(String(event.target.value));
+    props.getDataList(String(event.target.value));
   };
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -194,7 +194,7 @@ export default function TablePages(props: {
             </TableRow>
           </TableHead>
           <TableBody>
-            {stableSort(props.teamDatas, getComparator(order, orderBy)).map((teamData, index) => {
+            {stableSort(props.datas, getComparator(order, orderBy)).map((teamData, index) => {
               const labelId = `enhanced-table-checkbox-${index}`;
               return (
                 <TableRow hover tabIndex={-1} key={teamData.main}>

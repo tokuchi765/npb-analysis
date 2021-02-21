@@ -171,8 +171,8 @@ const BattingPage: React.FC = () => {
     <GenericTemplate title="チーム打撃成績ページ">
       <TablePages
         title={'シーズン打撃成績(セ)'}
-        getTeamDataList={getBattingCentralDataList}
-        teamDatas={centralBattingDatas}
+        getDataList={getBattingCentralDataList}
+        datas={centralBattingDatas}
         selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}
@@ -182,8 +182,8 @@ const BattingPage: React.FC = () => {
       />
       <TablePages
         title={'シーズン打撃成績(パ)'}
-        getTeamDataList={getBattingPacificDataList}
-        teamDatas={pacificBattingDatas}
+        getDataList={getBattingPacificDataList}
+        datas={pacificBattingDatas}
         selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}

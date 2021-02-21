@@ -90,8 +90,8 @@ const PlayersPage: React.FC = () => {
     <GenericTemplate title="選手一覧ページ">
       <TablePages
         title={'選手一覧'}
-        getTeamDataList={getPlayerList}
-        teamDatas={playerDates}
+        getDataList={getPlayerList}
+        datas={playerDates}
         selects={teamNameList}
         headCells={headCells}
         initSorted={'main'}

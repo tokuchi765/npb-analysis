@@ -69,3 +69,11 @@ type CAREER struct {
 	Career             string // 経歴
 	Draft              string // ドラフト
 }
+
+type PLAYER struct {
+	Year     string // 年度
+	TeamID   string // チームID
+	PlayerID string // 選手ID
+	Team     string // 所属球団
+	Name     string // 選手名
+}

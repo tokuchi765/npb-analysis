@@ -14,6 +14,76 @@ import (
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
+func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
+	rows, err := db.Query("SELECT * FROM players WHERE player_id = $1", playerID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&career.PlayerID, &career.Name, &career.Position, &career.PitchingAndBatting,
+			&career.Height, &career.Weight, &career.Birthday, &career.Draft, &career.Career)
+	}
+
+	return career
+}
+
+func GetPlayersByTeamIDandYear(teamID string, year string, db *sql.DB) (players []data.PLAYER) {
+	rows, err := db.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var player data.PLAYER
+		rows.Scan(&player.Year, &player.TeamID, &player.Team, &player.PlayerID, &player.Name)
+		players = append(players, player)
+	}
+
+	return players
+}
+
+// InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
+func InsertTeamPlayers(initial string, players [][]string, db *sql.DB) {
+	stmt, err := db.Prepare("INSERT INTO team_players(year,team_id,team_name,player_id,player_name) VALUES($1,$2,$3,$4,$5)")
+	if err != nil {
+		log.Print(err)
+	}
+	defer stmt.Close()
+
+	teamID := team.GetTeamID(initial)
+	teamName := getTeamName(teamID, db)
+	for _, player := range players {
+		playerID := extractionPlayerID(player[0])
+		if _, err := stmt.Exec("2020", teamID, teamName, playerID, player[1]); err != nil {
+			fmt.Println(teamID + ":" + playerID)
+			log.Print(err)
+		}
+	}
+}
+
+func getTeamName(teamID string, db *sql.DB) (teamName string) {
+	rows, err := db.Query("SELECT team_name FROM team_name WHERE team_name_id = $1", teamID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&teamName)
+	}
+
+	return teamName
+}
+
 // GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
 func GetPlayers(url string) (players [][]string) {
 	// バイト列を読み込む
@@ -44,7 +114,7 @@ func GetPlayers(url string) (players [][]string) {
 // ReadCareers 引数で受け取った選手リストをもとに、経歴をまとめたデータクラスのリストを返す
 func ReadCareers(playersPath string, initial string, players [][]string) (careerList []data.CAREER) {
 	for _, player := range players {
-		id := strings.Replace(strings.Replace(player[0], "/bis/players/", "", 1), ".html", "", 1)
+		id := extractionPlayerID(player[0])
 		url := playersPath + initial + "/careers/" + id + "_" + player[1] + "_career.csv"
 		if exists(url) {
 			career := readCareer(url)
@@ -52,6 +122,10 @@ func ReadCareers(playersPath string, initial string, players [][]string) (career
 		}
 	}
 	return careerList
+}
+
+func extractionPlayerID(url string) string {
+	return strings.Replace(strings.Replace(url, "/bis/players/", "", 1), ".html", "", 1)
 }
 
 // ExtractionCareers 引数で受け取ったCAREERリストから重複選手を除外する

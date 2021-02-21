@@ -97,6 +97,7 @@ const PlayersPage: React.FC = () => {
         initSorted={'main'}
         initSelect={'Hawks'}
         selectLabel={'チーム'}
+        mainLink={true}
       />
     </GenericTemplate>
   );

@@ -167,6 +167,7 @@ const PitchingPage: React.FC = () => {
         initSorted={'earnedRunAverage'}
         initSelect={'2020'}
         selectLabel={'年'}
+        mainLink={false}
       />
       <TablePages
         title={'シーズン投手成績(パ)'}
@@ -177,6 +178,7 @@ const PitchingPage: React.FC = () => {
         initSorted={'earnedRunAverage'}
         initSelect={'2020'}
         selectLabel={'年'}
+        mainLink={false}
       />
     </GenericTemplate>
   );

@@ -178,6 +178,7 @@ const BattingPage: React.FC = () => {
         initSorted={'battingAverage'}
         initSelect={'2020'}
         selectLabel={'年'}
+        mainLink={false}
       />
       <TablePages
         title={'シーズン打撃成績(パ)'}
@@ -188,6 +189,7 @@ const BattingPage: React.FC = () => {
         initSorted={'battingAverage'}
         initSelect={'2020'}
         selectLabel={'年'}
+        mainLink={false}
       />
     </GenericTemplate>
   );

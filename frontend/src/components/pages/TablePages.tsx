@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -90,6 +91,22 @@ export interface HeadCell {
   numeric: boolean;
 }
 
+function Main(props: { mainLink: boolean; main: string; value: string }) {
+  if (props.mainLink) {
+    return (
+      <Link
+        to={{
+          pathname: `/test/${props.value}`,
+        }}
+      >
+        {props.main}
+      </Link>
+    );
+  } else {
+    return <div>{props.main}</div>;
+  }
+}
+
 export default function TablePages(props: {
   title: string;
   getTeamDataList: (year: string) => void;
@@ -99,6 +116,7 @@ export default function TablePages(props: {
   initSorted: string;
   initSelect: string;
   selectLabel: string;
+  mainLink: boolean;
 }) {
   const classes = useStyles();
   const [initSelect, setYear] = React.useState(props.initSelect);
@@ -181,7 +199,7 @@ export default function TablePages(props: {
               return (
                 <TableRow hover tabIndex={-1} key={teamData.main}>
                   <TableCell component="th" id={labelId} scope="row" padding="none">
-                    {teamData.main}
+                    <Main mainLink={props.mainLink} main={teamData.main} value={'test'} />
                   </TableCell>
                   {_.map(teamData, (val, key) => {
                     if (key === 'main') {

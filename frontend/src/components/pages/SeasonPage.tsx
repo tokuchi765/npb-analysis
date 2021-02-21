@@ -164,6 +164,7 @@ const SeasonPage: React.FC = () => {
         initSorted={'winningRate'}
         initSelect={'2020'}
         selectLabel={'年'}
+        mainLink={false}
       />
       <TablePages
         title={'シーズン成績(パ)'}
@@ -174,6 +175,7 @@ const SeasonPage: React.FC = () => {
         initSorted={'winningRate'}
         initSelect={'2020'}
         selectLabel={'年'}
+        mainLink={false}
       />
     </GenericTemplate>
   );

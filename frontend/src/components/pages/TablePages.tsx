@@ -91,12 +91,12 @@ export interface HeadCell {
   numeric: boolean;
 }
 
-function Main(props: { mainLink: boolean; main: string; value: string }) {
+function Main(props: { mainLink: boolean; main: string; value: string | undefined; path: string }) {
   if (props.mainLink) {
     return (
       <Link
         to={{
-          pathname: `/test/${props.value}`,
+          pathname: `${props.path}${props.value}`,
         }}
       >
         {props.main}
@@ -117,6 +117,8 @@ export default function TablePages(props: {
   initSelect: string;
   selectLabel: string;
   mainLink: boolean;
+  linkValues: Map<string, string>;
+  path: string;
 }) {
   const classes = useStyles();
   const [initSelect, setYear] = React.useState(props.initSelect);
@@ -199,7 +201,12 @@ export default function TablePages(props: {
               return (
                 <TableRow hover tabIndex={-1} key={teamData.main}>
                   <TableCell component="th" id={labelId} scope="row" padding="none">
-                    <Main mainLink={props.mainLink} main={teamData.main} value={'test'} />
+                    <Main
+                      mainLink={props.mainLink}
+                      main={teamData.main}
+                      value={props.linkValues.get(teamData.main)}
+                      path={props.path}
+                    />
                   </TableCell>
                   {_.map(teamData, (val, key) => {
                     if (key === 'main') {

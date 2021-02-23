@@ -168,6 +168,8 @@ const PitchingPage: React.FC = () => {
         initSelect={'2020'}
         selectLabel={'年'}
         mainLink={false}
+        linkValues={new Map<string, string>()}
+        path={''}
       />
       <TablePages
         title={'シーズン投手成績(パ)'}
@@ -179,6 +181,8 @@ const PitchingPage: React.FC = () => {
         initSelect={'2020'}
         selectLabel={'年'}
         mainLink={false}
+        linkValues={new Map<string, string>()}
+        path={''}
       />
     </GenericTemplate>
   );

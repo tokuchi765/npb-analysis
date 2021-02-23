@@ -179,6 +179,8 @@ const BattingPage: React.FC = () => {
         initSelect={'2020'}
         selectLabel={'年'}
         mainLink={false}
+        linkValues={new Map<string, string>()}
+        path={''}
       />
       <TablePages
         title={'シーズン打撃成績(パ)'}
@@ -190,6 +192,8 @@ const BattingPage: React.FC = () => {
         initSelect={'2020'}
         selectLabel={'年'}
         mainLink={false}
+        linkValues={new Map<string, string>()}
+        path={''}
       />
     </GenericTemplate>
   );

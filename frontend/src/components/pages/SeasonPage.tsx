@@ -165,6 +165,8 @@ const SeasonPage: React.FC = () => {
         initSelect={'2020'}
         selectLabel={'年'}
         mainLink={false}
+        linkValues={new Map<string, string>()}
+        path={''}
       />
       <TablePages
         title={'シーズン成績(パ)'}
@@ -176,6 +178,8 @@ const SeasonPage: React.FC = () => {
         initSelect={'2020'}
         selectLabel={'年'}
         mainLink={false}
+        linkValues={new Map<string, string>()}
+        path={''}
       />
     </GenericTemplate>
   );

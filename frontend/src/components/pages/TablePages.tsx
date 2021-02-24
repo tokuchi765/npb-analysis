@@ -107,6 +107,46 @@ function Main(props: { mainLink: boolean; main: string; value: string | undefine
   }
 }
 
+function Selectable(props: {
+  formControl: string;
+  selectLabel: string;
+  initSelect: string;
+  selects: string[];
+  handleChange:
+    | ((
+        event: React.ChangeEvent<{
+          name?: string | undefined;
+          value: unknown;
+        }>,
+        child: React.ReactNode
+      ) => void)
+    | undefined;
+}) {
+  if (!_.isEmpty(props.selects)) {
+    return (
+      <FormControl className={props.formControl}>
+        <InputLabel id="demo-simple-select-label">{props.selectLabel}</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={props.initSelect}
+          onChange={props.handleChange}
+        >
+          {props.selects.map((select) => {
+            return (
+              <MenuItem key={select} value={select}>
+                {select}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+    );
+  } else {
+    return <div></div>;
+  }
+}
+
 export default function TablePages(props: {
   title: string;
   getDataList: (year: string) => void;
@@ -149,23 +189,13 @@ export default function TablePages(props: {
               </Paper>
             </Grid>
             <Grid key={2} item>
-              <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">{props.selectLabel}</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={initSelect}
-                  onChange={handleChange}
-                >
-                  {props.selects.map((select) => {
-                    return (
-                      <MenuItem key={select} value={select}>
-                        {select}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+              <Selectable
+                formControl={classes.formControl}
+                selectLabel={props.selectLabel}
+                initSelect={initSelect}
+                selects={props.selects}
+                handleChange={handleChange}
+              />
             </Grid>
           </Grid>
         </Typography>

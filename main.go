@@ -126,11 +126,25 @@ func setupRouter() *gin.Engine {
 	// チームごとの選手情報一覧を取得
 	router.GET("/team/careers/:teamId/:year", getCareers)
 
+	// 選手情報取得
+	router.GET("/player/:playerId", getPlayer)
+
 	// 画面表示
 	router.Use(static.Serve("/", static.LocalFile("./frontend/build", true)))
 
 	return router
 
+}
+
+func getPlayer(c *gin.Context) {
+	db := getDB()
+	defer db.Close()
+	playerID := c.Param("playerId")
+	c.JSON(http.StatusOK, gin.H{
+		"career":   grades.GetCareer(playerID, db),
+		"batting":  grades.GetBatting(playerID, db),
+		"pitching": grades.GetPitching(playerID, db),
+	})
 }
 
 func getCareers(c *gin.Context) {

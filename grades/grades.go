@@ -84,7 +84,7 @@ func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
 	return career
 }
 
-func GetPlayersByTeamIDandYear(teamID string, year string, db *sql.DB) (players []data.PLAYER) {
+func GetPlayersByTeamIDAndYear(teamID string, year string, db *sql.DB) (players []data.PLAYER) {
 	rows, err := db.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
 
 	if err != nil {

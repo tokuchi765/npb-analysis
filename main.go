@@ -153,7 +153,7 @@ func getCareers(c *gin.Context) {
 	teamID := c.Param("teamId")
 	year := c.Param("year")
 
-	players := grades.GetPlayersByTeamIDandYear(teamID, year, db)
+	players := grades.GetPlayersByTeamIDAndYear(teamID, year, db)
 	var careers []player.CAREER
 	for _, player := range players {
 		career := grades.GetCareer(player.PlayerID, db)

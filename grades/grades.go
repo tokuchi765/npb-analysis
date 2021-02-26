@@ -67,6 +67,7 @@ func GetBatting(playerID string, db *sql.DB) (battings []data.BATTERGRADES) {
 	return battings
 }
 
+// GetCareer 選手情報を取得する
 func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
 	rows, err := db.Query("SELECT * FROM players WHERE player_id = $1", playerID)
 
@@ -84,6 +85,7 @@ func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
 	return career
 }
 
+// GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
 func GetPlayersByTeamIDAndYear(teamID string, year string, db *sql.DB) (players []data.PLAYER) {
 	rows, err := db.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
 

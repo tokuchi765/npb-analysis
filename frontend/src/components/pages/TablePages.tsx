@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -90,15 +91,74 @@ export interface HeadCell {
   numeric: boolean;
 }
 
+function Main(props: { mainLink: boolean; main: string; value: string | undefined; path: string }) {
+  if (props.mainLink) {
+    return (
+      <Link
+        to={{
+          pathname: `${props.path}${props.value}`,
+        }}
+      >
+        {props.main}
+      </Link>
+    );
+  } else {
+    return <div>{props.main}</div>;
+  }
+}
+
+function Selectable(props: {
+  formControl: string;
+  selectLabel: string;
+  initSelect: string;
+  selects: string[];
+  handleChange:
+    | ((
+        event: React.ChangeEvent<{
+          name?: string | undefined;
+          value: unknown;
+        }>,
+        child: React.ReactNode
+      ) => void)
+    | undefined;
+}) {
+  if (!_.isEmpty(props.selects)) {
+    return (
+      <FormControl className={props.formControl}>
+        <InputLabel id="demo-simple-select-label">{props.selectLabel}</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={props.initSelect}
+          onChange={props.handleChange}
+        >
+          {props.selects.map((select) => {
+            return (
+              <MenuItem key={select} value={select}>
+                {select}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+    );
+  } else {
+    return <div></div>;
+  }
+}
+
 export default function TablePages(props: {
   title: string;
-  getTeamDataList: (year: string) => void;
-  teamDatas: { main: string }[];
+  getDataList: (year: string) => void;
+  datas: { main: string }[];
   selects: string[];
   headCells: HeadCell[];
   initSorted: string;
   initSelect: string;
   selectLabel: string;
+  mainLink: boolean;
+  linkValues: Map<string, string>;
+  path: string;
 }) {
   const classes = useStyles();
   const [initSelect, setYear] = React.useState(props.initSelect);
@@ -106,7 +166,7 @@ export default function TablePages(props: {
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setYear(event.target.value as string);
-    props.getTeamDataList(String(event.target.value));
+    props.getDataList(String(event.target.value));
   };
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -129,23 +189,13 @@ export default function TablePages(props: {
               </Paper>
             </Grid>
             <Grid key={2} item>
-              <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">{props.selectLabel}</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={initSelect}
-                  onChange={handleChange}
-                >
-                  {props.selects.map((select) => {
-                    return (
-                      <MenuItem key={select} value={select}>
-                        {select}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+              <Selectable
+                formControl={classes.formControl}
+                selectLabel={props.selectLabel}
+                initSelect={initSelect}
+                selects={props.selects}
+                handleChange={handleChange}
+              />
             </Grid>
           </Grid>
         </Typography>
@@ -176,12 +226,17 @@ export default function TablePages(props: {
             </TableRow>
           </TableHead>
           <TableBody>
-            {stableSort(props.teamDatas, getComparator(order, orderBy)).map((teamData, index) => {
+            {stableSort(props.datas, getComparator(order, orderBy)).map((teamData, index) => {
               const labelId = `enhanced-table-checkbox-${index}`;
               return (
                 <TableRow hover tabIndex={-1} key={teamData.main}>
                   <TableCell component="th" id={labelId} scope="row" padding="none">
-                    {teamData.main}
+                    <Main
+                      mainLink={props.mainLink}
+                      main={teamData.main}
+                      value={props.linkValues.get(teamData.main)}
+                      path={props.path}
+                    />
                   </TableCell>
                   {_.map(teamData, (val, key) => {
                     if (key === 'main') {

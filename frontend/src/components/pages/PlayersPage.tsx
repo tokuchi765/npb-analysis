@@ -63,6 +63,19 @@ function createPlayerDates(
   return playerDateList;
 }
 
+function createPlayerIds(
+  careers: {
+    PlayerID: string;
+    Name: string;
+  }[]
+) {
+  const playerIdMap: Map<string, string> = new Map<string, string>();
+  careers.forEach((career) => {
+    playerIdMap.set(career.Name, career.PlayerID);
+  });
+  return playerIdMap;
+}
+
 function getTeamId(teamName: string) {
   for (const index in teamNameList) {
     if (teamNameList[index] === teamName) {
@@ -73,10 +86,12 @@ function getTeamId(teamName: string) {
 
 const PlayersPage: React.FC = () => {
   const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
+  const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
 
   const getPlayerList = async (teamName: string) => {
     const teamID = getTeamId(teamName);
     const result = await axios.get(`http://localhost:8081/team/careers/${teamID}/2020`);
+    setPlayerIds(createPlayerIds(result.data.careers));
     setPlayerDates(createPlayerDates(result.data.careers));
   };
 
@@ -90,13 +105,16 @@ const PlayersPage: React.FC = () => {
     <GenericTemplate title="選手一覧ページ">
       <TablePages
         title={'選手一覧'}
-        getTeamDataList={getPlayerList}
-        teamDatas={playerDates}
+        getDataList={getPlayerList}
+        datas={playerDates}
         selects={teamNameList}
         headCells={headCells}
         initSorted={'main'}
         initSelect={'Hawks'}
         selectLabel={'チーム'}
+        mainLink={true}
+        linkValues={playerIdMap}
+        path={'/player/'}
       />
     </GenericTemplate>
   );

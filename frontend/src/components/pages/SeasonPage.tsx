@@ -157,23 +157,29 @@ const SeasonPage: React.FC = () => {
     <GenericTemplate title="チーム成績ページ">
       <TablePages
         title={'シーズン成績(セ)'}
-        getTeamDataList={getTeamCentralDataList}
-        teamDatas={centralTeamDatas}
+        getDataList={getTeamCentralDataList}
+        datas={centralTeamDatas}
         selects={years}
         headCells={headCells}
         initSorted={'winningRate'}
         initSelect={'2020'}
         selectLabel={'年'}
+        mainLink={false}
+        linkValues={new Map<string, string>()}
+        path={''}
       />
       <TablePages
         title={'シーズン成績(パ)'}
-        getTeamDataList={getTeamPacificDataList}
-        teamDatas={pacificTeamDatas}
+        getDataList={getTeamPacificDataList}
+        datas={pacificTeamDatas}
         selects={years}
         headCells={headCells}
         initSorted={'winningRate'}
         initSelect={'2020'}
         selectLabel={'年'}
+        mainLink={false}
+        linkValues={new Map<string, string>()}
+        path={''}
       />
     </GenericTemplate>
   );

@@ -65,8 +65,6 @@ func main() {
 		setSystemSetting("created_add_value", "true", db)
 	}
 
-	defer db.Close()
-
 	// webサーバーを起動
 	router := setupRouter()
 	router.Run(":8081")
@@ -126,11 +124,25 @@ func setupRouter() *gin.Engine {
 	// チームごとの選手情報一覧を取得
 	router.GET("/team/careers/:teamId/:year", getCareers)
 
+	// 選手情報取得
+	router.GET("/player/:playerId", getPlayer)
+
 	// 画面表示
 	router.Use(static.Serve("/", static.LocalFile("./frontend/build", true)))
 
 	return router
 
+}
+
+func getPlayer(c *gin.Context) {
+	db := getDB()
+	defer db.Close()
+	playerID := c.Param("playerId")
+	c.JSON(http.StatusOK, gin.H{
+		"career":   grades.GetCareer(playerID, db),
+		"batting":  grades.GetBatting(playerID, db),
+		"pitching": grades.GetPitching(playerID, db),
+	})
 }
 
 func getCareers(c *gin.Context) {
@@ -139,7 +151,7 @@ func getCareers(c *gin.Context) {
 	teamID := c.Param("teamId")
 	year := c.Param("year")
 
-	players := grades.GetPlayersByTeamIDandYear(teamID, year, db)
+	players := grades.GetPlayersByTeamIDAndYear(teamID, year, db)
 	var careers []player.CAREER
 	for _, player := range players {
 		career := grades.GetCareer(player.PlayerID, db)

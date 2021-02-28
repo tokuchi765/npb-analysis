@@ -14,6 +14,60 @@ import (
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
+// GetPitching 個人投手成績一覧を取得する
+func GetPitching(playerID string, db *sql.DB) (pitchings []data.PICHERGRADES) {
+	rows, err := db.Query("SELECT * FROM picher_grades WHERE player_id = $1", playerID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var playerID string
+		var pitching data.PICHERGRADES
+		rows.Scan(&playerID, &pitching.Year, &pitching.TeamID, &pitching.Team,
+			&pitching.Piched, &pitching.Win, &pitching.Lose, &pitching.Save,
+			&pitching.Hold, &pitching.HoldPoint, &pitching.CompleteGame, &pitching.Shutout,
+			&pitching.NoWalks, &pitching.WinningRate, &pitching.Batter, &pitching.InningsPitched,
+			&pitching.Hit, &pitching.HomeRun, &pitching.BaseOnBalls, &pitching.HitByPitches,
+			&pitching.StrikeOut, &pitching.WildPitches, &pitching.Balk, &pitching.RunsAllowed,
+			&pitching.EarnedRun, &pitching.EarnedRunAverage)
+
+		pitchings = append(pitchings, pitching)
+	}
+
+	return pitchings
+}
+
+// GetBatting 個人打撃成績一覧を取得する
+func GetBatting(playerID string, db *sql.DB) (battings []data.BATTERGRADES) {
+	rows, err := db.Query("SELECT * FROM batter_grades WHERE player_id = $1", playerID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var playerID string
+		var batting data.BATTERGRADES
+		rows.Scan(&playerID, &batting.Year, &batting.TeamID, &batting.Team, &batting.Games,
+			&batting.PlateAppearance, &batting.AtBat, &batting.Score, &batting.Hit,
+			&batting.Double, &batting.Triple, &batting.HomeRun, &batting.BaseHit,
+			&batting.RunsBattedIn, &batting.StolenBase, &batting.CaughtStealing, &batting.SacrificeHits,
+			&batting.SacrificeFlies, &batting.BaseOnBalls, &batting.HitByPitches, &batting.StrikeOut,
+			&batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage)
+
+		battings = append(battings, batting)
+	}
+
+	return battings
+}
+
+// GetCareer 選手情報を取得する
 func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
 	rows, err := db.Query("SELECT * FROM players WHERE player_id = $1", playerID)
 
@@ -31,7 +85,8 @@ func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
 	return career
 }
 
-func GetPlayersByTeamIDandYear(teamID string, year string, db *sql.DB) (players []data.PLAYER) {
+// GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
+func GetPlayersByTeamIDAndYear(teamID string, year string, db *sql.DB) (players []data.PLAYER) {
 	rows, err := db.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
 
 	if err != nil {

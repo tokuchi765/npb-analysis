@@ -65,8 +65,6 @@ func main() {
 		setSystemSetting("created_add_value", "true", db)
 	}
 
-	defer db.Close()
-
 	// webサーバーを起動
 	router := setupRouter()
 	router.Run(":8081")

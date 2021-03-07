@@ -113,8 +113,8 @@ function createBattingDataList(
 }
 
 const BattingPage: React.FC = () => {
+  const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralBattingDatas, setCentralBattingData] = useState<BattingData[]>([]);
-  const [pacificBattingDatas, setPacificBattingData] = useState<BattingData[]>([]);
 
   const getBattingCentralDataList = async (year: string) => {
     const result = await axios.get(
@@ -135,8 +135,13 @@ const BattingPage: React.FC = () => {
 
     const battingData = createBattingDataList(teams);
 
+    setCentralYear(year);
+
     setCentralBattingData(battingData);
   };
+
+  const [initPacificYear, setPacificYear] = useState<string>('');
+  const [pacificBattingDatas, setPacificBattingData] = useState<BattingData[]>([]);
 
   const getBattingPacificDataList = async (year: string) => {
     const result = await axios.get(
@@ -157,6 +162,8 @@ const BattingPage: React.FC = () => {
 
     const battingData = createBattingDataList(pacificTeams);
 
+    setPacificYear(year);
+
     setPacificBattingData(battingData);
   };
 
@@ -171,12 +178,13 @@ const BattingPage: React.FC = () => {
     <GenericTemplate title="チーム打撃成績ページ">
       <TablePages
         title={'シーズン打撃成績(セ)'}
+        setSelect={setCentralYear}
         getDataList={getBattingCentralDataList}
         datas={centralBattingDatas}
         selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}
-        initSelect={'2020'}
+        initSelect={initCentralYear}
         selectLabel={'年'}
         mainLink={false}
         linkValues={new Map<string, string>()}
@@ -184,12 +192,13 @@ const BattingPage: React.FC = () => {
       />
       <TablePages
         title={'シーズン打撃成績(パ)'}
+        setSelect={setPacificYear}
         getDataList={getBattingPacificDataList}
         datas={pacificBattingDatas}
         selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}
-        initSelect={'2020'}
+        initSelect={initPacificYear}
         selectLabel={'年'}
         mainLink={false}
         linkValues={new Map<string, string>()}

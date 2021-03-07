@@ -94,11 +94,8 @@ const headCells: HeadCell[] = [
 ];
 
 const SeasonPage: React.FC = () => {
+  const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralTeamDatas, setCentralTeamlData] = useState<
-    { main: string; winningRate: number; win: number; lose: number; draw: number }[]
-  >([]);
-
-  const [pacificTeamDatas, setPacificTeamlData] = useState<
     { main: string; winningRate: number; win: number; lose: number; draw: number }[]
   >([]);
 
@@ -121,8 +118,15 @@ const SeasonPage: React.FC = () => {
 
     const test = createTeamDataList(teams);
 
+    setCentralYear(year);
+
     setCentralTeamlData(test);
   };
+
+  const [initPacificYear, setPacificYear] = useState<string>('');
+  const [pacificTeamDatas, setPacificTeamlData] = useState<
+    { main: string; winningRate: number; win: number; lose: number; draw: number }[]
+  >([]);
 
   const getTeamPacificDataList = async (year: string) => {
     const result = await axios.get(
@@ -143,6 +147,8 @@ const SeasonPage: React.FC = () => {
 
     const test = createTeamDataList(teams);
 
+    setPacificYear(year);
+
     setPacificTeamlData(test);
   };
 
@@ -157,12 +163,13 @@ const SeasonPage: React.FC = () => {
     <GenericTemplate title="チーム成績ページ">
       <TablePages
         title={'シーズン成績(セ)'}
+        setSelect={setCentralYear}
         getDataList={getTeamCentralDataList}
         datas={centralTeamDatas}
         selects={years}
         headCells={headCells}
         initSorted={'winningRate'}
-        initSelect={'2020'}
+        initSelect={initCentralYear}
         selectLabel={'年'}
         mainLink={false}
         linkValues={new Map<string, string>()}
@@ -170,12 +177,13 @@ const SeasonPage: React.FC = () => {
       />
       <TablePages
         title={'シーズン成績(パ)'}
+        setSelect={setPacificYear}
         getDataList={getTeamPacificDataList}
         datas={pacificTeamDatas}
         selects={years}
         headCells={headCells}
         initSorted={'winningRate'}
-        initSelect={'2020'}
+        initSelect={initPacificYear}
         selectLabel={'年'}
         mainLink={false}
         linkValues={new Map<string, string>()}

@@ -143,6 +143,9 @@ const PlayerPage: React.FC<PageProps> = (props) => {
     <GenericTemplate title={playerName}>
       <TablePages
         title={'打撃成績'}
+        setSelect={function () {
+          return;
+        }}
         getDataList={getPlayerDatas}
         datas={battingDates}
         selects={[]}
@@ -156,6 +159,9 @@ const PlayerPage: React.FC<PageProps> = (props) => {
       />
       <TablePages
         title={'投手成績'}
+        setSelect={function () {
+          return;
+        }}
         getDataList={getPlayerDatas}
         datas={pitchingDates}
         selects={[]}

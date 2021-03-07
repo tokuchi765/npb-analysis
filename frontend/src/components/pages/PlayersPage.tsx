@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
 import TablePages, { HeadCell } from './TablePages';
 import axios from 'axios';
 import _ from 'lodash';
+import * as H from 'history';
 
 const teamNameList = [
   'Giants',
@@ -84,20 +87,41 @@ function getTeamId(teamName: string) {
   }
 }
 
-const PlayersPage: React.FC = () => {
+interface PageProps extends RouteComponentProps<{ id: string }> {
+  history: H.History;
+  location: H.Location<any>;
+}
+
+const PlayersPage: React.FC<PageProps> = (props) => {
   const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
+  const [initTeam, setInitTeam] = useState<string>('');
+  const history = useHistory();
 
   const getPlayerList = async (teamName: string) => {
     const teamID = getTeamId(teamName);
     const result = await axios.get(`http://localhost:8081/team/careers/${teamID}/2020`);
     setPlayerIds(createPlayerIds(result.data.careers));
     setPlayerDates(createPlayerDates(result.data.careers));
+    setInitTeam(teamName);
+
+    history.push({
+      state: { teamName: teamName },
+    });
+  };
+
+  const getTeamName = (location: any) => {
+    let teamName = location.state && location.state.teamName;
+    if (teamName === undefined) {
+      teamName = 'Hawks';
+    }
+    return teamName;
   };
 
   useEffect(() => {
     (async () => {
-      getPlayerList('Hawks');
+      const teamName = getTeamName(props.location);
+      getPlayerList(teamName);
     })();
   }, []);
 
@@ -105,12 +129,13 @@ const PlayersPage: React.FC = () => {
     <GenericTemplate title="選手一覧ページ">
       <TablePages
         title={'選手一覧'}
+        setSelect={setInitTeam}
         getDataList={getPlayerList}
         datas={playerDates}
         selects={teamNameList}
         headCells={headCells}
         initSorted={'main'}
-        initSelect={'Hawks'}
+        initSelect={initTeam}
         selectLabel={'チーム'}
         mainLink={true}
         linkValues={playerIdMap}

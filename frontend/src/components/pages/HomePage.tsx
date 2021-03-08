@@ -248,9 +248,7 @@ const HomePage: React.FC = () => {
         return teamBattings;
       });
 
-      const centralBattingAverage = createCentralBattingAverages(centralTeams);
-
-      setCentralData(centralBattingAverage);
+      setCentralData(createCentralBattingAverages(centralTeams));
 
       const pacificTeams = _.map(result.data.teamBatting, (teamBatting) => {
         const teamBattings = {
@@ -264,9 +262,7 @@ const HomePage: React.FC = () => {
         return teamBattings;
       });
 
-      const pacificBattingAverage = createPacificBattingAverages(pacificTeams);
-
-      setPacificData(pacificBattingAverage);
+      setPacificData(createPacificBattingAverages(pacificTeams));
     })();
   }, []);
 

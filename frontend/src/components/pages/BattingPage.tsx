@@ -133,11 +133,8 @@ const BattingPage: React.FC = () => {
       return teanStatses;
     });
 
-    const battingData = createBattingDataList(teams);
-
     setCentralYear(year);
-
-    setCentralBattingData(battingData);
+    setCentralBattingData(createBattingDataList(teams));
   };
 
   const [initPacificYear, setPacificYear] = useState<string>('');
@@ -160,11 +157,8 @@ const BattingPage: React.FC = () => {
       return teamBattings;
     });
 
-    const battingData = createBattingDataList(pacificTeams);
-
     setPacificYear(year);
-
-    setPacificBattingData(battingData);
+    setPacificBattingData(createBattingDataList(pacificTeams));
   };
 
   useEffect(() => {

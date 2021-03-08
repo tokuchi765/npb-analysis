@@ -116,11 +116,8 @@ const SeasonPage: React.FC = () => {
       return teanStatses;
     });
 
-    const test = createTeamDataList(teams);
-
     setCentralYear(year);
-
-    setCentralTeamlData(test);
+    setCentralTeamlData(createTeamDataList(teams));
   };
 
   const [initPacificYear, setPacificYear] = useState<string>('');
@@ -145,11 +142,8 @@ const SeasonPage: React.FC = () => {
       return teanStatses;
     });
 
-    const test = createTeamDataList(teams);
-
     setPacificYear(year);
-
-    setPacificTeamlData(test);
+    setPacificTeamlData(createTeamDataList(teams));
   };
 
   useEffect(() => {

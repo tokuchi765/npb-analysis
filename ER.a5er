@@ -142,6 +142,7 @@ Field="打席","plate_appearance","@INT",,,"","",$FFFFFFFF,""
 Field="打数","at_bat","@INT",,,"","",$FFFFFFFF,""
 Field="得点","score","@INT",,,"","",$FFFFFFFF,""
 Field="安打","hit","@INT",,,"","",$FFFFFFFF,""
+Field="単打","single","@INT",,,"","",$FFFFFFFF,""
 Field="二塁打","double","@INT",,,"","",$FFFFFFFF,""
 Field="三塁打","triple","@INT",,,"","",$FFFFFFFF,""
 Field="本塁打","home_run","@INT",,,"","",$FFFFFFFF,""
@@ -158,11 +159,12 @@ Field="併殺打","grounded_into_double_play","@INT",,,"","",$FFFFFFFF,""
 Field="打率","batting_average","@FLOAT",,,"","",$FFFFFFFF,""
 Field="長打率","slugging_percentage","@FLOAT",,,"","",$FFFFFFFF,""
 Field="出塁率","on_base_percentage","@FLOAT",,,"","",$FFFFFFFF,""
+Field="加重出塁率","w_oba","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20201208210742
-Position="MAIN",550,650,275,638
+ModifiedDateTime=20210309225528
+Position="MAIN",550,650,275,705
 ZOrder=5
 
 [Relation]

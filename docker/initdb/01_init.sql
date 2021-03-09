@@ -1,5 +1,5 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2021/02/14 22:25:55
+-- Date/Time    : 2021/03/09 22:56:01
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -155,6 +155,7 @@ create table BATTER_GRADES (
   , at_bat integer
   , score integer
   , hit integer
+  , single integer
   , double integer
   , triple integer
   , home_run integer
@@ -171,6 +172,7 @@ create table BATTER_GRADES (
   , batting_average real
   , slugging_percentage real
   , on_base_percentage real
+  , w_oba real
   , constraint BATTER_GRADES_PKC primary key (player_id,year,team_id)
 ) ;
 
@@ -332,6 +334,7 @@ comment on column BATTER_GRADES.plate_appearance is '打席';
 comment on column BATTER_GRADES.at_bat is '打数';
 comment on column BATTER_GRADES.score is '得点';
 comment on column BATTER_GRADES.hit is '安打';
+comment on column BATTER_GRADES.single is '単打';
 comment on column BATTER_GRADES.double is '二塁打';
 comment on column BATTER_GRADES.triple is '三塁打';
 comment on column BATTER_GRADES.home_run is '本塁打';
@@ -348,6 +351,7 @@ comment on column BATTER_GRADES.grounded_into_double_play is '併殺打';
 comment on column BATTER_GRADES.batting_average is '打率';
 comment on column BATTER_GRADES.slugging_percentage is '長打率';
 comment on column BATTER_GRADES.on_base_percentage is '出塁率';
+comment on column BATTER_GRADES.w_oba is '加重出塁率';
 
 comment on table Players is '選手テーブル';
 comment on column Players.player_id is '選手ID';

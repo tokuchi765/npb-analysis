@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
+import Button from '@material-ui/core/Button';
 import TablePages, { HeadCell } from './TablePages';
 import axios from 'axios';
 import _ from 'lodash';
@@ -141,8 +142,14 @@ const PlayerPage: React.FC<PageProps> = (props) => {
 
   return (
     <GenericTemplate title={playerName}>
+      <Button onClick={() => props.history.goBack()} variant="contained" color="primary">
+        戻る
+      </Button>
       <TablePages
         title={'打撃成績'}
+        setSelect={function () {
+          return;
+        }}
         getDataList={getPlayerDatas}
         datas={battingDates}
         selects={[]}
@@ -156,6 +163,9 @@ const PlayerPage: React.FC<PageProps> = (props) => {
       />
       <TablePages
         title={'投手成績'}
+        setSelect={function () {
+          return;
+        }}
         getDataList={getPlayerDatas}
         datas={pitchingDates}
         selects={[]}

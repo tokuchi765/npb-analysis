@@ -108,8 +108,8 @@ function createPitchingDataList(
 }
 
 const PitchingPage: React.FC = () => {
+  const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralDatas, setCentralData] = useState<PitchingData[]>([]);
-  const [pacificDatas, setPacificData] = useState<PitchingData[]>([]);
 
   const getCentralPitchingDataList = async (year: string) => {
     const result = await axios.get(
@@ -127,8 +127,13 @@ const PitchingPage: React.FC = () => {
       };
     });
 
+    setCentralYear(year);
+
     setCentralData(createPitchingDataList(centralPitchings));
   };
+
+  const [initPacificYear, setPacificYear] = useState<string>('');
+  const [pacificDatas, setPacificData] = useState<PitchingData[]>([]);
 
   const getPacificPitchingDataList = async (year: string) => {
     const result = await axios.get(
@@ -146,6 +151,8 @@ const PitchingPage: React.FC = () => {
       };
     });
 
+    setPacificYear(year);
+
     setPacificData(createPitchingDataList(pacificPitchings));
   };
 
@@ -160,12 +167,13 @@ const PitchingPage: React.FC = () => {
     <GenericTemplate title="チーム投手成績ページ">
       <TablePages
         title={'シーズン投手成績(セ)'}
+        setSelect={setCentralYear}
         getDataList={getCentralPitchingDataList}
         datas={centralDatas}
         selects={years}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
-        initSelect={'2020'}
+        initSelect={initCentralYear}
         selectLabel={'年'}
         mainLink={false}
         linkValues={new Map<string, string>()}
@@ -173,12 +181,13 @@ const PitchingPage: React.FC = () => {
       />
       <TablePages
         title={'シーズン投手成績(パ)'}
+        setSelect={setPacificYear}
         getDataList={getPacificPitchingDataList}
         datas={pacificDatas}
         selects={years}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
-        initSelect={'2020'}
+        initSelect={initPacificYear}
         selectLabel={'年'}
         mainLink={false}
         linkValues={new Map<string, string>()}

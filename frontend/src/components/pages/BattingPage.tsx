@@ -113,8 +113,8 @@ function createBattingDataList(
 }
 
 const BattingPage: React.FC = () => {
+  const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralBattingDatas, setCentralBattingData] = useState<BattingData[]>([]);
-  const [pacificBattingDatas, setPacificBattingData] = useState<BattingData[]>([]);
 
   const getBattingCentralDataList = async (year: string) => {
     const result = await axios.get(
@@ -133,10 +133,12 @@ const BattingPage: React.FC = () => {
       return teanStatses;
     });
 
-    const battingData = createBattingDataList(teams);
-
-    setCentralBattingData(battingData);
+    setCentralYear(year);
+    setCentralBattingData(createBattingDataList(teams));
   };
+
+  const [initPacificYear, setPacificYear] = useState<string>('');
+  const [pacificBattingDatas, setPacificBattingData] = useState<BattingData[]>([]);
 
   const getBattingPacificDataList = async (year: string) => {
     const result = await axios.get(
@@ -155,9 +157,8 @@ const BattingPage: React.FC = () => {
       return teamBattings;
     });
 
-    const battingData = createBattingDataList(pacificTeams);
-
-    setPacificBattingData(battingData);
+    setPacificYear(year);
+    setPacificBattingData(createBattingDataList(pacificTeams));
   };
 
   useEffect(() => {
@@ -171,12 +172,13 @@ const BattingPage: React.FC = () => {
     <GenericTemplate title="チーム打撃成績ページ">
       <TablePages
         title={'シーズン打撃成績(セ)'}
+        setSelect={setCentralYear}
         getDataList={getBattingCentralDataList}
         datas={centralBattingDatas}
         selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}
-        initSelect={'2020'}
+        initSelect={initCentralYear}
         selectLabel={'年'}
         mainLink={false}
         linkValues={new Map<string, string>()}
@@ -184,12 +186,13 @@ const BattingPage: React.FC = () => {
       />
       <TablePages
         title={'シーズン打撃成績(パ)'}
+        setSelect={setPacificYear}
         getDataList={getBattingPacificDataList}
         datas={pacificBattingDatas}
         selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}
-        initSelect={'2020'}
+        initSelect={initPacificYear}
         selectLabel={'年'}
         mainLink={false}
         linkValues={new Map<string, string>()}

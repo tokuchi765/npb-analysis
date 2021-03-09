@@ -149,6 +149,7 @@ function Selectable(props: {
 
 export default function TablePages(props: {
   title: string;
+  setSelect: (select: string) => void;
   getDataList: (year: string) => void;
   datas: { main: string }[];
   selects: string[];
@@ -161,11 +162,10 @@ export default function TablePages(props: {
   path: string;
 }) {
   const classes = useStyles();
-  const [initSelect, setYear] = React.useState(props.initSelect);
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setYear(event.target.value as string);
+    props.setSelect(event.target.value as string);
     props.getDataList(String(event.target.value));
   };
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
@@ -184,7 +184,7 @@ export default function TablePages(props: {
           <Grid container className={classes.grid}>
             <Grid key={1} item>
               <Paper className={classes.paper}>
-                {initSelect}
+                {props.initSelect}
                 {props.title}
               </Paper>
             </Grid>
@@ -192,7 +192,7 @@ export default function TablePages(props: {
               <Selectable
                 formControl={classes.formControl}
                 selectLabel={props.selectLabel}
-                initSelect={initSelect}
+                initSelect={props.initSelect}
                 selects={props.selects}
                 handleChange={handleChange}
               />

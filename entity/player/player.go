@@ -39,6 +39,7 @@ type BATTERGRADES struct {
 	AtBat                  int     // 打数
 	Score                  int     // 得点
 	Hit                    int     // 安打
+	Single                 int     //単打
 	Double                 int     // 二塁打
 	Triple                 int     // 三塁打
 	HomeRun                int     // 本塁打

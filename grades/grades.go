@@ -310,7 +310,7 @@ func ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID st
 
 // InsertBatterGrades 引数で受け取ったBATTERGRADESをDBに登録する
 func InsertBatterGrades(batterMap map[string][]data.BATTERGRADES, db *sql.DB) {
-	stmt, err := db.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)")
+	stmt, err := db.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, single, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26)")
 	if err != nil {
 		log.Print(err)
 	}
@@ -318,12 +318,17 @@ func InsertBatterGrades(batterMap map[string][]data.BATTERGRADES, db *sql.DB) {
 
 	for key, value := range batterMap {
 		for _, batter := range value {
-			if _, err := stmt.Exec(key, batter.Year, batter.TeamID, batter.Team, batter.Games, batter.PlateAppearance, batter.AtBat, batter.Score, batter.Hit, batter.Double, batter.Triple, batter.HomeRun, batter.BaseHit, batter.RunsBattedIn, batter.StolenBase, batter.CaughtStealing, batter.SacrificeHits, batter.SacrificeFlies, batter.BaseOnBalls, batter.HitByPitches, batter.StrikeOut, batter.GroundedIntoDoublePlay, batter.BattingAverage, batter.SluggingPercentage, batter.OnBasePercentage); err != nil {
+			setSingle(&batter)
+			if _, err := stmt.Exec(key, batter.Year, batter.TeamID, batter.Team, batter.Games, batter.PlateAppearance, batter.AtBat, batter.Score, batter.Hit, batter.Single, batter.Double, batter.Triple, batter.HomeRun, batter.BaseHit, batter.RunsBattedIn, batter.StolenBase, batter.CaughtStealing, batter.SacrificeHits, batter.SacrificeFlies, batter.BaseOnBalls, batter.HitByPitches, batter.StrikeOut, batter.GroundedIntoDoublePlay, batter.BattingAverage, batter.SluggingPercentage, batter.OnBasePercentage); err != nil {
 				fmt.Println(key + ":" + batter.Year)
 				log.Print(err)
 			}
 		}
 	}
+}
+
+func setSingle(batterGrades *data.BATTERGRADES) {
+	batterGrades.Single = batterGrades.Hit - batterGrades.Double - batterGrades.Triple - batterGrades.HomeRun
 }
 
 func readGrades(path string) (picherGradesList []data.PICHERGRADES, batterGradesList []data.BATTERGRADES) {

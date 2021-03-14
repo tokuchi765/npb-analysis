@@ -195,7 +195,9 @@ func ExtractionCareers(careers *[]data.CAREER, db *sql.DB) {
 
 	for rows.Next() {
 		var selectCareer data.CAREER
-		rows.Scan(&selectCareer.PlayerID, &selectCareer.Name, &selectCareer.Position, &selectCareer.PitchingAndBatting, &selectCareer.Height, &selectCareer.Weight, &selectCareer.Birthday, &selectCareer.Draft, &selectCareer.Career)
+		rows.Scan(&selectCareer.PlayerID, &selectCareer.Name, &selectCareer.Position,
+			&selectCareer.PitchingAndBatting, &selectCareer.Height, &selectCareer.Weight,
+			&selectCareer.Birthday, &selectCareer.Draft, &selectCareer.Career)
 		for index, career := range *careers {
 			if career.PlayerID == selectCareer.PlayerID {
 				*careers = unset(*careers, index)
@@ -219,7 +221,9 @@ func InsertCareers(careers []data.CAREER, db *sql.DB) {
 	}
 	defer stmt.Close()
 	for _, career := range careers {
-		if _, err := stmt.Exec(career.PlayerID, career.Name, career.Position, career.PitchingAndBatting, career.Height, career.Weight, career.Birthday, career.Draft, career.Career); err != nil {
+		if _, err := stmt.Exec(career.PlayerID, career.Name, career.Position,
+			career.PitchingAndBatting, career.Height, career.Weight,
+			career.Birthday, career.Draft, career.Career); err != nil {
 			fmt.Println(career.PlayerID + ":" + career.Name)
 			log.Print(err)
 		}
@@ -319,7 +323,15 @@ func InsertBatterGrades(batterMap map[string][]data.BATTERGRADES, db *sql.DB) {
 	for key, value := range batterMap {
 		for _, batter := range value {
 			setSingle(&batter)
-			if _, err := stmt.Exec(key, batter.Year, batter.TeamID, batter.Team, batter.Games, batter.PlateAppearance, batter.AtBat, batter.Score, batter.Hit, batter.Single, batter.Double, batter.Triple, batter.HomeRun, batter.BaseHit, batter.RunsBattedIn, batter.StolenBase, batter.CaughtStealing, batter.SacrificeHits, batter.SacrificeFlies, batter.BaseOnBalls, batter.HitByPitches, batter.StrikeOut, batter.GroundedIntoDoublePlay, batter.BattingAverage, batter.SluggingPercentage, batter.OnBasePercentage); err != nil {
+			if _, err := stmt.Exec(key, batter.Year, batter.TeamID, batter.Team,
+				batter.Games, batter.PlateAppearance, batter.AtBat,
+				batter.Score, batter.Hit, batter.Single,
+				batter.Double, batter.Triple, batter.HomeRun,
+				batter.BaseHit, batter.RunsBattedIn, batter.StolenBase,
+				batter.CaughtStealing, batter.SacrificeHits, batter.SacrificeFlies,
+				batter.BaseOnBalls, batter.HitByPitches, batter.StrikeOut,
+				batter.GroundedIntoDoublePlay, batter.BattingAverage, batter.SluggingPercentage,
+				batter.OnBasePercentage); err != nil {
 				fmt.Println(key + ":" + batter.Year)
 				log.Print(err)
 			}

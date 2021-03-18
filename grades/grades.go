@@ -56,11 +56,12 @@ func GetBatting(playerID string, db *sql.DB) (battings []data.BATTERGRADES) {
 		var playerID string
 		var batting data.BATTERGRADES
 		rows.Scan(&playerID, &batting.Year, &batting.TeamID, &batting.Team, &batting.Games,
-			&batting.PlateAppearance, &batting.AtBat, &batting.Score, &batting.Hit,
+			&batting.PlateAppearance, &batting.AtBat, &batting.Score, &batting.Hit, &batting.Single,
 			&batting.Double, &batting.Triple, &batting.HomeRun, &batting.BaseHit,
 			&batting.RunsBattedIn, &batting.StolenBase, &batting.CaughtStealing, &batting.SacrificeHits,
 			&batting.SacrificeFlies, &batting.BaseOnBalls, &batting.HitByPitches, &batting.StrikeOut,
-			&batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage)
+			&batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage,
+			&batting.Woba)
 
 		battings = append(battings, batting)
 	}

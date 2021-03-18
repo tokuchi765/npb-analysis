@@ -18,6 +18,7 @@ interface BattingDate {
   homeRun: number;
   strikeOut: number;
   groundedIntoDoublePlay: number;
+  woba: number;
 }
 
 const batterHeadCells: HeadCell[] = [
@@ -30,6 +31,7 @@ const batterHeadCells: HeadCell[] = [
   { id: 'homeRun', numeric: true, disablePadding: true, label: '本塁打' },
   { id: 'strikeOut', numeric: true, disablePadding: true, label: '三振' },
   { id: 'groundedIntoDoublePlay', numeric: true, disablePadding: true, label: '併殺打' },
+  { id: 'woba', numeric: true, disablePadding: true, label: '加重出塁率' },
 ];
 
 function createBattingDatas(
@@ -43,6 +45,7 @@ function createBattingDatas(
     HomeRun: string;
     StrikeOut: string;
     GroundedIntoDoublePlay: string;
+    Woba: string;
   }[]
 ) {
   const battings: BattingDate[] = [];
@@ -57,6 +60,7 @@ function createBattingDatas(
       homeRun: Number(batting.HomeRun),
       strikeOut: Number(batting.StrikeOut),
       groundedIntoDoublePlay: Number(batting.GroundedIntoDoublePlay),
+      woba: Number(batting.Woba),
     });
   });
   return battings;

@@ -1,5 +1,5 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2021/03/09 22:56:01
+-- Date/Time    : 2021/03/28 16:56:12
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -47,6 +47,7 @@ create table TEAM_MATCH_RESULTS (
 create table TEAM_SEASON_STATS (
   team_id character varying not null
   , year character varying not null
+  , manager character varying
   , games integer
   , win integer
   , lose integer
@@ -246,6 +247,7 @@ comment on column TEAM_MATCH_RESULTS.draw is '引き分け';
 comment on table TEAM_SEASON_STATS is 'チームシーズン成績';
 comment on column TEAM_SEASON_STATS.team_id is 'チームID';
 comment on column TEAM_SEASON_STATS.year is '年';
+comment on column TEAM_SEASON_STATS.manager is '監督';
 comment on column TEAM_SEASON_STATS.games is '試合';
 comment on column TEAM_SEASON_STATS.win is '勝利';
 comment on column TEAM_SEASON_STATS.lose is '敗北';

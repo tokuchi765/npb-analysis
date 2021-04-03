@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
 import axios from 'axios';
 import _ from 'lodash';
-import TablePages, { HeadCell } from './TablePages';
+import TablePages, { HeadCell } from '../common/TablePages';
 
 const years = [
   '2005',

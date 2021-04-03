@@ -242,6 +242,14 @@ const GenericTemplate: React.FC<GenericTemplateProps> = ({ children, title }) =>
                 <ListItemText primary="選手一覧ページ" />
               </ListItem>
             </Link>
+            <Link to="/manager" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <PersonIcon />
+                </ListItemIcon>
+                <ListItemText primary="監督ページ" />
+              </ListItem>
+            </Link>
           </List>
         </Drawer>
         <main className={classes.content}>

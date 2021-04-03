@@ -147,7 +147,7 @@ function Selectable(props: {
   }
 }
 
-export default function TablePages(props: {
+export default function TableComponent(props: {
   title: string;
   setSelect: (select: string) => void;
   getDataList: (year: string) => void;

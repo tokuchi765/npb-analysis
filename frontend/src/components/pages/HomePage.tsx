@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Chart from '../dashboard/Chart';
+import Chart from '../common/Chart';
 import GenericTemplate from '../templates/GenericTemplate';
 import Paper from '@material-ui/core/Paper';
 import clsx from 'clsx';

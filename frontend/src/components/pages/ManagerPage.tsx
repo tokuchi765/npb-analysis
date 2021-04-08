@@ -31,6 +31,7 @@ const selects = [ALL, THREE];
 const headCells: HeadCell[] = [
   { id: 'main', numeric: false, disablePadding: true, label: '監督' },
   { id: 'years', numeric: true, disablePadding: true, label: '年数' },
+  { id: 'winningRateAverage', numeric: true, disablePadding: true, label: '平均勝率' },
   {
     id: 'winningRateDifferenceAverage',
     numeric: true,
@@ -48,6 +49,7 @@ interface ManagerData {
 interface Manager {
   main: string;
   years: number;
+  winningRateAverage: number;
   winningRateDifferenceAverage: number;
 }
 
@@ -56,14 +58,26 @@ function createManagerAverage(select: string, managerMap: Map<string, Array<Mana
   if (select === THREE) {
     managerMap.forEach((value: ManagerData[], key: string) => {
       if (value.length >= 3) {
-        const average = _.meanBy(value, 'winningRateDifference');
-        managerList.push({ main: key, years: value.length, winningRateDifferenceAverage: average });
+        const winningRateDifferenceAverage = _.meanBy(value, 'winningRateDifference');
+        const winningRateAverage = _.meanBy(value, 'winningRate');
+        managerList.push({
+          main: key,
+          years: value.length,
+          winningRateAverage: winningRateAverage,
+          winningRateDifferenceAverage: winningRateDifferenceAverage,
+        });
       }
     });
   } else {
     managerMap.forEach((value: ManagerData[], key: string) => {
       const average = _.meanBy(value, 'winningRateDifference');
-      managerList.push({ main: key, years: value.length, winningRateDifferenceAverage: average });
+      const winningRateAverage = _.meanBy(value, 'winningRate');
+      managerList.push({
+        main: key,
+        years: value.length,
+        winningRateAverage: winningRateAverage,
+        winningRateDifferenceAverage: average,
+      });
     });
   }
 

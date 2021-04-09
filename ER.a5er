@@ -280,8 +280,8 @@ Field="出塁率","on_base_percentage","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20201122230533
-Position="MAIN",1500,500,298,637
+ModifiedDateTime=20210328165407
+Position="MAIN",1500,500,298,622
 ZOrder=16
 
 [Relation]
@@ -378,6 +378,7 @@ Left=2300
 Top=500
 Field="チームID","team_id","@VARCHAR","NOT NULL",0,"","",$FFFFFFFF,""
 Field="年","year","@VARCHAR","NOT NULL",1,"","",$FFFFFFFF,""
+Field="監督","manager","@VARCHAR",,,"","",$FFFFFFFF,""
 Field="試合","games","@INT",,,"","",$FFFFFFFF,""
 Field="勝利","win","@INT",,,"","",$FFFFFFFF,""
 Field="敗北","lose","@INT",,,"","",$FFFFFFFF,""
@@ -396,7 +397,7 @@ Field="ピタゴラス勝率","pythagorean_expectation","@FLOAT",,,"","",$FFFFFF
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20210211193948
+ModifiedDateTime=20210328165554
 Position="MAIN",2300,500,293,471
 ZOrder=20
 

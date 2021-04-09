@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
-import TablePages, { HeadCell } from './TablePages';
+import TablePages, { HeadCell } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 

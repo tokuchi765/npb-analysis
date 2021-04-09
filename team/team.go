@@ -123,7 +123,7 @@ func GetTeamStats(years []int, db *sql.DB) (teamStatsMap map[string][]teamData.T
 		var teamStatses []teamData.TeamLeagueStats
 		for rows.Next() {
 			var teamStats teamData.TeamLeagueStats
-			rows.Scan(&teamStats.TeamID, &teamStats.Year, &teamStats.Games, &teamStats.Win, &teamStats.Lose, &teamStats.Draw,
+			rows.Scan(&teamStats.TeamID, &teamStats.Year, &teamStats.Manager, &teamStats.Games, &teamStats.Win, &teamStats.Lose, &teamStats.Draw,
 				&teamStats.WinningRate, &teamStats.ExchangeWin, &teamStats.ExchangeLose, &teamStats.ExchangeDraw,
 				&teamStats.HomeWin, &teamStats.HomeLose, &teamStats.HomeDraw,
 				&teamStats.LoadWin, &teamStats.LoadLose, &teamStats.LoadDraw,
@@ -139,7 +139,7 @@ func GetTeamStats(years []int, db *sql.DB) (teamStatsMap map[string][]teamData.T
 
 // InsertSeasonLeagueStats チームごとのシーズン成績をDBに登録する
 func InsertSeasonLeagueStats(csvPath string, db *sql.DB) {
-	stmt, err := db.Prepare("INSERT INTO team_season_stats(team_id, year, games, win, lose, draw, winning_rate, exchange_win, exchange_lose, exchange_draw, home_win, home_lose, home_draw, load_win, load_lose, load_draw) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)")
+	stmt, err := db.Prepare("INSERT INTO team_season_stats(team_id, year, manager, games, win, lose, draw, winning_rate, exchange_win, exchange_lose, exchange_draw, home_win, home_lose, home_draw, load_win, load_lose, load_draw) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)")
 	if err != nil {
 		log.Print(err)
 	}
@@ -150,8 +150,42 @@ func InsertSeasonLeagueStats(csvPath string, db *sql.DB) {
 		cTeamLeagueStats, _ := readTeamLeagueStats(csvPath, "c", strconv.Itoa(year))
 		pTeamLeagueStats, _ := readTeamLeagueStats(csvPath, "p", strconv.Itoa(year))
 
+		setManager(csvPath, &cTeamLeagueStats)
+		setManager(csvPath, &pTeamLeagueStats)
+
 		// DBに登録する
 		insertTeamLeagueStats(append(cTeamLeagueStats, pTeamLeagueStats...), stmt)
+	}
+}
+
+func setManager(csvPath string, teamLeagueStatsList *[]teamData.TeamLeagueStats) {
+	teamLeagueStatses := *teamLeagueStatsList
+	for i, teamLeagueStats := range teamLeagueStatses {
+		path := csvPath + "/teams/stats/manager/" + getTeamInitial(teamLeagueStats.TeamID) + "_manager.csv"
+		file, err := os.Open(path)
+
+		if err != nil {
+			log.Print(err)
+		}
+		// 	終わったらファイルを閉じる
+		defer file.Close()
+
+		reader := csv.NewReader(file)
+
+		// ヘッダーを読み飛ばす
+		_, _ = reader.Read()
+
+		for {
+			line, err := reader.Read()
+			if err != nil {
+				break
+			}
+			if teamLeagueStats.Year == line[0] {
+				teamLeagueStatses[i].Manager = line[1]
+				print(line[1])
+				break
+			}
+		}
 	}
 }
 
@@ -209,7 +243,7 @@ func insertMatchResults(teamMatchResults []teamData.TeamMatchResults, stmt *sql.
 
 func insertTeamLeagueStats(teamLeagueStats []teamData.TeamLeagueStats, stmt *sql.Stmt) {
 	for _, stats := range teamLeagueStats {
-		if _, err := stmt.Exec(stats.TeamID, stats.Year, stats.Games, stats.Win, stats.Lose, stats.Draw, stats.WinningRate, stats.ExchangeWin, stats.ExchangeLose, stats.ExchangeDraw, stats.HomeWin, stats.HomeLose, stats.HomeDraw, stats.LoadWin, stats.LoadLose, stats.LoadDraw); err != nil {
+		if _, err := stmt.Exec(stats.TeamID, stats.Year, stats.Manager, stats.Games, stats.Win, stats.Lose, stats.Draw, stats.WinningRate, stats.ExchangeWin, stats.ExchangeLose, stats.ExchangeDraw, stats.HomeWin, stats.HomeLose, stats.HomeDraw, stats.LoadWin, stats.LoadLose, stats.LoadDraw); err != nil {
 			fmt.Println(stats.TeamID + ":" + stats.Year)
 			log.Print(err)
 		}
@@ -269,6 +303,30 @@ func readTeamLeagueStats(csvPath string, league string, year string) (teamLeague
 	}
 
 	return teamLeagueStats, teamMatchResults
+}
+
+func getTeamInitial(teamID string) (initial string) {
+	idDatas := map[string]string{
+		"01": "g",
+		"02": "db",
+		"03": "t",
+		"04": "c",
+		"05": "d",
+		"06": "s",
+		"07": "l",
+		"08": "h",
+		"09": "e",
+		"10": "m",
+		"11": "f",
+		"12": "b",
+	}
+
+	for key, idData := range idDatas {
+		if key == teamID {
+			initial = idData
+		}
+	}
+	return initial
 }
 
 func setTeamMatchResults(line []string, year string, indexMap map[string]int, vsType string) (teamMatchResultsList []teamData.TeamMatchResults) {

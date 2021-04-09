@@ -74,6 +74,7 @@ type TeamPitching struct {
 type TeamLeagueStats struct {
 	TeamID                 string  // チームID
 	Year                   string  // 年度
+	Manager                string  // 監督
 	Games                  int     // 試合
 	Win                    int     // 勝利
 	Lose                   int     // 敗北

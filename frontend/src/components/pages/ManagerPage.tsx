@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
 import axios from 'axios';
 import _ from 'lodash';
-import TablePages, { HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell } from '../common/TableComponent';
 
 const THREE = '(3年以上)';
 const ALL = '(全て)';
@@ -129,7 +129,7 @@ const ManagerPage: React.FC = () => {
 
   return (
     <GenericTemplate title="監督ページ">
-      <TablePages
+      <TableComponent
         title={'ピタゴラス勝率'}
         setSelect={setSelect}
         getDataList={getTeamDataList}

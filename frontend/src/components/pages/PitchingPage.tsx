@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
-import TablePages, { HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -170,7 +170,7 @@ const PitchingPage: React.FC = () => {
 
   return (
     <GenericTemplate title="チーム投手成績ページ">
-      <TablePages
+      <TableComponent
         title={'シーズン投手成績(セ)'}
         setSelect={setCentralYear}
         getDataList={getCentralPitchingDataList}
@@ -184,7 +184,7 @@ const PitchingPage: React.FC = () => {
         linkValues={new Map<string, string>()}
         path={''}
       />
-      <TablePages
+      <TableComponent
         title={'シーズン投手成績(パ)'}
         setSelect={setPacificYear}
         getDataList={getPacificPitchingDataList}

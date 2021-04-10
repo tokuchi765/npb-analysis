@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
 import Button from '@material-ui/core/Button';
-import TablePages, { HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -149,7 +149,7 @@ const PlayerPage: React.FC<PageProps> = (props) => {
       <Button onClick={() => props.history.goBack()} variant="contained" color="primary">
         戻る
       </Button>
-      <TablePages
+      <TableComponent
         title={'打撃成績'}
         setSelect={function () {
           return;
@@ -165,7 +165,7 @@ const PlayerPage: React.FC<PageProps> = (props) => {
         linkValues={new Map<string, string>()}
         path={''}
       />
-      <TablePages
+      <TableComponent
         title={'投手成績'}
         setSelect={function () {
           return;

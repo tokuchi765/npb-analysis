@@ -180,9 +180,6 @@ const PitchingPage: React.FC = () => {
         initSorted={'earnedRunAverage'}
         initSelect={initCentralYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
       <TableComponent
         title={'シーズン投手成績(パ)'}
@@ -194,9 +191,6 @@ const PitchingPage: React.FC = () => {
         initSorted={'earnedRunAverage'}
         initSelect={initPacificYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
     </GenericTemplate>
   );

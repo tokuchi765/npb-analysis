@@ -223,7 +223,30 @@ function TableComponentHader(props: {
   );
 }
 
-function TableComponentBody(props: {
+function TableComponentBody(props: { datas: { main: string }[]; order: Order; orderBy: string }) {
+  return (
+    <TableBody>
+      {stableSort(props.datas, getComparator(props.order, props.orderBy)).map((teamData, index) => {
+        const labelId = `enhanced-table-checkbox-${index}`;
+        return (
+          <TableRow hover tabIndex={-1} key={teamData.main}>
+            <TableCell component="th" id={labelId} scope="row" padding="none">
+              <div>{teamData.main}</div>
+            </TableCell>
+            {_.map(teamData, (val, key) => {
+              if (key === 'main') {
+                return;
+              }
+              return <TableCell align="right">{val}</TableCell>;
+            })}
+          </TableRow>
+        );
+      })}
+    </TableBody>
+  );
+}
+
+function TableLinkComponentBody(props: {
   datas: { main: string }[];
   order: Order;
   orderBy: string;
@@ -238,12 +261,13 @@ function TableComponentBody(props: {
         return (
           <TableRow hover tabIndex={-1} key={teamData.main}>
             <TableCell component="th" id={labelId} scope="row" padding="none">
-              <Main
-                mainLink={props.mainLink}
-                main={teamData.main}
-                value={props.linkValues.get(teamData.main)}
-                path={props.path}
-              />
+              <Link
+                to={{
+                  pathname: `${props.path}${props.linkValues.get(teamData.main)}`,
+                }}
+              >
+                {teamData.main}
+              </Link>
             </TableCell>
             {_.map(teamData, (val, key) => {
               if (key === 'main') {
@@ -259,6 +283,59 @@ function TableComponentBody(props: {
 }
 
 export function TableComponent(props: {
+  title: string;
+  setSelect: (select: string) => void;
+  getDataList: (year: string) => void;
+  datas: { main: string }[];
+  selects: string[];
+  headCells: HeadCell[];
+  initSorted: string;
+  initSelect: string;
+  selectLabel: string;
+}) {
+  const classes = useStyles();
+  const [order, setOrder] = React.useState<Order>('desc');
+  const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    props.setSelect(event.target.value as string);
+    props.getDataList(String(event.target.value));
+  };
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+  const createSortHandler = (property: string) => (event: React.MouseEvent<unknown>) => {
+    handleRequestSort(event, property);
+  };
+
+  return (
+    <React.Fragment>
+      <TableContainer component={Paper}>
+        <TableComponentTitleBar
+          classes={classes}
+          initSelect={props.initSelect}
+          title={props.title}
+          selectLabel={props.selectLabel}
+          selects={props.selects}
+          handleChange={handleChange}
+        />
+        <Table className={classes.table} aria-label="simple table">
+          <TableComponentHader
+            classes={classes}
+            headCells={props.headCells}
+            orderBy={orderBy}
+            order={order}
+            createSortHandler={createSortHandler}
+          />
+          <TableComponentBody datas={props.datas} order={order} orderBy={orderBy} />
+        </Table>
+      </TableContainer>
+    </React.Fragment>
+  );
+}
+
+export function TableLinkComponent(props: {
   title: string;
   setSelect: (select: string) => void;
   getDataList: (year: string) => void;
@@ -307,7 +384,7 @@ export function TableComponent(props: {
             order={order}
             createSortHandler={createSortHandler}
           />
-          <TableComponentBody
+          <TableLinkComponentBody
             datas={props.datas}
             order={order}
             orderBy={orderBy}

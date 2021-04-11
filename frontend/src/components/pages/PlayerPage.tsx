@@ -161,9 +161,6 @@ const PlayerPage: React.FC<PageProps> = (props) => {
         initSorted={'main'}
         initSelect={''}
         selectLabel={''}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
       <TableComponent
         title={'投手成績'}
@@ -177,9 +174,6 @@ const PlayerPage: React.FC<PageProps> = (props) => {
         initSorted={'main'}
         initSelect={''}
         selectLabel={''}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
     </GenericTemplate>
   );

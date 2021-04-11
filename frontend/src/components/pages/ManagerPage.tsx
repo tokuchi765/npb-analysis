@@ -139,9 +139,6 @@ const ManagerPage: React.FC = () => {
         initSorted={'winningRateDifferenceAverage'}
         initSelect={initSelect}
         selectLabel={'選択'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
     </GenericTemplate>
   );

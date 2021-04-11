@@ -165,9 +165,6 @@ const SeasonPage: React.FC = () => {
         initSorted={'winningRate'}
         initSelect={initCentralYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
       <TableComponent
         title={'シーズン成績(パ)'}
@@ -179,9 +176,6 @@ const SeasonPage: React.FC = () => {
         initSorted={'winningRate'}
         initSelect={initPacificYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
     </GenericTemplate>
   );

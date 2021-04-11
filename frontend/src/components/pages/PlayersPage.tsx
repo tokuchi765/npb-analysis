@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
-import { TableComponent, HeadCell } from '../common/TableComponent';
+import { TableLinkComponent, HeadCell } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 import * as H from 'history';
@@ -127,7 +127,7 @@ const PlayersPage: React.FC<PageProps> = (props) => {
 
   return (
     <GenericTemplate title="選手一覧ページ">
-      <TableComponent
+      <TableLinkComponent
         title={'選手一覧'}
         setSelect={setInitTeam}
         getDataList={getPlayerList}

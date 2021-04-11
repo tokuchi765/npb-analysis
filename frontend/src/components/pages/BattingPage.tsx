@@ -180,9 +180,6 @@ const BattingPage: React.FC = () => {
         initSorted={'battingAverage'}
         initSelect={initCentralYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
       <TableComponent
         title={'シーズン打撃成績(パ)'}
@@ -194,9 +191,6 @@ const BattingPage: React.FC = () => {
         initSorted={'battingAverage'}
         initSelect={initPacificYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
     </GenericTemplate>
   );

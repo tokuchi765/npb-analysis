@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
-import TablePages, { HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -170,7 +170,7 @@ const BattingPage: React.FC = () => {
 
   return (
     <GenericTemplate title="チーム打撃成績ページ">
-      <TablePages
+      <TableComponent
         title={'シーズン打撃成績(セ)'}
         setSelect={setCentralYear}
         getDataList={getBattingCentralDataList}
@@ -180,11 +180,8 @@ const BattingPage: React.FC = () => {
         initSorted={'battingAverage'}
         initSelect={initCentralYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
-      <TablePages
+      <TableComponent
         title={'シーズン打撃成績(パ)'}
         setSelect={setPacificYear}
         getDataList={getBattingPacificDataList}
@@ -194,9 +191,6 @@ const BattingPage: React.FC = () => {
         initSorted={'battingAverage'}
         initSelect={initPacificYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
     </GenericTemplate>
   );

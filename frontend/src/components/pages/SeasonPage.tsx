@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
 import axios from 'axios';
 import _ from 'lodash';
-import TablePages, { HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell } from '../common/TableComponent';
 
 const years = [
   '2005',
@@ -155,7 +155,7 @@ const SeasonPage: React.FC = () => {
 
   return (
     <GenericTemplate title="チーム成績ページ">
-      <TablePages
+      <TableComponent
         title={'シーズン成績(セ)'}
         setSelect={setCentralYear}
         getDataList={getTeamCentralDataList}
@@ -165,11 +165,8 @@ const SeasonPage: React.FC = () => {
         initSorted={'winningRate'}
         initSelect={initCentralYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
-      <TablePages
+      <TableComponent
         title={'シーズン成績(パ)'}
         setSelect={setPacificYear}
         getDataList={getTeamPacificDataList}
@@ -179,9 +176,6 @@ const SeasonPage: React.FC = () => {
         initSorted={'winningRate'}
         initSelect={initPacificYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
     </GenericTemplate>
   );

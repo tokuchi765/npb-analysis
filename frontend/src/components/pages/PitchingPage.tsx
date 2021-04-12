@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
-import TablePages, { HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -27,6 +27,7 @@ interface PitchingData {
   main: string;
   earnedRunAverage: number;
   games: number;
+  runsAllowed: number;
   save: number;
   hold: number;
   homeRun: number;
@@ -38,6 +39,7 @@ const headCells: HeadCell[] = [
   { id: 'main', numeric: false, disablePadding: true, label: 'チーム名' },
   { id: 'earnedRunAverage', numeric: true, disablePadding: false, label: '防御率' },
   { id: 'games', numeric: true, disablePadding: false, label: '試合' },
+  { id: 'runsAllowed', numeric: true, disablePadding: false, label: '失点' },
   { id: 'save', numeric: true, disablePadding: false, label: 'セーブ' },
   { id: 'hold', numeric: true, disablePadding: false, label: 'ホールド' },
   { id: 'homeRun', numeric: true, disablePadding: false, label: '被本塁打' },
@@ -49,6 +51,7 @@ function createPitchingData(
   main: string,
   earnedRunAverage: number,
   games: number,
+  runsAllowed: number,
   save: number,
   hold: number,
   homeRun: number,
@@ -59,6 +62,7 @@ function createPitchingData(
     main,
     earnedRunAverage,
     games,
+    runsAllowed,
     save,
     hold,
     homeRun,
@@ -95,6 +99,7 @@ function createPitchingDataList(
           key,
           val.EarnedRunAverage,
           val.Games,
+          val.RunsAllowed,
           val.Save,
           val.Hold,
           val.HomeRun,
@@ -165,7 +170,7 @@ const PitchingPage: React.FC = () => {
 
   return (
     <GenericTemplate title="チーム投手成績ページ">
-      <TablePages
+      <TableComponent
         title={'シーズン投手成績(セ)'}
         setSelect={setCentralYear}
         getDataList={getCentralPitchingDataList}
@@ -175,11 +180,8 @@ const PitchingPage: React.FC = () => {
         initSorted={'earnedRunAverage'}
         initSelect={initCentralYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
-      <TablePages
+      <TableComponent
         title={'シーズン投手成績(パ)'}
         setSelect={setPacificYear}
         getDataList={getPacificPitchingDataList}
@@ -189,9 +191,6 @@ const PitchingPage: React.FC = () => {
         initSorted={'earnedRunAverage'}
         initSelect={initPacificYear}
         selectLabel={'年'}
-        mainLink={false}
-        linkValues={new Map<string, string>()}
-        path={''}
       />
     </GenericTemplate>
   );

@@ -16,6 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import _ from 'lodash';
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 
 type Order = 'asc' | 'desc';
 
@@ -147,7 +148,194 @@ function Selectable(props: {
   }
 }
 
-export default function TableComponent(props: {
+function TableComponentTitleBar(props: {
+  classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
+  initSelect: string;
+  title: string;
+  selectLabel: string;
+  selects: string[];
+  handleChange:
+    | ((
+        event: React.ChangeEvent<{
+          name?: string | undefined;
+          value: unknown;
+        }>,
+        child: React.ReactNode
+      ) => void)
+    | undefined;
+}) {
+  return (
+    <Typography className={props.classes.title} variant="h6" id="tableTitle" component="div">
+      <Grid container className={props.classes.grid}>
+        <Grid key={1} item>
+          <Paper className={props.classes.paper}>
+            {props.initSelect}
+            {props.title}
+          </Paper>
+        </Grid>
+        <Grid key={2} item>
+          <Selectable
+            formControl={props.classes.formControl}
+            selectLabel={props.selectLabel}
+            initSelect={props.initSelect}
+            selects={props.selects}
+            handleChange={props.handleChange}
+          />
+        </Grid>
+      </Grid>
+    </Typography>
+  );
+}
+
+function TableComponentHader(props: {
+  classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
+  headCells: HeadCell[];
+  orderBy: string;
+  order: Order;
+  createSortHandler: (property: string) => (event: React.MouseEvent<unknown>) => void;
+}) {
+  return (
+    <TableHead>
+      <TableRow>
+        {props.headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? 'right' : 'left'}
+            padding={headCell.disablePadding ? 'none' : 'default'}
+            sortDirection={props.orderBy === headCell.id ? props.order : false}
+          >
+            <TableSortLabel
+              active={props.orderBy === headCell.id}
+              direction={props.orderBy === headCell.id ? props.order : 'asc'}
+              onClick={props.createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {props.orderBy === headCell.id ? (
+                <span className={props.classes.visuallyHidden}>
+                  {props.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+function TableComponentBody(props: { datas: { main: string }[]; order: Order; orderBy: string }) {
+  return (
+    <TableBody>
+      {stableSort(props.datas, getComparator(props.order, props.orderBy)).map((teamData, index) => {
+        const labelId = `enhanced-table-checkbox-${index}`;
+        return (
+          <TableRow hover tabIndex={-1} key={teamData.main}>
+            <TableCell component="th" id={labelId} scope="row" padding="none">
+              <div>{teamData.main}</div>
+            </TableCell>
+            {_.map(teamData, (val, key) => {
+              if (key === 'main') {
+                return;
+              }
+              return <TableCell align="right">{val}</TableCell>;
+            })}
+          </TableRow>
+        );
+      })}
+    </TableBody>
+  );
+}
+
+function TableLinkComponentBody(props: {
+  datas: { main: string }[];
+  order: Order;
+  orderBy: string;
+  mainLink: boolean;
+  linkValues: Map<string, string>;
+  path: string;
+}) {
+  return (
+    <TableBody>
+      {stableSort(props.datas, getComparator(props.order, props.orderBy)).map((teamData, index) => {
+        const labelId = `enhanced-table-checkbox-${index}`;
+        return (
+          <TableRow hover tabIndex={-1} key={teamData.main}>
+            <TableCell component="th" id={labelId} scope="row" padding="none">
+              <Link
+                to={{
+                  pathname: `${props.path}${props.linkValues.get(teamData.main)}`,
+                }}
+              >
+                {teamData.main}
+              </Link>
+            </TableCell>
+            {_.map(teamData, (val, key) => {
+              if (key === 'main') {
+                return;
+              }
+              return <TableCell align="right">{val}</TableCell>;
+            })}
+          </TableRow>
+        );
+      })}
+    </TableBody>
+  );
+}
+
+export function TableComponent(props: {
+  title: string;
+  setSelect: (select: string) => void;
+  getDataList: (year: string) => void;
+  datas: { main: string }[];
+  selects: string[];
+  headCells: HeadCell[];
+  initSorted: string;
+  initSelect: string;
+  selectLabel: string;
+}) {
+  const classes = useStyles();
+  const [order, setOrder] = React.useState<Order>('desc');
+  const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    props.setSelect(event.target.value as string);
+    props.getDataList(String(event.target.value));
+  };
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+  const createSortHandler = (property: string) => (event: React.MouseEvent<unknown>) => {
+    handleRequestSort(event, property);
+  };
+
+  return (
+    <React.Fragment>
+      <TableContainer component={Paper}>
+        <TableComponentTitleBar
+          classes={classes}
+          initSelect={props.initSelect}
+          title={props.title}
+          selectLabel={props.selectLabel}
+          selects={props.selects}
+          handleChange={handleChange}
+        />
+        <Table className={classes.table} aria-label="simple table">
+          <TableComponentHader
+            classes={classes}
+            headCells={props.headCells}
+            orderBy={orderBy}
+            order={order}
+            createSortHandler={createSortHandler}
+          />
+          <TableComponentBody datas={props.datas} order={order} orderBy={orderBy} />
+        </Table>
+      </TableContainer>
+    </React.Fragment>
+  );
+}
+
+export function TableLinkComponent(props: {
   title: string;
   setSelect: (select: string) => void;
   getDataList: (year: string) => void;
@@ -180,74 +368,30 @@ export default function TableComponent(props: {
   return (
     <React.Fragment>
       <TableContainer component={Paper}>
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          <Grid container className={classes.grid}>
-            <Grid key={1} item>
-              <Paper className={classes.paper}>
-                {props.initSelect}
-                {props.title}
-              </Paper>
-            </Grid>
-            <Grid key={2} item>
-              <Selectable
-                formControl={classes.formControl}
-                selectLabel={props.selectLabel}
-                initSelect={props.initSelect}
-                selects={props.selects}
-                handleChange={handleChange}
-              />
-            </Grid>
-          </Grid>
-        </Typography>
+        <TableComponentTitleBar
+          classes={classes}
+          initSelect={props.initSelect}
+          title={props.title}
+          selectLabel={props.selectLabel}
+          selects={props.selects}
+          handleChange={handleChange}
+        />
         <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              {props.headCells.map((headCell) => (
-                <TableCell
-                  key={headCell.id}
-                  align={headCell.numeric ? 'right' : 'left'}
-                  padding={headCell.disablePadding ? 'none' : 'default'}
-                  sortDirection={orderBy === headCell.id ? order : false}
-                >
-                  <TableSortLabel
-                    active={orderBy === headCell.id}
-                    direction={orderBy === headCell.id ? order : 'asc'}
-                    onClick={createSortHandler(headCell.id)}
-                  >
-                    {headCell.label}
-                    {orderBy === headCell.id ? (
-                      <span className={classes.visuallyHidden}>
-                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                      </span>
-                    ) : null}
-                  </TableSortLabel>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {stableSort(props.datas, getComparator(order, orderBy)).map((teamData, index) => {
-              const labelId = `enhanced-table-checkbox-${index}`;
-              return (
-                <TableRow hover tabIndex={-1} key={teamData.main}>
-                  <TableCell component="th" id={labelId} scope="row" padding="none">
-                    <Main
-                      mainLink={props.mainLink}
-                      main={teamData.main}
-                      value={props.linkValues.get(teamData.main)}
-                      path={props.path}
-                    />
-                  </TableCell>
-                  {_.map(teamData, (val, key) => {
-                    if (key === 'main') {
-                      return;
-                    }
-                    return <TableCell align="right">{val}</TableCell>;
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
+          <TableComponentHader
+            classes={classes}
+            headCells={props.headCells}
+            orderBy={orderBy}
+            order={order}
+            createSortHandler={createSortHandler}
+          />
+          <TableLinkComponentBody
+            datas={props.datas}
+            order={order}
+            orderBy={orderBy}
+            mainLink={props.mainLink}
+            linkValues={props.linkValues}
+            path={props.path}
+          />
         </Table>
       </TableContainer>
     </React.Fragment>

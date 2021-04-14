@@ -72,22 +72,24 @@ type TeamPitching struct {
 
 // TeamLeagueStats チームシーズン成績
 type TeamLeagueStats struct {
-	TeamID       string  // チームID
-	Year         string  // 年度
-	Games        int     // 試合
-	Win          int     // 勝利
-	Lose         int     // 敗北
-	Draw         int     // 引き分け
-	WinningRate  float64 // 勝率
-	ExchangeWin  int     // 交流戦勝利
-	ExchangeLose int     // 交流戦敗北
-	ExchangeDraw int     // 交流戦引き分け
-	HomeWin      int     // ホーム勝利
-	HomeLose     int     // ホーム敗北
-	HomeDraw     int     // ホーム引き分け
-	LoadWin      int     // ロード勝利
-	LoadLose     int     // ロード敗北
-	LoadDraw     int     // ロード引き分け
+	TeamID                 string  // チームID
+	Year                   string  // 年度
+	Manager                string  // 監督
+	Games                  int     // 試合
+	Win                    int     // 勝利
+	Lose                   int     // 敗北
+	Draw                   int     // 引き分け
+	WinningRate            float64 // 勝率
+	ExchangeWin            int     // 交流戦勝利
+	ExchangeLose           int     // 交流戦敗北
+	ExchangeDraw           int     // 交流戦引き分け
+	HomeWin                int     // ホーム勝利
+	HomeLose               int     // ホーム敗北
+	HomeDraw               int     // ホーム引き分け
+	LoadWin                int     // ロード勝利
+	LoadLose               int     // ロード敗北
+	LoadDraw               int     // ロード引き分け
+	PythagoreanExpectation float64 // ピタゴラス勝率
 }
 
 // TeamMatchResults チーム対戦成績

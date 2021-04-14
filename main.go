@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
+	"github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/grades"
 	"github.com/tokuchi765/npb-analysis/team"
 )
@@ -57,9 +58,23 @@ func main() {
 		setSystemSetting("created_team_stats", "true", db)
 	}
 
+	// 算出が必要なDB項目を登録する
+	createdAddValue, _ := strconv.ParseBool(getSystemSetting("created_add_value", db))
+	if !createdAddValue {
+		setTeamStatsAddValue(db)
+		setSystemSetting("created_add_value", "true", db)
+	}
+
 	// webサーバーを起動
 	router := setupRouter()
 	router.Run(":8081")
+}
+
+func setTeamStatsAddValue(db *sql.DB) {
+	years := makeRange(2005, 2020)
+	teamBattings := team.GetTeamBatting(years, db)
+	teamPitching := team.GetTeamPitching(years, db)
+	team.InsertPythagoreanExpectation(years, teamBattings, teamPitching, db)
 }
 
 func getSystemSetting(setting string, db *sql.DB) (value string) {
@@ -98,10 +113,19 @@ func setupRouter() *gin.Engine {
 	router.Use(cors.New(config))
 
 	// チーム打撃成績を取得
+	router.GET("/team/pitching", getTeamPitching)
+
+	// チーム打撃成績を取得
 	router.GET("/team/batting", getTeamBatting)
 
 	// チーム成績を取得
 	router.GET("/team/stats", getTeamStats)
+
+	// チームごとの選手情報一覧を取得
+	router.GET("/team/careers/:teamId/:year", getCareers)
+
+	// 選手情報取得
+	router.GET("/player/:playerId", getPlayer)
 
 	// 画面表示
 	router.Use(static.Serve("/", static.LocalFile("./frontend/build", true)))
@@ -110,8 +134,49 @@ func setupRouter() *gin.Engine {
 
 }
 
+func getPlayer(c *gin.Context) {
+	db := getDB()
+	defer db.Close()
+	playerID := c.Param("playerId")
+	c.JSON(http.StatusOK, gin.H{
+		"career":   grades.GetCareer(playerID, db),
+		"batting":  grades.GetBatting(playerID, db),
+		"pitching": grades.GetPitching(playerID, db),
+	})
+}
+
+func getCareers(c *gin.Context) {
+	db := getDB()
+	defer db.Close()
+	teamID := c.Param("teamId")
+	year := c.Param("year")
+
+	players := grades.GetPlayersByTeamIDAndYear(teamID, year, db)
+	var careers []player.CAREER
+	for _, player := range players {
+		career := grades.GetCareer(player.PlayerID, db)
+		careers = append(careers, career)
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"careers": careers,
+	})
+}
+
+func getTeamPitching(c *gin.Context) {
+	db := getDB()
+	defer db.Close()
+	fromYear, _ := strconv.Atoi(c.Query("from_year"))
+	toYear, _ := strconv.Atoi(c.Query("to_year"))
+	years := makeRange(fromYear, toYear)
+	teamPitchingMap := team.GetTeamPitching(years, db)
+	c.JSON(http.StatusOK, gin.H{
+		"teamPitching": teamPitchingMap,
+	})
+}
+
 func getTeamBatting(c *gin.Context) {
 	db := getDB()
+	defer db.Close()
 	fromYear, _ := strconv.Atoi(c.Query("from_year"))
 	toYear, _ := strconv.Atoi(c.Query("to_year"))
 	years := makeRange(fromYear, toYear)
@@ -123,6 +188,7 @@ func getTeamBatting(c *gin.Context) {
 
 func getTeamStats(c *gin.Context) {
 	db := getDB()
+	defer db.Close()
 	fromYear, _ := strconv.Atoi(c.Query("from_year"))
 	toYear, _ := strconv.Atoi(c.Query("to_year"))
 	years := makeRange(fromYear, toYear)
@@ -165,6 +231,8 @@ func setPlayerGrades(initial string, db *sql.DB) {
 	current, _ := os.Getwd()
 
 	players := grades.GetPlayers(current + "/csv/teams/" + initial + "_players.csv")
+
+	grades.InsertTeamPlayers(initial, players, db)
 
 	playersPath := current + "/csv/players/"
 	careers := grades.ReadCareers(playersPath, initial, players)

@@ -39,6 +39,7 @@ type BATTERGRADES struct {
 	AtBat                  int     // 打数
 	Score                  int     // 得点
 	Hit                    int     // 安打
+	Single                 int     //単打
 	Double                 int     // 二塁打
 	Triple                 int     // 三塁打
 	HomeRun                int     // 本塁打
@@ -55,6 +56,7 @@ type BATTERGRADES struct {
 	BattingAverage         float64 // 打率
 	SluggingPercentage     float64 // 長打率
 	OnBasePercentage       float64 // 出塁率
+	Woba                   float64 // 加重出塁率
 }
 
 // CAREER 成績
@@ -68,4 +70,12 @@ type CAREER struct {
 	Birthday           string // 生年月日
 	Career             string // 経歴
 	Draft              string // ドラフト
+}
+
+type PLAYER struct {
+	Year     string // 年度
+	TeamID   string // チームID
+	PlayerID string // 選手ID
+	Team     string // 所属球団
+	Name     string // 選手名
 }

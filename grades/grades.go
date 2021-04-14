@@ -3,6 +3,7 @@ package grades
 import (
 	"database/sql"
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -13,6 +14,132 @@ import (
 	data "github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/team"
 )
+
+// GetPitching 個人投手成績一覧を取得する
+func GetPitching(playerID string, db *sql.DB) (pitchings []data.PICHERGRADES) {
+	rows, err := db.Query("SELECT * FROM picher_grades WHERE player_id = $1", playerID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var playerID string
+		var pitching data.PICHERGRADES
+		rows.Scan(&playerID, &pitching.Year, &pitching.TeamID, &pitching.Team,
+			&pitching.Piched, &pitching.Win, &pitching.Lose, &pitching.Save,
+			&pitching.Hold, &pitching.HoldPoint, &pitching.CompleteGame, &pitching.Shutout,
+			&pitching.NoWalks, &pitching.WinningRate, &pitching.Batter, &pitching.InningsPitched,
+			&pitching.Hit, &pitching.HomeRun, &pitching.BaseOnBalls, &pitching.HitByPitches,
+			&pitching.StrikeOut, &pitching.WildPitches, &pitching.Balk, &pitching.RunsAllowed,
+			&pitching.EarnedRun, &pitching.EarnedRunAverage)
+
+		pitchings = append(pitchings, pitching)
+	}
+
+	return pitchings
+}
+
+// GetBatting 個人打撃成績一覧を取得する
+func GetBatting(playerID string, db *sql.DB) (battings []data.BATTERGRADES) {
+	rows, err := db.Query("SELECT * FROM batter_grades WHERE player_id = $1", playerID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var playerID string
+		var batting data.BATTERGRADES
+		rows.Scan(&playerID, &batting.Year, &batting.TeamID, &batting.Team, &batting.Games,
+			&batting.PlateAppearance, &batting.AtBat, &batting.Score, &batting.Hit, &batting.Single,
+			&batting.Double, &batting.Triple, &batting.HomeRun, &batting.BaseHit,
+			&batting.RunsBattedIn, &batting.StolenBase, &batting.CaughtStealing, &batting.SacrificeHits,
+			&batting.SacrificeFlies, &batting.BaseOnBalls, &batting.HitByPitches, &batting.StrikeOut,
+			&batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage,
+			&batting.Woba)
+
+		battings = append(battings, batting)
+	}
+
+	return battings
+}
+
+// GetCareer 選手情報を取得する
+func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
+	rows, err := db.Query("SELECT * FROM players WHERE player_id = $1", playerID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&career.PlayerID, &career.Name, &career.Position, &career.PitchingAndBatting,
+			&career.Height, &career.Weight, &career.Birthday, &career.Draft, &career.Career)
+	}
+
+	return career
+}
+
+// GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
+func GetPlayersByTeamIDAndYear(teamID string, year string, db *sql.DB) (players []data.PLAYER) {
+	rows, err := db.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var player data.PLAYER
+		rows.Scan(&player.Year, &player.TeamID, &player.Team, &player.PlayerID, &player.Name)
+		players = append(players, player)
+	}
+
+	return players
+}
+
+// InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
+func InsertTeamPlayers(initial string, players [][]string, db *sql.DB) {
+	stmt, err := db.Prepare("INSERT INTO team_players(year,team_id,team_name,player_id,player_name) VALUES($1,$2,$3,$4,$5)")
+	if err != nil {
+		log.Print(err)
+	}
+	defer stmt.Close()
+
+	teamID := team.GetTeamID(initial)
+	teamName := getTeamName(teamID, db)
+	for _, player := range players {
+		playerID := extractionPlayerID(player[0])
+		if _, err := stmt.Exec("2020", teamID, teamName, playerID, player[1]); err != nil {
+			fmt.Println(teamID + ":" + playerID)
+			log.Print(err)
+		}
+	}
+}
+
+func getTeamName(teamID string, db *sql.DB) (teamName string) {
+	rows, err := db.Query("SELECT team_name FROM team_name WHERE team_name_id = $1", teamID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&teamName)
+	}
+
+	return teamName
+}
 
 // GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
 func GetPlayers(url string) (players [][]string) {
@@ -44,7 +171,7 @@ func GetPlayers(url string) (players [][]string) {
 // ReadCareers 引数で受け取った選手リストをもとに、経歴をまとめたデータクラスのリストを返す
 func ReadCareers(playersPath string, initial string, players [][]string) (careerList []data.CAREER) {
 	for _, player := range players {
-		id := strings.Replace(strings.Replace(player[0], "/bis/players/", "", 1), ".html", "", 1)
+		id := extractionPlayerID(player[0])
 		url := playersPath + initial + "/careers/" + id + "_" + player[1] + "_career.csv"
 		if exists(url) {
 			career := readCareer(url)
@@ -52,6 +179,10 @@ func ReadCareers(playersPath string, initial string, players [][]string) (career
 		}
 	}
 	return careerList
+}
+
+func extractionPlayerID(url string) string {
+	return strings.Replace(strings.Replace(url, "/bis/players/", "", 1), ".html", "", 1)
 }
 
 // ExtractionCareers 引数で受け取ったCAREERリストから重複選手を除外する
@@ -66,7 +197,9 @@ func ExtractionCareers(careers *[]data.CAREER, db *sql.DB) {
 
 	for rows.Next() {
 		var selectCareer data.CAREER
-		rows.Scan(&selectCareer.PlayerID, &selectCareer.Name, &selectCareer.Position, &selectCareer.PitchingAndBatting, &selectCareer.Height, &selectCareer.Weight, &selectCareer.Birthday, &selectCareer.Draft, &selectCareer.Career)
+		rows.Scan(&selectCareer.PlayerID, &selectCareer.Name, &selectCareer.Position,
+			&selectCareer.PitchingAndBatting, &selectCareer.Height, &selectCareer.Weight,
+			&selectCareer.Birthday, &selectCareer.Draft, &selectCareer.Career)
 		for index, career := range *careers {
 			if career.PlayerID == selectCareer.PlayerID {
 				*careers = unset(*careers, index)
@@ -90,7 +223,9 @@ func InsertCareers(careers []data.CAREER, db *sql.DB) {
 	}
 	defer stmt.Close()
 	for _, career := range careers {
-		if _, err := stmt.Exec(career.PlayerID, career.Name, career.Position, career.PitchingAndBatting, career.Height, career.Weight, career.Birthday, career.Draft, career.Career); err != nil {
+		if _, err := stmt.Exec(career.PlayerID, career.Name, career.Position,
+			career.PitchingAndBatting, career.Height, career.Weight,
+			career.Birthday, career.Draft, career.Career); err != nil {
 			fmt.Println(career.PlayerID + ":" + career.Name)
 			log.Print(err)
 		}
@@ -181,20 +316,70 @@ func ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID st
 
 // InsertBatterGrades 引数で受け取ったBATTERGRADESをDBに登録する
 func InsertBatterGrades(batterMap map[string][]data.BATTERGRADES, db *sql.DB) {
-	stmt, err := db.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)")
+	stmt, err := db.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, single, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage, w_oba) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
 
+	// 加重出塁率の計算に必要なconfigファイルを読み込む
+	config, _ := loadConfig()
+
 	for key, value := range batterMap {
 		for _, batter := range value {
-			if _, err := stmt.Exec(key, batter.Year, batter.TeamID, batter.Team, batter.Games, batter.PlateAppearance, batter.AtBat, batter.Score, batter.Hit, batter.Double, batter.Triple, batter.HomeRun, batter.BaseHit, batter.RunsBattedIn, batter.StolenBase, batter.CaughtStealing, batter.SacrificeHits, batter.SacrificeFlies, batter.BaseOnBalls, batter.HitByPitches, batter.StrikeOut, batter.GroundedIntoDoublePlay, batter.BattingAverage, batter.SluggingPercentage, batter.OnBasePercentage); err != nil {
+			setSingle(&batter)
+			setWoba(&batter, config)
+
+			if _, err := stmt.Exec(key, batter.Year, batter.TeamID, batter.Team,
+				batter.Games, batter.PlateAppearance, batter.AtBat,
+				batter.Score, batter.Hit, batter.Single,
+				batter.Double, batter.Triple, batter.HomeRun,
+				batter.BaseHit, batter.RunsBattedIn, batter.StolenBase,
+				batter.CaughtStealing, batter.SacrificeHits, batter.SacrificeFlies,
+				batter.BaseOnBalls, batter.HitByPitches, batter.StrikeOut,
+				batter.GroundedIntoDoublePlay, batter.BattingAverage, batter.SluggingPercentage,
+				batter.OnBasePercentage, batter.Woba); err != nil {
 				fmt.Println(key + ":" + batter.Year)
 				log.Print(err)
 			}
 		}
 	}
+}
+
+func setWoba(batterGrades *data.BATTERGRADES, config *config) {
+	molecule := config.BaseOnBallsAndHitByPitches*(float64(batterGrades.BaseOnBalls)+float64(batterGrades.HitByPitches)) +
+		config.Single*float64(batterGrades.Single) +
+		config.Double*float64(batterGrades.Double) +
+		config.Triple*float64(batterGrades.Triple) +
+		config.HomeRun*float64(batterGrades.HomeRun)
+	denominator := (float64(batterGrades.AtBat) + float64(batterGrades.BaseOnBalls) + float64(batterGrades.HitByPitches) + float64(batterGrades.SacrificeFlies))
+	batterGrades.Woba = molecule / denominator
+}
+
+type config struct {
+	Single                     float64 `json:"single"`
+	BaseOnBallsAndHitByPitches float64 `json:"baseOnBallsAndHitByPitches"`
+	Double                     float64 `json:"double"`
+	Triple                     float64 `json:"triple"`
+	HomeRun                    float64 `json:"homeRun"`
+}
+
+func loadConfig() (*config, error) {
+	current, _ := os.Getwd()
+	f, err := os.Open(current + "/grades/property/config.json")
+	if err != nil {
+		log.Fatal("loadConfig os.Open err:", err)
+		return nil, err
+	}
+	defer f.Close()
+
+	var cfg config
+	err = json.NewDecoder(f).Decode(&cfg)
+	return &cfg, err
+}
+
+func setSingle(batterGrades *data.BATTERGRADES) {
+	batterGrades.Single = batterGrades.Hit - batterGrades.Double - batterGrades.Triple - batterGrades.HomeRun
 }
 
 func readGrades(path string) (picherGradesList []data.PICHERGRADES, batterGradesList []data.BATTERGRADES) {

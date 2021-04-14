@@ -1,5 +1,5 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2021/01/31 22:31:34
+-- Date/Time    : 2021/03/28 16:56:12
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -9,6 +9,17 @@
   これにより、drop table, create table 後もデータが残ります。
   この機能は一時的に $$TableName のような一時テーブルを作成します。
 */
+
+-- 選手一覧テーブル
+--* RestoreFromTempTable
+create table team_players (
+  year character varying not null
+  , team_id character varying not null
+  , team_name character varying
+  , player_id character varying not null
+  , player_name character varying
+  , constraint team_players_PKC primary key (year,team_id,player_id)
+) ;
 
 -- システム設定
 --* RestoreFromTempTable
@@ -36,6 +47,7 @@ create table TEAM_MATCH_RESULTS (
 create table TEAM_SEASON_STATS (
   team_id character varying not null
   , year character varying not null
+  , manager character varying
   , games integer
   , win integer
   , lose integer
@@ -50,6 +62,7 @@ create table TEAM_SEASON_STATS (
   , load_win integer
   , load_lose integer
   , load_draw integer
+  , pythagorean_expectation real
   , constraint TEAM_SEASON_STATS_PKC primary key (team_id,year)
 ) ;
 
@@ -143,6 +156,7 @@ create table BATTER_GRADES (
   , at_bat integer
   , score integer
   , hit integer
+  , single integer
   , double integer
   , triple integer
   , home_run integer
@@ -159,6 +173,7 @@ create table BATTER_GRADES (
   , batting_average real
   , slugging_percentage real
   , on_base_percentage real
+  , w_oba real
   , constraint BATTER_GRADES_PKC primary key (player_id,year,team_id)
 ) ;
 
@@ -209,6 +224,13 @@ create table PICHER_GRADES (
   , constraint PICHER_GRADES_PKC primary key (player_id,year,team_id)
 ) ;
 
+comment on table team_players is '選手一覧テーブル';
+comment on column team_players.year is '年';
+comment on column team_players.team_id is 'チームID';
+comment on column team_players.team_name is 'チーム名';
+comment on column team_players.player_id is '選手ID';
+comment on column team_players.player_name is '選手名';
+
 comment on table system_setting is 'システム設定';
 comment on column system_setting.setting is '設定';
 comment on column system_setting.value is '値';
@@ -225,6 +247,7 @@ comment on column TEAM_MATCH_RESULTS.draw is '引き分け';
 comment on table TEAM_SEASON_STATS is 'チームシーズン成績';
 comment on column TEAM_SEASON_STATS.team_id is 'チームID';
 comment on column TEAM_SEASON_STATS.year is '年';
+comment on column TEAM_SEASON_STATS.manager is '監督';
 comment on column TEAM_SEASON_STATS.games is '試合';
 comment on column TEAM_SEASON_STATS.win is '勝利';
 comment on column TEAM_SEASON_STATS.lose is '敗北';
@@ -239,6 +262,7 @@ comment on column TEAM_SEASON_STATS.home_draw is 'ホーム引き分け';
 comment on column TEAM_SEASON_STATS.load_win is 'ロード勝利';
 comment on column TEAM_SEASON_STATS.load_lose is 'ロード敗北';
 comment on column TEAM_SEASON_STATS.load_draw is 'ロード引き分け';
+comment on column TEAM_SEASON_STATS.pythagorean_expectation is 'ピタゴラス勝率';
 
 comment on table TEAM_PITCHING is 'チーム投手成績';
 comment on column TEAM_PITCHING.team_id is 'チームID';
@@ -312,6 +336,7 @@ comment on column BATTER_GRADES.plate_appearance is '打席';
 comment on column BATTER_GRADES.at_bat is '打数';
 comment on column BATTER_GRADES.score is '得点';
 comment on column BATTER_GRADES.hit is '安打';
+comment on column BATTER_GRADES.single is '単打';
 comment on column BATTER_GRADES.double is '二塁打';
 comment on column BATTER_GRADES.triple is '三塁打';
 comment on column BATTER_GRADES.home_run is '本塁打';
@@ -328,6 +353,7 @@ comment on column BATTER_GRADES.grounded_into_double_play is '併殺打';
 comment on column BATTER_GRADES.batting_average is '打率';
 comment on column BATTER_GRADES.slugging_percentage is '長打率';
 comment on column BATTER_GRADES.on_base_percentage is '出塁率';
+comment on column BATTER_GRADES.w_oba is '加重出塁率';
 
 comment on table Players is '選手テーブル';
 comment on column Players.player_id is '選手ID';

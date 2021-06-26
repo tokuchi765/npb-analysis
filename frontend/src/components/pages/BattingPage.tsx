@@ -112,7 +112,7 @@ function createBattingDataList(
   return teamDataList;
 }
 
-const BattingPage: React.FC = () => {
+function BattingPage() {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralBattingDatas, setCentralBattingData] = useState<BattingData[]>([]);
 
@@ -194,6 +194,6 @@ const BattingPage: React.FC = () => {
       />
     </GenericTemplate>
   );
-};
+}
 
 export default BattingPage;

@@ -112,7 +112,7 @@ function createPitchingDataList(
   return datas;
 }
 
-const PitchingPage: React.FC = () => {
+function PitchingPage() {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralDatas, setCentralData] = useState<PitchingData[]>([]);
 
@@ -194,6 +194,6 @@ const PitchingPage: React.FC = () => {
       />
     </GenericTemplate>
   );
-};
+}
 
 export default PitchingPage;

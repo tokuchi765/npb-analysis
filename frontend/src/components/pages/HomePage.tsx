@@ -225,7 +225,7 @@ const pacificLineData = [
   ['Buffaloes', '#4B0082'],
 ];
 
-const HomePage: React.FC = () => {
+function HomePage() {
   const [centralData, setCentralData] = useState<Array<{ year: string; Giants: number }>>(Array);
   const [pacificData, setPacificData] = useState<Array<{ year: string; Lions: number }>>(Array);
   const classes = useStyles();
@@ -287,6 +287,6 @@ const HomePage: React.FC = () => {
       </Grid>
     </GenericTemplate>
   );
-};
+}
 
 export default HomePage;

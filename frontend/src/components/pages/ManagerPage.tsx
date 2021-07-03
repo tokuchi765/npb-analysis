@@ -84,7 +84,7 @@ function createManagerAverage(select: string, managerMap: Map<string, Array<Mana
   return managerList;
 }
 
-const ManagerPage: React.FC = () => {
+function ManagerPage() {
   const [initSelect, setSelect] = useState<string>('');
   const [centralManager, setManager] = useState<Manager[]>([]);
 
@@ -142,6 +142,6 @@ const ManagerPage: React.FC = () => {
       />
     </GenericTemplate>
   );
-};
+}
 
 export default ManagerPage;

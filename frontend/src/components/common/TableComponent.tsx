@@ -230,14 +230,18 @@ function TableComponentBody(props: { datas: { main: string }[]; order: Order; or
         const labelId = `enhanced-table-checkbox-${index}`;
         return (
           <TableRow hover tabIndex={-1} key={teamData.main}>
-            <TableCell component="th" id={labelId} scope="row" padding="none">
+            <TableCell component="th" id={labelId} scope="row" padding="none" key={teamData.main}>
               <div>{teamData.main}</div>
             </TableCell>
             {_.map(teamData, (val, key) => {
               if (key === 'main') {
                 return;
               }
-              return <TableCell align="right">{val}</TableCell>;
+              return (
+                <TableCell align="right" key={key}>
+                  {val}
+                </TableCell>
+              );
             })}
           </TableRow>
         );
@@ -260,7 +264,7 @@ function TableLinkComponentBody(props: {
         const labelId = `enhanced-table-checkbox-${index}`;
         return (
           <TableRow hover tabIndex={-1} key={teamData.main}>
-            <TableCell component="th" id={labelId} scope="row" padding="none">
+            <TableCell component="th" id={labelId} scope="row" padding="none" key={teamData.main}>
               <Link
                 to={{
                   pathname: `${props.path}${props.linkValues.get(teamData.main)}`,
@@ -273,7 +277,11 @@ function TableLinkComponentBody(props: {
               if (key === 'main') {
                 return;
               }
-              return <TableCell align="right">{val}</TableCell>;
+              return (
+                <TableCell align="right" key={key}>
+                  {val}
+                </TableCell>
+              );
             })}
           </TableRow>
         );

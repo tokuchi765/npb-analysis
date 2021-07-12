@@ -124,7 +124,7 @@ function createPitchingDatas(
   return pitchings;
 }
 
-const PlayerPage: React.FC<PageProps> = (props) => {
+function PlayerPage(props: PageProps) {
   const [playerName, setPlayerName] = useState<string>('');
   const [battingDates, setBattingDates] = useState<BattingDate[]>([]);
   const [pitchingDates, setPitchingDates] = useState<PitchingDate[]>([]);
@@ -177,6 +177,6 @@ const PlayerPage: React.FC<PageProps> = (props) => {
       />
     </GenericTemplate>
   );
-};
+}
 
 export default PlayerPage;

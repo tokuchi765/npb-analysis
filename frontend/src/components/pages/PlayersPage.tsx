@@ -87,12 +87,12 @@ function getTeamId(teamName: string) {
   }
 }
 
-interface PageProps extends RouteComponentProps<{ id: string }> {
+export interface PageProps extends RouteComponentProps<{ id: string }> {
   history: H.History;
   location: H.Location<any>;
 }
 
-const PlayersPage: React.FC<PageProps> = (props) => {
+function PlayersPage(props: PageProps) {
   const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
   const [initTeam, setInitTeam] = useState<string>('');
@@ -143,6 +143,6 @@ const PlayersPage: React.FC<PageProps> = (props) => {
       />
     </GenericTemplate>
   );
-};
+}
 
 export default PlayersPage;

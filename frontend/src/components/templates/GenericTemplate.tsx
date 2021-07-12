@@ -152,7 +152,7 @@ export interface GenericTemplateProps {
   title: string;
 }
 
-const GenericTemplate: React.FC<GenericTemplateProps> = ({ children, title }) => {
+function GenericTemplate(props: GenericTemplateProps) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -262,9 +262,9 @@ const GenericTemplate: React.FC<GenericTemplateProps> = ({ children, title }) =>
               noWrap
               className={classes.pageTitle}
             >
-              {title}
+              {props.title}
             </Typography>
-            {children}
+            {props.children}
             <Box pt={4}>
               <Copyright />
             </Box>
@@ -273,6 +273,6 @@ const GenericTemplate: React.FC<GenericTemplateProps> = ({ children, title }) =>
       </div>
     </ThemeProvider>
   );
-};
+}
 
 export default GenericTemplate;

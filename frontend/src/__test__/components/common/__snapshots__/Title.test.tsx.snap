@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Titleコンポーネントテスト スナップショット作成 1`] = `
+<h2
+  className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+>
+  タイトル
+</h2>
+`;

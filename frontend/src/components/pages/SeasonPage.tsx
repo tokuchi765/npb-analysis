@@ -93,7 +93,7 @@ const headCells: HeadCell[] = [
   { id: 'draw', numeric: true, disablePadding: false, label: '引き分け' },
 ];
 
-const SeasonPage: React.FC = () => {
+function SeasonPage() {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralTeamDatas, setCentralTeamlData] = useState<
     { main: string; winningRate: number; win: number; lose: number; draw: number }[]
@@ -179,6 +179,6 @@ const SeasonPage: React.FC = () => {
       />
     </GenericTemplate>
   );
-};
+}
 
 export default SeasonPage;

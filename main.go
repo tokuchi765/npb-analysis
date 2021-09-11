@@ -249,6 +249,6 @@ func setPlayerGrades(initial string, db *sql.DB) {
 
 	grades.ExtractionBatterGrades(&batterMap, team.GetTeamID(initial), db)
 
-	grades.InsertBatterGrades(batterMap, db)
+	grades.InsertBatterGrades(batterMap, db, current)
 
 }

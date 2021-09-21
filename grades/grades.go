@@ -315,7 +315,7 @@ func ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID st
 }
 
 // InsertBatterGrades 引数で受け取ったBATTERGRADESをDBに登録する
-func InsertBatterGrades(batterMap map[string][]data.BATTERGRADES, db *sql.DB) {
+func InsertBatterGrades(batterMap map[string][]data.BATTERGRADES, db *sql.DB, current string) {
 	stmt, err := db.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, single, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage, w_oba) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27)")
 	if err != nil {
 		log.Print(err)
@@ -323,7 +323,7 @@ func InsertBatterGrades(batterMap map[string][]data.BATTERGRADES, db *sql.DB) {
 	defer stmt.Close()
 
 	// 加重出塁率の計算に必要なconfigファイルを読み込む
-	config, _ := loadConfig()
+	config, _ := loadConfig(current)
 
 	for key, value := range batterMap {
 		for _, batter := range value {
@@ -364,8 +364,7 @@ type config struct {
 	HomeRun                    float64 `json:"homeRun"`
 }
 
-func loadConfig() (*config, error) {
-	current, _ := os.Getwd()
+func loadConfig(current string) (*config, error) {
 	f, err := os.Open(current + "/grades/property/config.json")
 	if err != nil {
 		log.Fatal("loadConfig os.Open err:", err)

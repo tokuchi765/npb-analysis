@@ -93,6 +93,10 @@ const headCells: HeadCell[] = [
   { id: 'draw', numeric: true, disablePadding: false, label: '引き分け' },
 ];
 
+interface TeamStatsResponse {
+  teanStats: any;
+}
+
 function SeasonPage() {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralTeamDatas, setCentralTeamlData] = useState<
@@ -100,7 +104,7 @@ function SeasonPage() {
   >([]);
 
   const getTeamCentralDataList = async (year: string) => {
-    const result = await axios.get(
+    const result = await axios.get<TeamStatsResponse>(
       `http://localhost:8081/team/stats?from_year=${year}&to_year=${year}`
     );
 
@@ -126,7 +130,7 @@ function SeasonPage() {
   >([]);
 
   const getTeamPacificDataList = async (year: string) => {
-    const result = await axios.get(
+    const result = await axios.get<TeamStatsResponse>(
       `http://localhost:8081/team/stats?from_year=${year}&to_year=${year}`
     );
 

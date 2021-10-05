@@ -112,12 +112,16 @@ function createBattingDataList(
   return teamDataList;
 }
 
+interface TeamBattingResponse {
+  teamBatting: any;
+}
+
 function BattingPage() {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralBattingDatas, setCentralBattingData] = useState<BattingData[]>([]);
 
   const getBattingCentralDataList = async (year: string) => {
-    const result = await axios.get(
+    const result = await axios.get<TeamBattingResponse>(
       `http://localhost:8081/team/batting?from_year=${year}&to_year=${year}`
     );
 
@@ -141,7 +145,7 @@ function BattingPage() {
   const [pacificBattingDatas, setPacificBattingData] = useState<BattingData[]>([]);
 
   const getBattingPacificDataList = async (year: string) => {
-    const result = await axios.get(
+    const result = await axios.get<TeamBattingResponse>(
       `http://localhost:8081/team/batting?from_year=${year}&to_year=${year}`
     );
 

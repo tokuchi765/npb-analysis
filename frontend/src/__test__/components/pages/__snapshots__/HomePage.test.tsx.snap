@@ -424,7 +424,7 @@ exports[`トップページテスト スナップショット作成 1`] = `
         トップページ
       </h2>
       <div
-        className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+        className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
       >
         <div
           className="MuiPaper-root makeStyles-paper-14 makeStyles-fixedHeight-15 MuiPaper-elevation1 MuiPaper-rounded"

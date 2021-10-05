@@ -124,6 +124,12 @@ function createPitchingDatas(
   return pitchings;
 }
 
+interface PlayerResponse {
+  career: any;
+  batting: any;
+  pitching: any;
+}
+
 function PlayerPage(props: PageProps) {
   const [playerName, setPlayerName] = useState<string>('');
   const [battingDates, setBattingDates] = useState<BattingDate[]>([]);
@@ -131,7 +137,7 @@ function PlayerPage(props: PageProps) {
 
   const getPlayerDatas = async () => {
     const playerID = props.match.params.id;
-    const result = await axios.get(`http://localhost:8081/player/${playerID}`);
+    const result = await axios.get<PlayerResponse>(`http://localhost:8081/player/${playerID}`);
     const { career, batting, pitching } = result.data;
     setPlayerName(career.Name);
     setBattingDates(_.isEmpty(batting) ? [] : createBattingDatas(batting));

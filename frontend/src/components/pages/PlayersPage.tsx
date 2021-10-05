@@ -92,6 +92,10 @@ export interface PageProps extends RouteComponentProps<{ id: string }> {
   location: H.Location<any>;
 }
 
+interface TeamCareersResponse {
+  careers: any;
+}
+
 function PlayersPage(props: PageProps) {
   const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
@@ -100,7 +104,9 @@ function PlayersPage(props: PageProps) {
 
   const getPlayerList = async (teamName: string) => {
     const teamID = getTeamId(teamName);
-    const result = await axios.get(`http://localhost:8081/team/careers/${teamID}/2020`);
+    const result = await axios.get<TeamCareersResponse>(
+      `http://localhost:8081/team/careers/${teamID}/2020`
+    );
     setPlayerIds(createPlayerIds(result.data.careers));
     setPlayerDates(createPlayerDates(result.data.careers));
     setInitTeam(teamName);

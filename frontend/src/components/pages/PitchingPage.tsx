@@ -112,12 +112,16 @@ function createPitchingDataList(
   return datas;
 }
 
+interface TeamPitchingResponse {
+  teamPitching: any;
+}
+
 function PitchingPage() {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralDatas, setCentralData] = useState<PitchingData[]>([]);
 
   const getCentralPitchingDataList = async (year: string) => {
-    const result = await axios.get(
+    const result = await axios.get<TeamPitchingResponse>(
       `http://localhost:8081/team/pitching?from_year=${year}&to_year=${year}`
     );
 
@@ -141,7 +145,7 @@ function PitchingPage() {
   const [pacificDatas, setPacificData] = useState<PitchingData[]>([]);
 
   const getPacificPitchingDataList = async (year: string) => {
-    const result = await axios.get(
+    const result = await axios.get<TeamPitchingResponse>(
       `http://localhost:8081/team/pitching?from_year=${year}&to_year=${year}`
     );
 

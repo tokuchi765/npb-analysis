@@ -225,6 +225,10 @@ const pacificLineData = [
   ['Buffaloes', '#4B0082'],
 ];
 
+interface TeamBattingResponse {
+  teamBatting: any;
+}
+
 function HomePage() {
   const [centralData, setCentralData] = useState<Array<{ year: string; Giants: number }>>(Array);
   const [pacificData, setPacificData] = useState<Array<{ year: string; Lions: number }>>(Array);
@@ -232,7 +236,7 @@ function HomePage() {
 
   useEffect(() => {
     (async () => {
-      const result = await axios.get(
+      const result = await axios.get<TeamBattingResponse>(
         `http://localhost:8081/team/batting?from_year=2005&to_year=2020`
       );
 

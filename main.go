@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -12,8 +11,9 @@ import (
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
-	"github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/controller"
 	"github.com/tokuchi765/npb-analysis/grades"
+	"github.com/tokuchi765/npb-analysis/infrastructure"
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
@@ -112,90 +112,30 @@ func setupRouter() *gin.Engine {
 	config.AllowOrigins = []string{"http://localhost:3000"}
 	router.Use(cors.New(config))
 
-	// チーム打撃成績を取得
-	router.GET("/team/pitching", getTeamPitching)
+	sqlHandler := *infrastructure.NewSQLHandler()
+	playerController := controller.NewPlayerController(sqlHandler)
+	teamController := controller.NewTeamController(sqlHandler)
 
 	// チーム打撃成績を取得
-	router.GET("/team/batting", getTeamBatting)
+	router.GET("/team/pitching", func(c *gin.Context) { teamController.GetTeamPitching(c) })
+
+	// チーム打撃成績を取得
+	router.GET("/team/batting", func(c *gin.Context) { teamController.GetTeamBatting(c) })
 
 	// チーム成績を取得
-	router.GET("/team/stats", getTeamStats)
+	router.GET("/team/stats", func(c *gin.Context) { teamController.GetTeamStats(c) })
 
 	// チームごとの選手情報一覧を取得
-	router.GET("/team/careers/:teamId/:year", getCareers)
+	router.GET("/team/careers/:teamId/:year", func(c *gin.Context) { teamController.GetCareers(c) })
 
 	// 選手情報取得
-	router.GET("/player/:playerId", getPlayer)
+	router.GET("/player/:playerId", func(c *gin.Context) { playerController.GetPlayer(c) })
 
 	// 画面表示
 	router.Use(static.Serve("/", static.LocalFile("./frontend/build", true)))
 
 	return router
 
-}
-
-func getPlayer(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	playerID := c.Param("playerId")
-	c.JSON(http.StatusOK, gin.H{
-		"career":   grades.GetCareer(playerID, db),
-		"batting":  grades.GetBatting(playerID, db),
-		"pitching": grades.GetPitching(playerID, db),
-	})
-}
-
-func getCareers(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	teamID := c.Param("teamId")
-	year := c.Param("year")
-
-	players := grades.GetPlayersByTeamIDAndYear(teamID, year, db)
-	var careers []player.CAREER
-	for _, player := range players {
-		career := grades.GetCareer(player.PlayerID, db)
-		careers = append(careers, career)
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"careers": careers,
-	})
-}
-
-func getTeamPitching(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	fromYear, _ := strconv.Atoi(c.Query("from_year"))
-	toYear, _ := strconv.Atoi(c.Query("to_year"))
-	years := makeRange(fromYear, toYear)
-	teamPitchingMap := team.GetTeamPitching(years, db)
-	c.JSON(http.StatusOK, gin.H{
-		"teamPitching": teamPitchingMap,
-	})
-}
-
-func getTeamBatting(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	fromYear, _ := strconv.Atoi(c.Query("from_year"))
-	toYear, _ := strconv.Atoi(c.Query("to_year"))
-	years := makeRange(fromYear, toYear)
-	teamBattingMap := team.GetTeamBatting(years, db)
-	c.JSON(http.StatusOK, gin.H{
-		"teamBatting": teamBattingMap,
-	})
-}
-
-func getTeamStats(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	fromYear, _ := strconv.Atoi(c.Query("from_year"))
-	toYear, _ := strconv.Atoi(c.Query("to_year"))
-	years := makeRange(fromYear, toYear)
-	teamStats := team.GetTeamStats(years, db)
-	c.JSON(http.StatusOK, gin.H{
-		"teanStats": teamStats,
-	})
 }
 
 func makeRange(min, max int) []int {

@@ -12,12 +12,18 @@ import (
 
 	_ "github.com/lib/pq"
 	data "github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/infrastructure"
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
+// GradesInteractor 成績情報処理のInteractor
+type GradesInteractor struct {
+	SQLHandler infrastructure.SQLHandler
+}
+
 // GetPitching 個人投手成績一覧を取得する
-func GetPitching(playerID string, db *sql.DB) (pitchings []data.PICHERGRADES) {
-	rows, err := db.Query("SELECT * FROM picher_grades WHERE player_id = $1", playerID)
+func (Interactor *GradesInteractor) GetPitching(playerID string) (pitchings []data.PICHERGRADES) {
+	rows, err := Interactor.SQLHandler.Conn.Query("SELECT * FROM picher_grades WHERE player_id = $1", playerID)
 
 	if err != nil {
 		fmt.Println(err)
@@ -43,8 +49,8 @@ func GetPitching(playerID string, db *sql.DB) (pitchings []data.PICHERGRADES) {
 }
 
 // GetBatting 個人打撃成績一覧を取得する
-func GetBatting(playerID string, db *sql.DB) (battings []data.BATTERGRADES) {
-	rows, err := db.Query("SELECT * FROM batter_grades WHERE player_id = $1", playerID)
+func (Interactor *GradesInteractor) GetBatting(playerID string) (battings []data.BATTERGRADES) {
+	rows, err := Interactor.SQLHandler.Conn.Query("SELECT * FROM batter_grades WHERE player_id = $1", playerID)
 
 	if err != nil {
 		fmt.Println(err)
@@ -70,8 +76,8 @@ func GetBatting(playerID string, db *sql.DB) (battings []data.BATTERGRADES) {
 }
 
 // GetCareer 選手情報を取得する
-func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
-	rows, err := db.Query("SELECT * FROM players WHERE player_id = $1", playerID)
+func (Interactor *GradesInteractor) GetCareer(playerID string) (career data.CAREER) {
+	rows, err := Interactor.SQLHandler.Conn.Query("SELECT * FROM players WHERE player_id = $1", playerID)
 
 	if err != nil {
 		fmt.Println(err)
@@ -88,8 +94,8 @@ func GetCareer(playerID string, db *sql.DB) (career data.CAREER) {
 }
 
 // GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
-func GetPlayersByTeamIDAndYear(teamID string, year string, db *sql.DB) (players []data.PLAYER) {
-	rows, err := db.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
+func (interactor *GradesInteractor) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
+	rows, err := interactor.SQLHandler.Conn.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
 
 	if err != nil {
 		fmt.Println(err)

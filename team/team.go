@@ -10,7 +10,13 @@ import (
 	"strings"
 
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
+	"github.com/tokuchi765/npb-analysis/infrastructure"
 )
+
+// TeamInteractor チーム情報処理のInteractor
+type TeamInteractor struct {
+	SQLHandler infrastructure.SQLHandler
+}
 
 // InsertPythagoreanExpectation ピタゴラス勝率をDBに登録します。
 func InsertPythagoreanExpectation(years []int, teamBattingMap map[string][]teamData.TeamBatting, teamPitchingMap map[string][]teamData.TeamPitching, db *sql.DB) {
@@ -49,8 +55,40 @@ func calcPythagoreanExpectation(score int, runsAllowed int) float64 {
 }
 
 // GetTeamPitching 引数で受け取った年に紐づくチーム投手成績を取得します。
+func (interactor *TeamInteractor) GetTeamPitching(years []int) (teamPitchingMap map[string][]teamData.TeamPitching) {
+	teamPitchingMap = make(map[string][]teamData.TeamPitching)
+
+	for _, year := range years {
+		strYear := strconv.Itoa(year)
+		rows, err := interactor.SQLHandler.Conn.Query("SELECT * FROM team_pitching where year = $1", strYear)
+
+		defer rows.Close()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		var teamPitchings []teamData.TeamPitching
+		for rows.Next() {
+			var teamPitching teamData.TeamPitching
+			rows.Scan(&teamPitching.TeamID, &teamPitching.Year, &teamPitching.EarnedRunAverage,
+				&teamPitching.Games, &teamPitching.Win, &teamPitching.Lose,
+				&teamPitching.Save, &teamPitching.Hold, &teamPitching.HoldPoint,
+				&teamPitching.CompleteGame, &teamPitching.Shutout, &teamPitching.NoWalks,
+				&teamPitching.WinningRate, &teamPitching.Batter, &teamPitching.InningsPitched,
+				&teamPitching.Hit, &teamPitching.HomeRun, &teamPitching.BaseOnBalls,
+				&teamPitching.IntentionalWalk, &teamPitching.HitByPitches, &teamPitching.StrikeOut,
+				&teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun)
+			teamPitchings = append(teamPitchings, teamPitching)
+		}
+		teamPitchingMap[strYear] = teamPitchings
+	}
+	return teamPitchingMap
+}
+
+// GetTeamPitching 引数で受け取った年に紐づくチーム投手成績を取得します。
 func GetTeamPitching(years []int, db *sql.DB) (teamPitchingMap map[string][]teamData.TeamPitching) {
 	teamPitchingMap = make(map[string][]teamData.TeamPitching)
+
 	for _, year := range years {
 		strYear := strconv.Itoa(year)
 		rows, err := db.Query("SELECT * FROM team_pitching where year = $1", strYear)
@@ -76,6 +114,36 @@ func GetTeamPitching(years []int, db *sql.DB) (teamPitchingMap map[string][]team
 		teamPitchingMap[strYear] = teamPitchings
 	}
 	return teamPitchingMap
+}
+
+// GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
+func (interactor *TeamInteractor) GetTeamBatting(years []int) (teamBattingMap map[string][]teamData.TeamBatting) {
+	teamBattingMap = make(map[string][]teamData.TeamBatting)
+	for _, year := range years {
+		strYear := strconv.Itoa(year)
+		rows, err := interactor.SQLHandler.Conn.Query("SELECT * FROM team_batting where year = $1", strYear)
+
+		defer rows.Close()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		var teamBattins []teamData.TeamBatting
+		for rows.Next() {
+			var teamBatting teamData.TeamBatting
+			rows.Scan(&teamBatting.TeamID, &teamBatting.Year, &teamBatting.BattingAverage, &teamBatting.Games, &teamBatting.PlateAppearance,
+				&teamBatting.AtBat, &teamBatting.Score, &teamBatting.Hit, &teamBatting.Double, &teamBatting.Triple, &teamBatting.HomeRun,
+				&teamBatting.BaseHit, &teamBatting.RunsBattedIn, &teamBatting.StolenBase, &teamBatting.CaughtStealing, &teamBatting.SacrificeHits,
+				&teamBatting.SacrificeFlies, &teamBatting.BaseOnBalls, &teamBatting.IntentionalWalk, &teamBatting.HitByPitches, &teamBatting.StrikeOut,
+				&teamBatting.GroundedIntoDoublePlay, &teamBatting.SluggingPercentage, &teamBatting.OnBasePercentage,
+			)
+			teamBattins = append(teamBattins, teamBatting)
+		}
+
+		teamBattingMap[strYear] = teamBattins
+	}
+
+	return teamBattingMap
 }
 
 // GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
@@ -109,11 +177,11 @@ func GetTeamBatting(years []int, db *sql.DB) (teamBattingMap map[string][]teamDa
 }
 
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。
-func GetTeamStats(years []int, db *sql.DB) (teamStatsMap map[string][]teamData.TeamLeagueStats) {
+func (interactor *TeamInteractor) GetTeamStats(years []int) (teamStatsMap map[string][]teamData.TeamLeagueStats) {
 	teamStatsMap = make(map[string][]teamData.TeamLeagueStats)
 	for _, year := range years {
 		strYear := strconv.Itoa(year)
-		rows, err := db.Query("SELECT * FROM team_season_stats where year = $1", strYear)
+		rows, err := interactor.SQLHandler.Conn.Query("SELECT * FROM team_season_stats where year = $1", strYear)
 
 		defer rows.Close()
 		if err != nil {

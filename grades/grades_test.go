@@ -7,6 +7,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 	data "github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/infrastructure"
 	testUtil "github.com/tokuchi765/npb-analysis/test"
 )
 
@@ -282,7 +283,7 @@ func TestInsertPicherGrades(t *testing.T) {
 	}
 }
 
-func TestGetPitching(t *testing.T) {
+func TestGradesInteractor_GetPitching(t *testing.T) {
 	type args struct {
 		playerID string
 	}
@@ -299,16 +300,19 @@ func TestGetPitching(t *testing.T) {
 			[]data.PICHERGRADES{getTestPicherGrades()},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{SQLHandler: *sqlHandler}
 			picherMap := make(map[string][]data.PICHERGRADES)
 			picherGrades := getTestPicherGrades()
 			picherMap[tt.args.playerID] = []data.PICHERGRADES{picherGrades}
 			InsertPicherGrades(picherMap, db)
-			gotPitchings := GetPitching(tt.args.playerID, db)
+			gotPitchings := interactor.GetPitching(tt.args.playerID)
 			assert.ElementsMatch(t, tt.wantPitchings, gotPitchings)
 		})
 	}
@@ -357,7 +361,7 @@ func TestInsertBatterGrades(t *testing.T) {
 	}
 }
 
-func TestGetBatting(t *testing.T) {
+func TestGradesInteractor_GetBatting(t *testing.T) {
 	wantGrades := getTestBatterGrades()
 	wantGrades.SluggingPercentage = 0.329 // DBから読み取ると値が変わってしまう
 	wantGrades.Single = 65
@@ -378,22 +382,25 @@ func TestGetBatting(t *testing.T) {
 			[]data.BATTERGRADES{wantGrades},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{SQLHandler: *sqlHandler}
 			batterMap := make(map[string][]data.BATTERGRADES)
 			batterMap[tt.args.playerID] = []data.BATTERGRADES{getTestBatterGrades()}
 			runtimeCurrent, _ := filepath.Abs("../")
 			InsertBatterGrades(batterMap, db, runtimeCurrent)
-			gotBattings := GetBatting(tt.args.playerID, db)
+			gotBattings := interactor.GetBatting(tt.args.playerID)
 			assert.ElementsMatch(t, tt.wantBattings, gotBattings)
 		})
 	}
 }
 
-func TestGetCareer(t *testing.T) {
+func TestGradesInteractor_GetCareer(t *testing.T) {
 	type args struct {
 		playerID string
 		career   data.CAREER
@@ -420,19 +427,22 @@ func TestGetCareer(t *testing.T) {
 			},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{SQLHandler: *sqlHandler}
 			InsertCareers([]data.CAREER{tt.args.career}, db)
-			gotCareer := GetCareer(tt.args.playerID, db)
+			gotCareer := interactor.GetCareer(tt.args.playerID)
 			assert.Exactly(t, tt.args.career, gotCareer)
 		})
 	}
 }
 
-func TestGetPlayersByTeamIDAndYear(t *testing.T) {
+func TestGradesInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 	type args struct {
 		teamID string
 		year   string
@@ -466,17 +476,20 @@ func TestGetPlayersByTeamIDAndYear(t *testing.T) {
 			},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{SQLHandler: *sqlHandler}
 			players := [][]string{
 				{"93795138", "デラロサ"},
 				{"41045138", "戸郷　翔征"},
 			}
 			InsertTeamPlayers("g", players, db)
-			gotPlayers := GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year, db)
+			gotPlayers := interactor.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
 		})
 	}

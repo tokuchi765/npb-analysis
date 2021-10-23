@@ -21,12 +21,13 @@ type TeamController struct {
 func NewTeamController(sqlHandler infrastructure.SQLHandler) *TeamController {
 	return &TeamController{
 		TeamInteractor: team.TeamInteractor{
-			SQLHandler: sqlHandler,
+			TeamRepository: infrastructure.TeamRepository{SQLHandler: sqlHandler},
 		},
 		GradesInteractor: grades.GradesInteractor{
-			SQLHandler: sqlHandler,
-		},
-	}
+			GradesRepository: infrastructure.GradesRepository{
+				SQLHandler: sqlHandler,
+			},
+		}}
 }
 
 // GetTeamPitching 引数で受け取った年に紐づくチーム投手成績を取得します。

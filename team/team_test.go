@@ -11,7 +11,7 @@ import (
 	testUtil "github.com/tokuchi765/npb-analysis/test"
 )
 
-func TestInsertPythagoreanExpectation(t *testing.T) {
+func TestTeamInteractor_InsertPythagoreanExpectation(t *testing.T) {
 	type args struct {
 		years           []int
 		teamBattingMap  map[string][]teamData.TeamBatting
@@ -41,17 +41,19 @@ func TestInsertPythagoreanExpectation(t *testing.T) {
 		},
 	}
 
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
-			interactor := TeamInteractor{SQLHandler: *sqlHandler}
+			interactor := TeamInteractor{
+				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 
 			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
-			InsertPythagoreanExpectation(tt.args.years, tt.args.teamBattingMap, tt.args.teamPitchingMap, db)
+			interactor.InsertPythagoreanExpectation(tt.args.years, tt.args.teamBattingMap, tt.args.teamPitchingMap)
 			actual := interactor.GetTeamStats([]int{2020})
 			assert.Exactly(t, tt.args.expected, actual["2020"][0].PythagoreanExpectation)
 		})
@@ -86,17 +88,19 @@ func Test_insertPythagoreanExpectation(t *testing.T) {
 		},
 	}
 
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
-			interactor := TeamInteractor{SQLHandler: *sqlHandler}
+			interactor := TeamInteractor{
+				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 
 			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
-			insertPythagoreanExpectation(tt.args.teamBattings, tt.args.teamPitchings, db)
+			interactor.TeamRepository.InsertPythagoreanExpectation(tt.args.teamBattings, tt.args.teamPitchings)
 			actual2 := interactor.GetTeamStats([]int{2020})
 			assert.Exactly(t, tt.args.expected, actual2["2020"][0].PythagoreanExpectation)
 		})
@@ -137,10 +141,12 @@ func TestTeamInteractor_GetTeamStats(t *testing.T) {
 			db := testUtil.ConnectDB(resource, pool)
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
-			interactor := TeamInteractor{SQLHandler: *sqlHandler}
+			interactor := TeamInteractor{
+				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 
 			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
-			insertPythagoreanExpectation(tt.args.teamBattings, tt.args.teamPitchings, db)
+			interactor.TeamRepository.InsertPythagoreanExpectation(tt.args.teamBattings, tt.args.teamPitchings)
 			actual2 := interactor.GetTeamStats([]int{2020})
 			assert.Exactly(t, tt.args.expected, actual2["2020"][0].PythagoreanExpectation)
 		})
@@ -152,29 +158,8 @@ func insertDefaultTeamStats(teamID string, year string, db *sql.DB) {
 	stmt1.Exec(teamID, year, "manager", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0)
 	stmt1.Close()
 }
-func Test_calcPythagoreanExpectation(t *testing.T) {
-	type args struct {
-		score       int
-		runsAllowed int
-		want        float64
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			name: "ピタゴラス勝率を計算",
-			args: args{score: 100, runsAllowed: 100, want: 0.5},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.args.want, calcPythagoreanExpectation(tt.args.score, tt.args.runsAllowed))
-		})
-	}
-}
 
-func TestInsertSeasonMatchResults(t *testing.T) {
+func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 	type expectedData struct {
 		expectedVsType string
 		expectedWin    int
@@ -238,8 +223,13 @@ func TestInsertSeasonMatchResults(t *testing.T) {
 	resource, pool := testUtil.CreateContainer()
 	defer testUtil.CloseContainer(resource, pool)
 	db := testUtil.ConnectDB(resource, pool)
+	sqlHandler := new(infrastructure.SQLHandler)
+	sqlHandler.Conn = db
+	interactor := TeamInteractor{
+		TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+	}
 	runtimeCurrent, _ := filepath.Abs("../")
-	InsertSeasonMatchResults(runtimeCurrent+"/test/resource", db)
+	interactor.InsertSeasonMatchResults(runtimeCurrent + "/test/resource")
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			rows, _ := db.Query("SELECT vs_type,win,lose,draw FROM team_match_results WHERE team_id = $1 AND year = $2 AND competitive_team_id = $3", tt.args.teamID, tt.args.year, tt.args.opponentTeamID)
@@ -257,7 +247,7 @@ func TestInsertSeasonMatchResults(t *testing.T) {
 	}
 }
 
-func TestInsertSeasonLeagueStats(t *testing.T) {
+func TestTeamInteractor_InsertSeasonLeagueStats(t *testing.T) {
 	type args struct {
 		teamID          string
 		year            string
@@ -288,8 +278,13 @@ func TestInsertSeasonLeagueStats(t *testing.T) {
 	resource, pool := testUtil.CreateContainer()
 	defer testUtil.CloseContainer(resource, pool)
 	db := testUtil.ConnectDB(resource, pool)
+	sqlHandler := new(infrastructure.SQLHandler)
+	sqlHandler.Conn = db
+	interactor := TeamInteractor{
+		TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+	}
 	runtimeCurrent, _ := filepath.Abs("../")
-	InsertSeasonLeagueStats(runtimeCurrent+"/test/resource", db)
+	interactor.InsertSeasonLeagueStats(runtimeCurrent + "/test/resource")
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			rows, _ := db.Query("SELECT manager,games,win,lose,draw FROM team_season_stats WHERE team_id = $1 AND year = $2", tt.args.teamID, tt.args.year)
@@ -392,67 +387,7 @@ func TestGetTeamID(t *testing.T) {
 	}
 }
 
-func TestInsertTeamPitchings(t *testing.T) {
-	type args struct {
-		teamID                   string
-		year                     string
-		leage                    string
-		expectedEarnedRunAverage float64
-		expectedGames            int
-		expectedWin              int
-		expectedLose             int
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"セリーグ投手成績登録確認",
-			args{
-				teamID:                   "04",
-				year:                     "2005",
-				leage:                    "central",
-				expectedEarnedRunAverage: 4.8,
-				expectedGames:            146,
-				expectedWin:              58,
-				expectedLose:             84,
-			},
-		},
-		{
-			"パリーグ投手成績登録確認",
-			args{
-				teamID:                   "08",
-				year:                     "2005",
-				leage:                    "pacific",
-				expectedEarnedRunAverage: 3.46,
-				expectedGames:            136,
-				expectedWin:              89,
-				expectedLose:             45,
-			},
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
-
-			runtimeCurrent, _ := filepath.Abs("../")
-			InsertTeamPitchings(runtimeCurrent+"/test/resource", tt.args.leage, db)
-
-			pitching := GetTeamPitching([]int{2005}, db)["2005"][0]
-
-			assert.Equal(t, tt.args.expectedEarnedRunAverage, pitching.EarnedRunAverage)
-			assert.Equal(t, tt.args.expectedGames, pitching.Games)
-			assert.Equal(t, tt.args.expectedWin, pitching.Win)
-			assert.Equal(t, tt.args.expectedLose, pitching.Lose)
-
-			testUtil.CloseContainer(resource, pool)
-		})
-	}
-}
-
-func TestTeamInteractor_GetTeamPitching(t *testing.T) {
+func TestTeamInteractor_InsertTeamPitchings_GetTeamPitching(t *testing.T) {
 	type args struct {
 		teamID                   string
 		year                     string
@@ -497,10 +432,12 @@ func TestTeamInteractor_GetTeamPitching(t *testing.T) {
 			db := testUtil.ConnectDB(resource, pool)
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
-			interactor := TeamInteractor{SQLHandler: *sqlHandler}
+			interactor := TeamInteractor{
+				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
-			InsertTeamPitchings(runtimeCurrent+"/test/resource", tt.args.leage, db)
+			interactor.InsertTeamPitchings(runtimeCurrent+"/test/resource", tt.args.leage, db)
 
 			pitching := interactor.GetTeamPitching([]int{2005})["2005"][0]
 
@@ -514,67 +451,7 @@ func TestTeamInteractor_GetTeamPitching(t *testing.T) {
 	}
 }
 
-func TestInsertTeamBattings(t *testing.T) {
-	type args struct {
-		teamID                  string
-		year                    string
-		league                  string
-		expectedBattingAverage  float64
-		expectedGames           int
-		expectedPlateAppearance int
-		expectedAtBat           int
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"セリーグ打撃成績登録確認",
-			args{
-				teamID:                  "06",
-				year:                    "2005",
-				league:                  "central",
-				expectedBattingAverage:  0.276,
-				expectedGames:           146,
-				expectedPlateAppearance: 5523,
-				expectedAtBat:           5033,
-			},
-		},
-		{
-			"パリーグ打撃成績登録確認",
-			args{
-				teamID:                  "09",
-				year:                    "2005",
-				league:                  "pacific",
-				expectedBattingAverage:  0.255,
-				expectedGames:           136,
-				expectedPlateAppearance: 5068,
-				expectedAtBat:           4577,
-			},
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
-
-			runtimeCurrent, _ := filepath.Abs("../")
-			InsertTeamBattings(runtimeCurrent+"/test/resource", tt.args.league, db)
-
-			batting := GetTeamBatting([]int{2005}, db)["2005"][0]
-
-			assert.Equal(t, tt.args.expectedBattingAverage, batting.BattingAverage)
-			assert.Equal(t, tt.args.expectedGames, batting.Games)
-			assert.Equal(t, tt.args.expectedPlateAppearance, batting.PlateAppearance)
-			assert.Equal(t, tt.args.expectedAtBat, batting.AtBat)
-
-			testUtil.CloseContainer(resource, pool)
-		})
-	}
-}
-
-func TestTeamInteractor_GetTeamBatting(t *testing.T) {
+func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 	type args struct {
 		teamID                  string
 		year                    string
@@ -619,10 +496,12 @@ func TestTeamInteractor_GetTeamBatting(t *testing.T) {
 			db := testUtil.ConnectDB(resource, pool)
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
-			interactor := TeamInteractor{SQLHandler: *sqlHandler}
+			interactor := TeamInteractor{
+				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
-			InsertTeamBattings(runtimeCurrent+"/test/resource", tt.args.league, db)
+			interactor.InsertTeamBattings(runtimeCurrent+"/test/resource", tt.args.league, db)
 
 			batting := interactor.GetTeamBatting([]int{2005})["2005"][0]
 

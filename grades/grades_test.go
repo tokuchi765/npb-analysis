@@ -33,13 +33,19 @@ func TestInsertTeamPlayers(t *testing.T) {
 			},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
-			InsertTeamPlayers(tt.args.initial, tt.args.players, db)
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
+			interactor.InsertTeamPlayers(tt.args.initial, tt.args.players)
 
 			rows, _ := db.Query("SELECT player_id,player_name FROM team_players WHERE year = $1 AND team_id = $2", "2020", tt.args.teamID)
 
@@ -126,12 +132,19 @@ func TestInsertCareers(t *testing.T) {
 			},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			InsertCareers(tt.args.careers, db)
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
+			interactor.InsertCareers(tt.args.careers)
 			rows, _ := db.Query("SELECT name,position,pitching_and_batting FROM players WHERE player_id = $1", tt.args.playerID)
 			var name, position, pitchingAndBatting string
 			for rows.Next() {
@@ -264,12 +277,19 @@ func TestInsertPicherGrades(t *testing.T) {
 			},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			InsertPicherGrades(tt.args.picherMap, db)
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
+			interactor.InsertPicherGrades(tt.args.picherMap)
 			rows, _ := db.Query("SELECT team,piched,earned_run_average FROM picher_grades WHERE player_id = $1 AND year = $2", tt.args.playerID, "2018")
 			var team string
 			var piched, earnedRunAverage float64
@@ -307,11 +327,14 @@ func TestGradesInteractor_GetPitching(t *testing.T) {
 			db := testUtil.ConnectDB(resource, pool)
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
-			interactor := GradesInteractor{SQLHandler: *sqlHandler}
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 			picherMap := make(map[string][]data.PICHERGRADES)
 			picherGrades := getTestPicherGrades()
 			picherMap[tt.args.playerID] = []data.PICHERGRADES{picherGrades}
-			InsertPicherGrades(picherMap, db)
+			interactor.InsertPicherGrades(picherMap)
 			gotPitchings := interactor.GetPitching(tt.args.playerID)
 			assert.ElementsMatch(t, tt.wantPitchings, gotPitchings)
 		})
@@ -339,13 +362,19 @@ func TestInsertBatterGrades(t *testing.T) {
 			},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 			runtimeCurrent, _ := filepath.Abs("../")
-			InsertBatterGrades(tt.args.batterMap, db, runtimeCurrent)
+			interactor.InsertBatterGrades(tt.args.batterMap, runtimeCurrent)
 			rows, _ := db.Query("SELECT team,plate_appearance,single,w_oba FROM batter_grades WHERE player_id = $1 AND year = $2", tt.args.playerID, "2018")
 			var team string
 			var plateAppearance, single int
@@ -389,11 +418,14 @@ func TestGradesInteractor_GetBatting(t *testing.T) {
 			db := testUtil.ConnectDB(resource, pool)
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
-			interactor := GradesInteractor{SQLHandler: *sqlHandler}
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 			batterMap := make(map[string][]data.BATTERGRADES)
 			batterMap[tt.args.playerID] = []data.BATTERGRADES{getTestBatterGrades()}
 			runtimeCurrent, _ := filepath.Abs("../")
-			InsertBatterGrades(batterMap, db, runtimeCurrent)
+			interactor.InsertBatterGrades(batterMap, runtimeCurrent)
 			gotBattings := interactor.GetBatting(tt.args.playerID)
 			assert.ElementsMatch(t, tt.wantBattings, gotBattings)
 		})
@@ -434,8 +466,11 @@ func TestGradesInteractor_GetCareer(t *testing.T) {
 			db := testUtil.ConnectDB(resource, pool)
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
-			interactor := GradesInteractor{SQLHandler: *sqlHandler}
-			InsertCareers([]data.CAREER{tt.args.career}, db)
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
+			interactor.InsertCareers([]data.CAREER{tt.args.career})
 			gotCareer := interactor.GetCareer(tt.args.playerID)
 			assert.Exactly(t, tt.args.career, gotCareer)
 		})
@@ -483,12 +518,15 @@ func TestGradesInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 			db := testUtil.ConnectDB(resource, pool)
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
-			interactor := GradesInteractor{SQLHandler: *sqlHandler}
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 			players := [][]string{
 				{"93795138", "デラロサ"},
 				{"41045138", "戸郷　翔征"},
 			}
-			InsertTeamPlayers("g", players, db)
+			interactor.InsertTeamPlayers("g", players)
 			gotPlayers := interactor.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
 		})
@@ -551,13 +589,19 @@ func TestExtractionCareers(t *testing.T) {
 			},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			InsertCareers(tt.args.careers, db)
-			ExtractionCareers(&tt.args.careers, db)
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
+			interactor.InsertCareers(tt.args.careers)
+			interactor.ExtractionCareers(&tt.args.careers)
 			assert.Empty(t, tt.args.careers)
 		})
 	}
@@ -584,13 +628,19 @@ func TestExtractionPicherGrades(t *testing.T) {
 			},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			InsertPicherGrades(tt.args.picherMap, db)
-			ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID, db)
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
+			interactor.InsertPicherGrades(tt.args.picherMap)
+			interactor.ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
 			assert.Empty(t, tt.args.picherMap)
 		})
 	}
@@ -617,14 +667,20 @@ func TestExtractionBatterGrades(t *testing.T) {
 			},
 		},
 	}
-	resource, pool := testUtil.CreateContainer()
-	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{
+				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
 			runtimeCurrent, _ := filepath.Abs("../")
-			InsertBatterGrades(tt.args.batterMap, db, runtimeCurrent)
-			ExtractionBatterGrades(&tt.args.batterMap, tt.args.teamID, db)
+			interactor.InsertBatterGrades(tt.args.batterMap, runtimeCurrent)
+			interactor.ExtractionBatterGrades(&tt.args.batterMap, tt.args.teamID)
 			assert.Empty(t, tt.args.batterMap)
 		})
 	}

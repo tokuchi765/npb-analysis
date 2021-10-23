@@ -38,6 +38,17 @@ func main() {
 
 	defer db.Close()
 
+	sqlHandler := new(infrastructure.SQLHandler)
+	sqlHandler.Conn = db
+	teamInteractor := team.TeamInteractor{
+		TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+	}
+
+	gradesInteractor := grades.GradesInteractor{
+		GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+		TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+	}
+
 	// プレイヤーの成績をDBに登録する
 	createdGades, _ := strconv.ParseBool(getSystemSetting("created_player_grades", db))
 	if !createdGades {
@@ -45,7 +56,7 @@ func main() {
 		leagues := []string{"b", "c", "d", "db", "e", "f", "g", "h", "l", "m", "s", "t"}
 
 		for _, league := range leagues {
-			setPlayerGrades(league, db)
+			setPlayerGrades(league, gradesInteractor, db)
 		}
 
 		setSystemSetting("created_player_grades", "true", db)
@@ -54,14 +65,14 @@ func main() {
 	// チーム成績をDBに登録する
 	createdTeamStats, _ := strconv.ParseBool(getSystemSetting("created_team_stats", db))
 	if !createdTeamStats {
-		setTeamStats(db)
+		setTeamStats(db, teamInteractor)
 		setSystemSetting("created_team_stats", "true", db)
 	}
 
 	// 算出が必要なDB項目を登録する
 	createdAddValue, _ := strconv.ParseBool(getSystemSetting("created_add_value", db))
 	if !createdAddValue {
-		setTeamStatsAddValue(db)
+		setTeamStatsAddValue(teamInteractor)
 		setSystemSetting("created_add_value", "true", db)
 	}
 
@@ -70,11 +81,11 @@ func main() {
 	router.Run(":8081")
 }
 
-func setTeamStatsAddValue(db *sql.DB) {
+func setTeamStatsAddValue(teamInteractor team.TeamInteractor) {
 	years := makeRange(2005, 2020)
-	teamBattings := team.GetTeamBatting(years, db)
-	teamPitching := team.GetTeamPitching(years, db)
-	team.InsertPythagoreanExpectation(years, teamBattings, teamPitching, db)
+	teamBattings := teamInteractor.GetTeamBatting(years)
+	teamPitching := teamInteractor.GetTeamPitching(years)
+	teamInteractor.InsertPythagoreanExpectation(years, teamBattings, teamPitching)
 }
 
 func getSystemSetting(setting string, db *sql.DB) (value string) {
@@ -146,49 +157,49 @@ func makeRange(min, max int) []int {
 	return a
 }
 
-func setTeamStats(db *sql.DB) {
+func setTeamStats(db *sql.DB, teamInteractor team.TeamInteractor) {
 
 	current, _ := os.Getwd()
 
 	csvPath := current + "/" + "csv"
 
 	// チーム打撃成績をDBに登録する
-	team.InsertTeamBattings(csvPath, "central", db)
-	team.InsertTeamBattings(csvPath, "pacific", db)
+	teamInteractor.InsertTeamBattings(csvPath, "central", db)
+	teamInteractor.InsertTeamBattings(csvPath, "pacific", db)
 
 	// チーム投手成績をDBに登録する
-	team.InsertTeamPitchings(csvPath, "central", db)
-	team.InsertTeamPitchings(csvPath, "pacific", db)
+	teamInteractor.InsertTeamPitchings(csvPath, "central", db)
+	teamInteractor.InsertTeamPitchings(csvPath, "pacific", db)
 
 	// チームシーズン成績をDBに登録する
-	team.InsertSeasonLeagueStats(csvPath, db)
-	team.InsertSeasonMatchResults(csvPath, db)
+	teamInteractor.InsertSeasonLeagueStats(csvPath)
+	teamInteractor.InsertSeasonMatchResults(csvPath)
 
 }
 
-func setPlayerGrades(initial string, db *sql.DB) {
+func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor, db *sql.DB) {
 
 	current, _ := os.Getwd()
 
 	players := grades.GetPlayers(current + "/csv/teams/" + initial + "_players.csv")
 
-	grades.InsertTeamPlayers(initial, players, db)
+	gradesInteractor.InsertTeamPlayers(initial, players)
 
 	playersPath := current + "/csv/players/"
 	careers := grades.ReadCareers(playersPath, initial, players)
 
-	grades.ExtractionCareers(&careers, db)
+	gradesInteractor.ExtractionCareers(&careers)
 
-	grades.InsertCareers(careers, db)
+	gradesInteractor.InsertCareers(careers)
 
 	picherMap, batterMap := grades.ReadGradesMap(playersPath, initial, players)
 
-	grades.ExtractionPicherGrades(&picherMap, team.GetTeamID(initial), db)
+	gradesInteractor.ExtractionPicherGrades(&picherMap, team.GetTeamID(initial))
 
-	grades.InsertPicherGrades(picherMap, db)
+	gradesInteractor.InsertPicherGrades(picherMap)
 
-	grades.ExtractionBatterGrades(&batterMap, team.GetTeamID(initial), db)
+	gradesInteractor.ExtractionBatterGrades(&batterMap, team.GetTeamID(initial))
 
-	grades.InsertBatterGrades(batterMap, db, current)
+	gradesInteractor.InsertBatterGrades(batterMap, current)
 
 }

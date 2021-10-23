@@ -49,8 +49,10 @@ func main() {
 		TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
 
+	syastemRepository := infrastructure.SyastemRepository{SQLHandler: *sqlHandler}
+
 	// プレイヤーの成績をDBに登録する
-	createdGades, _ := strconv.ParseBool(getSystemSetting("created_player_grades", db))
+	createdGades, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_player_grades"))
 	if !createdGades {
 		// リーグ文字列の配列
 		leagues := []string{"b", "c", "d", "db", "e", "f", "g", "h", "l", "m", "s", "t"}
@@ -59,21 +61,21 @@ func main() {
 			setPlayerGrades(league, gradesInteractor, db)
 		}
 
-		setSystemSetting("created_player_grades", "true", db)
+		syastemRepository.SetSystemSetting("created_player_grades", "true")
 	}
 
 	// チーム成績をDBに登録する
-	createdTeamStats, _ := strconv.ParseBool(getSystemSetting("created_team_stats", db))
+	createdTeamStats, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_team_stats"))
 	if !createdTeamStats {
 		setTeamStats(db, teamInteractor)
-		setSystemSetting("created_team_stats", "true", db)
+		syastemRepository.SetSystemSetting("created_team_stats", "true")
 	}
 
 	// 算出が必要なDB項目を登録する
-	createdAddValue, _ := strconv.ParseBool(getSystemSetting("created_add_value", db))
+	createdAddValue, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_add_value"))
 	if !createdAddValue {
 		setTeamStatsAddValue(teamInteractor)
-		setSystemSetting("created_add_value", "true", db)
+		syastemRepository.SetSystemSetting("created_add_value", "true")
 	}
 
 	// webサーバーを起動
@@ -86,33 +88,6 @@ func setTeamStatsAddValue(teamInteractor team.TeamInteractor) {
 	teamBattings := teamInteractor.GetTeamBatting(years)
 	teamPitching := teamInteractor.GetTeamPitching(years)
 	teamInteractor.InsertPythagoreanExpectation(years, teamBattings, teamPitching)
-}
-
-func getSystemSetting(setting string, db *sql.DB) (value string) {
-	rows, err := db.Query("SELECT * FROM system_setting where setting = $1", setting)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var setting string
-		rows.Scan(&setting, &value)
-	}
-
-	return value
-}
-
-func setSystemSetting(setting string, value string, db *sql.DB) {
-	rows, err := db.Query("UPDATE system_setting SET value = $1 WHERE setting = $2", value, setting)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer rows.Close()
 }
 
 func setupRouter() *gin.Engine {

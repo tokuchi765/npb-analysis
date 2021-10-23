@@ -437,7 +437,7 @@ func TestTeamInteractor_InsertTeamPitchings_GetTeamPitching(t *testing.T) {
 			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
-			interactor.InsertTeamPitchings(runtimeCurrent+"/test/resource", tt.args.leage, db)
+			interactor.InsertTeamPitchings(runtimeCurrent+"/test/resource", tt.args.leage)
 
 			pitching := interactor.GetTeamPitching([]int{2005})["2005"][0]
 
@@ -501,7 +501,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
-			interactor.InsertTeamBattings(runtimeCurrent+"/test/resource", tt.args.league, db)
+			interactor.InsertTeamBattings(runtimeCurrent+"/test/resource", tt.args.league)
 
 			batting := interactor.GetTeamBatting([]int{2005})["2005"][0]
 

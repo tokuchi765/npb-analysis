@@ -1,7 +1,6 @@
 package team
 
 import (
-	"database/sql"
 	"encoding/csv"
 	"log"
 	"os"
@@ -108,7 +107,7 @@ func (Interactor *TeamInteractor) InsertSeasonMatchResults(csvPath string) {
 }
 
 // InsertTeamPitchings チーム投手成績をDBに登録する
-func (Interactor *TeamInteractor) InsertTeamPitchings(csvPath string, league string, db *sql.DB) {
+func (Interactor *TeamInteractor) InsertTeamPitchings(csvPath string, league string) {
 	years := makeRange(2005, 2020)
 	for _, year := range years {
 		teamPitching := readTeamPitching(csvPath, league, strconv.Itoa(year))
@@ -117,7 +116,7 @@ func (Interactor *TeamInteractor) InsertTeamPitchings(csvPath string, league str
 }
 
 // InsertTeamBattings チーム打撃成績をDBに登録する
-func (Interactor *TeamInteractor) InsertTeamBattings(csvPath string, league string, db *sql.DB) {
+func (Interactor *TeamInteractor) InsertTeamBattings(csvPath string, league string) {
 	years := makeRange(2005, 2020)
 	for _, year := range years {
 		teamBatting := readTeamBatting(csvPath, league, strconv.Itoa(year))

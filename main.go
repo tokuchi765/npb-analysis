@@ -1,11 +1,8 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/contrib/static"
@@ -17,29 +14,8 @@ import (
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
-func getDB() (db *sql.DB) {
-	var err error
-	db, err = sql.Open("postgres", "host=localhost port=5555 password=postgres user=test dbname=test sslmode=disable")
-
-	db.SetMaxOpenConns(100)
-	db.SetMaxIdleConns(25)
-	db.SetConnMaxLifetime(5 * time.Minute)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	return db
-}
-
 func main() {
-
-	db := getDB()
-
-	defer db.Close()
-
-	sqlHandler := new(infrastructure.SQLHandler)
-	sqlHandler.Conn = db
+	sqlHandler := infrastructure.NewSQLHandler()
 	teamInteractor := team.TeamInteractor{
 		TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
@@ -58,7 +34,7 @@ func main() {
 		leagues := []string{"b", "c", "d", "db", "e", "f", "g", "h", "l", "m", "s", "t"}
 
 		for _, league := range leagues {
-			setPlayerGrades(league, gradesInteractor, db)
+			setPlayerGrades(league, gradesInteractor)
 		}
 
 		syastemRepository.SetSystemSetting("created_player_grades", "true")
@@ -67,7 +43,7 @@ func main() {
 	// チーム成績をDBに登録する
 	createdTeamStats, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_team_stats"))
 	if !createdTeamStats {
-		setTeamStats(db, teamInteractor)
+		setTeamStats(teamInteractor)
 		syastemRepository.SetSystemSetting("created_team_stats", "true")
 	}
 
@@ -132,19 +108,19 @@ func makeRange(min, max int) []int {
 	return a
 }
 
-func setTeamStats(db *sql.DB, teamInteractor team.TeamInteractor) {
+func setTeamStats(teamInteractor team.TeamInteractor) {
 
 	current, _ := os.Getwd()
 
 	csvPath := current + "/" + "csv"
 
 	// チーム打撃成績をDBに登録する
-	teamInteractor.InsertTeamBattings(csvPath, "central", db)
-	teamInteractor.InsertTeamBattings(csvPath, "pacific", db)
+	teamInteractor.InsertTeamBattings(csvPath, "central")
+	teamInteractor.InsertTeamBattings(csvPath, "pacific")
 
 	// チーム投手成績をDBに登録する
-	teamInteractor.InsertTeamPitchings(csvPath, "central", db)
-	teamInteractor.InsertTeamPitchings(csvPath, "pacific", db)
+	teamInteractor.InsertTeamPitchings(csvPath, "central")
+	teamInteractor.InsertTeamPitchings(csvPath, "pacific")
 
 	// チームシーズン成績をDBに登録する
 	teamInteractor.InsertSeasonLeagueStats(csvPath)
@@ -152,7 +128,7 @@ func setTeamStats(db *sql.DB, teamInteractor team.TeamInteractor) {
 
 }
 
-func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor, db *sql.DB) {
+func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 
 	current, _ := os.Getwd()
 

@@ -49,7 +49,7 @@ func TestTeamInteractor_InsertPythagoreanExpectation(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := TeamInteractor{
-				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 
 			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
@@ -96,7 +96,7 @@ func Test_insertPythagoreanExpectation(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := TeamInteractor{
-				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 
 			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
@@ -142,7 +142,7 @@ func TestTeamInteractor_GetTeamStats(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := TeamInteractor{
-				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 
 			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
@@ -226,7 +226,7 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 	sqlHandler := new(infrastructure.SQLHandler)
 	sqlHandler.Conn = db
 	interactor := TeamInteractor{
-		TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+		TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
 	runtimeCurrent, _ := filepath.Abs("../")
 	interactor.InsertSeasonMatchResults(runtimeCurrent + "/test/resource")
@@ -281,7 +281,7 @@ func TestTeamInteractor_InsertSeasonLeagueStats(t *testing.T) {
 	sqlHandler := new(infrastructure.SQLHandler)
 	sqlHandler.Conn = db
 	interactor := TeamInteractor{
-		TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+		TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
 	runtimeCurrent, _ := filepath.Abs("../")
 	interactor.InsertSeasonLeagueStats(runtimeCurrent + "/test/resource")
@@ -433,7 +433,7 @@ func TestTeamInteractor_InsertTeamPitchings_GetTeamPitching(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := TeamInteractor{
-				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
@@ -497,7 +497,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := TeamInteractor{
-				TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 
 			runtimeCurrent, _ := filepath.Abs("../")

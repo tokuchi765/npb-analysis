@@ -21,10 +21,10 @@ type TeamController struct {
 func NewTeamController(sqlHandler infrastructure.SQLHandler) *TeamController {
 	return &TeamController{
 		TeamInteractor: team.TeamInteractor{
-			TeamRepository: infrastructure.TeamRepository{SQLHandler: sqlHandler},
+			TeamRepository: &infrastructure.TeamRepository{SQLHandler: sqlHandler},
 		},
 		GradesInteractor: grades.GradesInteractor{
-			GradesRepository: infrastructure.GradesRepository{
+			GradesRepository: &infrastructure.GradesRepository{
 				SQLHandler: sqlHandler,
 			},
 		}}

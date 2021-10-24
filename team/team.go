@@ -8,12 +8,12 @@ import (
 	"strings"
 
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
-	"github.com/tokuchi765/npb-analysis/infrastructure"
+	"github.com/tokuchi765/npb-analysis/interfaces/repository"
 )
 
 // TeamInteractor チーム情報処理のInteractor
 type TeamInteractor struct {
-	infrastructure.TeamRepository
+	repository.TeamRepository
 }
 
 // InsertPythagoreanExpectation ピタゴラス勝率をDBに登録します。

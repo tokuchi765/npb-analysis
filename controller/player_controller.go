@@ -17,7 +17,7 @@ type PlayerController struct {
 func NewPlayerController(sqlHandler infrastructure.SQLHandler) *PlayerController {
 	return &PlayerController{
 		GradesInteractor: grades.GradesInteractor{
-			GradesRepository: infrastructure.GradesRepository{
+			GradesRepository: &infrastructure.GradesRepository{
 				SQLHandler: sqlHandler,
 			},
 		},

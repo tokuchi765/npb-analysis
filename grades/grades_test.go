@@ -42,8 +42,8 @@ func TestInsertTeamPlayers(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			interactor.InsertTeamPlayers(tt.args.initial, tt.args.players)
 
@@ -141,8 +141,8 @@ func TestInsertCareers(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			interactor.InsertCareers(tt.args.careers)
 			rows, _ := db.Query("SELECT name,position,pitching_and_batting FROM players WHERE player_id = $1", tt.args.playerID)
@@ -286,8 +286,8 @@ func TestInsertPicherGrades(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			interactor.InsertPicherGrades(tt.args.picherMap)
 			rows, _ := db.Query("SELECT team,piched,earned_run_average FROM picher_grades WHERE player_id = $1 AND year = $2", tt.args.playerID, "2018")
@@ -328,8 +328,8 @@ func TestGradesInteractor_GetPitching(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			picherMap := make(map[string][]data.PICHERGRADES)
 			picherGrades := getTestPicherGrades()
@@ -370,8 +370,8 @@ func TestInsertBatterGrades(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			runtimeCurrent, _ := filepath.Abs("../")
 			interactor.InsertBatterGrades(tt.args.batterMap, runtimeCurrent)
@@ -419,8 +419,8 @@ func TestGradesInteractor_GetBatting(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			batterMap := make(map[string][]data.BATTERGRADES)
 			batterMap[tt.args.playerID] = []data.BATTERGRADES{getTestBatterGrades()}
@@ -467,8 +467,8 @@ func TestGradesInteractor_GetCareer(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			interactor.InsertCareers([]data.CAREER{tt.args.career})
 			gotCareer := interactor.GetCareer(tt.args.playerID)
@@ -519,8 +519,8 @@ func TestGradesInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			players := [][]string{
 				{"93795138", "デラロサ"},
@@ -597,8 +597,8 @@ func TestExtractionCareers(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			interactor.InsertCareers(tt.args.careers)
 			interactor.ExtractionCareers(&tt.args.careers)
@@ -636,8 +636,8 @@ func TestExtractionPicherGrades(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			interactor.InsertPicherGrades(tt.args.picherMap)
 			interactor.ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
@@ -675,8 +675,8 @@ func TestExtractionBatterGrades(t *testing.T) {
 			sqlHandler := new(infrastructure.SQLHandler)
 			sqlHandler.Conn = db
 			interactor := GradesInteractor{
-				GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
 			runtimeCurrent, _ := filepath.Abs("../")
 			interactor.InsertBatterGrades(tt.args.batterMap, runtimeCurrent)

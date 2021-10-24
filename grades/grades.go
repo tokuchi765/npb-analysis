@@ -10,14 +10,14 @@ import (
 
 	_ "github.com/lib/pq"
 	data "github.com/tokuchi765/npb-analysis/entity/player"
-	"github.com/tokuchi765/npb-analysis/infrastructure"
+	"github.com/tokuchi765/npb-analysis/interfaces/repository"
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
 // GradesInteractor 成績情報処理のInteractor
 type GradesInteractor struct {
-	infrastructure.GradesRepository
-	infrastructure.TeamRepository
+	repository.GradesRepository
+	repository.TeamRepository
 }
 
 // GetPitching 個人投手成績一覧を取得する

@@ -17,12 +17,12 @@ import (
 func main() {
 	sqlHandler := infrastructure.NewSQLHandler()
 	teamInteractor := team.TeamInteractor{
-		TeamRepository: infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+		TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
 
 	gradesInteractor := grades.GradesInteractor{
-		GradesRepository: infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-		TeamRepository:   infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+		GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+		TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
 
 	syastemRepository := infrastructure.SyastemRepository{SQLHandler: *sqlHandler}

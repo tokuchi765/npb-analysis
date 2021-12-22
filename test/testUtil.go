@@ -26,12 +26,12 @@ func CreateContainer() (*dockertest.Resource, *dockertest.Pool) {
 		Repository: "postgres",
 		Tag:        "latest",
 		Env: []string{
-			"POSTGRES_DB=test",
-			"POSTGRES_USER=test",
+			"POSTGRES_DB=npb-analysis",
+			"POSTGRES_USER=npb-analysis",
 			"POSTGRES_PASSWORD=postgres",
 		},
 		Mounts: []string{
-			"/c/portfolio/npb-analysis/docker/initdb:/docker-entrypoint-initdb.d", // コンテナ起動時に実行したいSQL
+			"/yourdir/npb-analysis/docker/initdb:/docker-entrypoint-initdb.d", // コンテナ起動時に実行したいSQL
 		},
 	}
 
@@ -50,7 +50,7 @@ func ConnectDB(resource *dockertest.Resource, pool *dockertest.Pool) *sql.DB {
 	var db *sql.DB
 	if err := pool.Retry(func() error {
 		var err error
-		db, err = sql.Open("postgres", fmt.Sprintf("host=localhost port=%s password=postgres user=test dbname=test sslmode=disable", resource.GetPort("5432/tcp")))
+		db, err = sql.Open("postgres", fmt.Sprintf("host=localhost port=%s password=postgres user=npb-analysis dbname=npb-analysis sslmode=disable", resource.GetPort("5432/tcp")))
 		if err != nil {
 			return err
 		}

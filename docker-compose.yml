@@ -5,8 +5,8 @@ services:
     image: postgres
     container_name: postgres
     environment:
-      POSTGRES_DB: test
-      POSTGRES_USER: test
+      POSTGRES_DB: npb-analysis
+      POSTGRES_USER: npb-analysis
       POSTGRES_PASSWORD: postgres
     ports:
       - 5555:5432
@@ -19,6 +19,6 @@ services:
     ports: 
       - "8080:8081"
     environment:
-      - DATABASE_URL=postgres://test:postgres@postgres:5432/test?sslmode=disable
+      - DATABASE_URL=postgres://npb-analysis:postgres@postgres:5432/npb-analysis?sslmode=disable
     depends_on:
       - postgres

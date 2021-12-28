@@ -10,6 +10,7 @@ import (
 
 	_ "github.com/lib/pq"
 	data "github.com/tokuchi765/npb-analysis/entity/player"
+	csvReader "github.com/tokuchi765/npb-analysis/infrastructure/csv"
 	"github.com/tokuchi765/npb-analysis/interfaces/repository"
 	"github.com/tokuchi765/npb-analysis/team"
 )
@@ -18,6 +19,7 @@ import (
 type GradesInteractor struct {
 	repository.GradesRepository
 	repository.TeamRepository
+	csvReader.GradesReader
 }
 
 // GetPitching 個人投手成績一覧を取得する
@@ -48,39 +50,16 @@ func (Interactor *GradesInteractor) InsertTeamPlayers(initial string, players []
 }
 
 // GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
-func GetPlayers(url string) (players [][]string) {
-	// バイト列を読み込む
-	file, err := os.Open(url)
-	if err != nil {
-		log.Print(err)
-	}
-	// 	終わったらファイルを閉じる
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-
-	// ヘッダーを読み飛ばす
-	_, _ = reader.Read()
-
-	for {
-		line, err := reader.Read()
-		if err != nil {
-			break
-		}
-
-		players = append(players, []string{line[1], line[2]})
-	}
-
-	return players
+func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string) (players [][]string) {
+	return Interactor.GradesReader.GetPlayers(csvPath, initial)
 }
 
 // ReadCareers 引数で受け取った選手リストをもとに、経歴をまとめたデータクラスのリストを返す
-func ReadCareers(playersPath string, initial string, players [][]string) (careerList []data.CAREER) {
+func (Interactor *GradesInteractor) ReadCareers(csvPath string, initial string, players [][]string) (careerList []data.CAREER) {
 	for _, player := range players {
 		id := extractionPlayerID(player[0])
-		url := playersPath + initial + "/careers/" + id + "_" + player[1] + "_career.csv"
-		if exists(url) {
-			career := readCareer(url)
+		career, exists := Interactor.GradesReader.ReadCareer(csvPath, initial, id, player[1])
+		if exists {
 			careerList = append(careerList, career)
 		}
 	}
@@ -110,6 +89,7 @@ func ReadGradesMap(playersPath string, initial string, players [][]string) (pich
 		path := playersPath + initial + "/grades/" + id + "_" + player[1] + "_grades.csv"
 
 		if exists(path) {
+			// TODO:後続のコミットでGetTeamIDをUtilに切り出してから
 			picherGrades, batterGrades := readGrades(path)
 			if picherGrades != nil {
 				picherMap[id] = picherGrades
@@ -275,50 +255,6 @@ func setBatterGrades(line []string) (grades data.BATTERGRADES) {
 	grades.OnBasePercentage, _ = strconv.ParseFloat(line[23], 64)
 
 	return grades
-}
-
-func readCareer(path string) (career data.CAREER) {
-	// バイト列を読み込む
-	file, err := os.Open(path)
-	if err != nil {
-		log.Print(err)
-	}
-	// 	終わったらファイルを閉じる
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-	var lines []string
-
-	// ヘッダーを取得
-	_, err = reader.Read()
-	if err != nil {
-		log.Print(err)
-	}
-
-	for {
-		line, err := reader.Read()
-		if err != nil {
-			break
-		}
-
-		lines = append(lines, line[2])
-	}
-
-	return setCareer(lines)
-}
-
-func setCareer(line []string) (career data.CAREER) {
-	career.PlayerID = line[7]
-	career.Name = line[8]
-	career.Position = line[0]
-	career.PitchingAndBatting = line[1]
-	career.Height = line[2]
-	career.Weight = line[6]
-	career.Birthday = line[3]
-	career.Career = line[4]
-	career.Draft = line[5]
-
-	return career
 }
 
 func exists(filename string) bool {

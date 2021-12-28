@@ -61,7 +61,7 @@ func TestInsertTeamPlayers(t *testing.T) {
 	}
 }
 
-func TestReadCareers(t *testing.T) {
+func TestGradesInteractor_TestReadCareers(t *testing.T) {
 	type args struct {
 		initial string
 		players [][]string
@@ -94,10 +94,11 @@ func TestReadCareers(t *testing.T) {
 			},
 		},
 	}
+	interactor := GradesInteractor{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			runtimeCurrent, _ := filepath.Abs("../")
-			actual := ReadCareers(runtimeCurrent+"/test/resource/players/", tt.args.initial, tt.args.players)
+			actual := interactor.ReadCareers(runtimeCurrent+"/test/resource/", tt.args.initial, tt.args.players)
 			assert.Exactly(t, tt.wantCareerList, actual)
 		})
 	}
@@ -533,9 +534,9 @@ func TestGradesInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 	}
 }
 
-func TestGetPlayers(t *testing.T) {
+func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 	type args struct {
-		url string
+		initial string
 	}
 	tests := []struct {
 		name        string
@@ -545,7 +546,7 @@ func TestGetPlayers(t *testing.T) {
 		{
 			"選手一覧",
 			args{
-				"",
+				"g",
 			},
 			[][]string{
 				{"/bis/players/93795138.html", "デラロサ"},
@@ -555,8 +556,18 @@ func TestGetPlayers(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := GradesInteractor{
+				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
+
 			runtimeCurrent, _ := filepath.Abs("../")
-			gotPlayers := GetPlayers(runtimeCurrent + "/test/resource/teams/g_players.csv")
+			gotPlayers := interactor.GetPlayers(runtimeCurrent+"/test/resource/", tt.args.initial)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
 		})
 	}

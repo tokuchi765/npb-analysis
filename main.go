@@ -144,13 +144,13 @@ func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 
 	gradesInteractor.InsertCareers(careers)
 
-	picherMap, batterMap := grades.ReadGradesMap(csvPath+"/players/", initial, players)
+	picherMap, batterMap := gradesInteractor.ReadGradesMap(csvPath, initial, players)
 
-	gradesInteractor.ExtractionPicherGrades(&picherMap, team.GetTeamID(initial))
+	gradesInteractor.ExtractionPicherGrades(&picherMap, gradesInteractor.TeamUtil.GetTeamID(initial))
 
 	gradesInteractor.InsertPicherGrades(picherMap)
 
-	gradesInteractor.ExtractionBatterGrades(&batterMap, team.GetTeamID(initial))
+	gradesInteractor.ExtractionBatterGrades(&batterMap, gradesInteractor.TeamUtil.GetTeamID(initial))
 
 	gradesInteractor.InsertBatterGrades(batterMap, current)
 

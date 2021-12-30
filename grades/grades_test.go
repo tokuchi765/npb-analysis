@@ -186,10 +186,11 @@ func TestReadGradesMap(t *testing.T) {
 			getTestBatterGrades(),
 		},
 	}
+	runtimeCurrent, _ := filepath.Abs("../")
+	interactor := GradesInteractor{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			runtimeCurrent, _ := filepath.Abs("../")
-			gotPicherMap, gotBatterMap := ReadGradesMap(runtimeCurrent+"/test/resource/players/", tt.args.initial, tt.args.players)
+			gotPicherMap, gotBatterMap := interactor.ReadGradesMap(runtimeCurrent+"/test/resource/", tt.args.initial, tt.args.players)
 			assert.Exactly(t, tt.wantPicher, gotPicherMap[tt.pitcherID][0])
 			assert.Exactly(t, tt.wantBatter, gotBatterMap[tt.batterID][0])
 		})

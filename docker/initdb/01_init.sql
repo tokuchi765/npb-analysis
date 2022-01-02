@@ -1,13 +1,15 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2021/03/28 16:56:12
+-- Date/Time    : 2022/01/01 23:47:06
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
 
 /*
+  << 注意！！ >>
   BackupToTempTable, RestoreFromTempTable疑似命令が付加されています。
   これにより、drop table, create table 後もデータが残ります。
   この機能は一時的に $$TableName のような一時テーブルを作成します。
+  この機能は A5:SQL Mk-2でのみ有効であることに注意してください。
 */
 
 -- 選手一覧テーブル
@@ -174,6 +176,7 @@ create table BATTER_GRADES (
   , slugging_percentage real
   , on_base_percentage real
   , w_oba real
+  , rc real
   , constraint BATTER_GRADES_PKC primary key (player_id,year,team_id)
 ) ;
 
@@ -354,6 +357,7 @@ comment on column BATTER_GRADES.batting_average is '打率';
 comment on column BATTER_GRADES.slugging_percentage is '長打率';
 comment on column BATTER_GRADES.on_base_percentage is '出塁率';
 comment on column BATTER_GRADES.w_oba is '加重出塁率';
+comment on column BATTER_GRADES.rc is '創出得点';
 
 comment on table Players is '選手テーブル';
 comment on column Players.player_id is '選手ID';

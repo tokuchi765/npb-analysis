@@ -57,6 +57,7 @@ type BATTERGRADES struct {
 	SluggingPercentage     float64 // 長打率
 	OnBasePercentage       float64 // 出塁率
 	Woba                   float64 // 加重出塁率
+	RC                     float64 // 創出得点
 }
 
 // CAREER 成績

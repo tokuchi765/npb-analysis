@@ -60,7 +60,7 @@ func (Repository *GradesRepository) GetBattings(playerID string) (battings []dat
 			&batting.RunsBattedIn, &batting.StolenBase, &batting.CaughtStealing, &batting.SacrificeHits,
 			&batting.SacrificeFlies, &batting.BaseOnBalls, &batting.HitByPitches, &batting.StrikeOut,
 			&batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage,
-			&batting.Woba)
+			&batting.Woba, &batting.RC)
 
 		battings = append(battings, batting)
 	}

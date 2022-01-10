@@ -159,6 +159,8 @@ func TestInsertCareers(t *testing.T) {
 }
 
 func TestReadGradesMap(t *testing.T) {
+	grades := getTestBatterGrades()
+	grades.RC = 0.0 // 読み込み時に算出しない値を0にする
 	type args struct {
 		initial string
 		players [][]string
@@ -183,7 +185,7 @@ func TestReadGradesMap(t *testing.T) {
 			"53355134",
 			"01605136",
 			getTestPicherGrades(),
-			getTestBatterGrades(),
+			grades,
 		},
 	}
 	runtimeCurrent, _ := filepath.Abs("../")
@@ -255,6 +257,7 @@ func getTestBatterGrades() data.BATTERGRADES {
 		SluggingPercentage:     0.32899999999999996,
 		OnBasePercentage:       0.34,
 		Woba:                   0.0,
+		RC:                     36.138172,
 	}
 }
 
@@ -377,17 +380,18 @@ func TestInsertBatterGrades(t *testing.T) {
 			}
 			runtimeCurrent, _ := filepath.Abs("../")
 			interactor.InsertBatterGrades(tt.args.batterMap, runtimeCurrent)
-			rows, _ := db.Query("SELECT team,plate_appearance,single,w_oba FROM batter_grades WHERE player_id = $1 AND year = $2", tt.args.playerID, "2018")
+			rows, _ := db.Query("SELECT team,plate_appearance,single,w_oba,rc FROM batter_grades WHERE player_id = $1 AND year = $2", tt.args.playerID, "2018")
 			var team string
 			var plateAppearance, single int
-			var wOba float64
+			var wOba, rc float64
 			for rows.Next() {
-				rows.Scan(&team, &plateAppearance, &single, &wOba)
+				rows.Scan(&team, &plateAppearance, &single, &wOba, &rc)
 			}
 			assert.Equal(t, grades.Team, team)
 			assert.Equal(t, grades.PlateAppearance, plateAppearance)
 			assert.Equal(t, 65, single)
 			assert.Equal(t, 0.30729485, wOba)
+			assert.Equal(t, 36.138172, rc)
 		})
 	}
 }

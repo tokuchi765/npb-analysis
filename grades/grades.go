@@ -123,6 +123,7 @@ func (Interactor *GradesInteractor) InsertBatterGrades(batterMap map[string][]da
 		for _, batter := range value {
 			setSingle(&batter)
 			setWoba(&batter, config)
+			batter.SetRC()
 			Interactor.GradesRepository.InsertBatterGrades(key, batter)
 		}
 	}

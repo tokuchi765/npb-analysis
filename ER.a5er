@@ -1,7 +1,7 @@
-﻿# A5:ER FORMAT:14
+﻿# A5:ER FORMAT:15
 # A5:ER ENCODING:UTF8
-# A5:ER Mk-1 Copyright (C)2007 m.matsubara
-# A5:SQL Mk-2 Copyright (C)1997 m.matsubara
+# A5:ER Mk-1 Copyright © 2007 m.matsubara
+# A5:SQL Mk-2 Version 2.16.2 Copyright © 1997 - 2021 m.matsubara
 #  https://a5m2.mmatsubara.com
 
 [Manager]
@@ -160,11 +160,12 @@ Field="打率","batting_average","@FLOAT",,,"","",$FFFFFFFF,""
 Field="長打率","slugging_percentage","@FLOAT",,,"","",$FFFFFFFF,""
 Field="出塁率","on_base_percentage","@FLOAT",,,"","",$FFFFFFFF,""
 Field="加重出塁率","w_oba","@FLOAT",,,"","",$FFFFFFFF,""
+Field="創出得点","rc","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20210309225528
-Position="MAIN",550,650,275,705
+ModifiedDateTime=20220101234605
+Position="MAIN",550,650,275,728
 ZOrder=5
 
 [Relation]

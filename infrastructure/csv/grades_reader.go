@@ -16,9 +16,9 @@ type GradesReader struct {
 }
 
 // GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
-func (GradesReader *GradesReader) GetPlayers(csvPath string, initial string) (players [][]string) {
+func (GradesReader *GradesReader) GetPlayers(csvPath string, initial string, year string) (players [][]string) {
 	// バイト列を読み込む
-	file, err := os.Open(csvPath + "/teams/" + initial + "_players.csv")
+	file, err := os.Open(csvPath + "/teams/" + year + "/" + initial + "_players.csv")
 	if err != nil {
 		log.Print(err)
 	}

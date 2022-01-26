@@ -49,8 +49,8 @@ func (Interactor *GradesInteractor) InsertTeamPlayers(initial string, players []
 }
 
 // GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
-func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string) (players [][]string) {
-	return Interactor.GradesReader.GetPlayers(csvPath, initial)
+func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string, year string) (players [][]string) {
+	return Interactor.GradesReader.GetPlayers(csvPath, initial, year)
 }
 
 // ReadCareers 引数で受け取った選手リストをもとに、経歴をまとめたデータクラスのリストを返す

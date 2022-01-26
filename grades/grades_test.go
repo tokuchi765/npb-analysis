@@ -542,6 +542,7 @@ func TestGradesInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 	type args struct {
 		initial string
+		year    string
 	}
 	tests := []struct {
 		name        string
@@ -552,6 +553,7 @@ func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 			"選手一覧",
 			args{
 				"g",
+				"2020",
 			},
 			[][]string{
 				{"/bis/players/93795138.html", "デラロサ"},
@@ -572,7 +574,7 @@ func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
-			gotPlayers := interactor.GetPlayers(runtimeCurrent+"/test/resource/", tt.args.initial)
+			gotPlayers := interactor.GetPlayers(runtimeCurrent+"/test/resource/", tt.args.initial, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
 		})
 	}

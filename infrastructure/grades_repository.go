@@ -106,7 +106,7 @@ func (Repository *GradesRepository) GetPlayersByTeamIDAndYear(teamID string, yea
 }
 
 // InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
-func (Repository *GradesRepository) InsertTeamPlayers(teamID string, teamName string, players [][]string) {
+func (Repository *GradesRepository) InsertTeamPlayers(teamID string, teamName string, players [][]string, year string) {
 	stmt, err := Repository.Conn.Prepare("INSERT INTO team_players(year,team_id,team_name,player_id,player_name) VALUES($1,$2,$3,$4,$5)")
 	if err != nil {
 		log.Print(err)
@@ -114,7 +114,7 @@ func (Repository *GradesRepository) InsertTeamPlayers(teamID string, teamName st
 	defer stmt.Close()
 	for _, player := range players {
 		playerID := extractionPlayerID(player[0])
-		if _, err := stmt.Exec("2020", teamID, teamName, playerID, player[1]); err != nil {
+		if _, err := stmt.Exec(year, teamID, teamName, playerID, player[1]); err != nil {
 			fmt.Println(teamID + ":" + playerID)
 			log.Print(err)
 		}

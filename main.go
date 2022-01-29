@@ -135,9 +135,10 @@ func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 	csvPath := current + "/csv"
 
 	// 2020~2021の選手一覧を取得する
-	players := gradesInteractor.GetPlayers(csvPath, initial, "2020")
+	year := "2020"
+	players := gradesInteractor.GetPlayers(csvPath, initial, year)
 
-	gradesInteractor.InsertTeamPlayers(initial, players)
+	gradesInteractor.InsertTeamPlayers(initial, players, year)
 
 	careers := gradesInteractor.ReadCareers(csvPath, initial, players)
 

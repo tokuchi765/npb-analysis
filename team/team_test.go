@@ -169,6 +169,7 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 	type args struct {
 		teamID         string
 		year           string
+		years          []int
 		opponentTeamID string
 		expectedVsType string
 		league         expectedData
@@ -182,6 +183,7 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 			args{
 				teamID:         "01",
 				year:           "2020",
+				years:          []int{2020},
 				opponentTeamID: "06",
 				league: expectedData{
 					expectedVsType: "league",
@@ -196,6 +198,7 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 			args{
 				teamID:         "01",
 				year:           "2005",
+				years:          []int{2005},
 				opponentTeamID: "12",
 				league: expectedData{
 					expectedVsType: "exchange",
@@ -210,6 +213,7 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 			args{
 				teamID:         "01",
 				year:           "2020",
+				years:          []int{2020},
 				opponentTeamID: "12",
 				league: expectedData{
 					expectedVsType: "",
@@ -229,9 +233,9 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 		TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
 	runtimeCurrent, _ := filepath.Abs("../")
-	interactor.InsertSeasonMatchResults(runtimeCurrent + "/test/resource")
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			interactor.InsertSeasonMatchResults(runtimeCurrent+"/test/resource", tt.args.years)
 			rows, _ := db.Query("SELECT vs_type,win,lose,draw FROM team_match_results WHERE team_id = $1 AND year = $2 AND competitive_team_id = $3", tt.args.teamID, tt.args.year, tt.args.opponentTeamID)
 			var vsType string
 			var win, lose, draw int
@@ -251,6 +255,7 @@ func TestTeamInteractor_InsertSeasonLeagueStats(t *testing.T) {
 	type args struct {
 		teamID          string
 		year            string
+		years           []int
 		expectedManager string
 		expectedGames   int
 		expectedWin     int
@@ -266,6 +271,7 @@ func TestTeamInteractor_InsertSeasonLeagueStats(t *testing.T) {
 			args{
 				teamID:          "03",
 				year:            "2005",
+				years:           []int{2005},
 				expectedManager: "岡田　彰布",
 				expectedGames:   146,
 				expectedWin:     87,
@@ -284,9 +290,9 @@ func TestTeamInteractor_InsertSeasonLeagueStats(t *testing.T) {
 		TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
 	runtimeCurrent, _ := filepath.Abs("../")
-	interactor.InsertSeasonLeagueStats(runtimeCurrent + "/test/resource")
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			interactor.InsertSeasonLeagueStats(runtimeCurrent+"/test/resource", tt.args.years)
 			rows, _ := db.Query("SELECT manager,games,win,lose,draw FROM team_season_stats WHERE team_id = $1 AND year = $2", tt.args.teamID, tt.args.year)
 			var manager string
 			var games, win, lose, draw int
@@ -308,6 +314,7 @@ func TestTeamInteractor_InsertTeamPitchings_GetTeamPitching(t *testing.T) {
 		teamID                   string
 		year                     string
 		leage                    string
+		years                    []int
 		expectedEarnedRunAverage float64
 		expectedGames            int
 		expectedWin              int
@@ -323,6 +330,7 @@ func TestTeamInteractor_InsertTeamPitchings_GetTeamPitching(t *testing.T) {
 				teamID:                   "04",
 				year:                     "2005",
 				leage:                    "central",
+				years:                    []int{2005},
 				expectedEarnedRunAverage: 4.8,
 				expectedGames:            146,
 				expectedWin:              58,
@@ -335,6 +343,7 @@ func TestTeamInteractor_InsertTeamPitchings_GetTeamPitching(t *testing.T) {
 				teamID:                   "08",
 				year:                     "2005",
 				leage:                    "pacific",
+				years:                    []int{2005},
 				expectedEarnedRunAverage: 3.46,
 				expectedGames:            136,
 				expectedWin:              89,
@@ -353,7 +362,7 @@ func TestTeamInteractor_InsertTeamPitchings_GetTeamPitching(t *testing.T) {
 			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
-			interactor.InsertTeamPitchings(runtimeCurrent+"/test/resource", tt.args.leage)
+			interactor.InsertTeamPitchings(runtimeCurrent+"/test/resource", tt.args.leage, tt.args.years)
 
 			pitching := interactor.GetTeamPitching([]int{2005})["2005"][0]
 
@@ -372,6 +381,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 		teamID                  string
 		year                    string
 		league                  string
+		years                   []int
 		expectedBattingAverage  float64
 		expectedGames           int
 		expectedPlateAppearance int
@@ -387,6 +397,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 				teamID:                  "06",
 				year:                    "2005",
 				league:                  "central",
+				years:                   []int{2005},
 				expectedBattingAverage:  0.276,
 				expectedGames:           146,
 				expectedPlateAppearance: 5523,
@@ -399,6 +410,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 				teamID:                  "09",
 				year:                    "2005",
 				league:                  "pacific",
+				years:                   []int{2005},
 				expectedBattingAverage:  0.255,
 				expectedGames:           136,
 				expectedPlateAppearance: 5068,
@@ -417,7 +429,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
-			interactor.InsertTeamBattings(runtimeCurrent+"/test/resource", tt.args.league)
+			interactor.InsertTeamBattings(runtimeCurrent+"/test/resource", tt.args.league, tt.args.years)
 
 			batting := interactor.GetTeamBatting([]int{2005})["2005"][0]
 

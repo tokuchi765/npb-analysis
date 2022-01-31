@@ -114,17 +114,19 @@ func setTeamStats(teamInteractor team.TeamInteractor) {
 
 	csvPath := current + "/" + "csv"
 
+	years := makeRange(2005, 2021)
+
 	// チーム打撃成績をDBに登録する
-	teamInteractor.InsertTeamBattings(csvPath, "central")
-	teamInteractor.InsertTeamBattings(csvPath, "pacific")
+	teamInteractor.InsertTeamBattings(csvPath, "central", years)
+	teamInteractor.InsertTeamBattings(csvPath, "pacific", years)
 
 	// チーム投手成績をDBに登録する
-	teamInteractor.InsertTeamPitchings(csvPath, "central")
-	teamInteractor.InsertTeamPitchings(csvPath, "pacific")
+	teamInteractor.InsertTeamPitchings(csvPath, "central", years)
+	teamInteractor.InsertTeamPitchings(csvPath, "pacific", years)
 
 	// チームシーズン成績をDBに登録する
-	teamInteractor.InsertSeasonLeagueStats(csvPath)
-	teamInteractor.InsertSeasonMatchResults(csvPath)
+	teamInteractor.InsertSeasonLeagueStats(csvPath, years)
+	teamInteractor.InsertSeasonMatchResults(csvPath, years)
 
 }
 
@@ -135,25 +137,26 @@ func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 	csvPath := current + "/csv"
 
 	// 2020~2021の選手一覧を取得する
-	year := "2020"
-	players := gradesInteractor.GetPlayers(csvPath, initial, year)
+	years := []string{"2020", "2021"}
+	for _, year := range years {
+		players := gradesInteractor.GetPlayers(csvPath, initial, year)
 
-	gradesInteractor.InsertTeamPlayers(initial, players, year)
+		gradesInteractor.InsertTeamPlayers(initial, players, year)
 
-	careers := gradesInteractor.ReadCareers(csvPath, initial, players)
+		careers := gradesInteractor.ReadCareers(csvPath, initial, players)
 
-	gradesInteractor.ExtractionCareers(&careers)
+		gradesInteractor.ExtractionCareers(&careers)
 
-	gradesInteractor.InsertCareers(careers)
+		gradesInteractor.InsertCareers(careers)
 
-	picherMap, batterMap := gradesInteractor.ReadGradesMap(csvPath, initial, players)
+		picherMap, batterMap := gradesInteractor.ReadGradesMap(csvPath, initial, players)
 
-	gradesInteractor.ExtractionPicherGrades(&picherMap, gradesInteractor.TeamUtil.GetTeamID(initial))
+		gradesInteractor.ExtractionPicherGrades(&picherMap, gradesInteractor.TeamUtil.GetTeamID(initial))
 
-	gradesInteractor.InsertPicherGrades(picherMap)
+		gradesInteractor.InsertPicherGrades(picherMap)
 
-	gradesInteractor.ExtractionBatterGrades(&batterMap, gradesInteractor.TeamUtil.GetTeamID(initial))
+		gradesInteractor.ExtractionBatterGrades(&batterMap, gradesInteractor.TeamUtil.GetTeamID(initial))
 
-	gradesInteractor.InsertBatterGrades(batterMap, current)
-
+		gradesInteractor.InsertBatterGrades(batterMap, current)
+	}
 }

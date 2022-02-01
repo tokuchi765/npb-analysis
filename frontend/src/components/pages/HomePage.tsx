@@ -90,25 +90,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const years = [
-  '2005',
-  '2006',
-  '2007',
-  '2008',
-  '2009',
-  '2010',
-  '2011',
-  '2012',
-  '2013',
-  '2014',
-  '2015',
-  '2016',
-  '2017',
-  '2018',
-  '2019',
-  '2020',
-];
-
 function createCentralBattingAverages(
   teams: {
     Giants: any;
@@ -117,7 +98,8 @@ function createCentralBattingAverages(
     Carp: any;
     Dragons: any;
     Swallows: any;
-  }[]
+  }[],
+  years: string[]
 ) {
   const battingAverage: {
     year: string;
@@ -175,7 +157,8 @@ function createPacificBattingAverages(
     Marines: any;
     Fighters: any;
     Buffaloes: any;
-  }[]
+  }[],
+  years: string[]
 ) {
   const battingAverage: {
     year: string;
@@ -229,7 +212,7 @@ interface TeamBattingResponse {
   teamBatting: any;
 }
 
-function HomePage() {
+function HomePage(props: { years: string[] }) {
   const [centralData, setCentralData] = useState<Array<{ year: string; Giants: number }>>(Array);
   const [pacificData, setPacificData] = useState<Array<{ year: string; Lions: number }>>(Array);
   const classes = useStyles();
@@ -252,7 +235,7 @@ function HomePage() {
         return teamBattings;
       });
 
-      setCentralData(createCentralBattingAverages(centralTeams));
+      setCentralData(createCentralBattingAverages(centralTeams, props.years));
 
       const pacificTeams = _.map(result.data.teamBatting, (teamBatting) => {
         const teamBattings = {
@@ -266,7 +249,7 @@ function HomePage() {
         return teamBattings;
       });
 
-      setPacificData(createPacificBattingAverages(pacificTeams));
+      setPacificData(createPacificBattingAverages(pacificTeams, props.years));
     })();
   }, []);
 

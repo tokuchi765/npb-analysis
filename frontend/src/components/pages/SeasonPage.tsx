@@ -4,25 +4,6 @@ import axios from 'axios';
 import _ from 'lodash';
 import { TableComponent, HeadCell } from '../common/TableComponent';
 
-const years = [
-  '2005',
-  '2006',
-  '2007',
-  '2008',
-  '2009',
-  '2010',
-  '2011',
-  '2012',
-  '2013',
-  '2014',
-  '2015',
-  '2016',
-  '2017',
-  '2018',
-  '2019',
-  '2020',
-];
-
 const createTeamData = (
   main: string,
   winningRate: number,
@@ -97,7 +78,7 @@ interface TeamStatsResponse {
   teanStats: any;
 }
 
-function SeasonPage() {
+function SeasonPage(props: { years: string[] }) {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralTeamDatas, setCentralTeamlData] = useState<
     { main: string; winningRate: number; win: number; lose: number; draw: number }[]
@@ -164,7 +145,7 @@ function SeasonPage() {
         setSelect={setCentralYear}
         getDataList={getTeamCentralDataList}
         datas={centralTeamDatas}
-        selects={years}
+        selects={props.years}
         headCells={headCells}
         initSorted={'winningRate'}
         initSelect={initCentralYear}
@@ -175,7 +156,7 @@ function SeasonPage() {
         setSelect={setPacificYear}
         getDataList={getTeamPacificDataList}
         datas={pacificTeamDatas}
-        selects={years}
+        selects={props.years}
         headCells={headCells}
         initSorted={'winningRate'}
         initSelect={initPacificYear}

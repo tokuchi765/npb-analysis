@@ -4,25 +4,6 @@ import { TableComponent, HeadCell } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 
-const years = [
-  '2005',
-  '2006',
-  '2007',
-  '2008',
-  '2009',
-  '2010',
-  '2011',
-  '2012',
-  '2013',
-  '2014',
-  '2015',
-  '2016',
-  '2017',
-  '2018',
-  '2019',
-  '2020',
-];
-
 interface PitchingData {
   main: string;
   earnedRunAverage: number;
@@ -116,7 +97,7 @@ interface TeamPitchingResponse {
   teamPitching: any;
 }
 
-function PitchingPage() {
+function PitchingPage(props: { years: string[] }) {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralDatas, setCentralData] = useState<PitchingData[]>([]);
 
@@ -179,7 +160,7 @@ function PitchingPage() {
         setSelect={setCentralYear}
         getDataList={getCentralPitchingDataList}
         datas={centralDatas}
-        selects={years}
+        selects={props.years}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
         initSelect={initCentralYear}
@@ -190,7 +171,7 @@ function PitchingPage() {
         setSelect={setPacificYear}
         getDataList={getPacificPitchingDataList}
         datas={pacificDatas}
-        selects={years}
+        selects={props.years}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
         initSelect={initPacificYear}

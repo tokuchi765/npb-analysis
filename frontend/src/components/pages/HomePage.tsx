@@ -220,7 +220,7 @@ function HomePage(props: { years: string[] }) {
   useEffect(() => {
     (async () => {
       const result = await axios.get<TeamBattingResponse>(
-        `http://localhost:8081/team/batting?from_year=2005&to_year=2020`
+        `http://localhost:8081/team/batting?from_year=2005&to_year=2021`
       );
 
       const centralTeams = _.map(result.data.teamBatting, (teamBatting) => {

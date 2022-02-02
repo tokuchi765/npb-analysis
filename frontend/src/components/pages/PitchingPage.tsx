@@ -97,7 +97,7 @@ interface TeamPitchingResponse {
   teamPitching: any;
 }
 
-function PitchingPage(props: { years: string[] }) {
+function PitchingPage(props: { years: string[]; initYear: string }) {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralDatas, setCentralData] = useState<PitchingData[]>([]);
 
@@ -148,8 +148,8 @@ function PitchingPage(props: { years: string[] }) {
 
   useEffect(() => {
     (async () => {
-      getCentralPitchingDataList('2020');
-      getPacificPitchingDataList('2020');
+      getPacificPitchingDataList(props.initYear);
+      getCentralPitchingDataList(props.initYear);
     })();
   }, []);
 

@@ -97,7 +97,7 @@ interface TeamBattingResponse {
   teamBatting: any;
 }
 
-function BattingPage(props: { years: string[] }) {
+function BattingPage(props: { years: string[]; initYear: string }) {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralBattingDatas, setCentralBattingData] = useState<BattingData[]>([]);
 
@@ -148,8 +148,8 @@ function BattingPage(props: { years: string[] }) {
 
   useEffect(() => {
     (async () => {
-      getBattingCentralDataList('2020');
-      getBattingPacificDataList('2020');
+      getBattingCentralDataList(props.initYear);
+      getBattingPacificDataList(props.initYear);
     })();
   }, []);
 

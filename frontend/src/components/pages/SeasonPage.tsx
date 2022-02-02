@@ -78,7 +78,7 @@ interface TeamStatsResponse {
   teanStats: any;
 }
 
-function SeasonPage(props: { years: string[] }) {
+function SeasonPage(props: { years: string[]; initYear: string }) {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralTeamDatas, setCentralTeamlData] = useState<
     { main: string; winningRate: number; win: number; lose: number; draw: number }[]
@@ -133,8 +133,8 @@ function SeasonPage(props: { years: string[] }) {
 
   useEffect(() => {
     (async () => {
-      getTeamCentralDataList('2020');
-      getTeamPacificDataList('2020');
+      getTeamCentralDataList(props.initYear);
+      getTeamPacificDataList(props.initYear);
     })();
   }, []);
 

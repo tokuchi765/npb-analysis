@@ -92,22 +92,6 @@ export interface HeadCell {
   numeric: boolean;
 }
 
-function Main(props: { mainLink: boolean; main: string; value: string | undefined; path: string }) {
-  if (props.mainLink) {
-    return (
-      <Link
-        to={{
-          pathname: `${props.path}${props.value}`,
-        }}
-      >
-        {props.main}
-      </Link>
-    );
-  } else {
-    return <div>{props.main}</div>;
-  }
-}
-
 function Selectable(props: {
   formControl: string;
   selectLabel: string;
@@ -254,7 +238,6 @@ function TableLinkComponentBody(props: {
   datas: { main: string }[];
   order: Order;
   orderBy: string;
-  mainLink: boolean;
   linkValues: Map<string, string>;
   path: string;
 }) {
@@ -353,7 +336,6 @@ export function TableLinkComponent(props: {
   initSorted: string;
   initSelect: string;
   selectLabel: string;
-  mainLink: boolean;
   linkValues: Map<string, string>;
   path: string;
 }) {
@@ -396,7 +378,6 @@ export function TableLinkComponent(props: {
             datas={props.datas}
             order={order}
             orderBy={orderBy}
-            mainLink={props.mainLink}
             linkValues={props.linkValues}
             path={props.path}
           />

@@ -143,7 +143,6 @@ function PlayersPage(props: PageProps) {
         initSorted={'main'}
         initSelect={initTeam}
         selectLabel={'チーム'}
-        mainLink={true}
         linkValues={playerIdMap}
         path={'/player/'}
       />

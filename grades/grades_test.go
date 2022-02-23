@@ -16,6 +16,7 @@ func TestInsertTeamPlayers(t *testing.T) {
 		initial string
 		players [][]string
 		teamID  string
+		year    string
 	}
 	tests := []struct {
 		name string
@@ -30,6 +31,7 @@ func TestInsertTeamPlayers(t *testing.T) {
 					{"41045138", "戸郷　翔征"},
 				},
 				"01",
+				"2020",
 			},
 		},
 	}
@@ -45,7 +47,7 @@ func TestInsertTeamPlayers(t *testing.T) {
 				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
 				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 			}
-			interactor.InsertTeamPlayers(tt.args.initial, tt.args.players)
+			interactor.InsertTeamPlayers(tt.args.initial, tt.args.players, tt.args.year)
 
 			rows, _ := db.Query("SELECT player_id,player_name FROM team_players WHERE year = $1 AND team_id = $2", "2020", tt.args.teamID)
 
@@ -532,7 +534,7 @@ func TestGradesInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 				{"93795138", "デラロサ"},
 				{"41045138", "戸郷　翔征"},
 			}
-			interactor.InsertTeamPlayers("g", players)
+			interactor.InsertTeamPlayers("g", players, tt.args.year)
 			gotPlayers := interactor.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
 		})
@@ -542,6 +544,7 @@ func TestGradesInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 	type args struct {
 		initial string
+		year    string
 	}
 	tests := []struct {
 		name        string
@@ -552,6 +555,7 @@ func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 			"選手一覧",
 			args{
 				"g",
+				"2020",
 			},
 			[][]string{
 				{"/bis/players/93795138.html", "デラロサ"},
@@ -572,7 +576,7 @@ func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
-			gotPlayers := interactor.GetPlayers(runtimeCurrent+"/test/resource/", tt.args.initial)
+			gotPlayers := interactor.GetPlayers(runtimeCurrent+"/test/resource/", tt.args.initial, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
 		})
 	}

@@ -42,15 +42,15 @@ func (Interactor *GradesInteractor) GetPlayersByTeamIDAndYear(teamID string, yea
 }
 
 // InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
-func (Interactor *GradesInteractor) InsertTeamPlayers(initial string, players [][]string) {
+func (Interactor *GradesInteractor) InsertTeamPlayers(initial string, players [][]string, year string) {
 	teamID := Interactor.TeamUtil.GetTeamID(initial)
 	teamName := Interactor.TeamRepository.GetTeamName(teamID)
-	Interactor.GradesRepository.InsertTeamPlayers(teamID, teamName, players)
+	Interactor.GradesRepository.InsertTeamPlayers(teamID, teamName, players, year)
 }
 
 // GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
-func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string) (players [][]string) {
-	return Interactor.GradesReader.GetPlayers(csvPath, initial)
+func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string, year string) (players [][]string) {
+	return Interactor.GradesReader.GetPlayers(csvPath, initial, year)
 }
 
 // ReadCareers 引数で受け取った選手リストをもとに、経歴をまとめたデータクラスのリストを返す

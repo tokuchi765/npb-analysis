@@ -12,6 +12,7 @@ import (
 func TestGradesReader_GetPlayers(t *testing.T) {
 	type args struct {
 		initial string
+		year    string
 	}
 	tests := []struct {
 		name        string
@@ -22,6 +23,7 @@ func TestGradesReader_GetPlayers(t *testing.T) {
 			"選手一覧",
 			args{
 				"g",
+				"2020",
 			},
 			[][]string{
 				{"/bis/players/93795138.html", "デラロサ"},
@@ -33,7 +35,7 @@ func TestGradesReader_GetPlayers(t *testing.T) {
 	gradesReader := new(GradesReader)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotPlayers := gradesReader.GetPlayers(runtimeCurrent+"/test/resource", tt.args.initial)
+			gotPlayers := gradesReader.GetPlayers(runtimeCurrent+"/test/resource", tt.args.initial, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
 		})
 	}

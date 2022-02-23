@@ -40,17 +40,19 @@ func main() {
 		syastemRepository.SetSystemSetting("created_player_grades", "true")
 	}
 
+	years := makeRange(2005, 2021)
+
 	// チーム成績をDBに登録する
 	createdTeamStats, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_team_stats"))
 	if !createdTeamStats {
-		setTeamStats(teamInteractor)
+		setTeamStats(teamInteractor, years)
 		syastemRepository.SetSystemSetting("created_team_stats", "true")
 	}
 
 	// 算出が必要なDB項目を登録する
 	createdAddValue, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_add_value"))
 	if !createdAddValue {
-		setTeamStatsAddValue(teamInteractor)
+		setTeamStatsAddValue(teamInteractor, years)
 		syastemRepository.SetSystemSetting("created_add_value", "true")
 	}
 
@@ -59,8 +61,7 @@ func main() {
 	router.Run(":8081")
 }
 
-func setTeamStatsAddValue(teamInteractor team.TeamInteractor) {
-	years := makeRange(2005, 2020)
+func setTeamStatsAddValue(teamInteractor team.TeamInteractor, years []int) {
 	teamBattings := teamInteractor.GetTeamBatting(years)
 	teamPitching := teamInteractor.GetTeamPitching(years)
 	teamInteractor.InsertPythagoreanExpectation(years, teamBattings, teamPitching)
@@ -108,23 +109,23 @@ func makeRange(min, max int) []int {
 	return a
 }
 
-func setTeamStats(teamInteractor team.TeamInteractor) {
+func setTeamStats(teamInteractor team.TeamInteractor, years []int) {
 
 	current, _ := os.Getwd()
 
 	csvPath := current + "/" + "csv"
 
 	// チーム打撃成績をDBに登録する
-	teamInteractor.InsertTeamBattings(csvPath, "central")
-	teamInteractor.InsertTeamBattings(csvPath, "pacific")
+	teamInteractor.InsertTeamBattings(csvPath, "central", years)
+	teamInteractor.InsertTeamBattings(csvPath, "pacific", years)
 
 	// チーム投手成績をDBに登録する
-	teamInteractor.InsertTeamPitchings(csvPath, "central")
-	teamInteractor.InsertTeamPitchings(csvPath, "pacific")
+	teamInteractor.InsertTeamPitchings(csvPath, "central", years)
+	teamInteractor.InsertTeamPitchings(csvPath, "pacific", years)
 
 	// チームシーズン成績をDBに登録する
-	teamInteractor.InsertSeasonLeagueStats(csvPath)
-	teamInteractor.InsertSeasonMatchResults(csvPath)
+	teamInteractor.InsertSeasonLeagueStats(csvPath, years)
+	teamInteractor.InsertSeasonMatchResults(csvPath, years)
 
 }
 
@@ -134,24 +135,27 @@ func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 
 	csvPath := current + "/csv"
 
-	players := gradesInteractor.GetPlayers(csvPath, initial)
+	// 2020~2021の選手一覧を取得する
+	years := []string{"2020", "2021"}
+	for _, year := range years {
+		players := gradesInteractor.GetPlayers(csvPath, initial, year)
 
-	gradesInteractor.InsertTeamPlayers(initial, players)
+		gradesInteractor.InsertTeamPlayers(initial, players, year)
 
-	careers := gradesInteractor.ReadCareers(csvPath, initial, players)
+		careers := gradesInteractor.ReadCareers(csvPath, initial, players)
 
-	gradesInteractor.ExtractionCareers(&careers)
+		gradesInteractor.ExtractionCareers(&careers)
 
-	gradesInteractor.InsertCareers(careers)
+		gradesInteractor.InsertCareers(careers)
 
-	picherMap, batterMap := gradesInteractor.ReadGradesMap(csvPath, initial, players)
+		picherMap, batterMap := gradesInteractor.ReadGradesMap(csvPath, initial, players)
 
-	gradesInteractor.ExtractionPicherGrades(&picherMap, gradesInteractor.TeamUtil.GetTeamID(initial))
+		gradesInteractor.ExtractionPicherGrades(&picherMap, gradesInteractor.TeamUtil.GetTeamID(initial))
 
-	gradesInteractor.InsertPicherGrades(picherMap)
+		gradesInteractor.InsertPicherGrades(picherMap)
 
-	gradesInteractor.ExtractionBatterGrades(&batterMap, gradesInteractor.TeamUtil.GetTeamID(initial))
+		gradesInteractor.ExtractionBatterGrades(&batterMap, gradesInteractor.TeamUtil.GetTeamID(initial))
 
-	gradesInteractor.InsertBatterGrades(batterMap, current)
-
+		gradesInteractor.InsertBatterGrades(batterMap, current)
+	}
 }

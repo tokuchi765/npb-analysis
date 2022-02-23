@@ -40,8 +40,7 @@ func (Interactor *TeamInteractor) GetTeamStats(years []int) (teamStatsMap map[st
 }
 
 // InsertSeasonLeagueStats チームごとのシーズン成績をDBに登録する
-func (Interactor *TeamInteractor) InsertSeasonLeagueStats(csvPath string) {
-	years := makeRange(2005, 2020)
+func (Interactor *TeamInteractor) InsertSeasonLeagueStats(csvPath string, years []int) {
 	for _, year := range years {
 		cTeamLeagueStats, _ := Interactor.TeamReader.ReadTeamLeagueStats(csvPath, "c", strconv.Itoa(year))
 		pTeamLeagueStats, _ := Interactor.TeamReader.ReadTeamLeagueStats(csvPath, "p", strconv.Itoa(year))
@@ -62,8 +61,7 @@ func (Interactor *TeamInteractor) setManager(csvPath string, teamLeagueStatsList
 }
 
 // InsertSeasonMatchResults 各チームの対戦成績をDBに登録する
-func (Interactor *TeamInteractor) InsertSeasonMatchResults(csvPath string) {
-	years := makeRange(2005, 2020)
+func (Interactor *TeamInteractor) InsertSeasonMatchResults(csvPath string, years []int) {
 	for _, year := range years {
 		_, cTeamMatchResults := Interactor.TeamReader.ReadTeamLeagueStats(csvPath, "c", strconv.Itoa(year))
 		_, pTeamMatchResults := Interactor.TeamReader.ReadTeamLeagueStats(csvPath, "p", strconv.Itoa(year))
@@ -81,8 +79,7 @@ func (Interactor *TeamInteractor) InsertSeasonMatchResults(csvPath string) {
 }
 
 // InsertTeamPitchings チーム投手成績をDBに登録する
-func (Interactor *TeamInteractor) InsertTeamPitchings(csvPath string, league string) {
-	years := makeRange(2005, 2020)
+func (Interactor *TeamInteractor) InsertTeamPitchings(csvPath string, league string, years []int) {
 	for _, year := range years {
 		teamPitching := Interactor.ReadTeamPitching(csvPath, league, strconv.Itoa(year))
 		Interactor.TeamRepository.InsertTeamPitchings(teamPitching)
@@ -90,8 +87,7 @@ func (Interactor *TeamInteractor) InsertTeamPitchings(csvPath string, league str
 }
 
 // InsertTeamBattings チーム打撃成績をDBに登録する
-func (Interactor *TeamInteractor) InsertTeamBattings(csvPath string, league string) {
-	years := makeRange(2005, 2020)
+func (Interactor *TeamInteractor) InsertTeamBattings(csvPath string, league string, years []int) {
 	for _, year := range years {
 		teamBatting := Interactor.ReadTeamBatting(csvPath, league, strconv.Itoa(year))
 		Interactor.TeamRepository.InsertTeamBattings(teamBatting)

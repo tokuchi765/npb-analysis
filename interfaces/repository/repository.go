@@ -17,7 +17,7 @@ type GradesRepository interface {
 	GetBattings(playerID string) (battings []data.BATTERGRADES)
 	GetCareer(playerID string) (career data.CAREER)
 	GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER)
-	InsertTeamPlayers(teamID string, teamName string, players [][]string)
+	InsertTeamPlayers(teamID string, teamName string, players [][]string, year string)
 	ExtractionCareers(careers *[]data.CAREER)
 	InsertCareers(careers []data.CAREER)
 	ExtractionPicherGrades(picherMap *map[string][]data.PICHERGRADES, teamID string)

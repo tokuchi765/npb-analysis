@@ -239,7 +239,7 @@ func TestGradesRepository_GetPlayersByTeamIDAndYear(t *testing.T) {
 				{"93795138", "デラロサ"},
 				{"41045138", "戸郷　翔征"},
 			}
-			repository.InsertTeamPlayers(tt.args.teamID, tt.args.teamName, players)
+			repository.InsertTeamPlayers(tt.args.teamID, tt.args.teamName, players, tt.args.year)
 			actual := repository.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, actual)
 		})

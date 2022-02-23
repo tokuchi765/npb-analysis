@@ -40,17 +40,19 @@ func main() {
 		syastemRepository.SetSystemSetting("created_player_grades", "true")
 	}
 
+	years := makeRange(2005, 2021)
+
 	// チーム成績をDBに登録する
 	createdTeamStats, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_team_stats"))
 	if !createdTeamStats {
-		setTeamStats(teamInteractor)
+		setTeamStats(teamInteractor, years)
 		syastemRepository.SetSystemSetting("created_team_stats", "true")
 	}
 
 	// 算出が必要なDB項目を登録する
 	createdAddValue, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_add_value"))
 	if !createdAddValue {
-		setTeamStatsAddValue(teamInteractor)
+		setTeamStatsAddValue(teamInteractor, years)
 		syastemRepository.SetSystemSetting("created_add_value", "true")
 	}
 
@@ -59,8 +61,7 @@ func main() {
 	router.Run(":8081")
 }
 
-func setTeamStatsAddValue(teamInteractor team.TeamInteractor) {
-	years := makeRange(2005, 2020)
+func setTeamStatsAddValue(teamInteractor team.TeamInteractor, years []int) {
 	teamBattings := teamInteractor.GetTeamBatting(years)
 	teamPitching := teamInteractor.GetTeamPitching(years)
 	teamInteractor.InsertPythagoreanExpectation(years, teamBattings, teamPitching)
@@ -108,13 +109,11 @@ func makeRange(min, max int) []int {
 	return a
 }
 
-func setTeamStats(teamInteractor team.TeamInteractor) {
+func setTeamStats(teamInteractor team.TeamInteractor, years []int) {
 
 	current, _ := os.Getwd()
 
 	csvPath := current + "/" + "csv"
-
-	years := makeRange(2005, 2021)
 
 	// チーム打撃成績をDBに登録する
 	teamInteractor.InsertTeamBattings(csvPath, "central", years)

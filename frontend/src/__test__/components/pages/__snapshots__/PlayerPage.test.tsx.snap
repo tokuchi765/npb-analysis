@@ -439,15 +439,12 @@ exports[`選手詳細ページテスト スナップショット作成 1`] = `
               <div
                 className="MuiPaper-root makeStyles-paper-21 MuiPaper-elevation1 MuiPaper-rounded"
               >
-                
                 打撃成績
               </div>
             </div>
             <div
               className="MuiGrid-root MuiGrid-item"
-            >
-              <div />
-            </div>
+            />
           </div>
         </div>
         <table
@@ -828,6 +825,42 @@ exports[`選手詳細ページテスト スナップショット作成 1`] = `
                   </svg>
                 </span>
               </th>
+              <th
+                aria-sort={null}
+                className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-paddingNone"
+                scope="col"
+              >
+                <span
+                  aria-disabled={false}
+                  className="MuiButtonBase-root MuiTableSortLabel-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  創出得点
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                    />
+                  </svg>
+                </span>
+              </th>
             </tr>
           </thead>
           <tbody
@@ -852,15 +885,12 @@ exports[`選手詳細ページテスト スナップショット作成 1`] = `
               <div
                 className="MuiPaper-root makeStyles-paper-21 MuiPaper-elevation1 MuiPaper-rounded"
               >
-                
                 投手成績
               </div>
             </div>
             <div
               className="MuiGrid-root MuiGrid-item"
-            >
-              <div />
-            </div>
+            />
           </div>
         </div>
         <table
@@ -1264,7 +1294,7 @@ exports[`選手詳細ページテスト スナップショット作成 1`] = `
             管理画面
           </a>
            
-          2021
+          2022
           .
         </p>
       </div>

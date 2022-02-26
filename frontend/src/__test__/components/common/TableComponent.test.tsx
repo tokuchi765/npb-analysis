@@ -6,6 +6,7 @@ import {
   TableComponent,
   TableLinkComponent,
   HeadCell,
+  SelectItem,
 } from '../../../components/common/TableComponent';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -30,11 +31,9 @@ describe('TableComponentテスト', () => {
           setSelect={() => {}}
           getDataList={() => {}}
           datas={[testData]}
-          selects={['選択1', '選択2']}
           headCells={headCells}
           initSorted={'初期ソート'}
-          initSelect={'選択1'}
-          selectLabel={'ラベル名'}
+          selectItems={[new SelectItem('選択1', 'ラベル名', ['選択1', '選択2'])]}
         />
       )
       .toJSON();
@@ -64,12 +63,9 @@ describe('TableLinkComponentテスト', () => {
             setSelect={() => {}}
             getDataList={() => {}}
             datas={[testData]}
-            selects={['選択1', '選択2']}
             headCells={headCells}
             initSorted={'初期ソート'}
-            initSelect={'選択1'}
-            selectLabel={'ラベル名'}
-            mainLink={true}
+            selectItems={[new SelectItem('選択1', 'ラベル名', ['選択1', '選択2'])]}
             linkValues={playerIdMap}
             path={'/path/'}
           />

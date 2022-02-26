@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
-import { TableComponent, HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell, SelectItem } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -160,22 +160,18 @@ function PitchingPage(props: { years: string[]; initYear: string }) {
         setSelect={setCentralYear}
         getDataList={getCentralPitchingDataList}
         datas={centralDatas}
-        selects={props.years}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
-        initSelect={initCentralYear}
-        selectLabel={'年'}
+        selectItems={[new SelectItem(initCentralYear, '年', props.years)]}
       />
       <TableComponent
         title={'シーズン投手成績(パ)'}
         setSelect={setPacificYear}
         getDataList={getPacificPitchingDataList}
         datas={pacificDatas}
-        selects={props.years}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
-        initSelect={initPacificYear}
-        selectLabel={'年'}
+        selectItems={[new SelectItem(initPacificYear, '年', props.years)]}
       />
     </GenericTemplate>
   );

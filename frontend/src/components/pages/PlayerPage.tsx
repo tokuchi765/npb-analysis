@@ -166,11 +166,9 @@ function PlayerPage(props: PageProps) {
         }}
         getDataList={getPlayerDatas}
         datas={battingDates}
-        selects={[]}
         headCells={batterHeadCells}
         initSorted={'main'}
-        initSelect={''}
-        selectLabel={''}
+        selectItems={[]}
       />
       <TableComponent
         title={'投手成績'}
@@ -179,11 +177,9 @@ function PlayerPage(props: PageProps) {
         }}
         getDataList={getPlayerDatas}
         datas={pitchingDates}
-        selects={[]}
         headCells={pitcherHeadCells}
         initSorted={'main'}
-        initSelect={''}
-        selectLabel={''}
+        selectItems={[]}
       />
     </GenericTemplate>
   );

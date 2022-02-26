@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
-import { TableLinkComponent, HeadCell } from '../common/TableComponent';
+import { TableLinkComponent, SelectItem, HeadCell } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 import * as H from 'history';
@@ -138,11 +138,9 @@ function PlayersPage(props: PageProps) {
         setSelect={setInitTeam}
         getDataList={getPlayerList}
         datas={playerDates}
-        selects={teamNameList}
         headCells={headCells}
         initSorted={'main'}
-        initSelect={initTeam}
-        selectLabel={'チーム'}
+        selectItems={[new SelectItem(initTeam, 'チーム', teamNameList)]}
         linkValues={playerIdMap}
         path={'/player/'}
       />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
 import axios from 'axios';
 import _ from 'lodash';
-import { TableComponent, HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell, SelectItem } from '../common/TableComponent';
 
 const THREE = '(3年以上)';
 const ALL = '(全て)';
@@ -134,11 +134,9 @@ function ManagerPage() {
         setSelect={setSelect}
         getDataList={getTeamDataList}
         datas={centralManager}
-        selects={selects}
         headCells={headCells}
         initSorted={'winningRateDifferenceAverage'}
-        initSelect={initSelect}
-        selectLabel={'選択'}
+        selectItems={[new SelectItem(initSelect, '選択', selects)]}
       />
     </GenericTemplate>
   );

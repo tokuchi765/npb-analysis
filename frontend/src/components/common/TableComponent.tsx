@@ -132,12 +132,22 @@ function Selectable(props: {
   }
 }
 
-function TableComponentTitleBar(props: {
-  classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
+export class SelectItem {
   initSelect: string;
-  title: string;
   selectLabel: string;
   selects: string[];
+
+  constructor(initSelect: string, selectLabel: string, selects: string[]) {
+    this.initSelect = initSelect;
+    this.selectLabel = selectLabel;
+    this.selects = selects;
+  }
+}
+
+function TableComponentTitleBar(props: {
+  classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
+  selectItems: SelectItem[];
+  title: string;
   handleChange:
     | ((
         event: React.ChangeEvent<{
@@ -153,18 +163,21 @@ function TableComponentTitleBar(props: {
       <Grid container className={props.classes.grid}>
         <Grid key={1} item>
           <Paper className={props.classes.paper}>
-            {props.initSelect}
+            {props.selectItems.map((selectItem) => selectItem.initSelect + '_')}
             {props.title}
           </Paper>
         </Grid>
         <Grid key={2} item>
-          <Selectable
-            formControl={props.classes.formControl}
-            selectLabel={props.selectLabel}
-            initSelect={props.initSelect}
-            selects={props.selects}
-            handleChange={props.handleChange}
-          />
+          {props.selectItems.map((selectItem) => (
+            <Selectable
+              key={selectItem.selectLabel}
+              formControl={props.classes.formControl}
+              selectLabel={selectItem.selectLabel}
+              initSelect={selectItem.initSelect}
+              selects={selectItem.selects}
+              handleChange={props.handleChange}
+            />
+          ))}
         </Grid>
       </Grid>
     </Typography>
@@ -278,11 +291,9 @@ export function TableComponent(props: {
   setSelect: (select: string) => void;
   getDataList: (year: string) => void;
   datas: { main: string }[];
-  selects: string[];
   headCells: HeadCell[];
   initSorted: string;
-  initSelect: string;
-  selectLabel: string;
+  selectItems: SelectItem[];
 }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('desc');
@@ -305,10 +316,8 @@ export function TableComponent(props: {
       <TableContainer component={Paper}>
         <TableComponentTitleBar
           classes={classes}
-          initSelect={props.initSelect}
+          selectItems={props.selectItems}
           title={props.title}
-          selectLabel={props.selectLabel}
-          selects={props.selects}
           handleChange={handleChange}
         />
         <Table className={classes.table} aria-label="simple table">
@@ -331,11 +340,9 @@ export function TableLinkComponent(props: {
   setSelect: (select: string) => void;
   getDataList: (year: string) => void;
   datas: { main: string }[];
-  selects: string[];
   headCells: HeadCell[];
   initSorted: string;
-  initSelect: string;
-  selectLabel: string;
+  selectItems: SelectItem[];
   linkValues: Map<string, string>;
   path: string;
 }) {
@@ -360,10 +367,8 @@ export function TableLinkComponent(props: {
       <TableContainer component={Paper}>
         <TableComponentTitleBar
           classes={classes}
-          initSelect={props.initSelect}
+          selectItems={props.selectItems}
           title={props.title}
-          selectLabel={props.selectLabel}
-          selects={props.selects}
           handleChange={handleChange}
         />
         <Table className={classes.table} aria-label="simple table">

@@ -289,7 +289,6 @@ function TableLinkComponentBody(props: {
 export function TableComponent(props: {
   title: string;
   setSelect: (select: string) => void;
-  getDataList: (year: string) => void;
   datas: { main: string }[];
   headCells: HeadCell[];
   initSorted: string;
@@ -299,8 +298,7 @@ export function TableComponent(props: {
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    props.setSelect(event.target.value as string);
-    props.getDataList(String(event.target.value));
+    props.setSelect(String(event.target.value));
   };
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -338,7 +336,6 @@ export function TableComponent(props: {
 export function TableLinkComponent(props: {
   title: string;
   setSelect: (select: string) => void;
-  getDataList: (year: string) => void;
   datas: { main: string }[];
   headCells: HeadCell[];
   initSorted: string;
@@ -349,9 +346,9 @@ export function TableLinkComponent(props: {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
+
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    props.setSelect(event.target.value as string);
-    props.getDataList(String(event.target.value));
+    props.setSelect(String(event.target.value));
   };
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';

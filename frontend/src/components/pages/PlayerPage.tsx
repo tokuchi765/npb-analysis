@@ -164,7 +164,6 @@ function PlayerPage(props: PageProps) {
         setSelect={function () {
           return;
         }}
-        getDataList={getPlayerDatas}
         datas={battingDates}
         headCells={batterHeadCells}
         initSorted={'main'}
@@ -175,7 +174,6 @@ function PlayerPage(props: PageProps) {
         setSelect={function () {
           return;
         }}
-        getDataList={getPlayerDatas}
         datas={pitchingDates}
         headCells={pitcherHeadCells}
         initSorted={'main'}

@@ -101,9 +101,9 @@ function PitchingPage(props: { years: string[]; initYear: string }) {
   const [initCentralYear, setCentralYear] = useState<string>('');
   const [centralDatas, setCentralData] = useState<PitchingData[]>([]);
 
-  const getCentralPitchingDataList = async (year: string) => {
+  const getCentralPitchingDataList = async () => {
     const result = await axios.get<TeamPitchingResponse>(
-      `http://localhost:8081/team/pitching?from_year=${year}&to_year=${year}`
+      `http://localhost:8081/team/pitching?from_year=${initCentralYear}&to_year=${initCentralYear}`
     );
 
     const centralPitchings = _.map(result.data.teamPitching, (teamPitching) => {
@@ -117,17 +117,25 @@ function PitchingPage(props: { years: string[]; initYear: string }) {
       };
     });
 
-    setCentralYear(year);
-
     setCentralData(createPitchingDataList(centralPitchings));
   };
+
+  useEffect(() => {
+    (async () => {
+      if (_.isEmpty(initCentralYear)) {
+        setCentralYear(props.initYear);
+      } else {
+        getCentralPitchingDataList();
+      }
+    })();
+  }, [initCentralYear]);
 
   const [initPacificYear, setPacificYear] = useState<string>('');
   const [pacificDatas, setPacificData] = useState<PitchingData[]>([]);
 
-  const getPacificPitchingDataList = async (year: string) => {
+  const getPacificPitchingDataList = async () => {
     const result = await axios.get<TeamPitchingResponse>(
-      `http://localhost:8081/team/pitching?from_year=${year}&to_year=${year}`
+      `http://localhost:8081/team/pitching?from_year=${initPacificYear}&to_year=${initPacificYear}`
     );
 
     const pacificPitchings = _.map(result.data.teamPitching, (teamPitching) => {
@@ -141,24 +149,24 @@ function PitchingPage(props: { years: string[]; initYear: string }) {
       };
     });
 
-    setPacificYear(year);
-
     setPacificData(createPitchingDataList(pacificPitchings));
   };
 
   useEffect(() => {
     (async () => {
-      getPacificPitchingDataList(props.initYear);
-      getCentralPitchingDataList(props.initYear);
+      if (_.isEmpty(initPacificYear)) {
+        setPacificYear(props.initYear);
+      } else {
+        getPacificPitchingDataList();
+      }
     })();
-  }, []);
+  }, [initPacificYear]);
 
   return (
     <GenericTemplate title="チーム投手成績ページ">
       <TableComponent
         title={'シーズン投手成績(セ)'}
         setSelect={setCentralYear}
-        getDataList={getCentralPitchingDataList}
         datas={centralDatas}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
@@ -167,7 +175,6 @@ function PitchingPage(props: { years: string[]; initYear: string }) {
       <TableComponent
         title={'シーズン投手成績(パ)'}
         setSelect={setPacificYear}
-        getDataList={getPacificPitchingDataList}
         datas={pacificDatas}
         headCells={headCells}
         initSorted={'earnedRunAverage'}

@@ -29,7 +29,6 @@ describe('TableComponentテスト', () => {
         <TableComponent
           title={'タイトル'}
           setSelect={() => {}}
-          getDataList={() => {}}
           datas={[testData]}
           headCells={headCells}
           initSorted={'初期ソート'}
@@ -61,7 +60,6 @@ describe('TableLinkComponentテスト', () => {
           <TableLinkComponent
             title={'タイトル'}
             setSelect={() => {}}
-            getDataList={() => {}}
             datas={[testData]}
             headCells={headCells}
             initSorted={'初期ソート'}

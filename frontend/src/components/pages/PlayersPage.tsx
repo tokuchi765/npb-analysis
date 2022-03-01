@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
@@ -102,17 +102,16 @@ function PlayersPage(props: PageProps) {
   const [initTeam, setInitTeam] = useState<string>('');
   const history = useHistory();
 
-  const getPlayerList = async (teamName: string) => {
-    const teamID = getTeamId(teamName);
+  const getPlayerList = async () => {
+    const teamID = getTeamId(initTeam);
     const result = await axios.get<TeamCareersResponse>(
       `http://localhost:8081/team/careers/${teamID}/2020`
     );
     setPlayerIds(createPlayerIds(result.data.careers));
     setPlayerDates(createPlayerDates(result.data.careers));
-    setInitTeam(teamName);
 
     history.push({
-      state: { teamName: teamName },
+      state: { teamName: initTeam },
     });
   };
 
@@ -126,17 +125,19 @@ function PlayersPage(props: PageProps) {
 
   useEffect(() => {
     (async () => {
-      const teamName = getTeamName(props.location);
-      getPlayerList(teamName);
+      if (_.isEmpty(initTeam)) {
+        setInitTeam(getTeamName(props.location));
+      } else {
+        getPlayerList();
+      }
     })();
-  }, []);
+  }, [initTeam]);
 
   return (
     <GenericTemplate title="選手一覧ページ">
       <TableLinkComponent
         title={'選手一覧'}
         setSelect={setInitTeam}
-        getDataList={getPlayerList}
         datas={playerDates}
         headCells={headCells}
         initSorted={'main'}

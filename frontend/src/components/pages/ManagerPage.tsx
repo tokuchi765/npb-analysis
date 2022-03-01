@@ -88,7 +88,7 @@ function ManagerPage() {
   const [initSelect, setSelect] = useState<string>('');
   const [centralManager, setManager] = useState<Manager[]>([]);
 
-  const getTeamDataList = async (select: string) => {
+  const getTeamDataList = async () => {
     const managerMap = new Map<string, Array<ManagerData>>();
     for (const year of years) {
       const result = await axios.get(
@@ -117,22 +117,24 @@ function ManagerPage() {
         }
       });
     }
-    setSelect(select);
-    setManager(createManagerAverage(select, managerMap));
+    setManager(createManagerAverage(initSelect, managerMap));
   };
 
   useEffect(() => {
     (async () => {
-      getTeamDataList(THREE);
+      if (_.isEmpty(initSelect)) {
+        setSelect(THREE);
+      } else {
+        getTeamDataList();
+      }
     })();
-  }, []);
+  }, [initSelect]);
 
   return (
     <GenericTemplate title="監督ページ">
       <TableComponent
         title={'ピタゴラス勝率'}
         setSelect={setSelect}
-        getDataList={getTeamDataList}
         datas={centralManager}
         headCells={headCells}
         initSorted={'winningRateDifferenceAverage'}

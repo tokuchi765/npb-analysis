@@ -97,16 +97,12 @@ function Selectable(props: {
   selectLabel: string;
   initSelect: string;
   selects: string[];
-  handleChange:
-    | ((
-        event: React.ChangeEvent<{
-          name?: string | undefined;
-          value: unknown;
-        }>,
-        child: React.ReactNode
-      ) => void)
-    | undefined;
+  setSelect: (select: string) => void;
 }) {
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    props.setSelect(String(event.target.value));
+  };
+
   if (!_.isEmpty(props.selects)) {
     return (
       <FormControl className={props.formControl}>
@@ -115,7 +111,7 @@ function Selectable(props: {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={props.initSelect}
-          onChange={props.handleChange}
+          onChange={handleChange}
         >
           {props.selects.map((select) => {
             return (
@@ -148,15 +144,7 @@ function TableComponentTitleBar(props: {
   classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
   selectItems: SelectItem[];
   title: string;
-  handleChange:
-    | ((
-        event: React.ChangeEvent<{
-          name?: string | undefined;
-          value: unknown;
-        }>,
-        child: React.ReactNode
-      ) => void)
-    | undefined;
+  setSelect: (select: string) => void;
 }) {
   return (
     <Typography className={props.classes.title} variant="h6" id="tableTitle" component="div">
@@ -175,7 +163,7 @@ function TableComponentTitleBar(props: {
               selectLabel={selectItem.selectLabel}
               initSelect={selectItem.initSelect}
               selects={selectItem.selects}
-              handleChange={props.handleChange}
+              setSelect={props.setSelect}
             />
           ))}
         </Grid>
@@ -297,9 +285,6 @@ export function TableComponent(props: {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    props.setSelect(String(event.target.value));
-  };
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -316,7 +301,7 @@ export function TableComponent(props: {
           classes={classes}
           selectItems={props.selectItems}
           title={props.title}
-          handleChange={handleChange}
+          setSelect={props.setSelect}
         />
         <Table className={classes.table} aria-label="simple table">
           <TableComponentHader
@@ -346,10 +331,6 @@ export function TableLinkComponent(props: {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
-
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    props.setSelect(String(event.target.value));
-  };
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -366,7 +347,7 @@ export function TableLinkComponent(props: {
           classes={classes}
           selectItems={props.selectItems}
           title={props.title}
-          handleChange={handleChange}
+          setSelect={props.setSelect}
         />
         <Table className={classes.table} aria-label="simple table">
           <TableComponentHader

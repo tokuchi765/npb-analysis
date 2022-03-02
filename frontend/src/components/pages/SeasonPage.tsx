@@ -79,14 +79,14 @@ interface TeamStatsResponse {
 }
 
 function SeasonPage(props: { years: string[]; initYear: string }) {
-  const [initCentralYear, setCentralYear] = useState<string>('');
+  const [centralYear, setCentralYear] = useState<string>('');
   const [centralTeamDatas, setCentralTeamlData] = useState<
     { main: string; winningRate: number; win: number; lose: number; draw: number }[]
   >([]);
 
   const getTeamCentralDataList = async () => {
     const result = await axios.get<TeamStatsResponse>(
-      `http://localhost:8081/team/stats?from_year=${initCentralYear}&to_year=${initCentralYear}`
+      `http://localhost:8081/team/stats?from_year=${centralYear}&to_year=${centralYear}`
     );
 
     const teams: CentralTeams[] = _.map(result.data.teanStats, (teanStats) => {
@@ -106,22 +106,22 @@ function SeasonPage(props: { years: string[]; initYear: string }) {
 
   useEffect(() => {
     (async () => {
-      if (_.isEmpty(initCentralYear)) {
+      if (_.isEmpty(centralYear)) {
         setCentralYear(props.initYear);
       } else {
         getTeamCentralDataList();
       }
     })();
-  }, [initCentralYear]);
+  }, [centralYear]);
 
-  const [initPacificYear, setPacificYear] = useState<string>('');
+  const [pacificYear, setPacificYear] = useState<string>('');
   const [pacificTeamDatas, setPacificTeamlData] = useState<
     { main: string; winningRate: number; win: number; lose: number; draw: number }[]
   >([]);
 
   const getTeamPacificDataList = async () => {
     const result = await axios.get<TeamStatsResponse>(
-      `http://localhost:8081/team/stats?from_year=${initPacificYear}&to_year=${initPacificYear}`
+      `http://localhost:8081/team/stats?from_year=${pacificYear}&to_year=${pacificYear}`
     );
 
     const teams: PacificTeams[] = _.map(result.data.teanStats, (teanStats) => {
@@ -141,13 +141,13 @@ function SeasonPage(props: { years: string[]; initYear: string }) {
 
   useEffect(() => {
     (async () => {
-      if (_.isEmpty(initPacificYear)) {
+      if (_.isEmpty(pacificYear)) {
         setPacificYear(props.initYear);
       } else {
         getTeamPacificDataList();
       }
     })();
-  }, [initPacificYear]);
+  }, [pacificYear]);
 
   return (
     <GenericTemplate title="チーム成績ページ">
@@ -156,14 +156,14 @@ function SeasonPage(props: { years: string[]; initYear: string }) {
         datas={centralTeamDatas}
         headCells={headCells}
         initSorted={'winningRate'}
-        selectItems={[new SelectItem(initCentralYear, '年', props.years, setCentralYear)]}
+        selectItems={[new SelectItem(centralYear, '年', props.years, setCentralYear)]}
       />
       <TableComponent
         title={'シーズン成績(パ)'}
         datas={pacificTeamDatas}
         headCells={headCells}
         initSorted={'winningRate'}
-        selectItems={[new SelectItem(initPacificYear, '年', props.years, setPacificYear)]}
+        selectItems={[new SelectItem(pacificYear, '年', props.years, setPacificYear)]}
       />
     </GenericTemplate>
   );

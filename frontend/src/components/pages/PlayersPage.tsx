@@ -99,11 +99,11 @@ interface TeamCareersResponse {
 function PlayersPage(props: PageProps) {
   const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
-  const [initTeam, setInitTeam] = useState<string>('');
+  const [team, setTeam] = useState<string>('');
   const history = useHistory();
 
   const getPlayerList = async () => {
-    const teamID = getTeamId(initTeam);
+    const teamID = getTeamId(team);
     const result = await axios.get<TeamCareersResponse>(
       `http://localhost:8081/team/careers/${teamID}/2020`
     );
@@ -111,7 +111,7 @@ function PlayersPage(props: PageProps) {
     setPlayerDates(createPlayerDates(result.data.careers));
 
     history.push({
-      state: { teamName: initTeam },
+      state: { teamName: team },
     });
   };
 
@@ -125,13 +125,13 @@ function PlayersPage(props: PageProps) {
 
   useEffect(() => {
     (async () => {
-      if (_.isEmpty(initTeam)) {
-        setInitTeam(getTeamName(props.location));
+      if (_.isEmpty(team)) {
+        setTeam(getTeamName(props.location));
       } else {
         getPlayerList();
       }
     })();
-  }, [initTeam]);
+  }, [team]);
 
   return (
     <GenericTemplate title="選手一覧ページ">
@@ -140,7 +140,7 @@ function PlayersPage(props: PageProps) {
         datas={playerDates}
         headCells={headCells}
         initSorted={'main'}
-        selectItems={[new SelectItem(initTeam, 'チーム', teamNameList, setInitTeam)]}
+        selectItems={[new SelectItem(team, 'チーム', teamNameList, setTeam)]}
         linkValues={playerIdMap}
         path={'/player/'}
       />

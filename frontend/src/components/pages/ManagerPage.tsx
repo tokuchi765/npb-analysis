@@ -85,7 +85,7 @@ function createManagerAverage(select: string, managerMap: Map<string, Array<Mana
 }
 
 function ManagerPage() {
-  const [initSelect, setSelect] = useState<string>('');
+  const [select, setSelect] = useState<string>('');
   const [centralManager, setManager] = useState<Manager[]>([]);
 
   const getTeamDataList = async () => {
@@ -117,18 +117,18 @@ function ManagerPage() {
         }
       });
     }
-    setManager(createManagerAverage(initSelect, managerMap));
+    setManager(createManagerAverage(select, managerMap));
   };
 
   useEffect(() => {
     (async () => {
-      if (_.isEmpty(initSelect)) {
+      if (_.isEmpty(select)) {
         setSelect(THREE);
       } else {
         getTeamDataList();
       }
     })();
-  }, [initSelect]);
+  }, [select]);
 
   return (
     <GenericTemplate title="監督ページ">
@@ -137,7 +137,7 @@ function ManagerPage() {
         datas={centralManager}
         headCells={headCells}
         initSorted={'winningRateDifferenceAverage'}
-        selectItems={[new SelectItem(initSelect, '選択', selects, setSelect)]}
+        selectItems={[new SelectItem(select, '選択', selects, setSelect)]}
       />
     </GenericTemplate>
   );

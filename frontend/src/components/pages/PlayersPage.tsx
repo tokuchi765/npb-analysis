@@ -22,6 +22,8 @@ const teamNameList = [
   'Buffaloes',
 ];
 
+const years = ['2020', '2021'];
+
 interface PlayerDate {
   main: string;
   position: string;
@@ -100,18 +102,19 @@ function PlayersPage(props: PageProps) {
   const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
   const [team, setTeam] = useState<string>('');
+  const [year, setYear] = useState<string>('');
   const history = useHistory();
 
   const getPlayerList = async () => {
     const teamID = getTeamId(team);
     const result = await axios.get<TeamCareersResponse>(
-      `http://localhost:8081/team/careers/${teamID}/2020`
+      `http://localhost:8081/team/careers/${teamID}/${year}`
     );
     setPlayerIds(createPlayerIds(result.data.careers));
     setPlayerDates(createPlayerDates(result.data.careers));
 
     history.push({
-      state: { teamName: team },
+      state: { teamName: team, year: year },
     });
   };
 
@@ -123,15 +126,25 @@ function PlayersPage(props: PageProps) {
     return teamName;
   };
 
+  const getYear = (location: any) => {
+    let year = location.state && location.state.year;
+    if (year === undefined) {
+      year = '2021';
+    }
+    return year;
+  };
+
   useEffect(() => {
     (async () => {
       if (_.isEmpty(team)) {
         setTeam(getTeamName(props.location));
+      } else if (_.isEmpty(year)) {
+        setYear(getYear(props.location));
       } else {
         getPlayerList();
       }
     })();
-  }, [team]);
+  }, [team, year]);
 
   return (
     <GenericTemplate title="選手一覧ページ">
@@ -140,7 +153,10 @@ function PlayersPage(props: PageProps) {
         datas={playerDates}
         headCells={headCells}
         initSorted={'main'}
-        selectItems={[new SelectItem(team, 'チーム', teamNameList, setTeam)]}
+        selectItems={[
+          new SelectItem(team, 'チーム', teamNameList, setTeam),
+          new SelectItem(year, '年', years, setYear),
+        ]}
         linkValues={playerIdMap}
         path={'/player/'}
       />

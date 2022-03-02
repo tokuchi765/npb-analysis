@@ -134,11 +134,10 @@ function ManagerPage() {
     <GenericTemplate title="監督ページ">
       <TableComponent
         title={'ピタゴラス勝率'}
-        setSelect={setSelect}
         datas={centralManager}
         headCells={headCells}
         initSorted={'winningRateDifferenceAverage'}
-        selectItems={[new SelectItem(initSelect, '選択', selects)]}
+        selectItems={[new SelectItem(initSelect, '選択', selects, setSelect)]}
       />
     </GenericTemplate>
   );

@@ -166,19 +166,17 @@ function PitchingPage(props: { years: string[]; initYear: string }) {
     <GenericTemplate title="チーム投手成績ページ">
       <TableComponent
         title={'シーズン投手成績(セ)'}
-        setSelect={setCentralYear}
         datas={centralDatas}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
-        selectItems={[new SelectItem(initCentralYear, '年', props.years)]}
+        selectItems={[new SelectItem(initCentralYear, '年', props.years, setCentralYear)]}
       />
       <TableComponent
         title={'シーズン投手成績(パ)'}
-        setSelect={setPacificYear}
         datas={pacificDatas}
         headCells={headCells}
         initSorted={'earnedRunAverage'}
-        selectItems={[new SelectItem(initPacificYear, '年', props.years)]}
+        selectItems={[new SelectItem(initPacificYear, '年', props.years, setPacificYear)]}
       />
     </GenericTemplate>
   );

@@ -137,11 +137,10 @@ function PlayersPage(props: PageProps) {
     <GenericTemplate title="選手一覧ページ">
       <TableLinkComponent
         title={'選手一覧'}
-        setSelect={setInitTeam}
         datas={playerDates}
         headCells={headCells}
         initSorted={'main'}
-        selectItems={[new SelectItem(initTeam, 'チーム', teamNameList)]}
+        selectItems={[new SelectItem(initTeam, 'チーム', teamNameList, setInitTeam)]}
         linkValues={playerIdMap}
         path={'/player/'}
       />

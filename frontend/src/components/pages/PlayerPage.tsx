@@ -161,9 +161,6 @@ function PlayerPage(props: PageProps) {
       </Button>
       <TableComponent
         title={'打撃成績'}
-        setSelect={function () {
-          return;
-        }}
         datas={battingDates}
         headCells={batterHeadCells}
         initSorted={'main'}
@@ -171,9 +168,6 @@ function PlayerPage(props: PageProps) {
       />
       <TableComponent
         title={'投手成績'}
-        setSelect={function () {
-          return;
-        }}
         datas={pitchingDates}
         headCells={pitcherHeadCells}
         initSorted={'main'}

@@ -153,19 +153,17 @@ function SeasonPage(props: { years: string[]; initYear: string }) {
     <GenericTemplate title="チーム成績ページ">
       <TableComponent
         title={'シーズン成績(セ)'}
-        setSelect={setCentralYear}
         datas={centralTeamDatas}
         headCells={headCells}
         initSorted={'winningRate'}
-        selectItems={[new SelectItem(initCentralYear, '年', props.years)]}
+        selectItems={[new SelectItem(initCentralYear, '年', props.years, setCentralYear)]}
       />
       <TableComponent
         title={'シーズン成績(パ)'}
-        setSelect={setPacificYear}
         datas={pacificTeamDatas}
         headCells={headCells}
         initSorted={'winningRate'}
-        selectItems={[new SelectItem(initPacificYear, '年', props.years)]}
+        selectItems={[new SelectItem(initPacificYear, '年', props.years, setPacificYear)]}
       />
     </GenericTemplate>
   );

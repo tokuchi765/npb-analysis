@@ -132,11 +132,18 @@ export class SelectItem {
   initSelect: string;
   selectLabel: string;
   selects: string[];
+  setSelect: (select: string) => void;
 
-  constructor(initSelect: string, selectLabel: string, selects: string[]) {
+  constructor(
+    initSelect: string,
+    selectLabel: string,
+    selects: string[],
+    setSelect: (select: string) => void
+  ) {
     this.initSelect = initSelect;
     this.selectLabel = selectLabel;
     this.selects = selects;
+    this.setSelect = setSelect;
   }
 }
 
@@ -144,7 +151,6 @@ function TableComponentTitleBar(props: {
   classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
   selectItems: SelectItem[];
   title: string;
-  setSelect: (select: string) => void;
 }) {
   return (
     <Typography className={props.classes.title} variant="h6" id="tableTitle" component="div">
@@ -163,7 +169,7 @@ function TableComponentTitleBar(props: {
               selectLabel={selectItem.selectLabel}
               initSelect={selectItem.initSelect}
               selects={selectItem.selects}
-              setSelect={props.setSelect}
+              setSelect={selectItem.setSelect}
             />
           ))}
         </Grid>
@@ -276,7 +282,6 @@ function TableLinkComponentBody(props: {
 
 export function TableComponent(props: {
   title: string;
-  setSelect: (select: string) => void;
   datas: { main: string }[];
   headCells: HeadCell[];
   initSorted: string;
@@ -301,7 +306,6 @@ export function TableComponent(props: {
           classes={classes}
           selectItems={props.selectItems}
           title={props.title}
-          setSelect={props.setSelect}
         />
         <Table className={classes.table} aria-label="simple table">
           <TableComponentHader
@@ -320,7 +324,6 @@ export function TableComponent(props: {
 
 export function TableLinkComponent(props: {
   title: string;
-  setSelect: (select: string) => void;
   datas: { main: string }[];
   headCells: HeadCell[];
   initSorted: string;
@@ -347,7 +350,6 @@ export function TableLinkComponent(props: {
           classes={classes}
           selectItems={props.selectItems}
           title={props.title}
-          setSelect={props.setSelect}
         />
         <Table className={classes.table} aria-label="simple table">
           <TableComponentHader

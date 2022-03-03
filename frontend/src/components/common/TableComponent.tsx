@@ -92,37 +92,17 @@ export interface HeadCell {
   numeric: boolean;
 }
 
-function Main(props: { mainLink: boolean; main: string; value: string | undefined; path: string }) {
-  if (props.mainLink) {
-    return (
-      <Link
-        to={{
-          pathname: `${props.path}${props.value}`,
-        }}
-      >
-        {props.main}
-      </Link>
-    );
-  } else {
-    return <div>{props.main}</div>;
-  }
-}
-
 function Selectable(props: {
   formControl: string;
   selectLabel: string;
   initSelect: string;
   selects: string[];
-  handleChange:
-    | ((
-        event: React.ChangeEvent<{
-          name?: string | undefined;
-          value: unknown;
-        }>,
-        child: React.ReactNode
-      ) => void)
-    | undefined;
+  setSelect: (select: string) => void;
 }) {
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    props.setSelect(String(event.target.value));
+  };
+
   if (!_.isEmpty(props.selects)) {
     return (
       <FormControl className={props.formControl}>
@@ -131,7 +111,7 @@ function Selectable(props: {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={props.initSelect}
-          onChange={props.handleChange}
+          onChange={handleChange}
         >
           {props.selects.map((select) => {
             return (
@@ -148,39 +128,50 @@ function Selectable(props: {
   }
 }
 
-function TableComponentTitleBar(props: {
-  classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
+export class SelectItem {
   initSelect: string;
-  title: string;
   selectLabel: string;
   selects: string[];
-  handleChange:
-    | ((
-        event: React.ChangeEvent<{
-          name?: string | undefined;
-          value: unknown;
-        }>,
-        child: React.ReactNode
-      ) => void)
-    | undefined;
+  setSelect: (select: string) => void;
+
+  constructor(
+    initSelect: string,
+    selectLabel: string,
+    selects: string[],
+    setSelect: (select: string) => void
+  ) {
+    this.initSelect = initSelect;
+    this.selectLabel = selectLabel;
+    this.selects = selects;
+    this.setSelect = setSelect;
+  }
+}
+
+function TableComponentTitleBar(props: {
+  classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
+  selectItems: SelectItem[];
+  title: string;
 }) {
   return (
     <Typography className={props.classes.title} variant="h6" id="tableTitle" component="div">
       <Grid container className={props.classes.grid}>
         <Grid key={1} item>
           <Paper className={props.classes.paper}>
-            {props.initSelect}
+            {props.selectItems.map((selectItem) => selectItem.initSelect + '_')}
             {props.title}
           </Paper>
         </Grid>
         <Grid key={2} item>
-          <Selectable
-            formControl={props.classes.formControl}
-            selectLabel={props.selectLabel}
-            initSelect={props.initSelect}
-            selects={props.selects}
-            handleChange={props.handleChange}
-          />
+          {props.selectItems.map((selectItem) => (
+            <Selectable
+              key={selectItem.selectLabel}
+              formControl={props.classes.formControl}
+              selectLabel={selectItem.selectLabel}
+              initSelect={selectItem.initSelect}
+              selects={selectItem.selects}
+              setSelect={selectItem.setSelect}
+            />
+          ))}
         </Grid>
       </Grid>
     </Typography>
@@ -254,7 +245,6 @@ function TableLinkComponentBody(props: {
   datas: { main: string }[];
   order: Order;
   orderBy: string;
-  mainLink: boolean;
   linkValues: Map<string, string>;
   path: string;
 }) {
@@ -292,22 +282,14 @@ function TableLinkComponentBody(props: {
 
 export function TableComponent(props: {
   title: string;
-  setSelect: (select: string) => void;
-  getDataList: (year: string) => void;
   datas: { main: string }[];
-  selects: string[];
   headCells: HeadCell[];
   initSorted: string;
-  initSelect: string;
-  selectLabel: string;
+  selectItems: SelectItem[];
 }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    props.setSelect(event.target.value as string);
-    props.getDataList(String(event.target.value));
-  };
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -322,11 +304,8 @@ export function TableComponent(props: {
       <TableContainer component={Paper}>
         <TableComponentTitleBar
           classes={classes}
-          initSelect={props.initSelect}
+          selectItems={props.selectItems}
           title={props.title}
-          selectLabel={props.selectLabel}
-          selects={props.selects}
-          handleChange={handleChange}
         />
         <Table className={classes.table} aria-label="simple table">
           <TableComponentHader
@@ -345,25 +324,16 @@ export function TableComponent(props: {
 
 export function TableLinkComponent(props: {
   title: string;
-  setSelect: (select: string) => void;
-  getDataList: (year: string) => void;
   datas: { main: string }[];
-  selects: string[];
   headCells: HeadCell[];
   initSorted: string;
-  initSelect: string;
-  selectLabel: string;
-  mainLink: boolean;
+  selectItems: SelectItem[];
   linkValues: Map<string, string>;
   path: string;
 }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    props.setSelect(event.target.value as string);
-    props.getDataList(String(event.target.value));
-  };
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -378,11 +348,8 @@ export function TableLinkComponent(props: {
       <TableContainer component={Paper}>
         <TableComponentTitleBar
           classes={classes}
-          initSelect={props.initSelect}
+          selectItems={props.selectItems}
           title={props.title}
-          selectLabel={props.selectLabel}
-          selects={props.selects}
-          handleChange={handleChange}
         />
         <Table className={classes.table} aria-label="simple table">
           <TableComponentHader
@@ -396,7 +363,6 @@ export function TableLinkComponent(props: {
             datas={props.datas}
             order={order}
             orderBy={orderBy}
-            mainLink={props.mainLink}
             linkValues={props.linkValues}
             path={props.path}
           />

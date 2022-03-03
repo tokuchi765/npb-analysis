@@ -161,29 +161,17 @@ function PlayerPage(props: PageProps) {
       </Button>
       <TableComponent
         title={'打撃成績'}
-        setSelect={function () {
-          return;
-        }}
-        getDataList={getPlayerDatas}
         datas={battingDates}
-        selects={[]}
         headCells={batterHeadCells}
         initSorted={'main'}
-        initSelect={''}
-        selectLabel={''}
+        selectItems={[]}
       />
       <TableComponent
         title={'投手成績'}
-        setSelect={function () {
-          return;
-        }}
-        getDataList={getPlayerDatas}
         datas={pitchingDates}
-        selects={[]}
         headCells={pitcherHeadCells}
         initSorted={'main'}
-        initSelect={''}
-        selectLabel={''}
+        selectItems={[]}
       />
     </GenericTemplate>
   );

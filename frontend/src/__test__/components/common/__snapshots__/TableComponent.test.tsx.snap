@@ -17,7 +17,7 @@ exports[`TableComponentテスト スナップショット作成 1`] = `
         <div
           className="MuiPaper-root makeStyles-paper-5 MuiPaper-elevation1 MuiPaper-rounded"
         >
-          選択1
+          選択1_
           タイトル
         </div>
       </div>
@@ -212,7 +212,7 @@ exports[`TableLinkComponentテスト スナップショット作成 1`] = `
         <div
           className="MuiPaper-root makeStyles-paper-5 MuiPaper-elevation1 MuiPaper-rounded"
         >
-          選択1
+          選択1_
           タイトル
         </div>
       </div>

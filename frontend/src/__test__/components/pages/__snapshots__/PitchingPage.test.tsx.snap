@@ -415,7 +415,7 @@ exports[`投手成績ページテスト スナップショット作成 1`] = `
               <div
                 className="MuiPaper-root makeStyles-paper-21 MuiPaper-elevation1 MuiPaper-rounded"
               >
-                
+                _
                 シーズン投手成績(セ)
               </div>
             </div>
@@ -846,7 +846,7 @@ exports[`投手成績ページテスト スナップショット作成 1`] = `
               <div
                 className="MuiPaper-root makeStyles-paper-21 MuiPaper-elevation1 MuiPaper-rounded"
               >
-                
+                _
                 シーズン投手成績(パ)
               </div>
             </div>

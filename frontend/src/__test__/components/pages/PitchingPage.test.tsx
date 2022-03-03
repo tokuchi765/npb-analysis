@@ -12,7 +12,7 @@ describe('投手成績ページテスト', () => {
     const tree = renderer
       .create(
         <MemoryRouter>
-          <PitchingPage years={['2020']} />
+          <PitchingPage years={['2020']} initYear={'2020'} />
         </MemoryRouter>
       )
       .toJSON();

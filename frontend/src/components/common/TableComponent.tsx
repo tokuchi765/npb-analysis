@@ -192,7 +192,7 @@ function TableComponentHader(props: {
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={props.orderBy === headCell.id ? props.order : false}
           >
             <TableSortLabel

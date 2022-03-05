@@ -12,7 +12,7 @@ describe('打撃成績ページテスト', () => {
     const tree = renderer
       .create(
         <MemoryRouter>
-          <BattingPage />
+          <BattingPage years={['2020']} initYear={'2020'} />
         </MemoryRouter>
       )
       .toJSON();

@@ -1,27 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
-import { TableComponent, HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell, SelectItem } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
-
-const years = [
-  '2005',
-  '2006',
-  '2007',
-  '2008',
-  '2009',
-  '2010',
-  '2011',
-  '2012',
-  '2013',
-  '2014',
-  '2015',
-  '2016',
-  '2017',
-  '2018',
-  '2019',
-  '2020',
-];
 
 interface BattingData {
   main: string;
@@ -116,13 +97,13 @@ interface TeamBattingResponse {
   teamBatting: any;
 }
 
-function BattingPage() {
-  const [initCentralYear, setCentralYear] = useState<string>('');
+function BattingPage(props: { years: string[]; initYear: string }) {
+  const [centralYear, setCentralYear] = useState<string>('');
   const [centralBattingDatas, setCentralBattingData] = useState<BattingData[]>([]);
 
-  const getBattingCentralDataList = async (year: string) => {
+  const getBattingCentralDataList = async () => {
     const result = await axios.get<TeamBattingResponse>(
-      `http://localhost:8081/team/batting?from_year=${year}&to_year=${year}`
+      `http://localhost:8081/team/batting?from_year=${centralYear}&to_year=${centralYear}`
     );
 
     const teams = _.map(result.data.teamBatting, (teamBatting) => {
@@ -137,16 +118,25 @@ function BattingPage() {
       return teanStatses;
     });
 
-    setCentralYear(year);
     setCentralBattingData(createBattingDataList(teams));
   };
 
-  const [initPacificYear, setPacificYear] = useState<string>('');
+  useEffect(() => {
+    (async () => {
+      if (_.isEmpty(centralYear)) {
+        setCentralYear(props.initYear);
+      } else {
+        getBattingCentralDataList();
+      }
+    })();
+  }, [centralYear]);
+
+  const [pacificYear, setPacificYear] = useState<string>('');
   const [pacificBattingDatas, setPacificBattingData] = useState<BattingData[]>([]);
 
-  const getBattingPacificDataList = async (year: string) => {
+  const getBattingPacificDataList = async () => {
     const result = await axios.get<TeamBattingResponse>(
-      `http://localhost:8081/team/batting?from_year=${year}&to_year=${year}`
+      `http://localhost:8081/team/batting?from_year=${pacificYear}&to_year=${pacificYear}`
     );
 
     const pacificTeams = _.map(result.data.teamBatting, (teamBatting) => {
@@ -161,40 +151,34 @@ function BattingPage() {
       return teamBattings;
     });
 
-    setPacificYear(year);
     setPacificBattingData(createBattingDataList(pacificTeams));
   };
 
   useEffect(() => {
     (async () => {
-      getBattingCentralDataList('2020');
-      getBattingPacificDataList('2020');
+      if (_.isEmpty(pacificYear)) {
+        setPacificYear(props.initYear);
+      } else {
+        getBattingPacificDataList();
+      }
     })();
-  }, []);
+  }, [pacificYear]);
 
   return (
     <GenericTemplate title="チーム打撃成績ページ">
       <TableComponent
         title={'シーズン打撃成績(セ)'}
-        setSelect={setCentralYear}
-        getDataList={getBattingCentralDataList}
         datas={centralBattingDatas}
-        selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}
-        initSelect={initCentralYear}
-        selectLabel={'年'}
+        selectItems={[new SelectItem(centralYear, '年', props.years, setCentralYear)]}
       />
       <TableComponent
         title={'シーズン打撃成績(パ)'}
-        setSelect={setPacificYear}
-        getDataList={getBattingPacificDataList}
         datas={pacificBattingDatas}
-        selects={years}
         headCells={headCells}
         initSorted={'battingAverage'}
-        initSelect={initPacificYear}
-        selectLabel={'年'}
+        selectItems={[new SelectItem(pacificYear, '年', props.years, setPacificYear)]}
       />
     </GenericTemplate>
   );

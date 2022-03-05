@@ -19,6 +19,7 @@ interface BattingDate {
   strikeOut: number;
   groundedIntoDoublePlay: number;
   woba: number;
+  rc: number;
 }
 
 const batterHeadCells: HeadCell[] = [
@@ -32,6 +33,7 @@ const batterHeadCells: HeadCell[] = [
   { id: 'strikeOut', numeric: true, disablePadding: true, label: '三振' },
   { id: 'groundedIntoDoublePlay', numeric: true, disablePadding: true, label: '併殺打' },
   { id: 'woba', numeric: true, disablePadding: true, label: '加重出塁率' },
+  { id: 'rc', numeric: true, disablePadding: true, label: '創出得点' },
 ];
 
 function createBattingDatas(
@@ -46,6 +48,7 @@ function createBattingDatas(
     StrikeOut: string;
     GroundedIntoDoublePlay: string;
     Woba: string;
+    RC: string;
   }[]
 ) {
   const battings: BattingDate[] = [];
@@ -61,6 +64,7 @@ function createBattingDatas(
       strikeOut: Number(batting.StrikeOut),
       groundedIntoDoublePlay: Number(batting.GroundedIntoDoublePlay),
       woba: Number(batting.Woba),
+      rc: Number(batting.RC),
     });
   });
   return battings;
@@ -157,29 +161,17 @@ function PlayerPage(props: PageProps) {
       </Button>
       <TableComponent
         title={'打撃成績'}
-        setSelect={function () {
-          return;
-        }}
-        getDataList={getPlayerDatas}
         datas={battingDates}
-        selects={[]}
         headCells={batterHeadCells}
         initSorted={'main'}
-        initSelect={''}
-        selectLabel={''}
+        selectItems={[]}
       />
       <TableComponent
         title={'投手成績'}
-        setSelect={function () {
-          return;
-        }}
-        getDataList={getPlayerDatas}
         datas={pitchingDates}
-        selects={[]}
         headCells={pitcherHeadCells}
         initSorted={'main'}
-        initSelect={''}
-        selectLabel={''}
+        selectItems={[]}
       />
     </GenericTemplate>
   );

@@ -1,68 +1,59 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"net/http"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
-	"github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/controller"
 	"github.com/tokuchi765/npb-analysis/grades"
+	"github.com/tokuchi765/npb-analysis/infrastructure"
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
-func getDB() (db *sql.DB) {
-	var err error
-	db, err = sql.Open("postgres", "host=localhost port=5555 password=postgres user=test dbname=test sslmode=disable")
-
-	db.SetMaxOpenConns(100)
-	db.SetMaxIdleConns(25)
-	db.SetConnMaxLifetime(5 * time.Minute)
-
-	if err != nil {
-		fmt.Println(err)
+func main() {
+	sqlHandler := infrastructure.NewSQLHandler()
+	teamInteractor := team.TeamInteractor{
+		TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
 
-	return db
-}
+	gradesInteractor := grades.GradesInteractor{
+		GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+		TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+	}
 
-func main() {
-
-	db := getDB()
-
-	defer db.Close()
+	syastemRepository := infrastructure.SyastemRepository{SQLHandler: *sqlHandler}
 
 	// プレイヤーの成績をDBに登録する
-	createdGades, _ := strconv.ParseBool(getSystemSetting("created_player_grades", db))
+	createdGades, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_player_grades"))
 	if !createdGades {
 		// リーグ文字列の配列
 		leagues := []string{"b", "c", "d", "db", "e", "f", "g", "h", "l", "m", "s", "t"}
 
 		for _, league := range leagues {
-			setPlayerGrades(league, db)
+			setPlayerGrades(league, gradesInteractor)
 		}
 
-		setSystemSetting("created_player_grades", "true", db)
+		syastemRepository.SetSystemSetting("created_player_grades", "true")
 	}
 
+	years := makeRange(2005, 2021)
+
 	// チーム成績をDBに登録する
-	createdTeamStats, _ := strconv.ParseBool(getSystemSetting("created_team_stats", db))
+	createdTeamStats, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_team_stats"))
 	if !createdTeamStats {
-		setTeamStats(db)
-		setSystemSetting("created_team_stats", "true", db)
+		setTeamStats(teamInteractor, years)
+		syastemRepository.SetSystemSetting("created_team_stats", "true")
 	}
 
 	// 算出が必要なDB項目を登録する
-	createdAddValue, _ := strconv.ParseBool(getSystemSetting("created_add_value", db))
+	createdAddValue, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_add_value"))
 	if !createdAddValue {
-		setTeamStatsAddValue(db)
-		setSystemSetting("created_add_value", "true", db)
+		setTeamStatsAddValue(teamInteractor, years)
+		syastemRepository.SetSystemSetting("created_add_value", "true")
 	}
 
 	// webサーバーを起動
@@ -70,38 +61,10 @@ func main() {
 	router.Run(":8081")
 }
 
-func setTeamStatsAddValue(db *sql.DB) {
-	years := makeRange(2005, 2020)
-	teamBattings := team.GetTeamBatting(years, db)
-	teamPitching := team.GetTeamPitching(years, db)
-	team.InsertPythagoreanExpectation(years, teamBattings, teamPitching, db)
-}
-
-func getSystemSetting(setting string, db *sql.DB) (value string) {
-	rows, err := db.Query("SELECT * FROM system_setting where setting = $1", setting)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var setting string
-		rows.Scan(&setting, &value)
-	}
-
-	return value
-}
-
-func setSystemSetting(setting string, value string, db *sql.DB) {
-	rows, err := db.Query("UPDATE system_setting SET value = $1 WHERE setting = $2", value, setting)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer rows.Close()
+func setTeamStatsAddValue(teamInteractor team.TeamInteractor, years []int) {
+	teamBattings := teamInteractor.GetTeamBatting(years)
+	teamPitching := teamInteractor.GetTeamPitching(years)
+	teamInteractor.InsertPythagoreanExpectation(years, teamBattings, teamPitching)
 }
 
 func setupRouter() *gin.Engine {
@@ -112,90 +75,30 @@ func setupRouter() *gin.Engine {
 	config.AllowOrigins = []string{"http://localhost:3000"}
 	router.Use(cors.New(config))
 
-	// チーム打撃成績を取得
-	router.GET("/team/pitching", getTeamPitching)
+	sqlHandler := *infrastructure.NewSQLHandler()
+	playerController := controller.NewPlayerController(sqlHandler)
+	teamController := controller.NewTeamController(sqlHandler)
 
 	// チーム打撃成績を取得
-	router.GET("/team/batting", getTeamBatting)
+	router.GET("/team/pitching", func(c *gin.Context) { teamController.GetTeamPitching(c) })
+
+	// チーム打撃成績を取得
+	router.GET("/team/batting", func(c *gin.Context) { teamController.GetTeamBatting(c) })
 
 	// チーム成績を取得
-	router.GET("/team/stats", getTeamStats)
+	router.GET("/team/stats", func(c *gin.Context) { teamController.GetTeamStats(c) })
 
 	// チームごとの選手情報一覧を取得
-	router.GET("/team/careers/:teamId/:year", getCareers)
+	router.GET("/team/careers/:teamId/:year", func(c *gin.Context) { teamController.GetCareers(c) })
 
 	// 選手情報取得
-	router.GET("/player/:playerId", getPlayer)
+	router.GET("/player/:playerId", func(c *gin.Context) { playerController.GetPlayer(c) })
 
 	// 画面表示
 	router.Use(static.Serve("/", static.LocalFile("./frontend/build", true)))
 
 	return router
 
-}
-
-func getPlayer(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	playerID := c.Param("playerId")
-	c.JSON(http.StatusOK, gin.H{
-		"career":   grades.GetCareer(playerID, db),
-		"batting":  grades.GetBatting(playerID, db),
-		"pitching": grades.GetPitching(playerID, db),
-	})
-}
-
-func getCareers(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	teamID := c.Param("teamId")
-	year := c.Param("year")
-
-	players := grades.GetPlayersByTeamIDAndYear(teamID, year, db)
-	var careers []player.CAREER
-	for _, player := range players {
-		career := grades.GetCareer(player.PlayerID, db)
-		careers = append(careers, career)
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"careers": careers,
-	})
-}
-
-func getTeamPitching(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	fromYear, _ := strconv.Atoi(c.Query("from_year"))
-	toYear, _ := strconv.Atoi(c.Query("to_year"))
-	years := makeRange(fromYear, toYear)
-	teamPitchingMap := team.GetTeamPitching(years, db)
-	c.JSON(http.StatusOK, gin.H{
-		"teamPitching": teamPitchingMap,
-	})
-}
-
-func getTeamBatting(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	fromYear, _ := strconv.Atoi(c.Query("from_year"))
-	toYear, _ := strconv.Atoi(c.Query("to_year"))
-	years := makeRange(fromYear, toYear)
-	teamBattingMap := team.GetTeamBatting(years, db)
-	c.JSON(http.StatusOK, gin.H{
-		"teamBatting": teamBattingMap,
-	})
-}
-
-func getTeamStats(c *gin.Context) {
-	db := getDB()
-	defer db.Close()
-	fromYear, _ := strconv.Atoi(c.Query("from_year"))
-	toYear, _ := strconv.Atoi(c.Query("to_year"))
-	years := makeRange(fromYear, toYear)
-	teamStats := team.GetTeamStats(years, db)
-	c.JSON(http.StatusOK, gin.H{
-		"teanStats": teamStats,
-	})
 }
 
 func makeRange(min, max int) []int {
@@ -206,49 +109,53 @@ func makeRange(min, max int) []int {
 	return a
 }
 
-func setTeamStats(db *sql.DB) {
+func setTeamStats(teamInteractor team.TeamInteractor, years []int) {
 
 	current, _ := os.Getwd()
 
 	csvPath := current + "/" + "csv"
 
 	// チーム打撃成績をDBに登録する
-	team.InsertTeamBattings(csvPath, "central", db)
-	team.InsertTeamBattings(csvPath, "pacific", db)
+	teamInteractor.InsertTeamBattings(csvPath, "central", years)
+	teamInteractor.InsertTeamBattings(csvPath, "pacific", years)
 
 	// チーム投手成績をDBに登録する
-	team.InsertTeamPitchings(csvPath, "central", db)
-	team.InsertTeamPitchings(csvPath, "pacific", db)
+	teamInteractor.InsertTeamPitchings(csvPath, "central", years)
+	teamInteractor.InsertTeamPitchings(csvPath, "pacific", years)
 
 	// チームシーズン成績をDBに登録する
-	team.InsertSeasonLeagueStats(csvPath, db)
-	team.InsertSeasonMatchResults(csvPath, db)
+	teamInteractor.InsertSeasonLeagueStats(csvPath, years)
+	teamInteractor.InsertSeasonMatchResults(csvPath, years)
 
 }
 
-func setPlayerGrades(initial string, db *sql.DB) {
+func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 
 	current, _ := os.Getwd()
 
-	players := grades.GetPlayers(current + "/csv/teams/" + initial + "_players.csv")
+	csvPath := current + "/csv"
 
-	grades.InsertTeamPlayers(initial, players, db)
+	// 2020~2021の選手一覧を取得する
+	years := []string{"2020", "2021"}
+	for _, year := range years {
+		players := gradesInteractor.GetPlayers(csvPath, initial, year)
 
-	playersPath := current + "/csv/players/"
-	careers := grades.ReadCareers(playersPath, initial, players)
+		gradesInteractor.InsertTeamPlayers(initial, players, year)
 
-	grades.ExtractionCareers(&careers, db)
+		careers := gradesInteractor.ReadCareers(csvPath, initial, players)
 
-	grades.InsertCareers(careers, db)
+		gradesInteractor.ExtractionCareers(&careers)
 
-	picherMap, batterMap := grades.ReadGradesMap(playersPath, initial, players)
+		gradesInteractor.InsertCareers(careers)
 
-	grades.ExtractionPicherGrades(&picherMap, team.GetTeamID(initial), db)
+		picherMap, batterMap := gradesInteractor.ReadGradesMap(csvPath, initial, players)
 
-	grades.InsertPicherGrades(picherMap, db)
+		gradesInteractor.ExtractionPicherGrades(&picherMap, gradesInteractor.TeamUtil.GetTeamID(initial))
 
-	grades.ExtractionBatterGrades(&batterMap, team.GetTeamID(initial), db)
+		gradesInteractor.InsertPicherGrades(picherMap)
 
-	grades.InsertBatterGrades(batterMap, db, current)
+		gradesInteractor.ExtractionBatterGrades(&batterMap, gradesInteractor.TeamUtil.GetTeamID(initial))
 
+		gradesInteractor.InsertBatterGrades(batterMap, current)
+	}
 }

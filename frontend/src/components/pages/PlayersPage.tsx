@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
-import { TableLinkComponent, HeadCell } from '../common/TableComponent';
+import { TableLinkComponent, SelectItem, HeadCell } from '../common/TableComponent';
 import axios from 'axios';
 import _ from 'lodash';
 import * as H from 'history';
@@ -21,6 +21,8 @@ const teamNameList = [
   'Fighters',
   'Buffaloes',
 ];
+
+const years = ['2020', '2021'];
 
 interface PlayerDate {
   main: string;
@@ -99,20 +101,20 @@ interface TeamCareersResponse {
 function PlayersPage(props: PageProps) {
   const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
-  const [initTeam, setInitTeam] = useState<string>('');
+  const [team, setTeam] = useState<string>('');
+  const [year, setYear] = useState<string>('');
   const history = useHistory();
 
-  const getPlayerList = async (teamName: string) => {
-    const teamID = getTeamId(teamName);
+  const getPlayerList = async () => {
+    const teamID = getTeamId(team);
     const result = await axios.get<TeamCareersResponse>(
-      `http://localhost:8081/team/careers/${teamID}/2020`
+      `http://localhost:8081/team/careers/${teamID}/${year}`
     );
     setPlayerIds(createPlayerIds(result.data.careers));
     setPlayerDates(createPlayerDates(result.data.careers));
-    setInitTeam(teamName);
 
     history.push({
-      state: { teamName: teamName },
+      state: { teamName: team, year: year },
     });
   };
 
@@ -124,26 +126,37 @@ function PlayersPage(props: PageProps) {
     return teamName;
   };
 
+  const getYear = (location: any) => {
+    let year = location.state && location.state.year;
+    if (year === undefined) {
+      year = '2021';
+    }
+    return year;
+  };
+
   useEffect(() => {
     (async () => {
-      const teamName = getTeamName(props.location);
-      getPlayerList(teamName);
+      if (_.isEmpty(team)) {
+        setTeam(getTeamName(props.location));
+      } else if (_.isEmpty(year)) {
+        setYear(getYear(props.location));
+      } else {
+        getPlayerList();
+      }
     })();
-  }, []);
+  }, [team, year]);
 
   return (
     <GenericTemplate title="選手一覧ページ">
       <TableLinkComponent
         title={'選手一覧'}
-        setSelect={setInitTeam}
-        getDataList={getPlayerList}
         datas={playerDates}
-        selects={teamNameList}
         headCells={headCells}
         initSorted={'main'}
-        initSelect={initTeam}
-        selectLabel={'チーム'}
-        mainLink={true}
+        selectItems={[
+          new SelectItem(team, 'チーム', teamNameList, setTeam),
+          new SelectItem(year, '年', years, setYear),
+        ]}
         linkValues={playerIdMap}
         path={'/player/'}
       />

@@ -12,7 +12,7 @@ describe('トップページテスト', () => {
     const tree = renderer
       .create(
         <MemoryRouter>
-          <HomePage />
+          <HomePage years={['2020']} />
         </MemoryRouter>
       )
       .toJSON();

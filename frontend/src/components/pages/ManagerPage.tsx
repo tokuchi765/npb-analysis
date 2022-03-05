@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
 import axios from 'axios';
 import _ from 'lodash';
-import { TableComponent, HeadCell } from '../common/TableComponent';
+import { TableComponent, HeadCell, SelectItem } from '../common/TableComponent';
 
 const THREE = '(3年以上)';
 const ALL = '(全て)';
@@ -85,10 +85,10 @@ function createManagerAverage(select: string, managerMap: Map<string, Array<Mana
 }
 
 function ManagerPage() {
-  const [initSelect, setSelect] = useState<string>('');
+  const [select, setSelect] = useState<string>('');
   const [centralManager, setManager] = useState<Manager[]>([]);
 
-  const getTeamDataList = async (select: string) => {
+  const getTeamDataList = async () => {
     const managerMap = new Map<string, Array<ManagerData>>();
     for (const year of years) {
       const result = await axios.get(
@@ -117,28 +117,27 @@ function ManagerPage() {
         }
       });
     }
-    setSelect(select);
     setManager(createManagerAverage(select, managerMap));
   };
 
   useEffect(() => {
     (async () => {
-      getTeamDataList(THREE);
+      if (_.isEmpty(select)) {
+        setSelect(THREE);
+      } else {
+        getTeamDataList();
+      }
     })();
-  }, []);
+  }, [select]);
 
   return (
     <GenericTemplate title="監督ページ">
       <TableComponent
         title={'ピタゴラス勝率'}
-        setSelect={setSelect}
-        getDataList={getTeamDataList}
         datas={centralManager}
-        selects={selects}
         headCells={headCells}
         initSorted={'winningRateDifferenceAverage'}
-        initSelect={initSelect}
-        selectLabel={'選択'}
+        selectItems={[new SelectItem(select, '選択', selects, setSelect)]}
       />
     </GenericTemplate>
   );

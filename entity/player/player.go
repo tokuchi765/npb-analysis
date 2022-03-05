@@ -57,6 +57,15 @@ type BATTERGRADES struct {
 	SluggingPercentage     float64 // 長打率
 	OnBasePercentage       float64 // 出塁率
 	Woba                   float64 // 加重出塁率
+	RC                     float64 // 創出得点
+}
+
+// SetRC RCを算出して設定する
+func (batterGrades *BATTERGRADES) SetRC() {
+	A := float64(batterGrades.Hit + batterGrades.BaseOnBalls + batterGrades.HitByPitches - batterGrades.CaughtStealing - batterGrades.GroundedIntoDoublePlay)
+	B := float64(batterGrades.BaseHit) + (0.26 * float64(batterGrades.BaseOnBalls+batterGrades.HitByPitches)) + (0.53 * float64(batterGrades.SacrificeHits+batterGrades.SacrificeFlies)) + (0.64 * float64(batterGrades.StolenBase)) - (0.03 * float64(batterGrades.StrikeOut))
+	C := float64(batterGrades.AtBat + batterGrades.BaseOnBalls + batterGrades.HitByPitches + batterGrades.SacrificeFlies + batterGrades.SacrificeHits)
+	batterGrades.RC = ((A + (2.4 * C)) * (B + (3 * C)) / (9 * C)) - (0.9 * C)
 }
 
 // CAREER 成績

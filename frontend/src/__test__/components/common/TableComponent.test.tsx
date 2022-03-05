@@ -28,11 +28,10 @@ describe('TableComponentテスト', () => {
       .create(
         <TableComponent
           title={'タイトル'}
-          setSelect={() => {}}
           datas={[testData]}
           headCells={headCells}
           initSorted={'初期ソート'}
-          selectItems={[new SelectItem('選択1', 'ラベル名', ['選択1', '選択2'])]}
+          selectItems={[new SelectItem('選択1', 'ラベル名', ['選択1', '選択2'], () => {})]}
         />
       )
       .toJSON();
@@ -59,11 +58,10 @@ describe('TableLinkComponentテスト', () => {
         <MemoryRouter>
           <TableLinkComponent
             title={'タイトル'}
-            setSelect={() => {}}
             datas={[testData]}
             headCells={headCells}
             initSorted={'初期ソート'}
-            selectItems={[new SelectItem('選択1', 'ラベル名', ['選択1', '選択2'])]}
+            selectItems={[new SelectItem('選択1', 'ラベル名', ['選択1', '選択2'], () => {})]}
             linkValues={playerIdMap}
             path={'/path/'}
           />

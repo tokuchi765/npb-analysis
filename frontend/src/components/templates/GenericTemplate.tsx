@@ -14,17 +14,21 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import IconButton from '@material-ui/core/IconButton';
-import HomeIcon from '@material-ui/icons/Home';
-import TableChartIcon from '@material-ui/icons/TableChart';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import PersonIcon from '@material-ui/icons/Person';
 import { Menu } from '@mui/material';
-import { Groups, SportsCricket, SportsBaseball } from '@mui/icons-material';
+import {
+  Groups,
+  SportsCricket,
+  SportsBaseball,
+  Person,
+  Home,
+  TableChart,
+  ChevronLeft,
+} from '@mui/icons-material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const drawerWidth = 240;
 
@@ -210,7 +214,7 @@ function GenericTemplate(props: GenericTemplateProps) {
         >
           <div className={classes.toolbarIcon}>
             <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
+              <ChevronLeft />
             </IconButton>
           </div>
           <Divider />
@@ -218,7 +222,7 @@ function GenericTemplate(props: GenericTemplateProps) {
             <Link to="/" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>
-                  <HomeIcon />
+                  <Home />
                 </ListItemIcon>
                 <ListItemText primary="トップページ" />
               </ListItem>
@@ -238,7 +242,7 @@ function GenericTemplate(props: GenericTemplateProps) {
                 <Link to="/season" className={classes.link}>
                   <ListItem button>
                     <ListItemIcon>
-                      <TableChartIcon />
+                      <TableChart />
                     </ListItemIcon>
                     <ListItemText primary="シーズン成績ページ" />
                   </ListItem>
@@ -264,7 +268,7 @@ function GenericTemplate(props: GenericTemplateProps) {
             <Link to="/players" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>
-                  <PersonIcon />
+                  <Person />
                 </ListItemIcon>
                 <ListItemText primary="選手一覧ページ" />
               </ListItem>
@@ -272,7 +276,7 @@ function GenericTemplate(props: GenericTemplateProps) {
             <Link to="/manager" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>
-                  <PersonIcon />
+                  <Person />
                 </ListItemIcon>
                 <ListItemText primary="監督ページ" />
               </ListItem>

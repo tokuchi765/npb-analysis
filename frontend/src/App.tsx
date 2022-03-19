@@ -7,6 +7,7 @@ import PitchingPage from './components/pages/PitchingPage';
 import PlayersPage from './components/pages/PlayersPage';
 import PlayerPage from './components/pages/PlayerPage';
 import ManagerPage from './components/pages/ManagerPage';
+import StrengthPage from './components/pages/StrengthPage';
 
 const years = [
   '2005',
@@ -50,6 +51,7 @@ const App: React.FC = () => {
           render={() => <PitchingPage years={years} initYear={initYear} />}
           exact
         />
+        <Route path="/strength" render={() => <StrengthPage />} exact />
         <Route path="/players" component={PlayersPage} exact />
         <Route path="/player/:id" component={PlayerPage} exact />
         <Route path="/manager" component={ManagerPage} exact />

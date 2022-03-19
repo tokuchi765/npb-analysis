@@ -27,6 +27,7 @@ import {
   Home,
   TableChart,
   ChevronLeft,
+  Pentagon,
 } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -261,6 +262,14 @@ function GenericTemplate(props: GenericTemplateProps) {
                       <SportsBaseball />
                     </ListItemIcon>
                     <ListItemText primary="投手成績ページ" />
+                  </ListItem>
+                </Link>
+                <Link to="/strength" className={classes.link}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <Pentagon />
+                    </ListItemIcon>
+                    <ListItemText primary="チーム戦力チャート" />
                   </ListItem>
                 </Link>
               </Menu>

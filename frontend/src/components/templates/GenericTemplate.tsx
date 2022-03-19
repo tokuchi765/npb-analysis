@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import * as colors from '@material-ui/core/colors';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
@@ -28,7 +28,7 @@ import { Groups, SportsCricket, SportsBaseball } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
-const theme = createMuiTheme({
+const theme = createTheme({
   typography: {
     fontFamily: [
       'Noto Sans JP',

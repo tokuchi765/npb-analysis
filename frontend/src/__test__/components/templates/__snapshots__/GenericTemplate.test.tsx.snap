@@ -34,7 +34,8 @@ exports[`GenericTemplateテスト スナップショット作成 1`] = `
         >
           <svg
             aria-hidden={true}
-            className="MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="MenuIcon"
             focusable="false"
             viewBox="0 0 24 24"
           >
@@ -127,7 +128,8 @@ exports[`GenericTemplateテスト スナップショット作成 1`] = `
             >
               <svg
                 aria-hidden={true}
-                className="MuiSvgIcon-root"
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="HomeIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -204,7 +206,8 @@ exports[`GenericTemplateテスト スナップショット作成 1`] = `
             >
               <svg
                 aria-hidden={true}
-                className="MuiSvgIcon-root"
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="PersonIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -251,7 +254,8 @@ exports[`GenericTemplateテスト スナップショット作成 1`] = `
             >
               <svg
                 aria-hidden={true}
-                className="MuiSvgIcon-root"
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="PersonIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >

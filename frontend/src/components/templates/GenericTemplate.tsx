@@ -23,6 +23,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
+import { Menu } from '@mui/material';
+import { Groups, SportsCricket, SportsBaseball } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -161,6 +163,17 @@ function GenericTemplate(props: GenericTemplateProps) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  function handleClick(event: any) {
+    if (anchorEl !== event.currentTarget) {
+      setAnchorEl(event.currentTarget);
+    }
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -210,30 +223,44 @@ function GenericTemplate(props: GenericTemplateProps) {
                 <ListItemText primary="トップページ" />
               </ListItem>
             </Link>
-            <Link to="/season" className={classes.link}>
-              <ListItem button>
-                <ListItemIcon>
-                  <TableChartIcon />
-                </ListItemIcon>
-                <ListItemText primary="チーム成績ページ" />
-              </ListItem>
-            </Link>
-            <Link to="/batting" className={classes.link}>
-              <ListItem button>
-                <ListItemIcon>
-                  <TableChartIcon />
-                </ListItemIcon>
-                <ListItemText primary="打撃成績ページ" />
-              </ListItem>
-            </Link>
-            <Link to="/pitching" className={classes.link}>
-              <ListItem button>
-                <ListItemIcon>
-                  <TableChartIcon />
-                </ListItemIcon>
-                <ListItemText primary="投手成績ページ" />
-              </ListItem>
-            </Link>
+            <ListItem className={classes.link} onMouseOver={handleClick}>
+              <ListItemIcon>
+                <Groups />
+              </ListItemIcon>
+              <ListItemText primary="チーム情報" />
+              <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                MenuListProps={{ onMouseLeave: handleClose }}
+              >
+                <Link to="/season" className={classes.link}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <TableChartIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="シーズン成績ページ" />
+                  </ListItem>
+                </Link>
+                <Link to="/batting" className={classes.link}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <SportsCricket />
+                    </ListItemIcon>
+                    <ListItemText primary="打撃成績ページ" />
+                  </ListItem>
+                </Link>
+                <Link to="/pitching" className={classes.link}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <SportsBaseball />
+                    </ListItemIcon>
+                    <ListItemText primary="投手成績ページ" />
+                  </ListItem>
+                </Link>
+              </Menu>
+            </ListItem>
             <Link to="/players" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>

@@ -33,7 +33,7 @@ func (Repository *GradesRepository) GetPitchings(playerID string) (pitchings []d
 			&pitching.NoWalks, &pitching.WinningRate, &pitching.Batter, &pitching.InningsPitched,
 			&pitching.Hit, &pitching.HomeRun, &pitching.BaseOnBalls, &pitching.HitByPitches,
 			&pitching.StrikeOut, &pitching.WildPitches, &pitching.Balk, &pitching.RunsAllowed,
-			&pitching.EarnedRun, &pitching.EarnedRunAverage)
+			&pitching.EarnedRun, &pitching.EarnedRunAverage, &pitching.BABIP)
 
 		pitchings = append(pitchings, pitching)
 	}
@@ -60,7 +60,7 @@ func (Repository *GradesRepository) GetBattings(playerID string) (battings []dat
 			&batting.RunsBattedIn, &batting.StolenBase, &batting.CaughtStealing, &batting.SacrificeHits,
 			&batting.SacrificeFlies, &batting.BaseOnBalls, &batting.HitByPitches, &batting.StrikeOut,
 			&batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage,
-			&batting.Woba, &batting.RC)
+			&batting.Woba, &batting.RC, &batting.BABIP)
 
 		battings = append(battings, batting)
 	}

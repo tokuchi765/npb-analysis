@@ -51,7 +51,7 @@ func (Repository *TeamRepository) GetTeamPitchings(years []int) (teamPitchingMap
 				&teamPitching.WinningRate, &teamPitching.Batter, &teamPitching.InningsPitched,
 				&teamPitching.Hit, &teamPitching.HomeRun, &teamPitching.BaseOnBalls,
 				&teamPitching.IntentionalWalk, &teamPitching.HitByPitches, &teamPitching.StrikeOut,
-				&teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun)
+				&teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun, &teamPitching.BABIP)
 			teamPitchings = append(teamPitchings, teamPitching)
 		}
 		teamPitchingMap[strYear] = teamPitchings
@@ -93,7 +93,7 @@ func (Repository *TeamRepository) GetTeamBattings(years []int) (teamBattingMap m
 				&teamBatting.AtBat, &teamBatting.Score, &teamBatting.Hit, &teamBatting.Double, &teamBatting.Triple, &teamBatting.HomeRun,
 				&teamBatting.BaseHit, &teamBatting.RunsBattedIn, &teamBatting.StolenBase, &teamBatting.CaughtStealing, &teamBatting.SacrificeHits,
 				&teamBatting.SacrificeFlies, &teamBatting.BaseOnBalls, &teamBatting.IntentionalWalk, &teamBatting.HitByPitches, &teamBatting.StrikeOut,
-				&teamBatting.GroundedIntoDoublePlay, &teamBatting.SluggingPercentage, &teamBatting.OnBasePercentage,
+				&teamBatting.GroundedIntoDoublePlay, &teamBatting.SluggingPercentage, &teamBatting.OnBasePercentage, &teamBatting.BABIP,
 			)
 			teamBattins = append(teamBattins, teamBatting)
 		}

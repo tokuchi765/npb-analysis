@@ -39,6 +39,7 @@ type TeamBatting struct {
 	GroundedIntoDoublePlay int     // 併殺打
 	SluggingPercentage     float64 // 長打率
 	OnBasePercentage       float64 // 出塁率
+	BABIP                  float64 // BABIP
 }
 
 // TeamPitching チーム投手成績
@@ -68,6 +69,7 @@ type TeamPitching struct {
 	Balk             int     // ボーク
 	RunsAllowed      int     // 失点
 	EarnedRun        int     // 自責点
+	BABIP            float64 // 被BABIP
 }
 
 // TeamLeagueStats チームシーズン成績

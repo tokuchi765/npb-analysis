@@ -27,6 +27,7 @@ type PICHERGRADES struct {
 	RunsAllowed      float64 // 失点
 	EarnedRun        float64 // 自責点
 	EarnedRunAverage float64 // 防御率
+	BABIP            float64 // 被BABIP
 }
 
 // BATTERGRADES 成績
@@ -58,6 +59,7 @@ type BATTERGRADES struct {
 	OnBasePercentage       float64 // 出塁率
 	Woba                   float64 // 加重出塁率
 	RC                     float64 // 創出得点
+	BABIP                  float64 // BABIP
 }
 
 // SetRC RCを算出して設定する

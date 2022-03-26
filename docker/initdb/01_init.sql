@@ -1,5 +1,5 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2022/01/01 23:47:06
+-- Date/Time    : 2022/03/26 18:39:10
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -96,6 +96,7 @@ create table TEAM_PITCHING (
   , balk integer
   , runs_allowed integer
   , earned_run integer
+  , babip real
   , constraint TEAM_PITCHING_PKC primary key (team_id,year)
 ) ;
 
@@ -126,6 +127,7 @@ create table TEAM_BATTING (
   , grounded_into_double_play integer
   , slugging_percentage real
   , on_base_percentage real
+  , babip real
   , constraint TEAM_BATTING_PKC primary key (team_id,year)
 ) ;
 
@@ -177,6 +179,7 @@ create table BATTER_GRADES (
   , on_base_percentage real
   , w_oba real
   , rc real
+  , babip real
   , constraint BATTER_GRADES_PKC primary key (player_id,year,team_id)
 ) ;
 
@@ -224,6 +227,7 @@ create table PICHER_GRADES (
   , runs_allowed real
   , earned_run real
   , earned_run_average real
+  , babip real
   , constraint PICHER_GRADES_PKC primary key (player_id,year,team_id)
 ) ;
 
@@ -293,6 +297,7 @@ comment on column TEAM_PITCHING.wild_pitches is '暴投';
 comment on column TEAM_PITCHING.balk is 'ボーク';
 comment on column TEAM_PITCHING.runs_allowed is '失点';
 comment on column TEAM_PITCHING.earned_run is '自責点';
+comment on column TEAM_PITCHING.babip is '被BABIP';
 
 comment on table TEAM_BATTING is 'チーム打撃成績';
 comment on column TEAM_BATTING.team_id is 'チームID';
@@ -319,6 +324,7 @@ comment on column TEAM_BATTING.strike_out is '三振';
 comment on column TEAM_BATTING.grounded_into_double_play is '併殺打';
 comment on column TEAM_BATTING.slugging_percentage is '長打率';
 comment on column TEAM_BATTING.on_base_percentage is '出塁率';
+comment on column TEAM_BATTING.babip is 'BABIP';
 
 comment on table TEAM_NAME is 'チーム名';
 comment on column TEAM_NAME.team_name_id is 'チーム名ID';
@@ -358,6 +364,7 @@ comment on column BATTER_GRADES.slugging_percentage is '長打率';
 comment on column BATTER_GRADES.on_base_percentage is '出塁率';
 comment on column BATTER_GRADES.w_oba is '加重出塁率';
 comment on column BATTER_GRADES.rc is '創出得点';
+comment on column BATTER_GRADES.babip is 'BABIP';
 
 comment on table Players is '選手テーブル';
 comment on column Players.player_id is '選手ID';
@@ -397,3 +404,4 @@ comment on column PICHER_GRADES.balk is 'ボーク';
 comment on column PICHER_GRADES.runs_allowed is '失点';
 comment on column PICHER_GRADES.earned_run is '自責点';
 comment on column PICHER_GRADES.earned_run_average is '防御率';
+comment on column PICHER_GRADES.babip is '被BABIP';

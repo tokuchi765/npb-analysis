@@ -30,6 +30,11 @@ type PICHERGRADES struct {
 	BABIP            float64 // 被BABIP
 }
 
+// SetBABIP 被BABIPを算出して設定する
+func (picherGrades *PICHERGRADES) SetBABIP() {
+	picherGrades.BABIP = (float64(picherGrades.Hit) - float64(picherGrades.HomeRun)) / (float64(picherGrades.Batter) - (float64(picherGrades.BaseOnBalls) + float64(picherGrades.HitByPitches)) - float64(picherGrades.StrikeOut) - float64(picherGrades.HomeRun))
+}
+
 // BATTERGRADES 成績
 type BATTERGRADES struct {
 	Year                   string  // 年度
@@ -68,6 +73,11 @@ func (batterGrades *BATTERGRADES) SetRC() {
 	B := float64(batterGrades.BaseHit) + (0.26 * float64(batterGrades.BaseOnBalls+batterGrades.HitByPitches)) + (0.53 * float64(batterGrades.SacrificeHits+batterGrades.SacrificeFlies)) + (0.64 * float64(batterGrades.StolenBase)) - (0.03 * float64(batterGrades.StrikeOut))
 	C := float64(batterGrades.AtBat + batterGrades.BaseOnBalls + batterGrades.HitByPitches + batterGrades.SacrificeFlies + batterGrades.SacrificeHits)
 	batterGrades.RC = ((A + (2.4 * C)) * (B + (3 * C)) / (9 * C)) - (0.9 * C)
+}
+
+// SetBABIP BABIPを算出して設定する
+func (batterGrades *BATTERGRADES) SetBABIP() {
+	batterGrades.BABIP = (float64(batterGrades.Hit) - float64(batterGrades.HomeRun)) / (float64(batterGrades.AtBat) - float64(batterGrades.StrikeOut) - float64(batterGrades.HomeRun) + float64(batterGrades.SacrificeFlies))
 }
 
 // CAREER 成績

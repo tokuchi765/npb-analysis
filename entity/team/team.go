@@ -42,6 +42,11 @@ type TeamBatting struct {
 	BABIP                  float64 // BABIP
 }
 
+// SetBABIP BABIPを算出して設定する
+func (teamBatting *TeamBatting) SetBABIP() {
+	teamBatting.BABIP = (float64(teamBatting.Hit) - float64(teamBatting.HomeRun)) / (float64(teamBatting.AtBat) - float64(teamBatting.StrikeOut) - float64(teamBatting.HomeRun) + float64(teamBatting.SacrificeFlies))
+}
+
 // TeamPitching チーム投手成績
 type TeamPitching struct {
 	TeamID           string  // チームID
@@ -70,6 +75,11 @@ type TeamPitching struct {
 	RunsAllowed      int     // 失点
 	EarnedRun        int     // 自責点
 	BABIP            float64 // 被BABIP
+}
+
+// SetBABIP 被BABIPを算出して設定する
+func (teamPitching *TeamPitching) SetBABIP() {
+	teamPitching.BABIP = (float64(teamPitching.Hit) - float64(teamPitching.HomeRun)) / (float64(teamPitching.Batter) - (float64(teamPitching.BaseOnBalls) + float64(teamPitching.HitByPitches)) - float64(teamPitching.StrikeOut) - float64(teamPitching.HomeRun))
 }
 
 // TeamLeagueStats チームシーズン成績

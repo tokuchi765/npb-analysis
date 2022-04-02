@@ -195,20 +195,16 @@ func (Repository *GradesRepository) ExtractionPicherGrades(picherMap *map[string
 }
 
 // InsertPicherGrades 引数で受け取ったPICHERGRADESリストから重複選手を除外する
-func (Repository *GradesRepository) InsertPicherGrades(picherMap map[string][]data.PICHERGRADES) {
+func (Repository *GradesRepository) InsertPicherGrades(key string, picher data.PICHERGRADES) {
 	stmt, err := Repository.Conn.Prepare("INSERT INTO picher_grades(player_id, year, team_id, team, piched, win, lose, save, hold, hold_point, complete_game, shutout, no_walks, winning_rate, batter, innings_pitched, hit, home_run, base_on_balls, hit_by_ptches, strike_out, wild_pitches, balk, runs_allowed, earned_run, earned_run_average) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
 
-	for key, value := range picherMap {
-		for _, picher := range value {
-			if _, err := stmt.Exec(key, picher.Year, picher.TeamID, picher.Team, picher.Piched, picher.Win, picher.Lose, picher.Save, picher.Hold, picher.HoldPoint, picher.CompleteGame, picher.Shutout, picher.NoWalks, picher.WinningRate, picher.Batter, picher.InningsPitched, picher.Hit, picher.HomeRun, picher.BaseOnBalls, picher.HitByPitches, picher.StrikeOut, picher.WildPitches, picher.Balk, picher.RunsAllowed, picher.EarnedRun, picher.EarnedRunAverage); err != nil {
-				fmt.Println(key + ":" + picher.Year)
-				log.Print(err)
-			}
-		}
+	if _, err := stmt.Exec(key, picher.Year, picher.TeamID, picher.Team, picher.Piched, picher.Win, picher.Lose, picher.Save, picher.Hold, picher.HoldPoint, picher.CompleteGame, picher.Shutout, picher.NoWalks, picher.WinningRate, picher.Batter, picher.InningsPitched, picher.Hit, picher.HomeRun, picher.BaseOnBalls, picher.HitByPitches, picher.StrikeOut, picher.WildPitches, picher.Balk, picher.RunsAllowed, picher.EarnedRun, picher.EarnedRunAverage); err != nil {
+		fmt.Println(key + ":" + picher.Year)
+		log.Print(err)
 	}
 }
 

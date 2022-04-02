@@ -11,8 +11,8 @@ import (
 
 func TestGradesRepository_InsertPicherGrades_GetPitchings(t *testing.T) {
 	type args struct {
-		playerID    string
-		pitchingMap map[string][]data.PICHERGRADES
+		playerID string
+		pitcher  data.PICHERGRADES
 	}
 	tests := []struct {
 		name string
@@ -22,7 +22,7 @@ func TestGradesRepository_InsertPicherGrades_GetPitchings(t *testing.T) {
 			"投手成績登録と取得",
 			args{
 				"53355134",
-				map[string][]data.PICHERGRADES{"53355134": createPicherGradesList()},
+				createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89),
 			},
 		},
 	}
@@ -34,9 +34,9 @@ func TestGradesRepository_InsertPicherGrades_GetPitchings(t *testing.T) {
 			sqlHandler := new(SQLHandler)
 			sqlHandler.Conn = db
 			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertPicherGrades(tt.args.pitchingMap)
+			repository.InsertPicherGrades(tt.args.playerID, tt.args.pitcher)
 			actual := repository.GetPitchings(tt.args.playerID)
-			assert.ElementsMatch(t, tt.args.pitchingMap["53355134"], actual)
+			assert.ElementsMatch(t, []data.PICHERGRADES{tt.args.pitcher}, actual)
 		})
 	}
 }
@@ -315,7 +315,7 @@ func TestGradesRepository_ExtractionPicherGrades(t *testing.T) {
 			sqlHandler := new(SQLHandler)
 			sqlHandler.Conn = db
 			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertPicherGrades(tt.args.picherMap)
+			repository.InsertPicherGrades("53355134", createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89))
 			repository.ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
 			assert.Empty(t, tt.args.picherMap)
 		})

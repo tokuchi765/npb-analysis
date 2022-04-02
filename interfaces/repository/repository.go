@@ -21,7 +21,7 @@ type GradesRepository interface {
 	ExtractionCareers(careers *[]data.CAREER)
 	InsertCareers(careers []data.CAREER)
 	ExtractionPicherGrades(picherMap *map[string][]data.PICHERGRADES, teamID string)
-	InsertPicherGrades(picherMap map[string][]data.PICHERGRADES)
+	InsertPicherGrades(key string, picher data.PICHERGRADES)
 	ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID string)
 	InsertBatterGrades(playerID string, batterGrades data.BATTERGRADES)
 }

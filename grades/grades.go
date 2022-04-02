@@ -104,9 +104,13 @@ func (Interactor *GradesInteractor) ExtractionPicherGrades(picherMap *map[string
 	Interactor.GradesRepository.ExtractionPicherGrades(picherMap, teamID)
 }
 
-// InsertPicherGrades 引数で受け取ったPICHERGRADESリストから重複選手を除外する
+// InsertPicherGrades 引数で受け取ったPICHERGRADESをDBに登録する
 func (Interactor *GradesInteractor) InsertPicherGrades(picherMap map[string][]data.PICHERGRADES) {
-	Interactor.GradesRepository.InsertPicherGrades(picherMap)
+	for key, pichers := range picherMap {
+		for _, picher := range pichers {
+			Interactor.GradesRepository.InsertPicherGrades(key, picher)
+		}
+	}
 }
 
 // ExtractionBatterGrades 引数で受け取ったBATTERGRADESリストから重複選手を除外する

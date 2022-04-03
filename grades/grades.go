@@ -108,6 +108,7 @@ func (Interactor *GradesInteractor) ExtractionPicherGrades(picherMap *map[string
 func (Interactor *GradesInteractor) InsertPicherGrades(picherMap map[string][]data.PICHERGRADES) {
 	for key, pichers := range picherMap {
 		for _, picher := range pichers {
+			picher.SetBABIP()
 			Interactor.GradesRepository.InsertPicherGrades(key, picher)
 		}
 	}
@@ -128,6 +129,7 @@ func (Interactor *GradesInteractor) InsertBatterGrades(batterMap map[string][]da
 			setSingle(&batter)
 			setWoba(&batter, config)
 			batter.SetRC()
+			batter.SetBABIP()
 			Interactor.GradesRepository.InsertBatterGrades(key, batter)
 		}
 	}

@@ -196,13 +196,13 @@ func (Repository *GradesRepository) ExtractionPicherGrades(picherMap *map[string
 
 // InsertPicherGrades 引数で受け取ったPICHERGRADESリストから重複選手を除外する
 func (Repository *GradesRepository) InsertPicherGrades(key string, picher data.PICHERGRADES) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO picher_grades(player_id, year, team_id, team, piched, win, lose, save, hold, hold_point, complete_game, shutout, no_walks, winning_rate, batter, innings_pitched, hit, home_run, base_on_balls, hit_by_ptches, strike_out, wild_pitches, balk, runs_allowed, earned_run, earned_run_average) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26)")
+	stmt, err := Repository.Conn.Prepare("INSERT INTO picher_grades(player_id, year, team_id, team, piched, win, lose, save, hold, hold_point, complete_game, shutout, no_walks, winning_rate, batter, innings_pitched, hit, home_run, base_on_balls, hit_by_ptches, strike_out, wild_pitches, balk, runs_allowed, earned_run,  earned_run_average, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
 
-	if _, err := stmt.Exec(key, picher.Year, picher.TeamID, picher.Team, picher.Piched, picher.Win, picher.Lose, picher.Save, picher.Hold, picher.HoldPoint, picher.CompleteGame, picher.Shutout, picher.NoWalks, picher.WinningRate, picher.Batter, picher.InningsPitched, picher.Hit, picher.HomeRun, picher.BaseOnBalls, picher.HitByPitches, picher.StrikeOut, picher.WildPitches, picher.Balk, picher.RunsAllowed, picher.EarnedRun, picher.EarnedRunAverage); err != nil {
+	if _, err := stmt.Exec(key, picher.Year, picher.TeamID, picher.Team, picher.Piched, picher.Win, picher.Lose, picher.Save, picher.Hold, picher.HoldPoint, picher.CompleteGame, picher.Shutout, picher.NoWalks, picher.WinningRate, picher.Batter, picher.InningsPitched, picher.Hit, picher.HomeRun, picher.BaseOnBalls, picher.HitByPitches, picher.StrikeOut, picher.WildPitches, picher.Balk, picher.RunsAllowed, picher.EarnedRun, picher.EarnedRunAverage, picher.BABIP); err != nil {
 		fmt.Println(key + ":" + picher.Year)
 		log.Print(err)
 	}
@@ -232,14 +232,14 @@ func (Repository *GradesRepository) ExtractionBatterGrades(batterMap *map[string
 
 // InsertBatterGrades 引数で受け取ったBATTERGRADESをDBに登録する
 func (Repository *GradesRepository) InsertBatterGrades(playerID string, batterGrades data.BATTERGRADES) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, single, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage, w_oba, rc) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28)")
+	stmt, err := Repository.Conn.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, single, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage, w_oba, rc, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
 
 	// 加重出塁率の計算に必要なconfigファイルを読み込む
-	if _, err := stmt.Exec(playerID, batterGrades.Year, batterGrades.TeamID, batterGrades.Team, batterGrades.Games, batterGrades.PlateAppearance, batterGrades.AtBat, batterGrades.Score, batterGrades.Hit, batterGrades.Single, batterGrades.Double, batterGrades.Triple, batterGrades.HomeRun, batterGrades.BaseHit, batterGrades.RunsBattedIn, batterGrades.StolenBase, batterGrades.CaughtStealing, batterGrades.SacrificeHits, batterGrades.SacrificeFlies, batterGrades.BaseOnBalls, batterGrades.HitByPitches, batterGrades.StrikeOut, batterGrades.GroundedIntoDoublePlay, batterGrades.BattingAverage, batterGrades.SluggingPercentage, batterGrades.OnBasePercentage, batterGrades.Woba, batterGrades.RC); err != nil {
+	if _, err := stmt.Exec(playerID, batterGrades.Year, batterGrades.TeamID, batterGrades.Team, batterGrades.Games, batterGrades.PlateAppearance, batterGrades.AtBat, batterGrades.Score, batterGrades.Hit, batterGrades.Single, batterGrades.Double, batterGrades.Triple, batterGrades.HomeRun, batterGrades.BaseHit, batterGrades.RunsBattedIn, batterGrades.StolenBase, batterGrades.CaughtStealing, batterGrades.SacrificeHits, batterGrades.SacrificeFlies, batterGrades.BaseOnBalls, batterGrades.HitByPitches, batterGrades.StrikeOut, batterGrades.GroundedIntoDoublePlay, batterGrades.BattingAverage, batterGrades.SluggingPercentage, batterGrades.OnBasePercentage, batterGrades.Woba, batterGrades.RC, batterGrades.BABIP); err != nil {
 		fmt.Println(playerID + ":" + batterGrades.Year)
 		log.Print(err)
 	}

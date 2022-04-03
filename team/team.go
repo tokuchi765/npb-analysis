@@ -83,6 +83,7 @@ func (Interactor *TeamInteractor) InsertTeamPitchings(csvPath string, league str
 	for _, year := range years {
 		teamPitching := Interactor.ReadTeamPitching(csvPath, league, strconv.Itoa(year))
 		for _, pitching := range teamPitching {
+			pitching.SetBABIP()
 			Interactor.TeamRepository.InsertTeamPitchings(pitching)
 		}
 	}
@@ -93,6 +94,7 @@ func (Interactor *TeamInteractor) InsertTeamBattings(csvPath string, league stri
 	for _, year := range years {
 		teamBatting := Interactor.ReadTeamBatting(csvPath, league, strconv.Itoa(year))
 		for _, batting := range teamBatting {
+			batting.SetBABIP()
 			Interactor.TeamRepository.InsertTeamBattings(batting)
 		}
 	}

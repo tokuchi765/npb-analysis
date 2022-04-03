@@ -22,7 +22,7 @@ func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 			"チーム投手成績取得と登録",
 			args{
 				[]int{2020},
-				createTeamPitching("01", "2020", 3.4, 143, 60, 60, 60, 60, 60, 60, 60, 60, 3.4, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60),
+				createTeamPitching("01", "2020", 3.4, 143, 60, 60, 60, 60, 60, 60, 60, 60, 3.4, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 0.3),
 			},
 		},
 	}
@@ -43,7 +43,7 @@ func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 	}
 }
 
-func createTeamPitching(teamID string, year string, earnedRunAverage float64, games int, win int, lose int, save int, hold int, holdPoint int, completeGame int, shutout int, noWalks int, winningRate float64, batter int, inningsPitched int, hit int, homeRun int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, wildPitches int, balk int, runsAllowed int, earnedRun int) (teamPitching teamData.TeamPitching) {
+func createTeamPitching(teamID string, year string, earnedRunAverage float64, games int, win int, lose int, save int, hold int, holdPoint int, completeGame int, shutout int, noWalks int, winningRate float64, batter int, inningsPitched int, hit int, homeRun int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, wildPitches int, balk int, runsAllowed int, earnedRun int, babip float64) (teamPitching teamData.TeamPitching) {
 	return teamData.TeamPitching{
 		TeamID:           teamID,
 		Year:             year,
@@ -70,6 +70,7 @@ func createTeamPitching(teamID string, year string, earnedRunAverage float64, ga
 		Balk:             balk,
 		RunsAllowed:      runsAllowed,
 		EarnedRun:        earnedRun,
+		BABIP:            babip,
 	}
 }
 
@@ -84,7 +85,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 		{
 			"チーム打撃成績取得と登録",
 			args{
-				teamBatting: createTeamBatting("01", "2005", 0.301, 144, 360, 360, 400, 360, 90, 5, 70, 400, 400, 50, 20, 20, 20, 100, 100, 100, 100, 20, 0.21, 0.314),
+				teamBatting: createTeamBatting("01", "2005", 0.301, 144, 360, 360, 400, 360, 90, 5, 70, 400, 400, 50, 20, 20, 20, 100, 100, 100, 100, 20, 0.21, 0.314, 0.3),
 			},
 		},
 	}
@@ -107,7 +108,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 	}
 }
 
-func createTeamBatting(teamID string, year string, battingAverage float64, games int, plateAppearance int, atBat int, score int, hit int, double int, triple int, homeRun int, baseHit int, runsBattedIn int, stolenBase int, caughtStealing int, sacrificeHits int, sacrificeFlies int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, groundedIntoDoublePlay int, sluggingPercentage float64, onBasePercentage float64) teamData.TeamBatting {
+func createTeamBatting(teamID string, year string, battingAverage float64, games int, plateAppearance int, atBat int, score int, hit int, double int, triple int, homeRun int, baseHit int, runsBattedIn int, stolenBase int, caughtStealing int, sacrificeHits int, sacrificeFlies int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, groundedIntoDoublePlay int, sluggingPercentage float64, onBasePercentage float64, babip float64) teamData.TeamBatting {
 	return teamData.TeamBatting{
 		TeamID:                 teamID,
 		Year:                   year,
@@ -133,6 +134,7 @@ func createTeamBatting(teamID string, year string, battingAverage float64, games
 		GroundedIntoDoublePlay: groundedIntoDoublePlay,
 		SluggingPercentage:     sluggingPercentage,
 		OnBasePercentage:       onBasePercentage,
+		BABIP:                  babip,
 	}
 }
 

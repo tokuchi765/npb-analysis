@@ -3,6 +3,7 @@ package grades
 import (
 	"encoding/json"
 	"log"
+	"math"
 	"os"
 	"strings"
 
@@ -143,6 +144,9 @@ func setWoba(batterGrades *data.BATTERGRADES, config *config) {
 		config.HomeRun*float64(batterGrades.HomeRun)
 	denominator := (float64(batterGrades.AtBat) + float64(batterGrades.BaseOnBalls) + float64(batterGrades.HitByPitches) + float64(batterGrades.SacrificeFlies))
 	batterGrades.Woba = molecule / denominator
+	if math.IsNaN(batterGrades.Woba) {
+		batterGrades.Woba = 0.0
+	}
 }
 
 type config struct {

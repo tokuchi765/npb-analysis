@@ -14,6 +14,7 @@ interface PitchingData {
   homeRun: number;
   baseOnBalls: number;
   strikeOut: number;
+  babip: number;
 }
 
 const headCells: HeadCell[] = [
@@ -26,6 +27,7 @@ const headCells: HeadCell[] = [
   { id: 'homeRun', numeric: true, disablePadding: false, label: '被本塁打' },
   { id: 'baseOnBalls', numeric: true, disablePadding: false, label: '与四球' },
   { id: 'strikeOut', numeric: true, disablePadding: false, label: '三振' },
+  { id: 'babip', numeric: true, disablePadding: false, label: '被BABIP' },
 ];
 
 function createPitchingData(
@@ -37,7 +39,8 @@ function createPitchingData(
   hold: number,
   homeRun: number,
   baseOnBalls: number,
-  strikeOut: number
+  strikeOut: number,
+  babip: number
 ) {
   const result: PitchingData = {
     main,
@@ -49,6 +52,7 @@ function createPitchingData(
     homeRun,
     baseOnBalls,
     strikeOut,
+    babip,
   };
   return result;
 }
@@ -85,7 +89,8 @@ function createPitchingDataList(
           val.Hold,
           val.HomeRun,
           val.BaseOnBalls,
-          val.StrikeOut
+          val.StrikeOut,
+          val.BABIP
         )
       );
     });

@@ -3,6 +3,7 @@ package grades
 import (
 	"encoding/json"
 	"log"
+	"math"
 	"os"
 	"strings"
 
@@ -104,9 +105,14 @@ func (Interactor *GradesInteractor) ExtractionPicherGrades(picherMap *map[string
 	Interactor.GradesRepository.ExtractionPicherGrades(picherMap, teamID)
 }
 
-// InsertPicherGrades 引数で受け取ったPICHERGRADESリストから重複選手を除外する
+// InsertPicherGrades 引数で受け取ったPICHERGRADESをDBに登録する
 func (Interactor *GradesInteractor) InsertPicherGrades(picherMap map[string][]data.PICHERGRADES) {
-	Interactor.GradesRepository.InsertPicherGrades(picherMap)
+	for key, pichers := range picherMap {
+		for _, picher := range pichers {
+			picher.SetBABIP()
+			Interactor.GradesRepository.InsertPicherGrades(key, picher)
+		}
+	}
 }
 
 // ExtractionBatterGrades 引数で受け取ったBATTERGRADESリストから重複選手を除外する
@@ -124,6 +130,7 @@ func (Interactor *GradesInteractor) InsertBatterGrades(batterMap map[string][]da
 			setSingle(&batter)
 			setWoba(&batter, config)
 			batter.SetRC()
+			batter.SetBABIP()
 			Interactor.GradesRepository.InsertBatterGrades(key, batter)
 		}
 	}
@@ -137,6 +144,9 @@ func setWoba(batterGrades *data.BATTERGRADES, config *config) {
 		config.HomeRun*float64(batterGrades.HomeRun)
 	denominator := (float64(batterGrades.AtBat) + float64(batterGrades.BaseOnBalls) + float64(batterGrades.HitByPitches) + float64(batterGrades.SacrificeFlies))
 	batterGrades.Woba = molecule / denominator
+	if math.IsNaN(batterGrades.Woba) {
+		batterGrades.Woba = 0.0
+	}
 }
 
 type config struct {

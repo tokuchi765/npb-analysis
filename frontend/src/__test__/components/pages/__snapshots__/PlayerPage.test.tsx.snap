@@ -861,6 +861,42 @@ exports[`選手詳細ページテスト スナップショット作成 1`] = `
                   </svg>
                 </span>
               </th>
+              <th
+                aria-sort={null}
+                className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-paddingNone"
+                scope="col"
+              >
+                <span
+                  aria-disabled={false}
+                  className="MuiButtonBase-root MuiTableSortLabel-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  BABIP
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                    />
+                  </svg>
+                </span>
+              </th>
             </tr>
           </thead>
           <tbody
@@ -1259,6 +1295,42 @@ exports[`選手詳細ページテスト スナップショット作成 1`] = `
                   tabIndex={0}
                 >
                   死球
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                    />
+                  </svg>
+                </span>
+              </th>
+              <th
+                aria-sort={null}
+                className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-paddingNone"
+                scope="col"
+              >
+                <span
+                  aria-disabled={false}
+                  className="MuiButtonBase-root MuiTableSortLabel-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  被BABIP
                   <svg
                     aria-hidden={true}
                     className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"

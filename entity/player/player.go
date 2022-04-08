@@ -1,5 +1,7 @@
 package player
 
+import "math"
+
 // PICHERGRADES 成績
 type PICHERGRADES struct {
 	Year             string  // 年度
@@ -27,6 +29,15 @@ type PICHERGRADES struct {
 	RunsAllowed      float64 // 失点
 	EarnedRun        float64 // 自責点
 	EarnedRunAverage float64 // 防御率
+	BABIP            float64 // 被BABIP
+}
+
+// SetBABIP 被BABIPを算出して設定する
+func (picherGrades *PICHERGRADES) SetBABIP() {
+	picherGrades.BABIP = (float64(picherGrades.Hit) - float64(picherGrades.HomeRun)) / (float64(picherGrades.Batter) - (float64(picherGrades.BaseOnBalls) + float64(picherGrades.HitByPitches)) - float64(picherGrades.StrikeOut) - float64(picherGrades.HomeRun))
+	if math.IsNaN(picherGrades.BABIP) {
+		picherGrades.BABIP = 0.0
+	}
 }
 
 // BATTERGRADES 成績
@@ -58,6 +69,7 @@ type BATTERGRADES struct {
 	OnBasePercentage       float64 // 出塁率
 	Woba                   float64 // 加重出塁率
 	RC                     float64 // 創出得点
+	BABIP                  float64 // BABIP
 }
 
 // SetRC RCを算出して設定する
@@ -66,6 +78,17 @@ func (batterGrades *BATTERGRADES) SetRC() {
 	B := float64(batterGrades.BaseHit) + (0.26 * float64(batterGrades.BaseOnBalls+batterGrades.HitByPitches)) + (0.53 * float64(batterGrades.SacrificeHits+batterGrades.SacrificeFlies)) + (0.64 * float64(batterGrades.StolenBase)) - (0.03 * float64(batterGrades.StrikeOut))
 	C := float64(batterGrades.AtBat + batterGrades.BaseOnBalls + batterGrades.HitByPitches + batterGrades.SacrificeFlies + batterGrades.SacrificeHits)
 	batterGrades.RC = ((A + (2.4 * C)) * (B + (3 * C)) / (9 * C)) - (0.9 * C)
+	if math.IsNaN(batterGrades.RC) {
+		batterGrades.RC = 0.0
+	}
+}
+
+// SetBABIP BABIPを算出して設定する
+func (batterGrades *BATTERGRADES) SetBABIP() {
+	batterGrades.BABIP = (float64(batterGrades.Hit) - float64(batterGrades.HomeRun)) / (float64(batterGrades.AtBat) - float64(batterGrades.StrikeOut) - float64(batterGrades.HomeRun) + float64(batterGrades.SacrificeFlies))
+	if math.IsNaN(batterGrades.BABIP) {
+		batterGrades.BABIP = 0.0
+	}
 }
 
 // CAREER 成績

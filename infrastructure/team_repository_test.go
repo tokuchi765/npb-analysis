@@ -11,8 +11,8 @@ import (
 
 func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 	type args struct {
-		years         []int
-		teamPitchings []teamData.TeamPitching
+		years        []int
+		teamPitching teamData.TeamPitching
 	}
 	tests := []struct {
 		name string
@@ -22,7 +22,7 @@ func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 			"チーム投手成績取得と登録",
 			args{
 				[]int{2020},
-				createTeamPitchings(),
+				createTeamPitching("01", "2020", 3.4, 143, 60, 60, 60, 60, 60, 60, 60, 60, 3.4, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 0.3),
 			},
 		},
 	}
@@ -34,23 +34,16 @@ func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 			sqlHandler.Conn = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
-			repository.InsertTeamPitchings(tt.args.teamPitchings)
+			repository.InsertTeamPitchings(tt.args.teamPitching)
 			actual := repository.GetTeamPitchings(tt.args.years)
 
-			assert.Exactly(t, tt.args.teamPitchings, actual["2020"])
+			assert.Exactly(t, tt.args.teamPitching, actual["2020"][0])
 			testUtil.CloseContainer(resource, pool)
 		})
 	}
 }
 
-func createTeamPitchings() (teamPitchings []teamData.TeamPitching) {
-	return []teamData.TeamPitching{
-		createTeamPitching("01", "2020", 3.4, 143, 60, 60, 60, 60, 60, 60, 60, 60, 3.4, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60),
-		createTeamPitching("10", "2020", 3.4, 143, 50, 50, 50, 50, 50, 50, 50, 50, 3.4, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50),
-	}
-}
-
-func createTeamPitching(teamID string, year string, earnedRunAverage float64, games int, win int, lose int, save int, hold int, holdPoint int, completeGame int, shutout int, noWalks int, winningRate float64, batter int, inningsPitched int, hit int, homeRun int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, wildPitches int, balk int, runsAllowed int, earnedRun int) (teamPitching teamData.TeamPitching) {
+func createTeamPitching(teamID string, year string, earnedRunAverage float64, games int, win int, lose int, save int, hold int, holdPoint int, completeGame int, shutout int, noWalks int, winningRate float64, batter int, inningsPitched int, hit int, homeRun int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, wildPitches int, balk int, runsAllowed int, earnedRun int, babip float64) (teamPitching teamData.TeamPitching) {
 	return teamData.TeamPitching{
 		TeamID:           teamID,
 		Year:             year,
@@ -77,12 +70,13 @@ func createTeamPitching(teamID string, year string, earnedRunAverage float64, ga
 		Balk:             balk,
 		RunsAllowed:      runsAllowed,
 		EarnedRun:        earnedRun,
+		BABIP:            babip,
 	}
 }
 
 func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 	type args struct {
-		teamBatting []teamData.TeamBatting
+		teamBatting teamData.TeamBatting
 	}
 	tests := []struct {
 		name string
@@ -91,7 +85,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 		{
 			"チーム打撃成績取得と登録",
 			args{
-				teamBatting: createTeamBattings(),
+				teamBatting: createTeamBatting("01", "2005", 0.301, 144, 360, 360, 400, 360, 90, 5, 70, 400, 400, 50, 20, 20, 20, 100, 100, 100, 100, 20, 0.21, 0.314, 0.3),
 			},
 		},
 	}
@@ -107,20 +101,14 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 
 			batting := repository.GetTeamBattings([]int{2005})["2005"]
 
-			assert.Equal(t, tt.args.teamBatting, batting)
+			assert.Equal(t, tt.args.teamBatting, batting[0])
 
 			testUtil.CloseContainer(resource, pool)
 		})
 	}
 }
-func createTeamBattings() []teamData.TeamBatting {
-	return []teamData.TeamBatting{
-		createTeamBatting("01", "2005", 0.301, 144, 360, 360, 400, 360, 90, 5, 70, 400, 400, 50, 20, 20, 20, 100, 100, 100, 100, 20, 0.21, 0.314),
-		createTeamBatting("02", "2005", 0.264, 144, 300, 360, 400, 360, 90, 5, 70, 400, 400, 50, 20, 20, 20, 100, 100, 100, 100, 20, 0.156, 0.264),
-	}
-}
 
-func createTeamBatting(teamID string, year string, battingAverage float64, games int, plateAppearance int, atBat int, score int, hit int, double int, triple int, homeRun int, baseHit int, runsBattedIn int, stolenBase int, caughtStealing int, sacrificeHits int, sacrificeFlies int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, groundedIntoDoublePlay int, sluggingPercentage float64, onBasePercentage float64) teamData.TeamBatting {
+func createTeamBatting(teamID string, year string, battingAverage float64, games int, plateAppearance int, atBat int, score int, hit int, double int, triple int, homeRun int, baseHit int, runsBattedIn int, stolenBase int, caughtStealing int, sacrificeHits int, sacrificeFlies int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, groundedIntoDoublePlay int, sluggingPercentage float64, onBasePercentage float64, babip float64) teamData.TeamBatting {
 	return teamData.TeamBatting{
 		TeamID:                 teamID,
 		Year:                   year,
@@ -146,6 +134,7 @@ func createTeamBatting(teamID string, year string, battingAverage float64, games
 		GroundedIntoDoublePlay: groundedIntoDoublePlay,
 		SluggingPercentage:     sluggingPercentage,
 		OnBasePercentage:       onBasePercentage,
+		BABIP:                  babip,
 	}
 }
 

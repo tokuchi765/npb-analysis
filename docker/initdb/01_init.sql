@@ -1,5 +1,5 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2022/03/26 18:39:10
+-- Date/Time    : 2022/04/11 22:20:56
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -228,6 +228,7 @@ create table PICHER_GRADES (
   , earned_run real
   , earned_run_average real
   , babip real
+  , strike_out_rate real
   , constraint PICHER_GRADES_PKC primary key (player_id,year,team_id)
 ) ;
 
@@ -405,3 +406,4 @@ comment on column PICHER_GRADES.runs_allowed is '失点';
 comment on column PICHER_GRADES.earned_run is '自責点';
 comment on column PICHER_GRADES.earned_run_average is '防御率';
 comment on column PICHER_GRADES.babip is '被BABIP';
+comment on column PICHER_GRADES.strike_out_rate is '奪三振率';

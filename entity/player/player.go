@@ -30,6 +30,7 @@ type PICHERGRADES struct {
 	EarnedRun        float64 // 自責点
 	EarnedRunAverage float64 // 防御率
 	BABIP            float64 // 被BABIP
+	StrikeOutRate    float64 // 奪三振率
 }
 
 // SetBABIP 被BABIPを算出して設定する

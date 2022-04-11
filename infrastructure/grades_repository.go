@@ -33,7 +33,7 @@ func (Repository *GradesRepository) GetPitchings(playerID string) (pitchings []d
 			&pitching.NoWalks, &pitching.WinningRate, &pitching.Batter, &pitching.InningsPitched,
 			&pitching.Hit, &pitching.HomeRun, &pitching.BaseOnBalls, &pitching.HitByPitches,
 			&pitching.StrikeOut, &pitching.WildPitches, &pitching.Balk, &pitching.RunsAllowed,
-			&pitching.EarnedRun, &pitching.EarnedRunAverage, &pitching.BABIP)
+			&pitching.EarnedRun, &pitching.EarnedRunAverage, &pitching.BABIP, &pitching.StrikeOutRate)
 
 		pitchings = append(pitchings, pitching)
 	}

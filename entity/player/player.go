@@ -41,6 +41,14 @@ func (picherGrades *PICHERGRADES) SetBABIP() {
 	}
 }
 
+// SetStrikeOutRate 奪三振率を算出して設定する
+func (picherGrades *PICHERGRADES) SetStrikeOutRate() {
+	picherGrades.StrikeOutRate = (picherGrades.StrikeOut * 9) / picherGrades.InningsPitched
+	if math.IsNaN(picherGrades.StrikeOutRate) {
+		picherGrades.StrikeOutRate = 0.0
+	}
+}
+
 // BATTERGRADES 成績
 type BATTERGRADES struct {
 	Year                   string  // 年度

@@ -106,3 +106,34 @@ func TestPICHERGRADES_SetBABIP(t *testing.T) {
 		})
 	}
 }
+
+func TestPICHERGRADES_SetStrikeOutRate(t *testing.T) {
+	tests := []struct {
+		name                 string
+		picherGrades         *PICHERGRADES
+		wantSetStrikeOutRate float64
+	}{
+		{
+			"奪三振率算出",
+			&PICHERGRADES{
+				StrikeOut:      10,
+				InningsPitched: 30,
+			},
+			3.0,
+		},
+		{
+			"奪三振率がNaN",
+			&PICHERGRADES{
+				StrikeOut:      0,
+				InningsPitched: 0,
+			},
+			0.0,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.picherGrades.SetStrikeOutRate()
+			assert.Equal(t, tt.wantSetStrikeOutRate, tt.picherGrades.StrikeOutRate)
+		})
+	}
+}

@@ -21,16 +21,16 @@ type GradesRepository interface {
 	ExtractionCareers(careers *[]data.CAREER)
 	InsertCareers(careers []data.CAREER)
 	ExtractionPicherGrades(picherMap *map[string][]data.PICHERGRADES, teamID string)
-	InsertPicherGrades(picherMap map[string][]data.PICHERGRADES)
+	InsertPicherGrades(key string, picher data.PICHERGRADES)
 	ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID string)
 	InsertBatterGrades(playerID string, batterGrades data.BATTERGRADES)
 }
 
 // TeamRepository チーム成績データアクセスを管理するインターフェース
 type TeamRepository interface {
-	InsertTeamPitchings(teamPitching []teamData.TeamPitching)
+	InsertTeamPitchings(teamPitching teamData.TeamPitching)
 	GetTeamPitchings(years []int) (teamPitchingMap map[string][]teamData.TeamPitching)
-	InsertTeamBattings(teamBatting []teamData.TeamBatting)
+	InsertTeamBattings(teamBatting teamData.TeamBatting)
 	GetTeamBattings(years []int) (teamBattingMap map[string][]teamData.TeamBatting)
 	GetTeamStats(years []int) (teamStatsMap map[string][]teamData.TeamLeagueStats)
 	InsertPythagoreanExpectation(teamBattings []teamData.TeamBatting, teamPitchings []teamData.TeamPitching)

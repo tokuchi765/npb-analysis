@@ -14,6 +14,7 @@ interface BattingData {
   baseOnBalls: number;
   strikeOut: number;
   onBasePercentage: number;
+  babip: number;
 }
 
 const headCells: HeadCell[] = [
@@ -26,6 +27,7 @@ const headCells: HeadCell[] = [
   { id: 'baseOnBalls', numeric: true, disablePadding: false, label: '四球' },
   { id: 'strikeOut', numeric: true, disablePadding: false, label: '三振' },
   { id: 'onBasePercentage', numeric: true, disablePadding: false, label: '出塁率' },
+  { id: 'babip', numeric: true, disablePadding: false, label: 'BABIP' },
 ];
 
 function createBattingData(
@@ -37,7 +39,8 @@ function createBattingData(
   homeRun: number,
   baseOnBalls: number,
   strikeOut: number,
-  onBasePercentage: number
+  onBasePercentage: number,
+  babip: number
 ) {
   const result: BattingData = {
     main,
@@ -49,6 +52,7 @@ function createBattingData(
     baseOnBalls,
     strikeOut,
     onBasePercentage,
+    babip,
   };
   return result;
 }
@@ -85,7 +89,8 @@ function createBattingDataList(
           val.HomeRun,
           val.BaseOnBalls,
           val.StrikeOut,
-          val.OnBasePercentage
+          val.OnBasePercentage,
+          val.BABIP
         )
       );
     });

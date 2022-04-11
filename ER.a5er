@@ -1,7 +1,7 @@
-﻿# A5:ER FORMAT:15
+﻿# A5:ER FORMAT:16
 # A5:ER ENCODING:UTF8
 # A5:ER Mk-1 Copyright © 2007 m.matsubara
-# A5:SQL Mk-2 Version 2.16.2 Copyright © 1997 - 2021 m.matsubara
+# A5:SQL Mk-2 Version 2.17.1 Copyright © 1997 - 2022 m.matsubara
 #  https://a5m2.mmatsubara.com
 
 [Manager]
@@ -37,6 +37,7 @@ SqlSeparator=0
 UpperCaseKeyword=0
 ShowTag=1
 ShowCommonAttributes=0
+BugFixEntityWidth=0
 
 [Entity]
 PName=PICHER_GRADES
@@ -72,11 +73,12 @@ Field="ボーク","balk","@FLOAT",,,"","",$FFFFFFFF,""
 Field="失点","runs_allowed","@FLOAT",,,"","",$FFFFFFFF,""
 Field="自責点","earned_run","@FLOAT",,,"","",$FFFFFFFF,""
 Field="防御率","earned_run_average","@FLOAT",,,"","",$FFFFFFFF,""
+Field="被BABIP","babip","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20201208210812
-Position="MAIN",1050,650,299,672
+ModifiedDateTime=20220326155946
+Position="MAIN",1050,650,299,698
 ZOrder=1
 
 [Entity]
@@ -161,11 +163,12 @@ Field="長打率","slugging_percentage","@FLOAT",,,"","",$FFFFFFFF,""
 Field="出塁率","on_base_percentage","@FLOAT",,,"","",$FFFFFFFF,""
 Field="加重出塁率","w_oba","@FLOAT",,,"","",$FFFFFFFF,""
 Field="創出得点","rc","@FLOAT",,,"","",$FFFFFFFF,""
+Field="BABIP","babip","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20220101234605
-Position="MAIN",550,650,275,728
+ModifiedDateTime=20220326183734
+Position="MAIN",550,650,275,749
 ZOrder=5
 
 [Relation]
@@ -278,11 +281,12 @@ Field="三振","strike_out","@INT",,,"","",$FFFFFFFF,""
 Field="併殺打","grounded_into_double_play","@INT",,,"","",$FFFFFFFF,""
 Field="長打率","slugging_percentage","@FLOAT",,,"","",$FFFFFFFF,""
 Field="出塁率","on_base_percentage","@FLOAT",,,"","",$FFFFFFFF,""
+Field="BABIP","babip","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20210328165407
-Position="MAIN",1500,500,298,622
+ModifiedDateTime=20220326183751
+Position="MAIN",1500,500,298,646
 ZOrder=16
 
 [Relation]
@@ -340,11 +344,12 @@ Field="暴投","wild_pitches","@INT",,,"","",$FFFFFFFF,""
 Field="ボーク","balk","@INT",,,"","",$FFFFFFFF,""
 Field="失点","runs_allowed","@INT",,,"","",$FFFFFFFF,""
 Field="自責点","earned_run","@INT",,,"","",$FFFFFFFF,""
+Field="被BABIP","babip","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20201123215355
-Position="MAIN",1900,500,302,653
+ModifiedDateTime=20220326183446
+Position="MAIN",1900,500,302,672
 ZOrder=18
 
 [Relation]

@@ -20,6 +20,7 @@ interface BattingDate {
   groundedIntoDoublePlay: number;
   woba: number;
   rc: number;
+  babip: number;
 }
 
 const batterHeadCells: HeadCell[] = [
@@ -34,6 +35,7 @@ const batterHeadCells: HeadCell[] = [
   { id: 'groundedIntoDoublePlay', numeric: true, disablePadding: true, label: '併殺打' },
   { id: 'woba', numeric: true, disablePadding: true, label: '加重出塁率' },
   { id: 'rc', numeric: true, disablePadding: true, label: '創出得点' },
+  { id: 'babip', numeric: true, disablePadding: true, label: 'BABIP' },
 ];
 
 function createBattingDatas(
@@ -49,6 +51,7 @@ function createBattingDatas(
     GroundedIntoDoublePlay: string;
     Woba: string;
     RC: string;
+    BABIP: string;
   }[]
 ) {
   const battings: BattingDate[] = [];
@@ -65,6 +68,7 @@ function createBattingDatas(
       groundedIntoDoublePlay: Number(batting.GroundedIntoDoublePlay),
       woba: Number(batting.Woba),
       rc: Number(batting.RC),
+      babip: Number(batting.BABIP),
     });
   });
   return battings;
@@ -81,6 +85,7 @@ interface PitchingDate {
   homeRun: number;
   baseOnBalls: number;
   hitByPitches: number;
+  babip: number;
 }
 
 const pitcherHeadCells: HeadCell[] = [
@@ -94,6 +99,7 @@ const pitcherHeadCells: HeadCell[] = [
   { id: 'homeRun', numeric: true, disablePadding: true, label: '被本塁打' },
   { id: 'baseOnBalls', numeric: true, disablePadding: true, label: '四球' },
   { id: 'hitByPitches', numeric: true, disablePadding: true, label: '死球' },
+  { id: 'babip', numeric: true, disablePadding: true, label: '被BABIP' },
 ];
 
 function createPitchingDatas(
@@ -108,6 +114,7 @@ function createPitchingDatas(
     HomeRun: string;
     BaseOnBalls: string;
     HitByPitches: string;
+    BABIP: string;
   }[]
 ) {
   const pitchings: PitchingDate[] = [];
@@ -123,6 +130,7 @@ function createPitchingDatas(
       homeRun: Number(pitching.HomeRun),
       baseOnBalls: Number(pitching.BaseOnBalls),
       hitByPitches: Number(pitching.HitByPitches),
+      babip: Number(pitching.BABIP),
     });
   });
   return pitchings;

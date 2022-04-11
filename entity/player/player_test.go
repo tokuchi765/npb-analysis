@@ -53,3 +53,56 @@ func TestBATTERGRADES_SetRC(t *testing.T) {
 		})
 	}
 }
+
+func TestBATTERGRADES_SetBABIP(t *testing.T) {
+	tests := []struct {
+		name         string
+		batterGrades *BATTERGRADES
+		wantBABIP    float64
+	}{
+		{
+			"BABIP算出",
+			&BATTERGRADES{
+				AtBat:          500,
+				Hit:            240,
+				HomeRun:        20,
+				StrikeOut:      50,
+				SacrificeFlies: 10,
+			},
+			0.5,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.batterGrades.SetBABIP()
+			assert.Equal(t, tt.wantBABIP, tt.batterGrades.BABIP)
+		})
+	}
+}
+
+func TestPICHERGRADES_SetBABIP(t *testing.T) {
+	tests := []struct {
+		name         string
+		picherGrades *PICHERGRADES
+		wantBABIP    float64
+	}{
+		{
+			"被BABIP算出",
+			&PICHERGRADES{
+				Batter:       500,
+				Hit:          240,
+				HomeRun:      20,
+				StrikeOut:    20,
+				BaseOnBalls:  10,
+				HitByPitches: 10,
+			},
+			0.5,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.picherGrades.SetBABIP()
+			assert.Equal(t, tt.wantBABIP, tt.picherGrades.BABIP)
+		})
+	}
+}

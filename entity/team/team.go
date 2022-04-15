@@ -91,6 +91,14 @@ func (teamPitching *TeamPitching) SetBABIP() {
 	}
 }
 
+// SetStrikeOutRate 奪三振率を算出して設定する
+func (teamPitching *TeamPitching) SetStrikeOutRate() {
+	teamPitching.StrikeOutRate = (float64(teamPitching.StrikeOut) * 9) / float64(teamPitching.InningsPitched)
+	if math.IsNaN(teamPitching.StrikeOutRate) {
+		teamPitching.StrikeOutRate = 0.0
+	}
+}
+
 // TeamLeagueStats チームシーズン成績
 type TeamLeagueStats struct {
 	TeamID                 string  // チームID

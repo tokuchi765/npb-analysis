@@ -80,6 +80,7 @@ type TeamPitching struct {
 	RunsAllowed      int     // 失点
 	EarnedRun        int     // 自責点
 	BABIP            float64 // 被BABIP
+	StrikeOutRate    float64 // 奪三振率
 }
 
 // SetBABIP 被BABIPを算出して設定する

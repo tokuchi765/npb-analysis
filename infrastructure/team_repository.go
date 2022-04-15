@@ -49,7 +49,7 @@ func (Repository *TeamRepository) GetTeamPitchings(years []int) (teamPitchingMap
 				&teamPitching.WinningRate, &teamPitching.Batter, &teamPitching.InningsPitched,
 				&teamPitching.Hit, &teamPitching.HomeRun, &teamPitching.BaseOnBalls,
 				&teamPitching.IntentionalWalk, &teamPitching.HitByPitches, &teamPitching.StrikeOut,
-				&teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun, &teamPitching.BABIP)
+				&teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun, &teamPitching.BABIP, &teamPitching.StrikeOutRate)
 			teamPitchings = append(teamPitchings, teamPitching)
 		}
 		teamPitchingMap[strYear] = teamPitchings

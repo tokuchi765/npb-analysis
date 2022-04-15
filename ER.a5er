@@ -346,11 +346,12 @@ Field="ボーク","balk","@INT",,,"","",$FFFFFFFF,""
 Field="失点","runs_allowed","@INT",,,"","",$FFFFFFFF,""
 Field="自責点","earned_run","@INT",,,"","",$FFFFFFFF,""
 Field="被BABIP","babip","@FLOAT",,,"","",$FFFFFFFF,""
+Field="奪三振率","strike_out_rate","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20220326183446
-Position="MAIN",1900,500,302,672
+ModifiedDateTime=20220415224250
+Position="MAIN",1900,500,302,691
 ZOrder=18
 
 [Relation]

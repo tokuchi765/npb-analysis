@@ -15,12 +15,12 @@ type TeamRepository struct {
 
 // InsertTeamPitchings チーム投手成績をDBに登録する
 func (Repository *TeamRepository) InsertTeamPitchings(pitching teamData.TeamPitching) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO team_pitching(team_id, year, earned_run_average, games, win, lose, save, hold, hold_point, complete_game, shutout, no_walks, winning_rate, batter, innings_pitched, hit, home_run, base_on_balls, intentional_walk, hit_by_ptches, strike_out, wild_pitches, balk, runs_allowed, earned_run, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26)")
+	stmt, err := Repository.Conn.Prepare("INSERT INTO team_pitching(team_id, year, earned_run_average, games, win, lose, save, hold, hold_point, complete_game, shutout, no_walks, winning_rate, batter, innings_pitched, hit, home_run, base_on_balls, intentional_walk, hit_by_ptches, strike_out, wild_pitches, balk, runs_allowed, earned_run, babip, strike_out_rate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
-	if _, err := stmt.Exec(pitching.TeamID, pitching.Year, pitching.EarnedRunAverage, pitching.Games, pitching.Win, pitching.Lose, pitching.Save, pitching.Hold, pitching.HoldPoint, pitching.CompleteGame, pitching.Shutout, pitching.NoWalks, pitching.WinningRate, pitching.Batter, pitching.InningsPitched, pitching.Hit, pitching.HomeRun, pitching.BaseOnBalls, pitching.IntentionalWalk, pitching.HitByPitches, pitching.StrikeOut, pitching.WildPitches, pitching.Balk, pitching.RunsAllowed, pitching.EarnedRun, pitching.BABIP); err != nil {
+	if _, err := stmt.Exec(pitching.TeamID, pitching.Year, pitching.EarnedRunAverage, pitching.Games, pitching.Win, pitching.Lose, pitching.Save, pitching.Hold, pitching.HoldPoint, pitching.CompleteGame, pitching.Shutout, pitching.NoWalks, pitching.WinningRate, pitching.Batter, pitching.InningsPitched, pitching.Hit, pitching.HomeRun, pitching.BaseOnBalls, pitching.IntentionalWalk, pitching.HitByPitches, pitching.StrikeOut, pitching.WildPitches, pitching.Balk, pitching.RunsAllowed, pitching.EarnedRun, pitching.BABIP, pitching.StrikeOutRate); err != nil {
 		fmt.Println(pitching.TeamID + ":" + pitching.Year)
 		log.Print(err)
 	}

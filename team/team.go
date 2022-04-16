@@ -84,6 +84,7 @@ func (Interactor *TeamInteractor) InsertTeamPitchings(csvPath string, league str
 		teamPitching := Interactor.ReadTeamPitching(csvPath, league, strconv.Itoa(year))
 		for _, pitching := range teamPitching {
 			pitching.SetBABIP()
+			pitching.SetStrikeOutRate()
 			Interactor.TeamRepository.InsertTeamPitchings(pitching)
 		}
 	}

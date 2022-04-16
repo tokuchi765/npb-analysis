@@ -82,6 +82,7 @@ interface PitchingDate {
   earnedRunAverage: number;
   batter: number;
   strikeOut: number;
+  strikeOutRate: number;
   homeRun: number;
   baseOnBalls: number;
   hitByPitches: number;
@@ -96,6 +97,7 @@ const pitcherHeadCells: HeadCell[] = [
   { id: 'earnedRunAverage', numeric: true, disablePadding: true, label: '防御率' },
   { id: 'batter', numeric: true, disablePadding: true, label: '打者' },
   { id: 'strikeOut', numeric: true, disablePadding: true, label: '三振' },
+  { id: 'strikeOutRate', numeric: true, disablePadding: false, label: '奪三振率' },
   { id: 'homeRun', numeric: true, disablePadding: true, label: '被本塁打' },
   { id: 'baseOnBalls', numeric: true, disablePadding: true, label: '四球' },
   { id: 'hitByPitches', numeric: true, disablePadding: true, label: '死球' },
@@ -111,6 +113,7 @@ function createPitchingDatas(
     EarnedRunAverage: string;
     Batter: string;
     StrikeOut: string;
+    StrikeOutRate: string;
     HomeRun: string;
     BaseOnBalls: string;
     HitByPitches: string;
@@ -127,6 +130,7 @@ function createPitchingDatas(
       earnedRunAverage: Number(pitching.EarnedRunAverage),
       batter: Number(pitching.Batter),
       strikeOut: Number(pitching.StrikeOut),
+      strikeOutRate: Number(pitching.StrikeOutRate),
       homeRun: Number(pitching.HomeRun),
       baseOnBalls: Number(pitching.BaseOnBalls),
       hitByPitches: Number(pitching.HitByPitches),

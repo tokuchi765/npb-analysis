@@ -1,5 +1,5 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2022/03/26 18:39:10
+-- Date/Time    : 2022/04/15 22:43:06
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -97,6 +97,7 @@ create table TEAM_PITCHING (
   , runs_allowed integer
   , earned_run integer
   , babip real
+  , strike_out_rate real
   , constraint TEAM_PITCHING_PKC primary key (team_id,year)
 ) ;
 
@@ -228,6 +229,7 @@ create table PICHER_GRADES (
   , earned_run real
   , earned_run_average real
   , babip real
+  , strike_out_rate real
   , constraint PICHER_GRADES_PKC primary key (player_id,year,team_id)
 ) ;
 
@@ -298,6 +300,7 @@ comment on column TEAM_PITCHING.balk is 'ボーク';
 comment on column TEAM_PITCHING.runs_allowed is '失点';
 comment on column TEAM_PITCHING.earned_run is '自責点';
 comment on column TEAM_PITCHING.babip is '被BABIP';
+comment on column TEAM_PITCHING.strike_out_rate is '奪三振率';
 
 comment on table TEAM_BATTING is 'チーム打撃成績';
 comment on column TEAM_BATTING.team_id is 'チームID';
@@ -405,3 +408,4 @@ comment on column PICHER_GRADES.runs_allowed is '失点';
 comment on column PICHER_GRADES.earned_run is '自責点';
 comment on column PICHER_GRADES.earned_run_average is '防御率';
 comment on column PICHER_GRADES.babip is '被BABIP';
+comment on column PICHER_GRADES.strike_out_rate is '奪三振率';

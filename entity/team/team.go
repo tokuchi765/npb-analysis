@@ -80,6 +80,7 @@ type TeamPitching struct {
 	RunsAllowed      int     // 失点
 	EarnedRun        int     // 自責点
 	BABIP            float64 // 被BABIP
+	StrikeOutRate    float64 // 奪三振率
 }
 
 // SetBABIP 被BABIPを算出して設定する
@@ -87,6 +88,14 @@ func (teamPitching *TeamPitching) SetBABIP() {
 	teamPitching.BABIP = (float64(teamPitching.Hit) - float64(teamPitching.HomeRun)) / (float64(teamPitching.Batter) - (float64(teamPitching.BaseOnBalls) + float64(teamPitching.HitByPitches)) - float64(teamPitching.StrikeOut) - float64(teamPitching.HomeRun))
 	if math.IsNaN(teamPitching.BABIP) {
 		teamPitching.BABIP = 0.0
+	}
+}
+
+// SetStrikeOutRate 奪三振率を算出して設定する
+func (teamPitching *TeamPitching) SetStrikeOutRate() {
+	teamPitching.StrikeOutRate = (float64(teamPitching.StrikeOut) * 9) / float64(teamPitching.InningsPitched)
+	if math.IsNaN(teamPitching.StrikeOutRate) {
+		teamPitching.StrikeOutRate = 0.0
 	}
 }
 

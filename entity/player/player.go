@@ -30,6 +30,7 @@ type PICHERGRADES struct {
 	EarnedRun        float64 // 自責点
 	EarnedRunAverage float64 // 防御率
 	BABIP            float64 // 被BABIP
+	StrikeOutRate    float64 // 奪三振率
 }
 
 // SetBABIP 被BABIPを算出して設定する
@@ -37,6 +38,14 @@ func (picherGrades *PICHERGRADES) SetBABIP() {
 	picherGrades.BABIP = (float64(picherGrades.Hit) - float64(picherGrades.HomeRun)) / (float64(picherGrades.Batter) - (float64(picherGrades.BaseOnBalls) + float64(picherGrades.HitByPitches)) - float64(picherGrades.StrikeOut) - float64(picherGrades.HomeRun))
 	if math.IsNaN(picherGrades.BABIP) {
 		picherGrades.BABIP = 0.0
+	}
+}
+
+// SetStrikeOutRate 奪三振率を算出して設定する
+func (picherGrades *PICHERGRADES) SetStrikeOutRate() {
+	picherGrades.StrikeOutRate = (picherGrades.StrikeOut * 9) / picherGrades.InningsPitched
+	if math.IsNaN(picherGrades.StrikeOutRate) {
+		picherGrades.StrikeOutRate = 0.0
 	}
 }
 

@@ -22,7 +22,7 @@ func TestGradesRepository_InsertPicherGrades_GetPitchings(t *testing.T) {
 			"投手成績登録と取得",
 			args{
 				"53355134",
-				createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3),
+				createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3, 3.6),
 			},
 		},
 	}
@@ -43,11 +43,11 @@ func TestGradesRepository_InsertPicherGrades_GetPitchings(t *testing.T) {
 
 func createPicherGradesList() []data.PICHERGRADES {
 	return []data.PICHERGRADES{
-		createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3),
+		createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3, 3.6),
 	}
 }
 
-func createPicherGrades(year string, teamID string, team string, piched float64, win float64, lose float64, save float64, hold float64, holdPoint float64, completeGame float64, shutout float64, noWalks float64, winningRate float64, batter float64, inningsPitched float64, hit float64, homeRun float64, baseOnBalls float64, hitByPitches float64, strikeOut float64, wildPitches float64, balk float64, runsAllowed float64, earnedRun float64, earnedRunAverage float64, babip float64) data.PICHERGRADES {
+func createPicherGrades(year string, teamID string, team string, piched float64, win float64, lose float64, save float64, hold float64, holdPoint float64, completeGame float64, shutout float64, noWalks float64, winningRate float64, batter float64, inningsPitched float64, hit float64, homeRun float64, baseOnBalls float64, hitByPitches float64, strikeOut float64, wildPitches float64, balk float64, runsAllowed float64, earnedRun float64, earnedRunAverage float64, babip float64, strikeOutRate float64) data.PICHERGRADES {
 	return data.PICHERGRADES{
 		Year:             year,
 		TeamID:           teamID,
@@ -75,6 +75,7 @@ func createPicherGrades(year string, teamID string, team string, piched float64,
 		EarnedRun:        earnedRun,
 		EarnedRunAverage: earnedRunAverage,
 		BABIP:            babip,
+		StrikeOutRate:    strikeOutRate,
 	}
 }
 
@@ -317,7 +318,7 @@ func TestGradesRepository_ExtractionPicherGrades(t *testing.T) {
 			sqlHandler := new(SQLHandler)
 			sqlHandler.Conn = db
 			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertPicherGrades("53355134", createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3))
+			repository.InsertPicherGrades("53355134", createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3, 3.6))
 			repository.ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
 			assert.Empty(t, tt.args.picherMap)
 		})

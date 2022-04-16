@@ -343,7 +343,8 @@ func TestGradesInteractor_GetPitching(t *testing.T) {
 			picherMap[tt.args.playerID] = []data.PICHERGRADES{picherGrades}
 			interactor.InsertPicherGrades(picherMap)
 			gotPitchings := interactor.GetPitching(tt.args.playerID)
-			assert.ElementsMatch(t, tt.wantPitchings, gotPitchings)
+			assert.Equal(t, 0.24827586, gotPitchings[0].BABIP)
+			assert.Equal(t, 7.811321, gotPitchings[0].StrikeOutRate)
 		})
 	}
 }
@@ -399,10 +400,6 @@ func TestInsertBatterGrades(t *testing.T) {
 }
 
 func TestGradesInteractor_GetBatting(t *testing.T) {
-	wantGrades := getTestBatterGrades()
-	wantGrades.SluggingPercentage = 0.329 // DBから読み取ると値が変わってしまう
-	wantGrades.Single = 65
-	wantGrades.Woba = 0.30729485
 	type args struct {
 		playerID string
 	}
@@ -416,7 +413,7 @@ func TestGradesInteractor_GetBatting(t *testing.T) {
 			args{
 				"01605136",
 			},
-			[]data.BATTERGRADES{wantGrades},
+			[]data.BATTERGRADES{getTestBatterGrades()},
 		},
 	}
 	for _, tt := range tests {
@@ -435,7 +432,9 @@ func TestGradesInteractor_GetBatting(t *testing.T) {
 			runtimeCurrent, _ := filepath.Abs("../")
 			interactor.InsertBatterGrades(batterMap, runtimeCurrent)
 			gotBattings := interactor.GetBatting(tt.args.playerID)
-			assert.ElementsMatch(t, tt.wantBattings, gotBattings)
+			assert.Equal(t, 0.30729485, gotBattings[0].Woba)
+			assert.Equal(t, 36.138172, gotBattings[0].RC)
+			assert.Equal(t, 0.29501915, gotBattings[0].BABIP)
 		})
 	}
 }

@@ -79,7 +79,7 @@ func setupRouter() *gin.Engine {
 	playerController := controller.NewPlayerController(sqlHandler)
 	teamController := controller.NewTeamController(sqlHandler)
 
-	// チーム打撃成績を取得
+	// チーム投手成績を取得
 	router.GET("/team/pitching", func(c *gin.Context) { teamController.GetTeamPitching(c) })
 
 	// チーム打撃成績を取得

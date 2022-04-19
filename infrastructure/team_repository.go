@@ -57,6 +57,19 @@ func (Repository *TeamRepository) GetTeamPitchings(years []int) (teamPitchingMap
 	return teamPitchingMap
 }
 
+// GetTeamPitchingByTeamIDAndYear 引数で受け取ったチームIDと年に紐づくチーム投手成績を取得します。
+func (Repository *TeamRepository) GetTeamPitchingByTeamIDAndYear(year string, teamID string) (teamPitching teamData.TeamPitching) {
+	rows, err := Repository.SQLHandler.Conn.Query("select * from team_pitching where year = $1 and team_id = $2", year, teamID)
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&teamPitching.TeamID, &teamPitching.Year, &teamPitching.EarnedRunAverage, &teamPitching.Games, &teamPitching.Win, &teamPitching.Lose, &teamPitching.Save, &teamPitching.Hold, &teamPitching.HoldPoint, &teamPitching.CompleteGame, &teamPitching.Shutout, &teamPitching.NoWalks, &teamPitching.WinningRate, &teamPitching.Batter, &teamPitching.InningsPitched, &teamPitching.Hit, &teamPitching.HomeRun, &teamPitching.BaseOnBalls, &teamPitching.IntentionalWalk, &teamPitching.HitByPitches, &teamPitching.StrikeOut, &teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun, &teamPitching.BABIP, &teamPitching.StrikeOutRate)
+	}
+	return teamPitching
+}
+
 // InsertTeamBattings チーム打撃成績をDBに登録する
 func (Repository *TeamRepository) InsertTeamBattings(batting teamData.TeamBatting) {
 	stmt, err := Repository.Conn.Prepare("INSERT INTO team_batting(team_id, year, batting_average, games, plate_appearance, at_bat, score, hit, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, intentional_walk, hit_by_pitches, strike_out, grounded_into_double_play, slugging_percentage, on_base_percentage, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)")

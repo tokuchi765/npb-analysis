@@ -30,6 +30,7 @@ type GradesRepository interface {
 type TeamRepository interface {
 	InsertTeamPitchings(teamPitching teamData.TeamPitching)
 	GetTeamPitchings(years []int) (teamPitchingMap map[string][]teamData.TeamPitching)
+	GetTeamPitchingByTeamIDAndYear(year string, teamID string) (teamPitching teamData.TeamPitching)
 	InsertTeamBattings(teamBatting teamData.TeamBatting)
 	GetTeamBattings(years []int) (teamBattingMap map[string][]teamData.TeamBatting)
 	GetTeamStats(years []int) (teamStatsMap map[string][]teamData.TeamLeagueStats)

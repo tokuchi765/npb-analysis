@@ -29,6 +29,11 @@ func (Interactor *TeamInteractor) GetTeamPitching(years []int) (teamPitchingMap 
 	return Interactor.TeamRepository.GetTeamPitchings(years)
 }
 
+// GetTeamPitchingByTeamIDAndYear 引数で受け取った年とチームIDに紐づくチーム投手成績を取得します。
+func (Interactor *TeamInteractor) GetTeamPitchingByTeamIDAndYear(year string, teamID string) (teamPitching teamData.TeamPitching) {
+	return Interactor.TeamRepository.GetTeamPitchingByTeamIDAndYear(year, teamID)
+}
+
 // GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
 func (Interactor *TeamInteractor) GetTeamBatting(years []int) (teamBattingMap map[string][]teamData.TeamBatting) {
 	return Interactor.TeamRepository.GetTeamBattings(years)

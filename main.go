@@ -81,6 +81,7 @@ func setupRouter() *gin.Engine {
 
 	// チーム投手成績を取得
 	router.GET("/team/pitching", func(c *gin.Context) { teamController.GetTeamPitching(c) })
+	router.GET("/team/pitching/:teamId/:year", func(c *gin.Context) { teamController.GetTeamPitchingByTeamIDAndYear(c) })
 
 	// チーム打撃成績を取得
 	router.GET("/team/batting", func(c *gin.Context) { teamController.GetTeamBatting(c) })

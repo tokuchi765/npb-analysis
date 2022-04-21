@@ -33,6 +33,7 @@ type TeamRepository interface {
 	GetTeamPitchingByTeamIDAndYear(year string, teamID string) (teamPitching teamData.TeamPitching)
 	InsertTeamBattings(teamBatting teamData.TeamBatting)
 	GetTeamBattings(years []int) (teamBattingMap map[string][]teamData.TeamBatting)
+	GetTeamBattingByTeamIDAndYear(teamID string, year string) (teamBatting teamData.TeamBatting)
 	GetTeamStats(years []int) (teamStatsMap map[string][]teamData.TeamLeagueStats)
 	InsertPythagoreanExpectation(teamBattings []teamData.TeamBatting, teamPitchings []teamData.TeamPitching)
 	InsertTeamLeagueStats(teamLeagueStats []teamData.TeamLeagueStats)

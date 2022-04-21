@@ -113,6 +113,19 @@ func (Repository *TeamRepository) GetTeamBattings(years []int) (teamBattingMap m
 	return teamBattingMap
 }
 
+// GetTeamBattingByTeamIDAndYear 引数で受け取ったチームIDと年に紐づくチーム投手成績を取得します。
+func (Repository *TeamRepository) GetTeamBattingByTeamIDAndYear(teamID string, year string) (teamBatting teamData.TeamBatting) {
+	rows, err := Repository.SQLHandler.Conn.Query("select * from team_batting where year = $1 and team_id = $2", year, teamID)
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&teamBatting.TeamID, &teamBatting.Year, &teamBatting.BattingAverage, &teamBatting.Games, &teamBatting.PlateAppearance, &teamBatting.AtBat, &teamBatting.Score, &teamBatting.Hit, &teamBatting.Double, &teamBatting.Triple, &teamBatting.HomeRun, &teamBatting.BaseHit, &teamBatting.RunsBattedIn, &teamBatting.StolenBase, &teamBatting.CaughtStealing, &teamBatting.SacrificeHits, &teamBatting.SacrificeFlies, &teamBatting.BaseOnBalls, &teamBatting.IntentionalWalk, &teamBatting.HitByPitches, &teamBatting.StrikeOut, &teamBatting.GroundedIntoDoublePlay, &teamBatting.SluggingPercentage, &teamBatting.OnBasePercentage, &teamBatting.BABIP)
+	}
+	return teamBatting
+}
+
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。
 func (Repository *TeamRepository) GetTeamStats(years []int) (teamStatsMap map[string][]teamData.TeamLeagueStats) {
 	teamStatsMap = make(map[string][]teamData.TeamLeagueStats)

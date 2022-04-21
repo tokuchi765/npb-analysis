@@ -474,3 +474,38 @@ func TestTeamRepository_GetTeamPitchingByTeamIDAndYear(t *testing.T) {
 		})
 	}
 }
+
+func TestTeamRepository_GetTeamBattingByTeamIDAndYear(t *testing.T) {
+	type args struct {
+		teamID string
+		year   string
+	}
+	tests := []struct {
+		name            string
+		args            args
+		wantTeamBatting teamData.TeamBatting
+	}{
+		{
+			"チーム打撃成績取得（チームIDと年指定）",
+			args{
+				"01",
+				"2005",
+			},
+			createTeamBatting("01", "2005", 0.301, 144, 360, 360, 400, 360, 90, 5, 70, 400, 400, 50, 20, 20, 20, 100, 100, 100, 100, 20, 0.21, 0.314, 0.3),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamBattings(tt.wantTeamBatting)
+			actual := repository.GetTeamBattingByTeamIDAndYear(tt.args.teamID, tt.args.year)
+			assert.Exactly(t, tt.wantTeamBatting, actual)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}

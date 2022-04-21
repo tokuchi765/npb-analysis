@@ -62,6 +62,16 @@ func (controller *TeamController) GetTeamBatting(c Context) {
 	})
 }
 
+// GetTeamBattingByTeamIDAndYear 引数で受け取ったチームIDと年に紐づくチーム打撃成績を取得します。
+func (controller *TeamController) GetTeamBattingByTeamIDAndYear(c Context) {
+	teamID := c.Param("teamId")
+	year := c.Param("year")
+	teamBatting := controller.TeamInteractor.GetTeamBattingByTeamIDAndYear(teamID, year)
+	c.JSON(http.StatusOK, gin.H{
+		"teamBatting": teamBatting,
+	})
+}
+
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。
 func (controller *TeamController) GetTeamStats(c Context) {
 	fromYear, _ := strconv.Atoi(c.Query("from_year"))

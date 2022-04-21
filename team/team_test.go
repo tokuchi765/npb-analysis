@@ -496,3 +496,57 @@ func TestTeamInteractor_GetTeamPitchingByTeamIDAndYear(t *testing.T) {
 		})
 	}
 }
+
+func TestTeamInteractor_GetTeamBattingByTeamIDAndYear(t *testing.T) {
+	type args struct {
+		teamID                  string
+		year                    string
+		league                  string
+		years                   []int
+		expectedBattingAverage  float64
+		expectedGames           int
+		expectedPlateAppearance int
+		expectedAtBat           int
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			"セリーグ打撃成績登録確認",
+			args{
+				teamID:                  "06",
+				year:                    "2005",
+				league:                  "central",
+				years:                   []int{2005},
+				expectedBattingAverage:  0.276,
+				expectedGames:           146,
+				expectedPlateAppearance: 5523,
+				expectedAtBat:           5033,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(infrastructure.SQLHandler)
+			sqlHandler.Conn = db
+			interactor := TeamInteractor{
+				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+			}
+
+			runtimeCurrent, _ := filepath.Abs("../")
+			interactor.InsertTeamBattings(runtimeCurrent+"/test/resource", tt.args.league, tt.args.years)
+
+			batting := interactor.GetTeamBattingByTeamIDAndYear(tt.args.teamID, tt.args.year)
+
+			assert.Equal(t, tt.args.expectedBattingAverage, batting.BattingAverage)
+			assert.Equal(t, tt.args.expectedGames, batting.Games)
+			assert.Equal(t, tt.args.expectedPlateAppearance, batting.PlateAppearance)
+			assert.Equal(t, tt.args.expectedAtBat, batting.AtBat)
+
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}

@@ -51,6 +51,14 @@ func (controller *TeamController) GetTeamPitchingByTeamIDAndYear(c Context) {
 	})
 }
 
+// GetTeamPitchingMax チーム投手成績の各項目の最大値を取得する。
+func (controller *TeamController) GetTeamPitchingMax(c Context) {
+	// TODO 後続のコミットで内部処理を実装
+	c.JSON(http.StatusOK, gin.H{
+		"maxTeamPitching": "test",
+	})
+}
+
 // GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
 func (controller *TeamController) GetTeamBatting(c Context) {
 	fromYear, _ := strconv.Atoi(c.Query("from_year"))
@@ -69,6 +77,14 @@ func (controller *TeamController) GetTeamBattingByTeamIDAndYear(c Context) {
 	teamBatting := controller.TeamInteractor.GetTeamBattingByTeamIDAndYear(teamID, year)
 	c.JSON(http.StatusOK, gin.H{
 		"teamBatting": teamBatting,
+	})
+}
+
+// GetTeamBattingMax チーム打撃成績の各項目の最大値を取得する。
+func (controller *TeamController) GetTeamBattingMax(c Context) {
+	// TODO 後続のコミットで内部処理を実装
+	c.JSON(http.StatusOK, gin.H{
+		"maxTeamBatting": "test",
 	})
 }
 

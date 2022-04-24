@@ -34,6 +34,11 @@ func (Interactor *TeamInteractor) GetTeamPitchingByTeamIDAndYear(year string, te
 	return Interactor.TeamRepository.GetTeamPitchingByTeamIDAndYear(year, teamID)
 }
 
+// GetTeamPitchingMax チーム投手成績の各項目の最大値を取得する。
+func (Interactor *TeamInteractor) GetTeamPitchingMax() (maxStrikeOutRate float64, maxRunsAllowed int) {
+	return Interactor.TeamRepository.GetTeamPitchingMax()
+}
+
 // GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
 func (Interactor *TeamInteractor) GetTeamBatting(years []int) (teamBattingMap map[string][]teamData.TeamBatting) {
 	return Interactor.TeamRepository.GetTeamBattings(years)
@@ -42,6 +47,11 @@ func (Interactor *TeamInteractor) GetTeamBatting(years []int) (teamBattingMap ma
 // GetTeamBattingByTeamIDAndYear 引数で受け取った年とチームIDに紐づくチーム打撃成績を取得します。
 func (Interactor *TeamInteractor) GetTeamBattingByTeamIDAndYear(teamID string, year string) (teamBatting teamData.TeamBatting) {
 	return Interactor.TeamRepository.GetTeamBattingByTeamIDAndYear(teamID, year)
+}
+
+// GetTeamBattingMax チーム打撃成績の各項目の最大値を取得する。
+func (Interactor *TeamInteractor) GetTeamBattingMax() (maxHomeRun int, maxSluggingPercentage float64, maxOnBasePercentage float64) {
+	return Interactor.TeamRepository.GetTeamBattingMax()
 }
 
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。

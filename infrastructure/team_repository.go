@@ -70,6 +70,12 @@ func (Repository *TeamRepository) GetTeamPitchingByTeamIDAndYear(year string, te
 	return teamPitching
 }
 
+// GetTeamPitchingMax チーム投手成績の各項目の最大値を取得する。
+func (Repository *TeamRepository) GetTeamPitchingMax() (maxStrikeOutRate float64, maxRunsAllowed int) {
+	// TODO 後続のコミットでDBアクセス処理を実装
+	return
+}
+
 // InsertTeamBattings チーム打撃成績をDBに登録する
 func (Repository *TeamRepository) InsertTeamBattings(batting teamData.TeamBatting) {
 	stmt, err := Repository.Conn.Prepare("INSERT INTO team_batting(team_id, year, batting_average, games, plate_appearance, at_bat, score, hit, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, intentional_walk, hit_by_pitches, strike_out, grounded_into_double_play, slugging_percentage, on_base_percentage, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)")
@@ -124,6 +130,12 @@ func (Repository *TeamRepository) GetTeamBattingByTeamIDAndYear(teamID string, y
 		rows.Scan(&teamBatting.TeamID, &teamBatting.Year, &teamBatting.BattingAverage, &teamBatting.Games, &teamBatting.PlateAppearance, &teamBatting.AtBat, &teamBatting.Score, &teamBatting.Hit, &teamBatting.Double, &teamBatting.Triple, &teamBatting.HomeRun, &teamBatting.BaseHit, &teamBatting.RunsBattedIn, &teamBatting.StolenBase, &teamBatting.CaughtStealing, &teamBatting.SacrificeHits, &teamBatting.SacrificeFlies, &teamBatting.BaseOnBalls, &teamBatting.IntentionalWalk, &teamBatting.HitByPitches, &teamBatting.StrikeOut, &teamBatting.GroundedIntoDoublePlay, &teamBatting.SluggingPercentage, &teamBatting.OnBasePercentage, &teamBatting.BABIP)
 	}
 	return teamBatting
+}
+
+// GetTeamBattingMax チーム打撃成績の各項目の最大値を取得する。
+func (Repository *TeamRepository) GetTeamBattingMax() (maxHomeRun int, maxSluggingPercentage float64, maxOnBasePercentage float64) {
+	// TODO 後続のコミットでDBアクセス処理を実装
+	return
 }
 
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。

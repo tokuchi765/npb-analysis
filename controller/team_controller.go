@@ -53,9 +53,10 @@ func (controller *TeamController) GetTeamPitchingByTeamIDAndYear(c Context) {
 
 // GetTeamPitchingMax チーム投手成績の各項目の最大値を取得する。
 func (controller *TeamController) GetTeamPitchingMax(c Context) {
-	// TODO 後続のコミットで内部処理を実装
+	maxStrikeOutRate, maxRunsAllowed := controller.TeamInteractor.GetTeamPitchingMax()
 	c.JSON(http.StatusOK, gin.H{
-		"maxTeamPitching": "test",
+		"maxStrikeOutRate": maxStrikeOutRate,
+		"maxRunsAllowed":   maxRunsAllowed,
 	})
 }
 
@@ -82,9 +83,11 @@ func (controller *TeamController) GetTeamBattingByTeamIDAndYear(c Context) {
 
 // GetTeamBattingMax チーム打撃成績の各項目の最大値を取得する。
 func (controller *TeamController) GetTeamBattingMax(c Context) {
-	// TODO 後続のコミットで内部処理を実装
+	maxHomeRun, maxSluggingPercentage, maxOnBasePercentage := controller.TeamInteractor.GetTeamBattingMax()
 	c.JSON(http.StatusOK, gin.H{
-		"maxTeamBatting": "test",
+		"maxHomeRun":            maxHomeRun,
+		"maxSluggingPercentage": maxSluggingPercentage,
+		"maxOnBasePercentage":   maxOnBasePercentage,
 	})
 }
 

@@ -83,6 +83,12 @@ func (Repository *TeamRepository) GetTeamPitchingMax() (maxStrikeOutRate float64
 	return maxStrikeOutRate, maxRunsAllowed
 }
 
+// GetTeamPitchingMin チーム投手成績の各項目の最小値を取得する。
+func (Repository *TeamRepository) GetTeamPitchingMin() (minStrikeOutRate float64, minRunsAllowed int) {
+	// TODO 後続のコミットで実装
+	return minStrikeOutRate, minRunsAllowed
+}
+
 // InsertTeamBattings チーム打撃成績をDBに登録する
 func (Repository *TeamRepository) InsertTeamBattings(batting teamData.TeamBatting) {
 	stmt, err := Repository.Conn.Prepare("INSERT INTO team_batting(team_id, year, batting_average, games, plate_appearance, at_bat, score, hit, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, intentional_walk, hit_by_pitches, strike_out, grounded_into_double_play, slugging_percentage, on_base_percentage, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)")
@@ -150,6 +156,12 @@ func (Repository *TeamRepository) GetTeamBattingMax() (maxHomeRun int, maxSluggi
 		rows.Scan(&maxHomeRun, &maxSluggingPercentage, &maxOnBasePercentage)
 	}
 	return maxHomeRun, maxSluggingPercentage, maxOnBasePercentage
+}
+
+// GetTeamBattingMin チーム打撃成績の各項目の最小値を取得する。
+func (Repository *TeamRepository) GetTeamBattingMin() (minHomeRun int, minSluggingPercentage float64, minOnBasePercentage float64) {
+	// TODO 後続のコミットで実装
+	return minHomeRun, minSluggingPercentage, minOnBasePercentage
 }
 
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。

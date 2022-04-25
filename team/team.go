@@ -39,6 +39,11 @@ func (Interactor *TeamInteractor) GetTeamPitchingMax() (maxStrikeOutRate float64
 	return Interactor.TeamRepository.GetTeamPitchingMax()
 }
 
+// GetTeamPitchingMin チーム投手成績の各項目の最小値を取得する。
+func (Interactor *TeamInteractor) GetTeamPitchingMin() (minStrikeOutRate float64, minRunsAllowed int) {
+	return Interactor.TeamRepository.GetTeamPitchingMin()
+}
+
 // GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
 func (Interactor *TeamInteractor) GetTeamBatting(years []int) (teamBattingMap map[string][]teamData.TeamBatting) {
 	return Interactor.TeamRepository.GetTeamBattings(years)
@@ -52,6 +57,11 @@ func (Interactor *TeamInteractor) GetTeamBattingByTeamIDAndYear(teamID string, y
 // GetTeamBattingMax チーム打撃成績の各項目の最大値を取得する。
 func (Interactor *TeamInteractor) GetTeamBattingMax() (maxHomeRun int, maxSluggingPercentage float64, maxOnBasePercentage float64) {
 	return Interactor.TeamRepository.GetTeamBattingMax()
+}
+
+// GetTeamBattingMin チーム打撃成績の各項目の最小値を取得する。
+func (Interactor *TeamInteractor) GetTeamBattingMin() (minHomeRun int, minSluggingPercentage float64, minOnBasePercentage float64) {
+	return Interactor.TeamRepository.GetTeamBattingMin()
 }
 
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。

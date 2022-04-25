@@ -62,10 +62,10 @@ func (controller *TeamController) GetTeamPitchingMax(c Context) {
 
 // GetTeamPitchingMin チーム投手成績の各項目の最小値を取得する。
 func (controller *TeamController) GetTeamPitchingMin(c Context) {
-	// TODO 後続のコミットで処理を実装
+	minStrikeOutRate, minRunsAllowed := controller.TeamInteractor.GetTeamPitchingMin()
 	c.JSON(http.StatusOK, gin.H{
-		"minStrikeOutRate": "minStrikeOutRate",
-		"minRunsAllowed":   "minRunsAllowed",
+		"minStrikeOutRate": minStrikeOutRate,
+		"minRunsAllowed":   minRunsAllowed,
 	})
 }
 
@@ -102,11 +102,11 @@ func (controller *TeamController) GetTeamBattingMax(c Context) {
 
 // GetTeamBattingMin チーム打撃成績の各項目の最小値を取得する。
 func (controller *TeamController) GetTeamBattingMin(c Context) {
-	// TODO 後続のコミットで処理を実装
+	minHomeRun, minSluggingPercentage, minOnBasePercentage := controller.TeamInteractor.GetTeamBattingMin()
 	c.JSON(http.StatusOK, gin.H{
-		"minHomeRun":            "minHomeRun",
-		"minSluggingPercentage": "minSluggingPercentage",
-		"minOnBasePercentage":   "minOnBasePercentage",
+		"minHomeRun":            minHomeRun,
+		"minSluggingPercentage": minSluggingPercentage,
+		"minOnBasePercentage":   minOnBasePercentage,
 	})
 }
 

@@ -72,8 +72,15 @@ func (Repository *TeamRepository) GetTeamPitchingByTeamIDAndYear(year string, te
 
 // GetTeamPitchingMax チーム投手成績の各項目の最大値を取得する。
 func (Repository *TeamRepository) GetTeamPitchingMax() (maxStrikeOutRate float64, maxRunsAllowed int) {
-	// TODO 後続のコミットでDBアクセス処理を実装
-	return
+	rows, err := Repository.SQLHandler.Conn.Query("select max(strike_out_rate),max(runs_allowed) from team_pitching")
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&maxStrikeOutRate, &maxRunsAllowed)
+	}
+	return maxStrikeOutRate, maxRunsAllowed
 }
 
 // InsertTeamBattings チーム打撃成績をDBに登録する
@@ -134,8 +141,15 @@ func (Repository *TeamRepository) GetTeamBattingByTeamIDAndYear(teamID string, y
 
 // GetTeamBattingMax チーム打撃成績の各項目の最大値を取得する。
 func (Repository *TeamRepository) GetTeamBattingMax() (maxHomeRun int, maxSluggingPercentage float64, maxOnBasePercentage float64) {
-	// TODO 後続のコミットでDBアクセス処理を実装
-	return
+	rows, err := Repository.SQLHandler.Conn.Query("select max(home_run),max(slugging_percentage),max(on_base_percentage) from team_batting")
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&maxHomeRun, &maxSluggingPercentage, &maxOnBasePercentage)
+	}
+	return maxHomeRun, maxSluggingPercentage, maxOnBasePercentage
 }
 
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。

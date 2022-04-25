@@ -502,9 +502,75 @@ func TestTeamRepository_GetTeamBattingByTeamIDAndYear(t *testing.T) {
 			sqlHandler.Conn = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
-			repository.InsertTeamBattings(tt.wantTeamBatting)
+			repository.InsertTeamBattings(createTeamBatting("01", "2005", 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.21, 0.314, 0))
 			actual := repository.GetTeamBattingByTeamIDAndYear(tt.args.teamID, tt.args.year)
 			assert.Exactly(t, tt.wantTeamBatting, actual)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamBattingMax(t *testing.T) {
+	tests := []struct {
+		name                      string
+		wantMaxHomeRun            int
+		wantMaxSluggingPercentage float64
+		wantMaxOnBasePercentage   float64
+	}{
+		{
+			"打撃成績最大値取得",
+			90,
+			0.67,
+			0.531,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamBattings(createTeamBatting("01", "2005", 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.67, 0.451, 0))
+			repository.InsertTeamBattings(createTeamBatting("05", "2007", 0, 0, 0, 0, 0, 0, 0, 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.21, 0.314, 0))
+			repository.InsertTeamBattings(createTeamBatting("11", "2015", 0, 0, 0, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.30, 0.531, 0))
+
+			maxHomeRun, maxSluggingPercentage, maxOnBasePercentage := repository.GetTeamBattingMax()
+			assert.Equal(t, tt.wantMaxHomeRun, maxHomeRun)
+			assert.Equal(t, tt.wantMaxSluggingPercentage, maxSluggingPercentage)
+			assert.Equal(t, tt.wantMaxOnBasePercentage, maxOnBasePercentage)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamPitchingMax(t *testing.T) {
+	tests := []struct {
+		name                 string
+		wantMaxStrikeOutRate float64
+		wantMaxRunsAllowed   int
+	}{
+		{
+			"投手成績最大値取得",
+			3.6,
+			80,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamPitchings(createTeamPitching("01", "2020", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 3.6))
+			repository.InsertTeamPitchings(createTeamPitching("06", "2009", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 0, 0, 2.3))
+
+			maxStrikeOutRate, maxRunsAllowed := repository.GetTeamPitchingMax()
+			assert.Equal(t, tt.wantMaxStrikeOutRate, maxStrikeOutRate)
+			assert.Equal(t, tt.wantMaxRunsAllowed, maxRunsAllowed)
 			testUtil.CloseContainer(resource, pool)
 		})
 	}

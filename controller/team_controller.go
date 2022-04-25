@@ -60,6 +60,15 @@ func (controller *TeamController) GetTeamPitchingMax(c Context) {
 	})
 }
 
+// GetTeamPitchingMin チーム投手成績の各項目の最小値を取得する。
+func (controller *TeamController) GetTeamPitchingMin(c Context) {
+	// TODO 後続のコミットで処理を実装
+	c.JSON(http.StatusOK, gin.H{
+		"minStrikeOutRate": "minStrikeOutRate",
+		"minRunsAllowed":   "minRunsAllowed",
+	})
+}
+
 // GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
 func (controller *TeamController) GetTeamBatting(c Context) {
 	fromYear, _ := strconv.Atoi(c.Query("from_year"))
@@ -88,6 +97,16 @@ func (controller *TeamController) GetTeamBattingMax(c Context) {
 		"maxHomeRun":            maxHomeRun,
 		"maxSluggingPercentage": maxSluggingPercentage,
 		"maxOnBasePercentage":   maxOnBasePercentage,
+	})
+}
+
+// GetTeamBattingMin チーム打撃成績の各項目の最小値を取得する。
+func (controller *TeamController) GetTeamBattingMin(c Context) {
+	// TODO 後続のコミットで処理を実装
+	c.JSON(http.StatusOK, gin.H{
+		"minHomeRun":            "minHomeRun",
+		"minSluggingPercentage": "minSluggingPercentage",
+		"minOnBasePercentage":   "minOnBasePercentage",
 	})
 }
 

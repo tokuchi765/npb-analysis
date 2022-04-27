@@ -85,7 +85,14 @@ func (Repository *TeamRepository) GetTeamPitchingMax() (maxStrikeOutRate float64
 
 // GetTeamPitchingMin チーム投手成績の各項目の最小値を取得する。
 func (Repository *TeamRepository) GetTeamPitchingMin() (minStrikeOutRate float64, minRunsAllowed int) {
-	// TODO 後続のコミットで実装
+	rows, err := Repository.SQLHandler.Conn.Query("select min(strike_out_rate),min(runs_allowed) from team_pitching")
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&minStrikeOutRate, &minRunsAllowed)
+	}
 	return minStrikeOutRate, minRunsAllowed
 }
 
@@ -160,7 +167,14 @@ func (Repository *TeamRepository) GetTeamBattingMax() (maxHomeRun int, maxSluggi
 
 // GetTeamBattingMin チーム打撃成績の各項目の最小値を取得する。
 func (Repository *TeamRepository) GetTeamBattingMin() (minHomeRun int, minSluggingPercentage float64, minOnBasePercentage float64) {
-	// TODO 後続のコミットで実装
+	rows, err := Repository.SQLHandler.Conn.Query("select min(home_run),min(slugging_percentage),min(on_base_percentage) from team_batting")
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&minHomeRun, &minSluggingPercentage, &minOnBasePercentage)
+	}
 	return minHomeRun, minSluggingPercentage, minOnBasePercentage
 }
 

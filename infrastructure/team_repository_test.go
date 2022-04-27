@@ -545,6 +545,42 @@ func TestTeamRepository_GetTeamBattingMax(t *testing.T) {
 	}
 }
 
+func TestTeamRepository_GetTeamBattingMin(t *testing.T) {
+	tests := []struct {
+		name                      string
+		wantMinHomeRun            int
+		wantMinSluggingPercentage float64
+		wantMinOnBasePercentage   float64
+	}{
+		{
+			"打撃成績最小値取得",
+			70,
+			0.21,
+			0.314,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamBattings(createTeamBatting("01", "2005", 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.67, 0.451, 0))
+			repository.InsertTeamBattings(createTeamBatting("05", "2007", 0, 0, 0, 0, 0, 0, 0, 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.21, 0.314, 0))
+			repository.InsertTeamBattings(createTeamBatting("11", "2015", 0, 0, 0, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.30, 0.531, 0))
+
+			minHomeRun, minSluggingPercentage, minOnBasePercentage := repository.GetTeamBattingMin()
+
+			assert.Equal(t, tt.wantMinHomeRun, minHomeRun)
+			assert.Equal(t, tt.wantMinSluggingPercentage, minSluggingPercentage)
+			assert.Equal(t, tt.wantMinOnBasePercentage, minOnBasePercentage)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
 func TestTeamRepository_GetTeamPitchingMax(t *testing.T) {
 	tests := []struct {
 		name                 string
@@ -571,6 +607,38 @@ func TestTeamRepository_GetTeamPitchingMax(t *testing.T) {
 			maxStrikeOutRate, maxRunsAllowed := repository.GetTeamPitchingMax()
 			assert.Equal(t, tt.wantMaxStrikeOutRate, maxStrikeOutRate)
 			assert.Equal(t, tt.wantMaxRunsAllowed, maxRunsAllowed)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamPitchingMin(t *testing.T) {
+	tests := []struct {
+		name                 string
+		wantMinStrikeOutRate float64
+		wantMinRunsAllowed   int
+	}{
+		{
+			"投手成績最小値取得",
+			2.3,
+			60,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamPitchings(createTeamPitching("01", "2020", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 3.6))
+			repository.InsertTeamPitchings(createTeamPitching("06", "2009", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 0, 0, 2.3))
+
+			minStrikeOutRate, minRunsAllowed := repository.GetTeamPitchingMin()
+
+			assert.Equal(t, tt.wantMinStrikeOutRate, minStrikeOutRate)
+			assert.Equal(t, tt.wantMinRunsAllowed, minRunsAllowed)
 			testUtil.CloseContainer(resource, pool)
 		})
 	}

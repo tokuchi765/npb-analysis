@@ -51,7 +51,11 @@ const App: React.FC = () => {
           render={() => <PitchingPage years={years} initYear={initYear} />}
           exact
         />
-        <Route path="/strength" render={() => <StrengthPage />} exact />
+        <Route
+          path="/strength"
+          render={() => <StrengthPage years={years} initYear={initYear} />}
+          exact
+        />
         <Route path="/players" component={PlayersPage} exact />
         <Route path="/player/:id" component={PlayerPage} exact />
         <Route path="/manager" component={ManagerPage} exact />

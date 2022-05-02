@@ -31,7 +31,7 @@ const years = [
 
 const initYear = '2021';
 
-const App: React.FC = () => {
+function App() {
   return (
     <Router>
       <Switch>
@@ -62,6 +62,6 @@ const App: React.FC = () => {
       </Switch>
     </Router>
   );
-};
+}
 
 export default App;

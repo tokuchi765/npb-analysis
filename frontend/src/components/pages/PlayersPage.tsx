@@ -81,7 +81,7 @@ function createPlayerIds(
   return playerIdMap;
 }
 
-function getTeamId(teamName: string) {
+export function getTeamId(teamName: string) {
   for (const index in teamNameList) {
     if (teamNameList[index] === teamName) {
       return _.padStart(String(Number(index) + 1), 2, '0');

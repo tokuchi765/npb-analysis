@@ -1,0 +1,478 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`レーダーチャートテスト スナップショット作成 1`] = `
+<div
+  className="MuiBox-root css-1qgmenl"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+  >
+    <h2
+      className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+    >
+      戦力チャート
+    </h2>
+    <svg
+      aria-hidden={true}
+      aria-label="注釈"
+      aria-labelledby={null}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-mui-internal-clone-element={true}
+      data-testid="HelpOutlineIcon"
+      focusable="false"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "marginTop": "5px",
+        }
+      }
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+      />
+    </svg>
+  </div>
+  <div
+    className="recharts-wrapper"
+    style={
+      Object {
+        "cursor": "default",
+        "height": 300,
+        "position": "relative",
+        "width": 400,
+      }
+    }
+  >
+    <svg
+      className="recharts-surface"
+      cx="50%"
+      cy="50%"
+      height={300}
+      version="1.1"
+      viewBox="0 0 400 300"
+      width={400}
+    >
+      <defs>
+        <clipPath
+          id="recharts1-clip"
+        >
+          <rect
+            height={290}
+            width={390}
+            x={5}
+            y={5}
+          />
+        </clipPath>
+      </defs>
+      <g
+        className="recharts-polar-grid"
+      >
+        <g
+          className="recharts-polar-grid-angle"
+        >
+          <line
+            cx={200}
+            cy={150}
+            stroke="#ccc"
+            x1={200}
+            x2={200}
+            y1={150}
+            y2={34}
+          />
+        </g>
+        <g
+          className="recharts-polar-grid-concentric"
+        >
+          <path
+            className="recharts-polar-grid-concentric-polygon"
+            cx={200}
+            cy={150}
+            d="M 200,150Z"
+            fill="none"
+            stroke="#ccc"
+          />
+          <path
+            className="recharts-polar-grid-concentric-polygon"
+            cx={200}
+            cy={150}
+            d="M 200,121Z"
+            fill="none"
+            stroke="#ccc"
+          />
+          <path
+            className="recharts-polar-grid-concentric-polygon"
+            cx={200}
+            cy={150}
+            d="M 200,92Z"
+            fill="none"
+            stroke="#ccc"
+          />
+          <path
+            className="recharts-polar-grid-concentric-polygon"
+            cx={200}
+            cy={150}
+            d="M 200,63Z"
+            fill="none"
+            stroke="#ccc"
+          />
+          <path
+            className="recharts-polar-grid-concentric-polygon"
+            cx={200}
+            cy={150}
+            d="M 200,34Z"
+            fill="none"
+            stroke="#ccc"
+          />
+        </g>
+      </g>
+      <g
+        className="recharts-layer recharts-polar-angle-axis"
+      >
+        <path
+          className="recharts-polygon angleAxis"
+          cx={200}
+          cy={150}
+          d="M200,34L200,34Z"
+          fill="none"
+          orientation="outer"
+          radius={116}
+          type="category"
+        />
+        <g
+          className="recharts-layer recharts-polar-angle-axis-ticks"
+        >
+          <g
+            className="recharts-layer recharts-polar-angle-axis-tick"
+          >
+            <line
+              className="angleAxis"
+              cx={200}
+              cy={150}
+              fill="none"
+              orientation="outer"
+              radius={116}
+              type="category"
+              x1={200}
+              x2={200}
+              y1={34}
+              y2={26}
+            />
+            <text
+              className="recharts-text recharts-polar-angle-axis-tick-value"
+              cx={200}
+              cy={150}
+              orientation="outer"
+              radius={116}
+              stroke="none"
+              textAnchor="middle"
+              type="category"
+              x={200}
+              y={26}
+            >
+              <tspan
+                dy="0em"
+                x={200}
+              >
+                本塁打
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        className="recharts-layer recharts-polar-radius-axis"
+      >
+        <line
+          className="radiusAxis"
+          fill="none"
+          orientation="right"
+          radius={116}
+          stroke="#ccc"
+          type="number"
+          x1={200}
+          x2={316}
+          y1={150}
+          y2={150}
+        />
+        <g
+          className="recharts-layer recharts-polar-radius-axis-ticks"
+        >
+          <g
+            className="recharts-layer recharts-polar-radius-axis-tick"
+          >
+            <text
+              className="recharts-text recharts-polar-radius-axis-tick-value"
+              cx={200}
+              cy={150}
+              fill="#ccc"
+              orientation="right"
+              radius={116}
+              stroke="none"
+              textAnchor="start"
+              transform="rotate(90, 200, 150)"
+              type="number"
+              x={200}
+              y={150}
+            >
+              <tspan
+                dy="0em"
+                x={200}
+              >
+                0
+              </tspan>
+            </text>
+          </g>
+          <g
+            className="recharts-layer recharts-polar-radius-axis-tick"
+          >
+            <text
+              className="recharts-text recharts-polar-radius-axis-tick-value"
+              cx={200}
+              cy={150}
+              fill="#ccc"
+              orientation="right"
+              radius={116}
+              stroke="none"
+              textAnchor="start"
+              transform="rotate(90, 229, 150)"
+              type="number"
+              x={229}
+              y={150}
+            >
+              <tspan
+                dy="0em"
+                x={229}
+              >
+                25
+              </tspan>
+            </text>
+          </g>
+          <g
+            className="recharts-layer recharts-polar-radius-axis-tick"
+          >
+            <text
+              className="recharts-text recharts-polar-radius-axis-tick-value"
+              cx={200}
+              cy={150}
+              fill="#ccc"
+              orientation="right"
+              radius={116}
+              stroke="none"
+              textAnchor="start"
+              transform="rotate(90, 258, 150)"
+              type="number"
+              x={258}
+              y={150}
+            >
+              <tspan
+                dy="0em"
+                x={258}
+              >
+                50
+              </tspan>
+            </text>
+          </g>
+          <g
+            className="recharts-layer recharts-polar-radius-axis-tick"
+          >
+            <text
+              className="recharts-text recharts-polar-radius-axis-tick-value"
+              cx={200}
+              cy={150}
+              fill="#ccc"
+              orientation="right"
+              radius={116}
+              stroke="none"
+              textAnchor="start"
+              transform="rotate(90, 287, 150)"
+              type="number"
+              x={287}
+              y={150}
+            >
+              <tspan
+                dy="0em"
+                x={287}
+              >
+                75
+              </tspan>
+            </text>
+          </g>
+          <g
+            className="recharts-layer recharts-polar-radius-axis-tick"
+          >
+            <text
+              className="recharts-text recharts-polar-radius-axis-tick-value"
+              cx={200}
+              cy={150}
+              fill="#ccc"
+              orientation="right"
+              radius={116}
+              stroke="none"
+              textAnchor="start"
+              transform="rotate(90, 316, 150)"
+              type="number"
+              x={316}
+              y={150}
+            >
+              <tspan
+                dy="0em"
+                x={316}
+              >
+                100
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        className="recharts-layer recharts-radar"
+      >
+        <g
+          className="recharts-layer recharts-radar-polygon"
+        >
+          <path
+            className="recharts-polygon"
+            d="M200,150L200,150Z"
+            fill="#8884d8"
+            fillOpacity={0.6}
+            name="teamA"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            stroke="#8884d8"
+          />
+        </g>
+      </g>
+      <g
+        className="recharts-layer recharts-radar"
+      >
+        <g
+          className="recharts-layer recharts-radar-polygon"
+        >
+          <path
+            className="recharts-polygon"
+            d="M200,150L200,150Z"
+            fill="#82ca9d"
+            fillOpacity={0.6}
+            name="teamB"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            stroke="#82ca9d"
+          />
+        </g>
+      </g>
+    </svg>
+    <div
+      className="recharts-legend-wrapper"
+      style={
+        Object {
+          "bottom": 5,
+          "height": "auto",
+          "left": 5,
+          "position": "absolute",
+          "width": 390,
+        }
+      }
+    >
+      <ul
+        className="recharts-default-legend"
+        style={
+          Object {
+            "margin": 0,
+            "padding": 0,
+            "textAlign": "center",
+          }
+        }
+      >
+        <li
+          className="recharts-legend-item legend-item-0"
+          style={
+            Object {
+              "display": "inline-block",
+              "marginRight": 10,
+            }
+          }
+        >
+          <svg
+            className="recharts-surface"
+            height={14}
+            style={
+              Object {
+                "display": "inline-block",
+                "marginRight": 4,
+                "verticalAlign": "middle",
+              }
+            }
+            version="1.1"
+            viewBox="0 0 32 32"
+            width={14}
+          >
+            <path
+              className="recharts-legend-icon"
+              d="M0,4h32v24h-32z"
+              fill="#8884d8"
+              stroke="none"
+            />
+          </svg>
+          <span
+            className="recharts-legend-item-text"
+            style={
+              Object {
+                "color": "#8884d8",
+              }
+            }
+          >
+            teamA
+          </span>
+        </li>
+        <li
+          className="recharts-legend-item legend-item-1"
+          style={
+            Object {
+              "display": "inline-block",
+              "marginRight": 10,
+            }
+          }
+        >
+          <svg
+            className="recharts-surface"
+            height={14}
+            style={
+              Object {
+                "display": "inline-block",
+                "marginRight": 4,
+                "verticalAlign": "middle",
+              }
+            }
+            version="1.1"
+            viewBox="0 0 32 32"
+            width={14}
+          >
+            <path
+              className="recharts-legend-icon"
+              d="M0,4h32v24h-32z"
+              fill="#82ca9d"
+              stroke="none"
+            />
+          </svg>
+          <span
+            className="recharts-legend-item-text"
+            style={
+              Object {
+                "color": "#82ca9d",
+              }
+            }
+          >
+            teamB
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;

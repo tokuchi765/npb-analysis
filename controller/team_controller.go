@@ -41,6 +41,34 @@ func (controller *TeamController) GetTeamPitching(c Context) {
 	})
 }
 
+// GetTeamPitchingByTeamIDAndYear 引数で受け取ったチームIDと年に紐づくチーム投手成績を取得します。
+func (controller *TeamController) GetTeamPitchingByTeamIDAndYear(c Context) {
+	teamID := c.Param("teamId")
+	year := c.Param("year")
+	teamPitching := controller.TeamInteractor.GetTeamPitchingByTeamIDAndYear(year, teamID)
+	c.JSON(http.StatusOK, gin.H{
+		"teamPitching": teamPitching,
+	})
+}
+
+// GetTeamPitchingMax チーム投手成績の各項目の最大値を取得する。
+func (controller *TeamController) GetTeamPitchingMax(c Context) {
+	maxStrikeOutRate, maxRunsAllowed := controller.TeamInteractor.GetTeamPitchingMax()
+	c.JSON(http.StatusOK, gin.H{
+		"maxStrikeOutRate": maxStrikeOutRate,
+		"maxRunsAllowed":   maxRunsAllowed,
+	})
+}
+
+// GetTeamPitchingMin チーム投手成績の各項目の最小値を取得する。
+func (controller *TeamController) GetTeamPitchingMin(c Context) {
+	minStrikeOutRate, minRunsAllowed := controller.TeamInteractor.GetTeamPitchingMin()
+	c.JSON(http.StatusOK, gin.H{
+		"minStrikeOutRate": minStrikeOutRate,
+		"minRunsAllowed":   minRunsAllowed,
+	})
+}
+
 // GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
 func (controller *TeamController) GetTeamBatting(c Context) {
 	fromYear, _ := strconv.Atoi(c.Query("from_year"))
@@ -49,6 +77,36 @@ func (controller *TeamController) GetTeamBatting(c Context) {
 	teamBattingMap := controller.TeamInteractor.GetTeamBatting(years)
 	c.JSON(http.StatusOK, gin.H{
 		"teamBatting": teamBattingMap,
+	})
+}
+
+// GetTeamBattingByTeamIDAndYear 引数で受け取ったチームIDと年に紐づくチーム打撃成績を取得します。
+func (controller *TeamController) GetTeamBattingByTeamIDAndYear(c Context) {
+	teamID := c.Param("teamId")
+	year := c.Param("year")
+	teamBatting := controller.TeamInteractor.GetTeamBattingByTeamIDAndYear(teamID, year)
+	c.JSON(http.StatusOK, gin.H{
+		"teamBatting": teamBatting,
+	})
+}
+
+// GetTeamBattingMax チーム打撃成績の各項目の最大値を取得する。
+func (controller *TeamController) GetTeamBattingMax(c Context) {
+	maxHomeRun, maxSluggingPercentage, maxOnBasePercentage := controller.TeamInteractor.GetTeamBattingMax()
+	c.JSON(http.StatusOK, gin.H{
+		"maxHomeRun":            maxHomeRun,
+		"maxSluggingPercentage": maxSluggingPercentage,
+		"maxOnBasePercentage":   maxOnBasePercentage,
+	})
+}
+
+// GetTeamBattingMin チーム打撃成績の各項目の最小値を取得する。
+func (controller *TeamController) GetTeamBattingMin(c Context) {
+	minHomeRun, minSluggingPercentage, minOnBasePercentage := controller.TeamInteractor.GetTeamBattingMin()
+	c.JSON(http.StatusOK, gin.H{
+		"minHomeRun":            minHomeRun,
+		"minSluggingPercentage": minSluggingPercentage,
+		"minOnBasePercentage":   minOnBasePercentage,
 	})
 }
 

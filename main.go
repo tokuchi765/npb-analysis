@@ -79,11 +79,17 @@ func setupRouter() *gin.Engine {
 	playerController := controller.NewPlayerController(sqlHandler)
 	teamController := controller.NewTeamController(sqlHandler)
 
-	// チーム打撃成績を取得
+	// チーム投手成績を取得
 	router.GET("/team/pitching", func(c *gin.Context) { teamController.GetTeamPitching(c) })
+	router.GET("/team/pitching/:teamId/:year", func(c *gin.Context) { teamController.GetTeamPitchingByTeamIDAndYear(c) })
+	router.GET("/team/pitching/max", func(c *gin.Context) { teamController.GetTeamPitchingMax(c) })
+	router.GET("/team/pitching/min", func(c *gin.Context) { teamController.GetTeamPitchingMin(c) })
 
 	// チーム打撃成績を取得
 	router.GET("/team/batting", func(c *gin.Context) { teamController.GetTeamBatting(c) })
+	router.GET("/team/batting/:teamId/:year", func(c *gin.Context) { teamController.GetTeamBattingByTeamIDAndYear(c) })
+	router.GET("/team/batting/max", func(c *gin.Context) { teamController.GetTeamBattingMax(c) })
+	router.GET("/team/batting/min", func(c *gin.Context) { teamController.GetTeamBattingMin(c) })
 
 	// チーム成績を取得
 	router.GET("/team/stats", func(c *gin.Context) { teamController.GetTeamStats(c) })

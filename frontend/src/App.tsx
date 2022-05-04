@@ -87,26 +87,17 @@ function App() {
   );
   useEffect(() => {
     (async () => {
-      axios
-        .get<MaxTeamPitchingResponse>(`http://localhost:8081/team/pitching/max`)
-        .then((response) => {
-          setMaxTeamPitching(response.data);
-        });
-      axios
-        .get<MinTeamPitchingResponse>(`http://localhost:8081/team/pitching/min`)
-        .then((response) => {
-          setMinTeamPitching(response.data);
-        });
-      axios
-        .get<MaxTeamBattingResponse>(`http://localhost:8081/team/batting/max`)
-        .then((response) => {
-          setMaxTeamBatting(response.data);
-        });
-      axios
-        .get<MinTeamBattingResponse>(`http://localhost:8081/team/batting/min`)
-        .then((response) => {
-          setMinTeamBatting(response.data);
-        });
+      const responses = await Promise.all([
+        axios.get<MaxTeamPitchingResponse>(`http://localhost:8081/team/pitching/max`),
+        axios.get<MinTeamPitchingResponse>(`http://localhost:8081/team/pitching/min`),
+        axios.get<MaxTeamBattingResponse>(`http://localhost:8081/team/batting/max`),
+        axios.get<MinTeamBattingResponse>(`http://localhost:8081/team/batting/min`),
+      ]);
+
+      setMaxTeamPitching(responses[0].data);
+      setMinTeamPitching(responses[1].data);
+      setMaxTeamBatting(responses[2].data);
+      setMinTeamBatting(responses[3].data);
     })();
   }, []);
   return (

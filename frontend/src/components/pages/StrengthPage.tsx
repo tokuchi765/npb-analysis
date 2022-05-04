@@ -10,6 +10,12 @@ import { Box } from '@mui/material';
 import { Selectable } from '../common/TableComponent';
 import { getTeamId } from '../pages/PlayersPage';
 import axios from 'axios';
+import {
+  MaxTeamBattingResponse,
+  MaxTeamPitchingResponse,
+  MinTeamBattingResponse,
+  MinTeamPitchingResponse,
+} from '../../App';
 
 const teamNameList = [
   'Giants',
@@ -60,29 +66,14 @@ interface TeamBattingResponse {
   };
 }
 
-interface MaxTeamBattingResponse {
-  maxHomeRun: number;
-  maxSluggingPercentage: number;
-  maxOnBasePercentage: number;
-}
-
-interface MaxTeamPitchingResponse {
-  maxStrikeOutRate: number;
-  maxRunsAllowed: number;
-}
-
-interface MinTeamBattingResponse {
-  minHomeRun: number;
-  minSluggingPercentage: number;
-  minOnBasePercentage: number;
-}
-
-interface MinTeamPitchingResponse {
-  minStrikeOutRate: number;
-  minRunsAllowed: number;
-}
-
-export function StrengthPage(props: { years: string[]; initYear: string }) {
+export function StrengthPage(props: {
+  years: string[];
+  initYear: string;
+  maxTeamPitching: MaxTeamPitchingResponse;
+  minTeamPitching: MinTeamPitchingResponse;
+  maxTeamBatting: MaxTeamBattingResponse;
+  minTeamBatting: MinTeamBattingResponse;
+}) {
   const classes = useStyles();
   const [yearA, setYearA] = useState<string>(props.initYear);
   const [teamA, setTeamA] = useState<string>('Hawks');
@@ -92,18 +83,10 @@ export function StrengthPage(props: { years: string[]; initYear: string }) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const setStrength = async () => {
-    const {
-      data: { maxStrikeOutRate, maxRunsAllowed },
-    } = await axios.get<MaxTeamPitchingResponse>(`http://localhost:8081/team/pitching/max`);
-    const {
-      data: { minStrikeOutRate, minRunsAllowed },
-    } = await axios.get<MinTeamPitchingResponse>(`http://localhost:8081/team/pitching/min`);
-    const {
-      data: { maxHomeRun, maxSluggingPercentage, maxOnBasePercentage },
-    } = await axios.get<MaxTeamBattingResponse>(`http://localhost:8081/team/batting/max`);
-    const {
-      data: { minHomeRun, minSluggingPercentage, minOnBasePercentage },
-    } = await axios.get<MinTeamBattingResponse>(`http://localhost:8081/team/batting/min`);
+    const { maxStrikeOutRate, maxRunsAllowed } = props.maxTeamPitching;
+    const { minStrikeOutRate, minRunsAllowed } = props.minTeamPitching;
+    const { maxHomeRun, maxSluggingPercentage, maxOnBasePercentage } = props.maxTeamBatting;
+    const { minHomeRun, minSluggingPercentage, minOnBasePercentage } = props.minTeamBatting;
 
     const teamIdA = getTeamId(teamA);
     const {

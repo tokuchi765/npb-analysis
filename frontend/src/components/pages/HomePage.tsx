@@ -256,7 +256,7 @@ function HomePage(props: { years: string[] }) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <GenericTemplate title="トップページ">
-      <Grid container alignItems="center" justify="center">
+      <Grid container alignItems="center" justifyContent="center">
         <Paper className={fixedHeightPaper}>
           <Chart
             data={centralData}

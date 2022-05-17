@@ -31,7 +31,7 @@ func CreateContainer() (*dockertest.Resource, *dockertest.Pool) {
 			"POSTGRES_PASSWORD=postgres",
 		},
 		Mounts: []string{
-			"/yourdir/npb-analysis/docker/initdb:/docker-entrypoint-initdb.d", // コンテナ起動時に実行したいSQL
+			"/home/runner/work/npb-analysis/npb-analysis/docker/initdb:/docker-entrypoint-initdb.d", // コンテナ起動時に実行したいSQL
 		},
 	}
 

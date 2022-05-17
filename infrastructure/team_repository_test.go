@@ -502,7 +502,7 @@ func TestTeamRepository_GetTeamBattingByTeamIDAndYear(t *testing.T) {
 			sqlHandler.Conn = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
-			repository.InsertTeamBattings(createTeamBatting("01", "2005", 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.21, 0.314, 0))
+			repository.InsertTeamBattings(tt.wantTeamBatting)
 			actual := repository.GetTeamBattingByTeamIDAndYear(tt.args.teamID, tt.args.year)
 			assert.Exactly(t, tt.wantTeamBatting, actual)
 			testUtil.CloseContainer(resource, pool)

@@ -1,5 +1,4 @@
 import { rest } from '../rest';
-import _ from 'lodash';
 import { MaxTeamBattingResponse, MinTeamBattingResponse, TeamBattingResponse } from '../type';
 
 const baseUri = '/team/batting';

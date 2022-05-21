@@ -11,11 +11,11 @@ import { Selectable } from '../common/TableComponent';
 import { getTeamId } from '../pages/PlayersPage';
 import axios from 'axios';
 import {
-  MaxTeamBattingResponse,
-  MaxTeamPitchingResponse,
-  MinTeamBattingResponse,
   MinTeamPitchingResponse,
-} from '../../App';
+  MaxTeamPitchingResponse,
+  MaxTeamBattingResponse,
+  MinTeamBattingResponse,
+} from '../../data/type';
 
 const teamNameList = [
   'Giants',

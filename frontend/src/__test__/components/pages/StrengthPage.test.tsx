@@ -4,12 +4,6 @@ import renderer from 'react-test-renderer';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import StrengthPage from '../../../components/pages/StrengthPage';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  MaxTeamBattingResponse,
-  MaxTeamPitchingResponse,
-  MinTeamBattingResponse,
-  MinTeamPitchingResponse,
-} from '../../../App';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -21,10 +15,10 @@ describe('戦力ページテスト', () => {
           <StrengthPage
             years={['2020']}
             initYear={'2020'}
-            maxTeamPitching={new MaxTeamPitchingResponse(0, 0)}
-            minTeamPitching={new MinTeamPitchingResponse(0, 0)}
-            maxTeamBatting={new MaxTeamBattingResponse(0, 0, 0)}
-            minTeamBatting={new MinTeamBattingResponse(0, 0, 0)}
+            maxTeamPitching={{ maxStrikeOutRate: 0, maxRunsAllowed: 0 }}
+            minTeamPitching={{ minStrikeOutRate: 0, minRunsAllowed: 0 }}
+            maxTeamBatting={{ maxHomeRun: 0, maxSluggingPercentage: 0, maxOnBasePercentage: 0 }}
+            minTeamBatting={{ minHomeRun: 0, minSluggingPercentage: 0, minOnBasePercentage: 0 }}
           />
         </MemoryRouter>
       )

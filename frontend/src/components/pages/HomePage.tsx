@@ -4,9 +4,9 @@ import GenericTemplate from '../templates/GenericTemplate';
 import Paper from '@material-ui/core/Paper';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
 import _ from 'lodash';
 import Grid from '@material-ui/core/Grid';
+import { getTeamBattingByYear } from '../../data/api/teamBatting';
 
 const drawerWidth = 240;
 
@@ -208,10 +208,6 @@ const pacificLineData = [
   ['Buffaloes', '#4B0082'],
 ];
 
-interface TeamBattingResponse {
-  teamBatting: any;
-}
-
 function HomePage(props: { years: string[] }) {
   const [centralData, setCentralData] = useState<Array<{ year: string; Giants: number }>>(Array);
   const [pacificData, setPacificData] = useState<Array<{ year: string; Lions: number }>>(Array);
@@ -219,10 +215,7 @@ function HomePage(props: { years: string[] }) {
 
   useEffect(() => {
     (async () => {
-      const result = await axios.get<TeamBattingResponse>(
-        `http://localhost:8081/team/batting?from_year=2005&to_year=2021`
-      );
-
+      const result = await getTeamBattingByYear('2005', '2021');
       const centralTeams = _.map(result.data.teamBatting, (teamBatting) => {
         const teamBattings = {
           Giants: _.filter(teamBatting, { TeamID: '01' })[0],

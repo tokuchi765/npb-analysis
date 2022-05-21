@@ -9,13 +9,14 @@ import Title from '../common/Title';
 import { Box } from '@mui/material';
 import { Selectable } from '../common/TableComponent';
 import { getTeamId } from '../pages/PlayersPage';
-import axios from 'axios';
 import {
   MinTeamPitchingResponse,
   MaxTeamPitchingResponse,
   MaxTeamBattingResponse,
   MinTeamBattingResponse,
 } from '../../data/type';
+import { getTeamPitching } from '../../data/api/teamPitching';
+import { getTeamBatting } from '../../data/api/teamBatting';
 
 const teamNameList = [
   'Giants',
@@ -51,21 +52,6 @@ const useStyles = makeStyles((theme) => ({
 
 const fullMark = 100;
 
-interface TeamPitchingResponse {
-  teamPitching: {
-    StrikeOutRate: number;
-    RunsAllowed: number;
-  };
-}
-
-interface TeamBattingResponse {
-  teamBatting: {
-    HomeRun: number;
-    SluggingPercentage: number;
-    OnBasePercentage: number;
-  };
-}
-
 export function StrengthPage(props: {
   years: string[];
   initYear: string;
@@ -90,42 +76,27 @@ export function StrengthPage(props: {
 
     const teamIdA = getTeamId(teamA);
     const {
-      data: {
-        teamPitching: { StrikeOutRate: strikeOutRateA, RunsAllowed: runsAllowedA },
-      },
-    } = await axios.get<TeamPitchingResponse>(
-      `http://localhost:8081/team/pitching/${teamIdA}/${yearA}`
-    );
+      teamPitching: { StrikeOutRate: strikeOutRateA, RunsAllowed: runsAllowedA },
+    } = await getTeamPitching(teamIdA, yearA);
     const {
-      data: {
-        teamBatting: {
-          HomeRun: homeRunA,
-          SluggingPercentage: sluggingPercentageA,
-          OnBasePercentage: onBasePercentageA,
-        },
+      teamBatting: {
+        HomeRun: homeRunA,
+        SluggingPercentage: sluggingPercentageA,
+        OnBasePercentage: onBasePercentageA,
       },
-    } = await axios.get<TeamBattingResponse>(
-      `http://localhost:8081/team/batting/${teamIdA}/${yearA}`
-    );
+    } = await getTeamBatting(teamIdA, yearA);
+
     const teamIdB = getTeamId(teamB);
     const {
-      data: {
-        teamPitching: { StrikeOutRate: strikeOutRateB, RunsAllowed: runsAllowedB },
-      },
-    } = await axios.get<TeamPitchingResponse>(
-      `http://localhost:8081/team/pitching/${teamIdB}/${yearB}`
-    );
+      teamPitching: { StrikeOutRate: strikeOutRateB, RunsAllowed: runsAllowedB },
+    } = await getTeamPitching(teamIdB, yearB);
     const {
-      data: {
-        teamBatting: {
-          HomeRun: homeRunB,
-          SluggingPercentage: sluggingPercentageB,
-          OnBasePercentage: onBasePercentageB,
-        },
+      teamBatting: {
+        HomeRun: homeRunB,
+        SluggingPercentage: sluggingPercentageB,
+        OnBasePercentage: onBasePercentageB,
       },
-    } = await axios.get<TeamBattingResponse>(
-      `http://localhost:8081/team/batting/${teamIdB}/${yearB}`
-    );
+    } = await getTeamBatting(teamIdB, yearB);
 
     const createData = [
       {

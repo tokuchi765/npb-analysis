@@ -20,9 +20,26 @@ type MinTeamBattingResponse = {
   minOnBasePercentage: number;
 };
 
+type TeamPitchingResponse = {
+  teamPitching: {
+    StrikeOutRate: number;
+    RunsAllowed: number;
+  };
+};
+
+type TeamBattingResponse = {
+  teamBatting: {
+    HomeRun: number;
+    SluggingPercentage: number;
+    OnBasePercentage: number;
+  };
+};
+
 export type {
   MaxTeamPitchingResponse,
   MinTeamPitchingResponse,
   MaxTeamBattingResponse,
   MinTeamBattingResponse,
+  TeamPitchingResponse,
+  TeamBattingResponse,
 };

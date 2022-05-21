@@ -1,4 +1,5 @@
 import { rest } from '../rest';
+import _ from 'lodash';
 import { MaxTeamBattingResponse, MinTeamBattingResponse, TeamBattingResponse } from '../type';
 
 const baseUri = '/team/batting';
@@ -33,4 +34,12 @@ const getTeamBatting = async (
   }
 };
 
-export { getMaxTeamBatting, getMinTeamBatting, getTeamBatting };
+const getTeamBattingByYear = async (fromYear: string, toYear: string): Promise<any> => {
+  try {
+    return await rest.get<any>(`${baseUri}?from_year=${fromYear}&to_year=${toYear}`);
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export { getMaxTeamBatting, getMinTeamBatting, getTeamBatting, getTeamBattingByYear };

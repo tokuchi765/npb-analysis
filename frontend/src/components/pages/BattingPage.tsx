@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
 import { TableComponent, HeadCell, SelectItem } from '../common/TableComponent';
-import axios from 'axios';
 import _ from 'lodash';
+import { getTeamBattingByYear } from '../../data/api/teamBatting';
 
 interface BattingData {
   main: string;
@@ -98,18 +98,12 @@ function createBattingDataList(
   return teamDataList;
 }
 
-interface TeamBattingResponse {
-  teamBatting: any;
-}
-
 function BattingPage(props: { years: string[]; initYear: string }) {
   const [centralYear, setCentralYear] = useState<string>('');
   const [centralBattingDatas, setCentralBattingData] = useState<BattingData[]>([]);
 
   const getBattingCentralDataList = async () => {
-    const result = await axios.get<TeamBattingResponse>(
-      `http://localhost:8081/team/batting?from_year=${centralYear}&to_year=${centralYear}`
-    );
+    const result = await getTeamBattingByYear(centralYear, centralYear);
 
     const teams = _.map(result.data.teamBatting, (teamBatting) => {
       const teanStatses = {
@@ -140,9 +134,7 @@ function BattingPage(props: { years: string[]; initYear: string }) {
   const [pacificBattingDatas, setPacificBattingData] = useState<BattingData[]>([]);
 
   const getBattingPacificDataList = async () => {
-    const result = await axios.get<TeamBattingResponse>(
-      `http://localhost:8081/team/batting?from_year=${pacificYear}&to_year=${pacificYear}`
-    );
+    const result = await getTeamBattingByYear(pacificYear, pacificYear);
 
     const pacificTeams = _.map(result.data.teamBatting, (teamBatting) => {
       const teamBattings = {

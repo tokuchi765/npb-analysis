@@ -33,4 +33,12 @@ const getTeamPitching = async (
   }
 };
 
-export { getMaxTeamPitching, getMinTeamPitching, getTeamPitching };
+const getTeamPitchingByYear = async (fromYear: string, toYear: string): Promise<any> => {
+  try {
+    return await rest.get<any>(`${baseUri}?from_year=${fromYear}&to_year=${toYear}`);
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export { getMaxTeamPitching, getMinTeamPitching, getTeamPitching, getTeamPitchingByYear };

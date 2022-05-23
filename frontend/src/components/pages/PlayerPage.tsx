@@ -3,8 +3,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
 import Button from '@material-ui/core/Button';
 import { TableComponent, HeadCell } from '../common/TableComponent';
-import axios from 'axios';
 import _ from 'lodash';
+import { getPlayer } from '../../data/api/player';
 
 type PageProps = RouteComponentProps<{ id: string }>;
 
@@ -140,12 +140,6 @@ function createPitchingDatas(
   return pitchings;
 }
 
-interface PlayerResponse {
-  career: any;
-  batting: any;
-  pitching: any;
-}
-
 function PlayerPage(props: PageProps) {
   const [playerName, setPlayerName] = useState<string>('');
   const [battingDates, setBattingDates] = useState<BattingDate[]>([]);
@@ -153,8 +147,7 @@ function PlayerPage(props: PageProps) {
 
   const getPlayerDatas = async () => {
     const playerID = props.match.params.id;
-    const result = await axios.get<PlayerResponse>(`http://localhost:8081/player/${playerID}`);
-    const { career, batting, pitching } = result.data;
+    const { career, batting, pitching } = await getPlayer(playerID);
     setPlayerName(career.Name);
     setBattingDates(_.isEmpty(batting) ? [] : createBattingDatas(batting));
     setPitchingDates(_.isEmpty(pitching) ? [] : createPitchingDatas(pitching));

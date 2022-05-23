@@ -35,6 +35,12 @@ type TeamBattingResponse = {
   };
 };
 
+type PlayerResponse = {
+  career: any;
+  batting: any;
+  pitching: any;
+};
+
 export type {
   MaxTeamPitchingResponse,
   MinTeamPitchingResponse,
@@ -42,4 +48,5 @@ export type {
   MinTeamBattingResponse,
   TeamPitchingResponse,
   TeamBattingResponse,
+  PlayerResponse,
 };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
-import axios from 'axios';
 import _ from 'lodash';
 import { TableComponent, HeadCell, SelectItem } from '../common/TableComponent';
+import { getTeamStatsByYear } from '../../data/api/teamStats';
 
 const createTeamData = (
   main: string,
@@ -74,10 +74,6 @@ const headCells: HeadCell[] = [
   { id: 'draw', numeric: true, disablePadding: false, label: '引き分け' },
 ];
 
-interface TeamStatsResponse {
-  teanStats: any;
-}
-
 function SeasonPage(props: { years: string[]; initYear: string }) {
   const [centralYear, setCentralYear] = useState<string>('');
   const [centralTeamDatas, setCentralTeamlData] = useState<
@@ -85,9 +81,7 @@ function SeasonPage(props: { years: string[]; initYear: string }) {
   >([]);
 
   const getTeamCentralDataList = async () => {
-    const result = await axios.get<TeamStatsResponse>(
-      `http://localhost:8081/team/stats?from_year=${centralYear}&to_year=${centralYear}`
-    );
+    const result = await getTeamStatsByYear(centralYear, centralYear);
 
     const teams: CentralTeams[] = _.map(result.data.teanStats, (teanStats) => {
       const teanStatses = {
@@ -120,9 +114,7 @@ function SeasonPage(props: { years: string[]; initYear: string }) {
   >([]);
 
   const getTeamPacificDataList = async () => {
-    const result = await axios.get<TeamStatsResponse>(
-      `http://localhost:8081/team/stats?from_year=${pacificYear}&to_year=${pacificYear}`
-    );
+    const result = await getTeamStatsByYear(pacificYear, pacificYear);
 
     const teams: PacificTeams[] = _.map(result.data.teanStats, (teanStats) => {
       const teanStatses = {

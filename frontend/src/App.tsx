@@ -8,7 +8,14 @@ import PlayersPage from './components/pages/PlayersPage';
 import PlayerPage from './components/pages/PlayerPage';
 import ManagerPage from './components/pages/ManagerPage';
 import StrengthPage from './components/pages/StrengthPage';
-import axios from 'axios';
+import { getMaxTeamPitching, getMinTeamPitching } from './data/api/teamPitching';
+import { getMaxTeamBatting, getMinTeamBatting } from './data/api/teamBatting';
+import {
+  MaxTeamPitchingResponse,
+  MinTeamPitchingResponse,
+  MaxTeamBattingResponse,
+  MinTeamBattingResponse,
+} from './data/type/index';
 
 const years = [
   '2005',
@@ -32,72 +39,38 @@ const years = [
 
 const initYear = '2021';
 
-export class MaxTeamBattingResponse {
-  maxHomeRun: number;
-  maxSluggingPercentage: number;
-  maxOnBasePercentage: number;
-  constructor(maxHomeRun: number, maxSluggingPercentage: number, maxOnBasePercentage: number) {
-    this.maxHomeRun = maxHomeRun;
-    this.maxSluggingPercentage = maxSluggingPercentage;
-    this.maxOnBasePercentage = maxOnBasePercentage;
-  }
-}
-
-export class MaxTeamPitchingResponse {
-  maxStrikeOutRate: number;
-  maxRunsAllowed: number;
-  constructor(maxStrikeOutRate: number, maxRunsAllowed: number) {
-    this.maxStrikeOutRate = maxStrikeOutRate;
-    this.maxRunsAllowed = maxRunsAllowed;
-  }
-}
-
-export class MinTeamBattingResponse {
-  minHomeRun: number;
-  minSluggingPercentage: number;
-  minOnBasePercentage: number;
-  constructor(minHomeRun: number, minSluggingPercentage: number, minOnBasePercentage: number) {
-    this.minHomeRun = minHomeRun;
-    this.minSluggingPercentage = minSluggingPercentage;
-    this.minOnBasePercentage = minOnBasePercentage;
-  }
-}
-
-export class MinTeamPitchingResponse {
-  minStrikeOutRate: number;
-  minRunsAllowed: number;
-  constructor(minStrikeOutRate: number, minRunsAllowed: number) {
-    this.minStrikeOutRate = minStrikeOutRate;
-    this.minRunsAllowed = minRunsAllowed;
-  }
-}
-
 function App() {
-  const [maxTeamPitching, setMaxTeamPitching] = useState<MaxTeamPitchingResponse>(
-    new MaxTeamPitchingResponse(0, 0)
-  );
-  const [minTeamPitching, setMinTeamPitching] = useState<MinTeamPitchingResponse>(
-    new MinTeamPitchingResponse(0, 0)
-  );
-  const [maxTeamBatting, setMaxTeamBatting] = useState<MaxTeamBattingResponse>(
-    new MaxTeamBattingResponse(0, 0, 0)
-  );
-  const [minTeamBatting, setMinTeamBatting] = useState<MinTeamBattingResponse>(
-    new MinTeamBattingResponse(0, 0, 0)
-  );
+  const [maxTeamPitching, setMaxTeamPitching] = useState<MaxTeamPitchingResponse>({
+    maxStrikeOutRate: 0,
+    maxRunsAllowed: 0,
+  });
+  const [minTeamPitching, setMinTeamPitching] = useState<MinTeamPitchingResponse>({
+    minStrikeOutRate: 0,
+    minRunsAllowed: 0,
+  });
+  const [maxTeamBatting, setMaxTeamBatting] = useState<MaxTeamBattingResponse>({
+    maxHomeRun: 0,
+    maxSluggingPercentage: 0,
+    maxOnBasePercentage: 0,
+  });
+  const [minTeamBatting, setMinTeamBatting] = useState<MinTeamBattingResponse>({
+    minHomeRun: 0,
+    minSluggingPercentage: 0,
+    minOnBasePercentage: 0,
+  });
   useEffect(() => {
     (async () => {
       const responses = await Promise.all([
-        axios.get<MaxTeamPitchingResponse>(`http://localhost:8081/team/pitching/max`),
-        axios.get<MinTeamPitchingResponse>(`http://localhost:8081/team/pitching/min`),
-        axios.get<MaxTeamBattingResponse>(`http://localhost:8081/team/batting/max`),
-        axios.get<MinTeamBattingResponse>(`http://localhost:8081/team/batting/min`),
+        getMaxTeamPitching(),
+        getMinTeamPitching(),
+        getMaxTeamBatting(),
+        getMinTeamBatting(),
       ]);
 
-      setMaxTeamPitching(responses[0].data);
-      setMinTeamPitching(responses[1].data);
-      setMaxTeamBatting(responses[2].data);
-      setMinTeamBatting(responses[3].data);
+      setMaxTeamPitching(responses[0]);
+      setMinTeamPitching(responses[1]);
+      setMaxTeamBatting(responses[2]);
+      setMinTeamBatting(responses[3]);
     })();
   }, []);
   return (

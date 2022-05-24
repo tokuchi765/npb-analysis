@@ -20,3 +20,18 @@ jobs:
 
     - name: Run test
       run: go test -v ./...
+
+  frontend-test:
+    name: Frontend Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.0
+      - name: yarn install
+        run: yarn install
+        working-directory: ./frontend/
+      - name: Run test
+        run: yarn test
+        working-directory: ./frontend/

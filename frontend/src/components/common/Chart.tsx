@@ -1,6 +1,5 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
+import { Box, useTheme } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, Label, CartesianGrid, Tooltip, Legend } from 'recharts';
 import Title from './Title';
 

@@ -16,8 +16,17 @@ describe('Chartテスト', () => {
       { key: 'test1', name: 'test1', stroke: '#BAD3FF' },
       { key: 'test2', name: 'test2', stroke: '#FFD700' },
     ];
+    const width = 400;
+    const height = 300;
     const tree = renderer.create(
-      <Chart title={'タイトル'} data={testData} label={'ラベル'} chartDatas={pacificChartDatas} />
+      <Chart
+        title={'タイトル'}
+        data={testData}
+        label={'ラベル'}
+        chartDatas={pacificChartDatas}
+        width={width}
+        height={height}
+      />
     );
     expect(tree).toMatchSnapshot();
   });

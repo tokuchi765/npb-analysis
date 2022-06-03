@@ -194,6 +194,8 @@ function HomePage(props: { years: string[] }) {
   const [centralData, setCentralData] = useState<Array<{ year: string; Giants: number }>>(Array);
   const [pacificData, setPacificData] = useState<Array<{ year: string; Lions: number }>>(Array);
   const classes = useStyles();
+  const width = 400;
+  const height = 300;
 
   const centralChartDatas: ChartData[] = [
     { key: 'Giants', name: 'Giants', stroke: '#FF4F02' },
@@ -256,12 +258,16 @@ function HomePage(props: { years: string[] }) {
             title={'（セ）チーム打率推移'}
             label={'打率'}
             chartDatas={centralChartDatas}
+            width={width}
+            height={height}
           />
           <Chart
             data={pacificData}
             title={'（パ）チーム打率推移'}
             label={'打率'}
             chartDatas={pacificChartDatas}
+            width={width}
+            height={height}
           />
         </Paper>
       </Grid>

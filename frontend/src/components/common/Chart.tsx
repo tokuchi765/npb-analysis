@@ -14,6 +14,8 @@ export default function Chart(props: {
   data: any;
   label: string;
   chartDatas: ChartData[];
+  width: number;
+  height: number;
 }) {
   const theme = useTheme();
 
@@ -22,8 +24,8 @@ export default function Chart(props: {
       <Box display="flex" flexDirection="column" p={1}>
         <Title>{props.title}</Title>
         <LineChart
-          width={400}
-          height={300}
+          width={props.width}
+          height={props.height}
           data={props.data}
           margin={{
             top: 16,

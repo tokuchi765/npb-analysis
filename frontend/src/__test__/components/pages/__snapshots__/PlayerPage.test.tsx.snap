@@ -294,10 +294,11 @@ exports[`選手詳細ページテスト スナップショット作成 1`] = `
         
       </h2>
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+        className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-sghohy-MuiButtonBase-root-MuiButton-root"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
+        onContextMenu={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -311,11 +312,7 @@ exports[`選手詳細ページテスト スナップショット作成 1`] = `
         tabIndex={0}
         type="button"
       >
-        <span
-          className="MuiButton-label"
-        >
-          戻る
-        </span>
+        戻る
       </button>
       <div
         className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"

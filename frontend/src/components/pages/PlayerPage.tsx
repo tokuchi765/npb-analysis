@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
-import Button from '@material-ui/core/Button';
+import { Button } from '@mui/material';
 import { TableComponent, HeadCell } from '../common/TableComponent';
 import _ from 'lodash';
 import { getPlayer } from '../../data/api/player';

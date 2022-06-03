@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import RadarChartComponent from '../common/RadarChartComponent';
 import GenericTemplate from '../templates/GenericTemplate';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Title from '../common/Title';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { Selectable } from '../common/TableComponent';
 import { getTeamId } from '../pages/PlayersPage';
 import {

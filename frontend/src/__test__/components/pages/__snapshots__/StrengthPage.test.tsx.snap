@@ -309,7 +309,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
         チーム戦力チャート
       </h2>
       <div
-        className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
+        className="MuiGrid-root MuiGrid-container css-go2vvz-MuiGrid-root"
       >
         <div
           className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-11fj2xm-MuiPaper-root"

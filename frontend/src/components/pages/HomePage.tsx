@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Chart, { ChartData } from '../common/Chart';
 import GenericTemplate from '../templates/GenericTemplate';
 import _ from 'lodash';
-import Grid from '@material-ui/core/Grid';
+import { Grid } from '@mui/material';
 import { getTeamBattingByYear } from '../../data/api/teamBatting';
 import { BasePaper } from '../common/papers';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Chart from '../common/Chart';
+import Chart, { ChartData } from '../common/Chart';
 import GenericTemplate from '../templates/GenericTemplate';
 import Paper from '@material-ui/core/Paper';
 import clsx from 'clsx';
@@ -140,15 +140,6 @@ function createCentralBattingAverage(
   return { year, Giants, Baystars, Tigers, Carp, Dragons, Swallows };
 }
 
-const centralLineData = [
-  ['Giants', '#FF4F02'],
-  ['Baystars', '#00FFFF'],
-  ['Tigers', '#FFFF00'],
-  ['Carp', '#FF0000'],
-  ['Dragons', '#005FFF'],
-  ['Swallows', '#000055'],
-];
-
 function createPacificBattingAverages(
   teams: {
     Lions: any;
@@ -199,19 +190,28 @@ function createPacificBattingAverage(
   return { year, Lions, Hawks, Eagles, Marines, Fighters, Buffaloes };
 }
 
-const pacificLineData = [
-  ['Lions', '#BAD3FF'],
-  ['Hawks', '#FFD700'],
-  ['Eagles', '#FF0461'],
-  ['Marines', '#555555'],
-  ['Fighters', '#000011'],
-  ['Buffaloes', '#4B0082'],
-];
-
 function HomePage(props: { years: string[] }) {
   const [centralData, setCentralData] = useState<Array<{ year: string; Giants: number }>>(Array);
   const [pacificData, setPacificData] = useState<Array<{ year: string; Lions: number }>>(Array);
   const classes = useStyles();
+
+  const centralChartDatas: ChartData[] = [
+    { key: 'Giants', name: 'Giants', stroke: '#FF4F02' },
+    { key: 'Baystars', name: 'Baystars', stroke: '#00FFFF' },
+    { key: 'Tigers', name: 'Tigers', stroke: '#FF0461' },
+    { key: 'Carp', name: 'Carp', stroke: '#FF0000' },
+    { key: 'Dragons', name: 'Dragons', stroke: '#005FFF' },
+    { key: 'Swallows', name: 'Swallows', stroke: '#000055' },
+  ];
+
+  const pacificChartDatas: ChartData[] = [
+    { key: 'Lions', name: 'Lions', stroke: '#BAD3FF' },
+    { key: 'Hawks', name: 'Hawks', stroke: '#FFD700' },
+    { key: 'Eagles', name: 'Eagles', stroke: '#FF0461' },
+    { key: 'Marines', name: 'Marines', stroke: '#555555' },
+    { key: 'Fighters', name: 'Fighters', stroke: '#000011' },
+    { key: 'Buffaloes', name: 'Buffaloes', stroke: '#4B0082' },
+  ];
 
   useEffect(() => {
     (async () => {
@@ -255,13 +255,13 @@ function HomePage(props: { years: string[] }) {
             data={centralData}
             title={'（セ）チーム打率推移'}
             label={'打率'}
-            lineData={centralLineData}
+            chartDatas={centralChartDatas}
           />
           <Chart
             data={pacificData}
             title={'（パ）チーム打率推移'}
             label={'打率'}
-            lineData={pacificLineData}
+            chartDatas={pacificChartDatas}
           />
         </Paper>
       </Grid>

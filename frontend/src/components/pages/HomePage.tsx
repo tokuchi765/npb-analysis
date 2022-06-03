@@ -1,94 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Chart, { ChartData } from '../common/Chart';
 import GenericTemplate from '../templates/GenericTemplate';
-import Paper from '@material-ui/core/Paper';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import { getTeamBattingByYear } from '../../data/api/teamBatting';
-
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  paper: {
-    position: 'relative',
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'row',
-  },
-  fixedHeight: {
-    height: 400,
-  },
-}));
+import { BasePaper } from '../common/papers';
 
 function createCentralBattingAverages(
   teams: {
@@ -193,7 +109,6 @@ function createPacificBattingAverage(
 function HomePage(props: { years: string[] }) {
   const [centralData, setCentralData] = useState<Array<{ year: string; Giants: number }>>(Array);
   const [pacificData, setPacificData] = useState<Array<{ year: string; Lions: number }>>(Array);
-  const classes = useStyles();
   const width = 400;
   const height = 300;
 
@@ -248,11 +163,10 @@ function HomePage(props: { years: string[] }) {
     })();
   }, []);
 
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <GenericTemplate title="トップページ">
       <Grid container alignItems="center" justifyContent="center">
-        <Paper className={fixedHeightPaper}>
+        <BasePaper>
           <Chart
             data={centralData}
             title={'（セ）チーム打率推移'}
@@ -269,7 +183,7 @@ function HomePage(props: { years: string[] }) {
             width={width}
             height={height}
           />
-        </Paper>
+        </BasePaper>
       </Grid>
     </GenericTemplate>
   );

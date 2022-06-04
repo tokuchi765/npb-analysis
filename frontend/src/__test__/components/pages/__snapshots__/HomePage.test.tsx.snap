@@ -750,7 +750,7 @@ exports[`トップページテスト スナップショット作成 1`] = `
             H32M21.333333333333332,16
             A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
                         fill="none"
-                        stroke="#FF0461"
+                        stroke="#FFFF00"
                         strokeWidth={4}
                       />
                     </svg>
@@ -758,7 +758,7 @@ exports[`トップページテスト スナップショット作成 1`] = `
                       className="recharts-legend-item-text"
                       style={
                         Object {
-                          "color": "#FF0461",
+                          "color": "#FFFF00",
                         }
                       }
                     >

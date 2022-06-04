@@ -12,7 +12,11 @@ describe('選手詳細ページテスト', () => {
     const tree = renderer
       .create(
         <MemoryRouter>
-          <PlayerPage history={{} as any} location={{} as any} match={{} as any} />
+          <PlayerPage
+            history={{} as any}
+            location={{} as any}
+            match={{ params: { id: 'test' }, isExact: true, path: 'path', url: 'url' }}
+          />
         </MemoryRouter>
       )
       .toJSON();

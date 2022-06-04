@@ -115,7 +115,7 @@ function HomePage(props: { years: string[] }) {
   const centralChartDatas: ChartData[] = [
     { key: 'Giants', name: 'Giants', stroke: '#FF4F02' },
     { key: 'Baystars', name: 'Baystars', stroke: '#00FFFF' },
-    { key: 'Tigers', name: 'Tigers', stroke: '#FF0461' },
+    { key: 'Tigers', name: 'Tigers', stroke: '#FFFF00' },
     { key: 'Carp', name: 'Carp', stroke: '#FF0000' },
     { key: 'Dragons', name: 'Dragons', stroke: '#005FFF' },
     { key: 'Swallows', name: 'Swallows', stroke: '#000055' },

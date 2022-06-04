@@ -48,7 +48,13 @@ export default function Chart(props: {
           <Legend />
           {props.chartDatas.map((value) => {
             return (
-              <Line type="monotone" dataKey={value.key} stroke={value.stroke} key={value.key} />
+              <Line
+                type="monotone"
+                dataKey={value.key}
+                name={value.name}
+                stroke={value.stroke}
+                key={value.key}
+              />
             );
           })}
         </LineChart>

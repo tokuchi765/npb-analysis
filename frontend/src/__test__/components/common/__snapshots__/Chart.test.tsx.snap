@@ -303,6 +303,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
           d={null}
           fill="none"
           height={254}
+          name="test1"
           points={
             Array [
               Object {
@@ -341,6 +342,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
           d={null}
           fill="none"
           height={254}
+          name="test2"
           points={
             Array [
               Object {

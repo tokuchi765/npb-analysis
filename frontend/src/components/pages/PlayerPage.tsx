@@ -5,6 +5,8 @@ import { Button } from '@mui/material';
 import { TableComponent, HeadCell } from '../common/TableComponent';
 import _ from 'lodash';
 import { getPlayer } from '../../data/api/player';
+import { BasePaper } from '../common/papers';
+import Chart, { ChartData } from '../common/Chart';
 
 type PageProps = RouteComponentProps<{ id: string }>;
 
@@ -140,17 +142,120 @@ function createPitchingDatas(
   return pitchings;
 }
 
+interface BattingChartData {
+  year: string;
+  onBasePercentage: number;
+  battingAverage: number;
+  sluggingPercentage: number;
+}
+
+function createBattingChartDatas(
+  battingList: {
+    Year: string;
+    OnBasePercentage: string;
+    BattingAverage: string;
+    SluggingPercentage: string;
+  }[]
+) {
+  const battings: BattingChartData[] = [];
+  battingList.forEach((batting) => {
+    if (batting.Year !== 'nan') {
+      battings.push({
+        year: batting.Year,
+        onBasePercentage: Number(batting.OnBasePercentage),
+        battingAverage: Number(batting.BattingAverage),
+        sluggingPercentage: Number(batting.SluggingPercentage),
+      });
+    }
+  });
+  return battings;
+}
+
+const battingChartData: ChartData[] = [
+  { key: 'onBasePercentage', name: '出塁率', stroke: '#FF4F02' },
+  { key: 'battingAverage', name: '打率', stroke: '#00FFFF' },
+  { key: 'sluggingPercentage', name: '長打率', stroke: '#FF0461' },
+];
+
+interface PitchingEarnedRunAverageChartData {
+  year: string;
+  earnedRunAverage: number;
+}
+
+const pitchingEarnedRunAverageChartData: ChartData[] = [
+  { key: 'earnedRunAverage', name: '防御率', stroke: '#FF4F02' },
+];
+
+function createPitchingEarnedRunAverageChartDatas(
+  pitchingList: {
+    Year: string;
+    EarnedRunAverage: string;
+  }[]
+) {
+  const pitchings: PitchingEarnedRunAverageChartData[] = [];
+  pitchingList.forEach((pitching) => {
+    if (pitching.Year !== 'nan') {
+      pitchings.push({
+        year: pitching.Year,
+        earnedRunAverage: Number(pitching.EarnedRunAverage),
+      });
+    }
+  });
+  return pitchings;
+}
+
+interface PitchingStrikeOutRateChartData {
+  year: string;
+  strikeOutRate: number;
+}
+
+const pitchingStrikeOutRateChartData: ChartData[] = [
+  { key: 'strikeOutRate', name: '奪三振率', stroke: '#00FFFF' },
+];
+
+function createPitchingStrikeOutRateChartDatas(
+  pitchingList: {
+    Year: string;
+    StrikeOutRate: string;
+  }[]
+) {
+  const pitchings: PitchingStrikeOutRateChartData[] = [];
+  pitchingList.forEach((pitching) => {
+    if (pitching.Year !== 'nan') {
+      pitchings.push({
+        year: pitching.Year,
+        strikeOutRate: Number(pitching.StrikeOutRate),
+      });
+    }
+  });
+  return pitchings;
+}
+
 function PlayerPage(props: PageProps) {
   const [playerName, setPlayerName] = useState<string>('');
   const [battingDates, setBattingDates] = useState<BattingDate[]>([]);
+  const [battingChartDatas, setBattingChartDates] = useState<BattingChartData[]>([]);
   const [pitchingDates, setPitchingDates] = useState<PitchingDate[]>([]);
+  const [pitchingEarnedRunAverageChartDatas, setPitchingEarnedRunAverageChartDatas] = useState<
+    PitchingEarnedRunAverageChartData[]
+  >([]);
+  const [pitchingStrikeOutRateChartDatas, setPitchingStrikeOutRateChartDatas] = useState<
+    PitchingStrikeOutRateChartData[]
+  >([]);
 
   const getPlayerDatas = async () => {
     const playerID = props.match.params.id;
     const { career, batting, pitching } = await getPlayer(playerID);
     setPlayerName(career.Name);
     setBattingDates(_.isEmpty(batting) ? [] : createBattingDatas(batting));
+    setBattingChartDates(_.isEmpty(batting) ? [] : createBattingChartDatas(batting));
     setPitchingDates(_.isEmpty(pitching) ? [] : createPitchingDatas(pitching));
+    setPitchingEarnedRunAverageChartDatas(
+      _.isEmpty(pitching) ? [] : createPitchingEarnedRunAverageChartDatas(pitching)
+    );
+    setPitchingStrikeOutRateChartDatas(
+      _.isEmpty(pitching) ? [] : createPitchingStrikeOutRateChartDatas(pitching)
+    );
   };
 
   useEffect(() => {
@@ -164,6 +269,42 @@ function PlayerPage(props: PageProps) {
       <Button onClick={() => props.history.goBack()} variant="contained" color="primary">
         戻る
       </Button>
+      {!_.isEmpty(battingDates) ? (
+        <BasePaper>
+          <Chart
+            data={battingChartDatas}
+            title={'打撃成績推移'}
+            label={''}
+            chartDatas={battingChartData}
+            width={1000}
+            height={300}
+          />
+        </BasePaper>
+      ) : (
+        false
+      )}
+      {!_.isEmpty(pitchingDates) ? (
+        <BasePaper>
+          <Chart
+            data={pitchingEarnedRunAverageChartDatas}
+            title={'防御率推移'}
+            label={''}
+            chartDatas={pitchingEarnedRunAverageChartData}
+            width={490}
+            height={300}
+          />
+          <Chart
+            data={pitchingStrikeOutRateChartDatas}
+            title={'奪三振率推移'}
+            label={''}
+            chartDatas={pitchingStrikeOutRateChartData}
+            width={490}
+            height={300}
+          />
+        </BasePaper>
+      ) : (
+        false
+      )}
       <TableComponent
         title={'打撃成績'}
         datas={battingDates}

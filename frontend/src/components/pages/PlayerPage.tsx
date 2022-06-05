@@ -305,20 +305,28 @@ function PlayerPage(props: PageProps) {
       ) : (
         false
       )}
-      <TableComponent
-        title={'打撃成績'}
-        datas={battingDates}
-        headCells={batterHeadCells}
-        initSorted={'main'}
-        selectItems={[]}
-      />
-      <TableComponent
-        title={'投手成績'}
-        datas={pitchingDates}
-        headCells={pitcherHeadCells}
-        initSorted={'main'}
-        selectItems={[]}
-      />
+      {!_.isEmpty(battingDates) ? (
+        <TableComponent
+          title={'打撃成績'}
+          datas={battingDates}
+          headCells={batterHeadCells}
+          initSorted={'main'}
+          selectItems={[]}
+        />
+      ) : (
+        false
+      )}
+      {!_.isEmpty(pitchingDates) ? (
+        <TableComponent
+          title={'投手成績'}
+          datas={pitchingDates}
+          headCells={pitcherHeadCells}
+          initSorted={'main'}
+          selectItems={[]}
+        />
+      ) : (
+        false
+      )}
     </GenericTemplate>
   );
 }

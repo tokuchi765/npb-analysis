@@ -2,7 +2,7 @@
 
 exports[`Chartテスト スナップショット作成 1`] = `
 <div
-  className="MuiBox-root MuiBox-root-1"
+  className="MuiBox-root css-1kxe5pk"
 >
   <h2
     className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
@@ -161,7 +161,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
           fill="none"
           height={30}
           orientation="bottom"
-          stroke="rgba(0, 0, 0, 0.54)"
+          stroke="rgba(0, 0, 0, 0.6)"
           type="category"
           width={300}
           x={84}
@@ -182,7 +182,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
               fill="none"
               height={30}
               orientation="bottom"
-              stroke="rgba(0, 0, 0, 0.54)"
+              stroke="rgba(0, 0, 0, 0.6)"
               type="category"
               width={300}
               x={84}
@@ -194,7 +194,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
             />
             <text
               className="recharts-text recharts-cartesian-axis-tick-value"
-              fill="rgba(0, 0, 0, 0.54)"
+              fill="rgba(0, 0, 0, 0.6)"
               height={30}
               orientation="bottom"
               stroke="none"
@@ -220,7 +220,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
               fill="none"
               height={30}
               orientation="bottom"
-              stroke="rgba(0, 0, 0, 0.54)"
+              stroke="rgba(0, 0, 0, 0.6)"
               type="category"
               width={300}
               x={84}
@@ -232,7 +232,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
             />
             <text
               className="recharts-text recharts-cartesian-axis-tick-value"
-              fill="rgba(0, 0, 0, 0.54)"
+              fill="rgba(0, 0, 0, 0.6)"
               height={30}
               orientation="bottom"
               stroke="none"
@@ -260,7 +260,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
           fill="none"
           height={254}
           orientation="left"
-          stroke="rgba(0, 0, 0, 0.54)"
+          stroke="rgba(0, 0, 0, 0.6)"
           type="number"
           width={60}
           x={24}
@@ -303,6 +303,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
           d={null}
           fill="none"
           height={254}
+          name="test1"
           points={
             Array [
               Object {
@@ -341,6 +342,7 @@ exports[`Chartテスト スナップショット作成 1`] = `
           d={null}
           fill="none"
           height={254}
+          name="test2"
           points={
             Array [
               Object {

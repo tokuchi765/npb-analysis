@@ -2,17 +2,17 @@
 
 exports[`戦力ページテスト スナップショット作成 1`] = `
 <div
-  className="makeStyles-root-4"
+  className="makeStyles-root-2"
 >
   <header
-    className="MuiPaper-root MuiAppBar-root MuiAppBar-positionAbsolute MuiAppBar-colorPrimary makeStyles-appBar-7 makeStyles-appBarShift-8 MuiPaper-elevation4"
+    className="MuiPaper-root MuiAppBar-root MuiAppBar-positionAbsolute MuiAppBar-colorPrimary makeStyles-appBar-5 makeStyles-appBarShift-6 MuiPaper-elevation4"
   >
     <div
-      className="MuiToolbar-root MuiToolbar-regular makeStyles-toolbar-5 MuiToolbar-gutters"
+      className="MuiToolbar-root MuiToolbar-regular makeStyles-toolbar-3 MuiToolbar-gutters"
     >
       <button
         aria-label="open drawer"
-        className="MuiButtonBase-root MuiIconButton-root makeStyles-menuButton-9 makeStyles-menuButtonHidden-10 MuiIconButton-colorInherit MuiIconButton-edgeStart"
+        className="MuiButtonBase-root MuiIconButton-root makeStyles-menuButton-7 makeStyles-menuButtonHidden-8 MuiIconButton-colorInherit MuiIconButton-edgeStart"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -49,7 +49,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
         />
       </button>
       <h1
-        className="MuiTypography-root makeStyles-title-11 MuiTypography-h6 MuiTypography-colorInherit MuiTypography-noWrap"
+        className="MuiTypography-root makeStyles-title-9 MuiTypography-h6 MuiTypography-colorInherit MuiTypography-noWrap"
       >
         管理画面
       </h1>
@@ -59,10 +59,10 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
     className="MuiDrawer-root MuiDrawer-docked"
   >
     <div
-      className="MuiPaper-root MuiDrawer-paper makeStyles-drawerPaper-13 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
+      className="MuiPaper-root MuiDrawer-paper makeStyles-drawerPaper-11 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
     >
       <div
-        className="makeStyles-toolbarIcon-6"
+        className="makeStyles-toolbarIcon-4"
       >
         <button
           className="MuiButtonBase-root MuiIconButton-root"
@@ -109,7 +109,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
         className="MuiList-root MuiList-padding"
       >
         <a
-          className="makeStyles-link-19"
+          className="makeStyles-link-17"
           href="/"
           onClick={[Function]}
         >
@@ -160,7 +160,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
           </div>
         </a>
         <li
-          className="MuiListItem-root makeStyles-link-19 MuiListItem-gutters"
+          className="MuiListItem-root makeStyles-link-17 MuiListItem-gutters"
           disabled={false}
           onMouseOver={[Function]}
         >
@@ -190,7 +190,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
           </div>
         </li>
         <a
-          className="makeStyles-link-19"
+          className="makeStyles-link-17"
           href="/players"
           onClick={[Function]}
         >
@@ -241,7 +241,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
           </div>
         </a>
         <a
-          className="makeStyles-link-19"
+          className="makeStyles-link-17"
           href="/manager"
           onClick={[Function]}
         >
@@ -295,24 +295,24 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
     </div>
   </div>
   <main
-    className="makeStyles-content-16"
+    className="makeStyles-content-14"
   >
     <div
-      className="makeStyles-appBarSpacer-15"
+      className="makeStyles-appBarSpacer-13"
     />
     <div
-      className="MuiContainer-root makeStyles-container-17 MuiContainer-maxWidthLg"
+      className="MuiContainer-root makeStyles-container-15 MuiContainer-maxWidthLg"
     >
       <h2
-        className="MuiTypography-root makeStyles-pageTitle-12 MuiTypography-h5 MuiTypography-colorInherit MuiTypography-noWrap"
+        className="MuiTypography-root makeStyles-pageTitle-10 MuiTypography-h5 MuiTypography-colorInherit MuiTypography-noWrap"
       >
         チーム戦力チャート
       </h2>
       <div
-        className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
+        className="MuiGrid-root MuiGrid-container css-go2vvz-MuiGrid-root"
       >
         <div
-          className="MuiPaper-root makeStyles-paper-1 makeStyles-fixedHeight-2 MuiPaper-elevation1 MuiPaper-rounded"
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-11fj2xm-MuiPaper-root"
         >
           <div
             className="MuiBox-root css-1swb3j4"
@@ -323,7 +323,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
               チーム選択
             </h2>
             <div
-              className="MuiFormControl-root makeStyles-formControl-3"
+              className="MuiFormControl-root makeStyles-formControl-1"
             >
               <label
                 className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
@@ -372,7 +372,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
               </div>
             </div>
             <div
-              className="MuiFormControl-root makeStyles-formControl-3"
+              className="MuiFormControl-root makeStyles-formControl-1"
             >
               <label
                 className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
@@ -421,7 +421,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
               </div>
             </div>
             <div
-              className="MuiFormControl-root makeStyles-formControl-3"
+              className="MuiFormControl-root makeStyles-formControl-1"
             >
               <label
                 className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
@@ -470,7 +470,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
               </div>
             </div>
             <div
-              className="MuiFormControl-root makeStyles-formControl-3"
+              className="MuiFormControl-root makeStyles-formControl-1"
             >
               <label
                 className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
@@ -521,7 +521,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
           </div>
         </div>
         <div
-          className="MuiPaper-root makeStyles-paper-1 makeStyles-fixedHeight-2 MuiPaper-elevation1 MuiPaper-rounded"
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-11fj2xm-MuiPaper-root"
         >
           <div
             className="MuiBox-root css-1qgmenl"
@@ -1009,7 +1009,7 @@ exports[`戦力ページテスト スナップショット作成 1`] = `
         </div>
       </div>
       <div
-        className="MuiBox-root MuiBox-root-20"
+        className="MuiBox-root MuiBox-root-18"
       >
         <p
           className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"

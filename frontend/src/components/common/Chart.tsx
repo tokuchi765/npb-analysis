@@ -1,14 +1,21 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
+import { Box, useTheme } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, Label, CartesianGrid, Tooltip, Legend } from 'recharts';
 import Title from './Title';
+
+export interface ChartData {
+  key: string;
+  name: string;
+  stroke: string;
+}
 
 export default function Chart(props: {
   title: string;
   data: any;
   label: string;
-  lineData: string[][];
+  chartDatas: ChartData[];
+  width: number;
+  height: number;
 }) {
   const theme = useTheme();
 
@@ -17,8 +24,8 @@ export default function Chart(props: {
       <Box display="flex" flexDirection="column" p={1}>
         <Title>{props.title}</Title>
         <LineChart
-          width={400}
-          height={300}
+          width={props.width}
+          height={props.height}
           data={props.data}
           margin={{
             top: 16,
@@ -39,8 +46,16 @@ export default function Chart(props: {
           </YAxis>
           <Tooltip />
           <Legend />
-          {props.lineData.map((val) => {
-            return <Line type="monotone" key={val[0]} dataKey={val[0]} stroke={val[1]} />;
+          {props.chartDatas.map((value) => {
+            return (
+              <Line
+                type="monotone"
+                dataKey={value.key}
+                name={value.name}
+                stroke={value.stroke}
+                key={value.key}
+              />
+            );
           })}
         </LineChart>
       </Box>

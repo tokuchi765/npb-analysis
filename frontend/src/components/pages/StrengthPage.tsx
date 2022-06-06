@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import RadarChartComponent from '../common/RadarChartComponent';
 import GenericTemplate from '../templates/GenericTemplate';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import clsx from 'clsx';
 import Title from '../common/Title';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { Selectable } from '../common/TableComponent';
 import { getTeamId } from '../pages/PlayersPage';
 import {
@@ -17,6 +14,7 @@ import {
 } from '../../data/type';
 import { getTeamPitching } from '../../data/api/teamPitching';
 import { getTeamBatting } from '../../data/api/teamBatting';
+import { BasePaper } from '../common/papers';
 
 const teamNameList = [
   'Giants',
@@ -34,16 +32,6 @@ const teamNameList = [
 ];
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'relative',
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'row',
-  },
-  fixedHeight: {
-    height: 400,
-  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -66,7 +54,6 @@ export function StrengthPage(props: {
   const [yearB, setYearB] = useState<string>(props.initYear);
   const [teamB, setTeamB] = useState<string>('Buffaloes');
   const [data, setData] = useState<any>();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const setStrength = async () => {
     const { maxStrikeOutRate, maxRunsAllowed } = props.maxTeamPitching;
@@ -154,7 +141,7 @@ export function StrengthPage(props: {
   return (
     <GenericTemplate title="チーム戦力チャート">
       <Grid container alignItems="center" justifyContent="center">
-        <Paper className={fixedHeightPaper}>
+        <BasePaper>
           <React.Fragment>
             <Box display="flex" flexDirection="column" p={1} width={400} height={300}>
               <Title>{'チーム選択'}</Title>
@@ -192,8 +179,8 @@ export function StrengthPage(props: {
               />
             </Box>
           </React.Fragment>
-        </Paper>
-        <Paper className={fixedHeightPaper}>
+        </BasePaper>
+        <BasePaper>
           <RadarChartComponent
             title="戦力チャート"
             data={data}
@@ -203,7 +190,7 @@ export function StrengthPage(props: {
             keyB={'B'}
             help={'過去のデータの最大値を100、最小値を0として、点数換算した値を戦力値として表示'}
           />
-        </Paper>
+        </BasePaper>
       </Grid>
     </GenericTemplate>
   );

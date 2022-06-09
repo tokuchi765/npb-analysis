@@ -54,13 +54,7 @@ func (Repository *GradesRepository) GetBattings(playerID string) (battings []dat
 	for rows.Next() {
 		var playerID string
 		var batting data.BATTERGRADES
-		rows.Scan(&playerID, &batting.Year, &batting.TeamID, &batting.Team, &batting.Games,
-			&batting.PlateAppearance, &batting.AtBat, &batting.Score, &batting.Hit, &batting.Single,
-			&batting.Double, &batting.Triple, &batting.HomeRun, &batting.BaseHit,
-			&batting.RunsBattedIn, &batting.StolenBase, &batting.CaughtStealing, &batting.SacrificeHits,
-			&batting.SacrificeFlies, &batting.BaseOnBalls, &batting.HitByPitches, &batting.StrikeOut,
-			&batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage,
-			&batting.Woba, &batting.RC, &batting.BABIP)
+		rows.Scan(&playerID, &batting.Year, &batting.TeamID, &batting.Team, &batting.Games, &batting.PlateAppearance, &batting.AtBat, &batting.Score, &batting.Hit, &batting.Single, &batting.Double, &batting.Triple, &batting.HomeRun, &batting.BaseHit, &batting.RunsBattedIn, &batting.StolenBase, &batting.CaughtStealing, &batting.SacrificeHits, &batting.SacrificeFlies, &batting.BaseOnBalls, &batting.HitByPitches, &batting.StrikeOut, &batting.StrikeOutRate, &batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage, &batting.Woba, &batting.RC, &batting.BABIP)
 
 		battings = append(battings, batting)
 	}

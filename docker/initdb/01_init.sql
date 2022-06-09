@@ -1,5 +1,5 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2022/04/15 22:43:06
+-- Date/Time    : 2022/06/08 23:04:29
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -125,6 +125,7 @@ create table TEAM_BATTING (
   , intentional_walk integer
   , hit_by_pitches integer
   , strike_out integer
+  , strike_out_rate real
   , grounded_into_double_play integer
   , slugging_percentage real
   , on_base_percentage real
@@ -174,6 +175,7 @@ create table BATTER_GRADES (
   , base_on_balls integer
   , hit_by_pitches integer
   , strike_out integer
+  , strike_out_rate real
   , grounded_into_double_play integer
   , batting_average real
   , slugging_percentage real
@@ -324,6 +326,7 @@ comment on column TEAM_BATTING.base_on_balls is '四球';
 comment on column TEAM_BATTING.intentional_walk is '故意四';
 comment on column TEAM_BATTING.hit_by_pitches is '死球';
 comment on column TEAM_BATTING.strike_out is '三振';
+comment on column TEAM_BATTING.strike_out_rate is '三振率';
 comment on column TEAM_BATTING.grounded_into_double_play is '併殺打';
 comment on column TEAM_BATTING.slugging_percentage is '長打率';
 comment on column TEAM_BATTING.on_base_percentage is '出塁率';
@@ -361,6 +364,7 @@ comment on column BATTER_GRADES.sacrifice_flies is '犠飛';
 comment on column BATTER_GRADES.base_on_balls is '四球';
 comment on column BATTER_GRADES.hit_by_pitches is '死球';
 comment on column BATTER_GRADES.strike_out is '三振';
+comment on column BATTER_GRADES.strike_out_rate is '三振率';
 comment on column BATTER_GRADES.grounded_into_double_play is '併殺打';
 comment on column BATTER_GRADES.batting_average is '打率';
 comment on column BATTER_GRADES.slugging_percentage is '長打率';

@@ -85,6 +85,19 @@ type BATTERGRADES struct {
 	BABIP                  float64         // BABIP
 }
 
+// SetStrikeOutRate 三振率を算出して設定する
+func (batterGrades *BATTERGRADES) SetStrikeOutRate() {
+	strikeOutRate := (float64(batterGrades.StrikeOut)) / float64(batterGrades.PlateAppearance)
+
+	if math.IsNaN(strikeOutRate) {
+		strikeOutRate = 0.0
+	}
+
+	batterGrades.StrikeOutRate = sql.NullFloat64{
+		Float64: strikeOutRate,
+	}
+}
+
 // SetRC RCを算出して設定する
 func (batterGrades *BATTERGRADES) SetRC() {
 	A := float64(batterGrades.Hit + batterGrades.BaseOnBalls + batterGrades.HitByPitches - batterGrades.CaughtStealing - batterGrades.GroundedIntoDoublePlay)

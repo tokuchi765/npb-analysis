@@ -56,6 +56,19 @@ func (teamBatting *TeamBatting) SetBABIP() {
 	}
 }
 
+// SetStrikeOutRate 三振率を算出して設定する
+func (teamBatting *TeamBatting) SetStrikeOutRate() {
+	strikeOutRate := (float64(teamBatting.StrikeOut)) / float64(teamBatting.PlateAppearance)
+
+	if math.IsNaN(strikeOutRate) {
+		strikeOutRate = 0.0
+	}
+
+	teamBatting.StrikeOutRate = sql.NullFloat64{
+		Float64: strikeOutRate,
+	}
+}
+
 // TeamPitching チーム投手成績
 type TeamPitching struct {
 	TeamID           string  // チームID

@@ -1,6 +1,7 @@
 package player
 
 import (
+	"database/sql"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -134,6 +135,41 @@ func TestPICHERGRADES_SetStrikeOutRate(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.picherGrades.SetStrikeOutRate()
 			assert.Equal(t, tt.wantSetStrikeOutRate, tt.picherGrades.StrikeOutRate)
+		})
+	}
+}
+
+func TestBATTERGRADES_SetStrikeOutRate(t *testing.T) {
+	tests := []struct {
+		name              string
+		batterGrades      *BATTERGRADES
+		wantStrikeOutRate sql.NullFloat64
+	}{
+		{
+			"三振率算出",
+			&BATTERGRADES{
+				StrikeOut:       10,
+				PlateAppearance: 100,
+			},
+			sql.NullFloat64{
+				Float64: 0.1,
+			},
+		},
+		{
+			"三振率がNaN",
+			&BATTERGRADES{
+				StrikeOut:       0,
+				PlateAppearance: 0,
+			},
+			sql.NullFloat64{
+				Float64: 0.0,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.batterGrades.SetStrikeOutRate()
+			assert.Equal(t, tt.wantStrikeOutRate, tt.batterGrades.StrikeOutRate)
 		})
 	}
 }

@@ -66,6 +66,7 @@ func (teamBatting *TeamBatting) SetStrikeOutRate() {
 
 	teamBatting.StrikeOutRate = sql.NullFloat64{
 		Float64: strikeOutRate,
+		Valid:   true,
 	}
 }
 

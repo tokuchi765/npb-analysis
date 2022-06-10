@@ -95,6 +95,7 @@ func (batterGrades *BATTERGRADES) SetStrikeOutRate() {
 
 	batterGrades.StrikeOutRate = sql.NullFloat64{
 		Float64: strikeOutRate,
+		Valid:   true,
 	}
 }
 

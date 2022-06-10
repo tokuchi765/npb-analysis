@@ -98,12 +98,12 @@ func (Repository *TeamRepository) GetTeamPitchingMin() (minStrikeOutRate float64
 
 // InsertTeamBattings チーム打撃成績をDBに登録する
 func (Repository *TeamRepository) InsertTeamBattings(batting teamData.TeamBatting) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO team_batting(team_id, year, batting_average, games, plate_appearance, at_bat, score, hit, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, intentional_walk, hit_by_pitches, strike_out, grounded_into_double_play, slugging_percentage, on_base_percentage, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)")
+	stmt, err := Repository.Conn.Prepare("INSERT INTO team_batting(team_id, year, batting_average, games, plate_appearance, at_bat, score, hit, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, intentional_walk, hit_by_pitches, strike_out, strike_out_rate, grounded_into_double_play, slugging_percentage, on_base_percentage, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
-	if _, err := stmt.Exec(batting.TeamID, batting.Year, batting.BattingAverage, batting.Games, batting.PlateAppearance, batting.AtBat, batting.Score, batting.Hit, batting.Double, batting.Triple, batting.HomeRun, batting.BaseHit, batting.RunsBattedIn, batting.StolenBase, batting.CaughtStealing, batting.SacrificeHits, batting.SacrificeFlies, batting.BaseOnBalls, batting.IntentionalWalk, batting.HitByPitches, batting.StrikeOut, batting.GroundedIntoDoublePlay, batting.SluggingPercentage, batting.OnBasePercentage, batting.BABIP); err != nil {
+	if _, err := stmt.Exec(batting.TeamID, batting.Year, batting.BattingAverage, batting.Games, batting.PlateAppearance, batting.AtBat, batting.Score, batting.Hit, batting.Double, batting.Triple, batting.HomeRun, batting.BaseHit, batting.RunsBattedIn, batting.StolenBase, batting.CaughtStealing, batting.SacrificeHits, batting.SacrificeFlies, batting.BaseOnBalls, batting.IntentionalWalk, batting.HitByPitches, batting.StrikeOut, batting.StrikeOutRate, batting.GroundedIntoDoublePlay, batting.SluggingPercentage, batting.OnBasePercentage, batting.BABIP); err != nil {
 		fmt.Println(batting.TeamID + ":" + batting.Year)
 		log.Print(err)
 	}

@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"database/sql"
 	"testing"
 
 	_ "github.com/lib/pq"
@@ -92,7 +93,7 @@ func TestGradesRepository_InsertBatterGrades_GetBattings(t *testing.T) {
 			"打者成績登録と取得",
 			args{
 				"01605136",
-				createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3),
+				createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3),
 			},
 		},
 	}
@@ -113,11 +114,11 @@ func TestGradesRepository_InsertBatterGrades_GetBattings(t *testing.T) {
 
 func createBatterGradesList() []data.BATTERGRADES {
 	return []data.BATTERGRADES{
-		createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3),
+		createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3),
 	}
 }
 
-func createBatterGrades(Year string, TeamID string, Team string, Games int, PlateAppearance int, AtBat int, Score int, Hit int, Single int, Double int, Triple int, HomeRun int, BaseHit int, RunsBattedIn int, StolenBase int, CaughtStealing int, SacrificeHits int, SacrificeFlies int, BaseOnBalls int, HitByPitches int, StrikeOut int, GroundedIntoDoublePlay int, BattingAverage float64, SluggingPercentage float64, OnBasePercentage float64, Woba float64, RC float64, BABIP float64) data.BATTERGRADES {
+func createBatterGrades(Year string, TeamID string, Team string, Games int, PlateAppearance int, AtBat int, Score int, Hit int, Single int, Double int, Triple int, HomeRun int, BaseHit int, RunsBattedIn int, StolenBase int, CaughtStealing int, SacrificeHits int, SacrificeFlies int, BaseOnBalls int, HitByPitches int, StrikeOut int, StrikeOutRate float64, GroundedIntoDoublePlay int, BattingAverage float64, SluggingPercentage float64, OnBasePercentage float64, Woba float64, RC float64, BABIP float64) data.BATTERGRADES {
 	return data.BATTERGRADES{
 		Year:                   Year,
 		TeamID:                 TeamID,
@@ -140,6 +141,7 @@ func createBatterGrades(Year string, TeamID string, Team string, Games int, Plat
 		BaseOnBalls:            BaseOnBalls,
 		HitByPitches:           HitByPitches,
 		StrikeOut:              StrikeOut,
+		StrikeOutRate:          sql.NullFloat64{Float64: StrikeOutRate, Valid: true},
 		GroundedIntoDoublePlay: GroundedIntoDoublePlay,
 		BattingAverage:         BattingAverage,
 		SluggingPercentage:     SluggingPercentage,
@@ -326,7 +328,7 @@ func TestGradesRepository_ExtractionPicherGrades(t *testing.T) {
 }
 
 func TestGradesRepository_ExtractionBatterGrades(t *testing.T) {
-	batter := createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3)
+	batter := createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3)
 	prayerID := "01605136"
 	type args struct {
 		prayerID string

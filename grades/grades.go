@@ -132,6 +132,7 @@ func (Interactor *GradesInteractor) InsertBatterGrades(batterMap map[string][]da
 			setWoba(&batter, config)
 			batter.SetRC()
 			batter.SetBABIP()
+			batter.SetStrikeOutRate()
 			Interactor.GradesRepository.InsertBatterGrades(key, batter)
 		}
 	}

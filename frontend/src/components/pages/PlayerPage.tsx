@@ -19,6 +19,7 @@ interface BattingDate {
   sluggingPercentage: number;
   homeRun: number;
   strikeOut: number;
+  strikeOutRate: number;
   groundedIntoDoublePlay: number;
   woba: number;
   rc: number;
@@ -34,6 +35,7 @@ const batterHeadCells: HeadCell[] = [
   { id: 'sluggingPercentage', numeric: true, disablePadding: true, label: '長打率' },
   { id: 'homeRun', numeric: true, disablePadding: true, label: '本塁打' },
   { id: 'strikeOut', numeric: true, disablePadding: true, label: '三振' },
+  { id: 'strikeOutRate', numeric: true, disablePadding: true, label: '三振率' },
   { id: 'groundedIntoDoublePlay', numeric: true, disablePadding: true, label: '併殺打' },
   { id: 'woba', numeric: true, disablePadding: true, label: '加重出塁率' },
   { id: 'rc', numeric: true, disablePadding: true, label: '創出得点' },
@@ -50,6 +52,7 @@ function createBattingDatas(
     SluggingPercentage: string;
     HomeRun: string;
     StrikeOut: string;
+    StrikeOutRate: string;
     GroundedIntoDoublePlay: string;
     Woba: string;
     RC: string;
@@ -67,6 +70,7 @@ function createBattingDatas(
       sluggingPercentage: Number(batting.SluggingPercentage),
       homeRun: Number(batting.HomeRun),
       strikeOut: Number(batting.StrikeOut),
+      strikeOutRate: Number(batting.StrikeOutRate),
       groundedIntoDoublePlay: Number(batting.GroundedIntoDoublePlay),
       woba: Number(batting.Woba),
       rc: Number(batting.RC),
@@ -147,6 +151,7 @@ interface BattingChartData {
   onBasePercentage: number;
   battingAverage: number;
   sluggingPercentage: number;
+  strikeOutRate: number;
 }
 
 function createBattingChartDatas(
@@ -155,6 +160,7 @@ function createBattingChartDatas(
     OnBasePercentage: string;
     BattingAverage: string;
     SluggingPercentage: string;
+    StrikeOutRate: string;
   }[]
 ) {
   const battings: BattingChartData[] = [];
@@ -165,6 +171,7 @@ function createBattingChartDatas(
         onBasePercentage: Number(batting.OnBasePercentage),
         battingAverage: Number(batting.BattingAverage),
         sluggingPercentage: Number(batting.SluggingPercentage),
+        strikeOutRate: Number(batting.StrikeOutRate),
       });
     }
   });
@@ -175,6 +182,7 @@ const battingChartData: ChartData[] = [
   { key: 'onBasePercentage', name: '出塁率', stroke: '#FF4F02' },
   { key: 'battingAverage', name: '打率', stroke: '#00FFFF' },
   { key: 'sluggingPercentage', name: '長打率', stroke: '#FF0461' },
+  { key: 'strikeOutRate', name: '三振率', stroke: '#000055' },
 ];
 
 interface PitchingEarnedRunAverageChartData {

@@ -7,6 +7,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 	data "github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
 	testUtil "github.com/tokuchi765/npb-analysis/test"
 )
 
@@ -141,7 +142,7 @@ func createBatterGrades(Year string, TeamID string, Team string, Games int, Plat
 		BaseOnBalls:            BaseOnBalls,
 		HitByPitches:           HitByPitches,
 		StrikeOut:              StrikeOut,
-		StrikeOutRate:          sql.NullFloat64{Float64: StrikeOutRate, Valid: true},
+		StrikeOutRate:          sqlwrapper.NullFloat64{NullFloat64: sql.NullFloat64{Float64: StrikeOutRate, Valid: true}},
 		GroundedIntoDoublePlay: GroundedIntoDoublePlay,
 		BattingAverage:         BattingAverage,
 		SluggingPercentage:     SluggingPercentage,

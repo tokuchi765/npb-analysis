@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 	testUtil "github.com/tokuchi765/npb-analysis/test"
 )
@@ -132,7 +133,7 @@ func createTeamBatting(teamID string, year string, battingAverage float64, games
 		IntentionalWalk:        intentionalWalk,
 		HitByPitches:           hitByPitches,
 		StrikeOut:              strikeOut,
-		StrikeOutRate:          sql.NullFloat64{Float64: strikeOutRate, Valid: true},
+		StrikeOutRate:          sqlwrapper.NullFloat64{NullFloat64: sql.NullFloat64{Float64: strikeOutRate, Valid: true}},
 		GroundedIntoDoublePlay: groundedIntoDoublePlay,
 		SluggingPercentage:     sluggingPercentage,
 		OnBasePercentage:       onBasePercentage,

@@ -3,6 +3,8 @@ package player
 import (
 	"database/sql"
 	"math"
+
+	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
 )
 
 // PICHERGRADES 成績
@@ -54,35 +56,35 @@ func (picherGrades *PICHERGRADES) SetStrikeOutRate() {
 
 // BATTERGRADES 成績
 type BATTERGRADES struct {
-	Year                   string          // 年度
-	TeamID                 string          // チームID
-	Team                   string          // 所属球団
-	Games                  int             // 試合
-	PlateAppearance        int             // 打席
-	AtBat                  int             // 打数
-	Score                  int             // 得点
-	Hit                    int             // 安打
-	Single                 int             // 単打
-	Double                 int             // 二塁打
-	Triple                 int             // 三塁打
-	HomeRun                int             // 本塁打
-	BaseHit                int             // 塁打
-	RunsBattedIn           int             // 打点
-	StolenBase             int             // 盗塁
-	CaughtStealing         int             // 盗塁刺
-	SacrificeHits          int             // 犠打
-	SacrificeFlies         int             // 犠飛
-	BaseOnBalls            int             // 四球
-	HitByPitches           int             // 死球
-	StrikeOut              int             // 三振
-	StrikeOutRate          sql.NullFloat64 // 三振率
-	GroundedIntoDoublePlay int             // 併殺打
-	BattingAverage         float64         // 打率
-	SluggingPercentage     float64         // 長打率
-	OnBasePercentage       float64         // 出塁率
-	Woba                   float64         // 加重出塁率
-	RC                     float64         // 創出得点
-	BABIP                  float64         // BABIP
+	Year                   string                 // 年度
+	TeamID                 string                 // チームID
+	Team                   string                 // 所属球団
+	Games                  int                    // 試合
+	PlateAppearance        int                    // 打席
+	AtBat                  int                    // 打数
+	Score                  int                    // 得点
+	Hit                    int                    // 安打
+	Single                 int                    // 単打
+	Double                 int                    // 二塁打
+	Triple                 int                    // 三塁打
+	HomeRun                int                    // 本塁打
+	BaseHit                int                    // 塁打
+	RunsBattedIn           int                    // 打点
+	StolenBase             int                    // 盗塁
+	CaughtStealing         int                    // 盗塁刺
+	SacrificeHits          int                    // 犠打
+	SacrificeFlies         int                    // 犠飛
+	BaseOnBalls            int                    // 四球
+	HitByPitches           int                    // 死球
+	StrikeOut              int                    // 三振
+	StrikeOutRate          sqlwrapper.NullFloat64 // 三振率
+	GroundedIntoDoublePlay int                    // 併殺打
+	BattingAverage         float64                // 打率
+	SluggingPercentage     float64                // 長打率
+	OnBasePercentage       float64                // 出塁率
+	Woba                   float64                // 加重出塁率
+	RC                     float64                // 創出得点
+	BABIP                  float64                // BABIP
 }
 
 // SetStrikeOutRate 三振率を算出して設定する
@@ -93,9 +95,11 @@ func (batterGrades *BATTERGRADES) SetStrikeOutRate() {
 		strikeOutRate = 0.0
 	}
 
-	batterGrades.StrikeOutRate = sql.NullFloat64{
-		Float64: strikeOutRate,
-		Valid:   true,
+	batterGrades.StrikeOutRate = sqlwrapper.NullFloat64{
+		NullFloat64: sql.NullFloat64{
+			Float64: strikeOutRate,
+			Valid:   true,
+		},
 	}
 }
 

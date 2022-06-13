@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
 )
 
 func TestBATTERGRADES_SetRC(t *testing.T) {
@@ -143,7 +144,7 @@ func TestBATTERGRADES_SetStrikeOutRate(t *testing.T) {
 	tests := []struct {
 		name              string
 		batterGrades      *BATTERGRADES
-		wantStrikeOutRate sql.NullFloat64
+		wantStrikeOutRate sqlwrapper.NullFloat64
 	}{
 		{
 			"三振率算出",
@@ -151,8 +152,11 @@ func TestBATTERGRADES_SetStrikeOutRate(t *testing.T) {
 				StrikeOut:       10,
 				PlateAppearance: 100,
 			},
-			sql.NullFloat64{
-				Float64: 0.1,
+			sqlwrapper.NullFloat64{
+				NullFloat64: sql.NullFloat64{
+					Float64: 0.1,
+					Valid:   true,
+				},
 			},
 		},
 		{
@@ -161,8 +165,11 @@ func TestBATTERGRADES_SetStrikeOutRate(t *testing.T) {
 				StrikeOut:       0,
 				PlateAppearance: 0,
 			},
-			sql.NullFloat64{
-				Float64: 0.0,
+			sqlwrapper.NullFloat64{
+				NullFloat64: sql.NullFloat64{
+					Float64: 0.0,
+					Valid:   true,
+				},
 			},
 		},
 	}

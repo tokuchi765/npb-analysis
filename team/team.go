@@ -126,6 +126,7 @@ func (Interactor *TeamInteractor) InsertTeamBattings(csvPath string, league stri
 		teamBatting := Interactor.ReadTeamBatting(csvPath, league, strconv.Itoa(year))
 		for _, batting := range teamBatting {
 			batting.SetBABIP()
+			batting.SetStrikeOutRate()
 			Interactor.TeamRepository.InsertTeamBattings(batting)
 		}
 	}

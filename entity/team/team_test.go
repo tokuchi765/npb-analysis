@@ -1,9 +1,11 @@
 package team
 
 import (
+	"database/sql"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
 )
 
 func TestTeamBatting_SetBABIP(t *testing.T) {
@@ -86,6 +88,47 @@ func TestTeamPitching_SetStrikeOutRate(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.teamPitching.SetStrikeOutRate()
 			assert.Equal(t, tt.wantSetStrikeOutRate, tt.teamPitching.StrikeOutRate)
+		})
+	}
+}
+
+func TestTeamBatting_SetStrikeOutRate(t *testing.T) {
+	tests := []struct {
+		name              string
+		teamBatting       *TeamBatting
+		wantStrikeOutRate sqlwrapper.NullFloat64
+	}{
+		{
+			"三振率算出",
+			&TeamBatting{
+				StrikeOut:       10,
+				PlateAppearance: 100,
+			},
+			sqlwrapper.NullFloat64{
+				NullFloat64: sql.NullFloat64{
+					Float64: 0.1,
+					Valid:   true,
+				},
+			},
+		},
+		{
+			"三振率がNaN",
+			&TeamBatting{
+				StrikeOut:       0,
+				PlateAppearance: 0,
+			},
+			sqlwrapper.NullFloat64{
+				NullFloat64: sql.NullFloat64{
+					Float64: 0.0,
+					Valid:   true,
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.teamBatting.SetStrikeOutRate()
+			assert.Equal(t, tt.wantStrikeOutRate, tt.teamBatting.StrikeOutRate)
 		})
 	}
 }

@@ -54,13 +54,7 @@ func (Repository *GradesRepository) GetBattings(playerID string) (battings []dat
 	for rows.Next() {
 		var playerID string
 		var batting data.BATTERGRADES
-		rows.Scan(&playerID, &batting.Year, &batting.TeamID, &batting.Team, &batting.Games,
-			&batting.PlateAppearance, &batting.AtBat, &batting.Score, &batting.Hit, &batting.Single,
-			&batting.Double, &batting.Triple, &batting.HomeRun, &batting.BaseHit,
-			&batting.RunsBattedIn, &batting.StolenBase, &batting.CaughtStealing, &batting.SacrificeHits,
-			&batting.SacrificeFlies, &batting.BaseOnBalls, &batting.HitByPitches, &batting.StrikeOut,
-			&batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage,
-			&batting.Woba, &batting.RC, &batting.BABIP)
+		rows.Scan(&playerID, &batting.Year, &batting.TeamID, &batting.Team, &batting.Games, &batting.PlateAppearance, &batting.AtBat, &batting.Score, &batting.Hit, &batting.Single, &batting.Double, &batting.Triple, &batting.HomeRun, &batting.BaseHit, &batting.RunsBattedIn, &batting.StolenBase, &batting.CaughtStealing, &batting.SacrificeHits, &batting.SacrificeFlies, &batting.BaseOnBalls, &batting.HitByPitches, &batting.StrikeOut, &batting.StrikeOutRate, &batting.GroundedIntoDoublePlay, &batting.BattingAverage, &batting.SluggingPercentage, &batting.OnBasePercentage, &batting.Woba, &batting.RC, &batting.BABIP)
 
 		battings = append(battings, batting)
 	}
@@ -232,14 +226,14 @@ func (Repository *GradesRepository) ExtractionBatterGrades(batterMap *map[string
 
 // InsertBatterGrades 引数で受け取ったBATTERGRADESをDBに登録する
 func (Repository *GradesRepository) InsertBatterGrades(playerID string, batterGrades data.BATTERGRADES) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, single, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage, w_oba, rc, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29)")
+	stmt, err := Repository.Conn.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, single, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, strike_out_rate, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage, w_oba, rc, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
 
 	// 加重出塁率の計算に必要なconfigファイルを読み込む
-	if _, err := stmt.Exec(playerID, batterGrades.Year, batterGrades.TeamID, batterGrades.Team, batterGrades.Games, batterGrades.PlateAppearance, batterGrades.AtBat, batterGrades.Score, batterGrades.Hit, batterGrades.Single, batterGrades.Double, batterGrades.Triple, batterGrades.HomeRun, batterGrades.BaseHit, batterGrades.RunsBattedIn, batterGrades.StolenBase, batterGrades.CaughtStealing, batterGrades.SacrificeHits, batterGrades.SacrificeFlies, batterGrades.BaseOnBalls, batterGrades.HitByPitches, batterGrades.StrikeOut, batterGrades.GroundedIntoDoublePlay, batterGrades.BattingAverage, batterGrades.SluggingPercentage, batterGrades.OnBasePercentage, batterGrades.Woba, batterGrades.RC, batterGrades.BABIP); err != nil {
+	if _, err := stmt.Exec(playerID, batterGrades.Year, batterGrades.TeamID, batterGrades.Team, batterGrades.Games, batterGrades.PlateAppearance, batterGrades.AtBat, batterGrades.Score, batterGrades.Hit, batterGrades.Single, batterGrades.Double, batterGrades.Triple, batterGrades.HomeRun, batterGrades.BaseHit, batterGrades.RunsBattedIn, batterGrades.StolenBase, batterGrades.CaughtStealing, batterGrades.SacrificeHits, batterGrades.SacrificeFlies, batterGrades.BaseOnBalls, batterGrades.HitByPitches, batterGrades.StrikeOut, batterGrades.StrikeOutRate, batterGrades.GroundedIntoDoublePlay, batterGrades.BattingAverage, batterGrades.SluggingPercentage, batterGrades.OnBasePercentage, batterGrades.Woba, batterGrades.RC, batterGrades.BABIP); err != nil {
 		fmt.Println(playerID + ":" + batterGrades.Year)
 		log.Print(err)
 	}

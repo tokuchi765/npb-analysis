@@ -92,7 +92,7 @@ export interface HeadCell {
   numeric: boolean;
 }
 
-function Selectable(props: {
+export function Selectable(props: {
   formControl: string;
   selectLabel: string;
   initSelect: string;

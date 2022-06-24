@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 	testUtil "github.com/tokuchi765/npb-analysis/test"
 )
@@ -22,7 +23,7 @@ func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 			"チーム投手成績取得と登録",
 			args{
 				[]int{2020},
-				createTeamPitching("01", "2020", 3.4, 143, 60, 60, 60, 60, 60, 60, 60, 60, 3.4, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 0.3),
+				createTeamPitching("01", "2020", 3.4, 143, 60, 60, 60, 60, 60, 60, 60, 60, 3.4, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 0.3, 3.6),
 			},
 		},
 	}
@@ -43,7 +44,7 @@ func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 	}
 }
 
-func createTeamPitching(teamID string, year string, earnedRunAverage float64, games int, win int, lose int, save int, hold int, holdPoint int, completeGame int, shutout int, noWalks int, winningRate float64, batter int, inningsPitched int, hit int, homeRun int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, wildPitches int, balk int, runsAllowed int, earnedRun int, babip float64) (teamPitching teamData.TeamPitching) {
+func createTeamPitching(teamID string, year string, earnedRunAverage float64, games int, win int, lose int, save int, hold int, holdPoint int, completeGame int, shutout int, noWalks int, winningRate float64, batter int, inningsPitched int, hit int, homeRun int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, wildPitches int, balk int, runsAllowed int, earnedRun int, babip float64, strikeOutRate float64) (teamPitching teamData.TeamPitching) {
 	return teamData.TeamPitching{
 		TeamID:           teamID,
 		Year:             year,
@@ -71,6 +72,7 @@ func createTeamPitching(teamID string, year string, earnedRunAverage float64, ga
 		RunsAllowed:      runsAllowed,
 		EarnedRun:        earnedRun,
 		BABIP:            babip,
+		StrikeOutRate:    strikeOutRate,
 	}
 }
 
@@ -85,7 +87,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 		{
 			"チーム打撃成績取得と登録",
 			args{
-				teamBatting: createTeamBatting("01", "2005", 0.301, 144, 360, 360, 400, 360, 90, 5, 70, 400, 400, 50, 20, 20, 20, 100, 100, 100, 100, 20, 0.21, 0.314, 0.3),
+				teamBatting: createTeamBatting("01", "2005", 0.301, 144, 360, 360, 400, 360, 90, 5, 70, 400, 400, 50, 20, 20, 20, 100, 100, 100, 100, 0.3, 20, 0.21, 0.314, 0.3),
 			},
 		},
 	}
@@ -108,7 +110,7 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 	}
 }
 
-func createTeamBatting(teamID string, year string, battingAverage float64, games int, plateAppearance int, atBat int, score int, hit int, double int, triple int, homeRun int, baseHit int, runsBattedIn int, stolenBase int, caughtStealing int, sacrificeHits int, sacrificeFlies int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, groundedIntoDoublePlay int, sluggingPercentage float64, onBasePercentage float64, babip float64) teamData.TeamBatting {
+func createTeamBatting(teamID string, year string, battingAverage float64, games int, plateAppearance int, atBat int, score int, hit int, double int, triple int, homeRun int, baseHit int, runsBattedIn int, stolenBase int, caughtStealing int, sacrificeHits int, sacrificeFlies int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, strikeOutRate float64, groundedIntoDoublePlay int, sluggingPercentage float64, onBasePercentage float64, babip float64) teamData.TeamBatting {
 	return teamData.TeamBatting{
 		TeamID:                 teamID,
 		Year:                   year,
@@ -131,6 +133,7 @@ func createTeamBatting(teamID string, year string, battingAverage float64, games
 		IntentionalWalk:        intentionalWalk,
 		HitByPitches:           hitByPitches,
 		StrikeOut:              strikeOut,
+		StrikeOutRate:          sqlwrapper.NullFloat64{NullFloat64: sql.NullFloat64{Float64: strikeOutRate, Valid: true}},
 		GroundedIntoDoublePlay: groundedIntoDoublePlay,
 		SluggingPercentage:     sluggingPercentage,
 		OnBasePercentage:       onBasePercentage,
@@ -434,6 +437,211 @@ func TestTeamRepository_InsertMatchResults(t *testing.T) {
 			assert.Equal(t, tt.args.league.expectedWin, win)
 			assert.Equal(t, tt.args.league.expectedLose, lose)
 			assert.Equal(t, tt.args.league.expectedDraw, draw)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamPitchingByTeamIDAndYear(t *testing.T) {
+	type args struct {
+		year   string
+		teamID string
+	}
+	tests := []struct {
+		name             string
+		args             args
+		wantTeamPitching teamData.TeamPitching
+	}{
+		{
+			"チーム投手成績取得（チームIDと年指定）",
+			args{
+				"2020",
+				"01",
+			},
+			createTeamPitching("01", "2020", 3.4, 143, 60, 60, 60, 60, 60, 60, 60, 60, 3.4, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 0.3, 3.6),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamPitchings(tt.wantTeamPitching)
+			actual := repository.GetTeamPitchingByTeamIDAndYear(tt.args.year, tt.args.teamID)
+			assert.Exactly(t, tt.wantTeamPitching, actual)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamBattingByTeamIDAndYear(t *testing.T) {
+	type args struct {
+		teamID string
+		year   string
+	}
+	tests := []struct {
+		name            string
+		args            args
+		wantTeamBatting teamData.TeamBatting
+	}{
+		{
+			"チーム打撃成績取得（チームIDと年指定）",
+			args{
+				"01",
+				"2005",
+			},
+			createTeamBatting("01", "2005", 0.301, 144, 360, 360, 400, 360, 90, 5, 70, 400, 400, 50, 20, 20, 20, 100, 100, 100, 100, 0.3, 20, 0.21, 0.314, 0.3),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamBattings(tt.wantTeamBatting)
+			actual := repository.GetTeamBattingByTeamIDAndYear(tt.args.teamID, tt.args.year)
+			assert.Exactly(t, tt.wantTeamBatting, actual)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamBattingMax(t *testing.T) {
+	tests := []struct {
+		name                      string
+		wantMaxHomeRun            int
+		wantMaxSluggingPercentage float64
+		wantMaxOnBasePercentage   float64
+	}{
+		{
+			"打撃成績最大値取得",
+			90,
+			0.67,
+			0.531,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamBattings(createTeamBatting("01", "2005", 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.67, 0.451, 0))
+			repository.InsertTeamBattings(createTeamBatting("05", "2007", 0, 0, 0, 0, 0, 0, 0, 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.21, 0.314, 0))
+			repository.InsertTeamBattings(createTeamBatting("11", "2015", 0, 0, 0, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.30, 0.531, 0))
+
+			maxHomeRun, maxSluggingPercentage, maxOnBasePercentage := repository.GetTeamBattingMax()
+			assert.Equal(t, tt.wantMaxHomeRun, maxHomeRun)
+			assert.Equal(t, tt.wantMaxSluggingPercentage, maxSluggingPercentage)
+			assert.Equal(t, tt.wantMaxOnBasePercentage, maxOnBasePercentage)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamBattingMin(t *testing.T) {
+	tests := []struct {
+		name                      string
+		wantMinHomeRun            int
+		wantMinSluggingPercentage float64
+		wantMinOnBasePercentage   float64
+	}{
+		{
+			"打撃成績最小値取得",
+			70,
+			0.21,
+			0.314,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamBattings(createTeamBatting("01", "2005", 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.67, 0.451, 0))
+			repository.InsertTeamBattings(createTeamBatting("05", "2007", 0, 0, 0, 0, 0, 0, 0, 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.21, 0.314, 0))
+			repository.InsertTeamBattings(createTeamBatting("11", "2015", 0, 0, 0, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.30, 0.531, 0))
+
+			minHomeRun, minSluggingPercentage, minOnBasePercentage := repository.GetTeamBattingMin()
+
+			assert.Equal(t, tt.wantMinHomeRun, minHomeRun)
+			assert.Equal(t, tt.wantMinSluggingPercentage, minSluggingPercentage)
+			assert.Equal(t, tt.wantMinOnBasePercentage, minOnBasePercentage)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamPitchingMax(t *testing.T) {
+	tests := []struct {
+		name                 string
+		wantMaxStrikeOutRate float64
+		wantMaxRunsAllowed   int
+	}{
+		{
+			"投手成績最大値取得",
+			3.6,
+			80,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamPitchings(createTeamPitching("01", "2020", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 3.6))
+			repository.InsertTeamPitchings(createTeamPitching("06", "2009", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 0, 0, 2.3))
+
+			maxStrikeOutRate, maxRunsAllowed := repository.GetTeamPitchingMax()
+			assert.Equal(t, tt.wantMaxStrikeOutRate, maxStrikeOutRate)
+			assert.Equal(t, tt.wantMaxRunsAllowed, maxRunsAllowed)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamPitchingMin(t *testing.T) {
+	tests := []struct {
+		name                 string
+		wantMinStrikeOutRate float64
+		wantMinRunsAllowed   int
+	}{
+		{
+			"投手成績最小値取得",
+			2.3,
+			60,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+
+			repository.InsertTeamPitchings(createTeamPitching("01", "2020", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 3.6))
+			repository.InsertTeamPitchings(createTeamPitching("06", "2009", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 0, 0, 2.3))
+
+			minStrikeOutRate, minRunsAllowed := repository.GetTeamPitchingMin()
+
+			assert.Equal(t, tt.wantMinStrikeOutRate, minStrikeOutRate)
+			assert.Equal(t, tt.wantMinRunsAllowed, minRunsAllowed)
+			testUtil.CloseContainer(resource, pool)
 		})
 	}
 }

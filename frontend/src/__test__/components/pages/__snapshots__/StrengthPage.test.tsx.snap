@@ -1,0 +1,1033 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`戦力ページテスト スナップショット作成 1`] = `
+<div
+  className="makeStyles-root-2"
+>
+  <header
+    className="MuiPaper-root MuiAppBar-root MuiAppBar-positionAbsolute MuiAppBar-colorPrimary makeStyles-appBar-5 makeStyles-appBarShift-6 MuiPaper-elevation4"
+  >
+    <div
+      className="MuiToolbar-root MuiToolbar-regular makeStyles-toolbar-3 MuiToolbar-gutters"
+    >
+      <button
+        aria-label="open drawer"
+        className="MuiButtonBase-root MuiIconButton-root makeStyles-menuButton-7 makeStyles-menuButtonHidden-8 MuiIconButton-colorInherit MuiIconButton-edgeStart"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="MenuIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+            />
+          </svg>
+        </span>
+        <span
+          className="MuiTouchRipple-root"
+        />
+      </button>
+      <h1
+        className="MuiTypography-root makeStyles-title-9 MuiTypography-h6 MuiTypography-colorInherit MuiTypography-noWrap"
+      >
+        管理画面
+      </h1>
+    </div>
+  </header>
+  <div
+    className="MuiDrawer-root MuiDrawer-docked"
+  >
+    <div
+      className="MuiPaper-root MuiDrawer-paper makeStyles-drawerPaper-11 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
+    >
+      <div
+        className="makeStyles-toolbarIcon-4"
+      >
+        <button
+          className="MuiButtonBase-root MuiIconButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="ChevronLeftIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+              />
+            </svg>
+          </span>
+          <span
+            className="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+      <hr
+        className="MuiDivider-root"
+      />
+      <ul
+        className="MuiList-root MuiList-padding"
+      >
+        <a
+          className="makeStyles-link-17"
+          href="/"
+          onClick={[Function]}
+        >
+          <div
+            aria-disabled={false}
+            className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"
+            onBlur={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <div
+              className="MuiListItemIcon-root"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="HomeIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
+                />
+              </svg>
+            </div>
+            <div
+              className="MuiListItemText-root"
+            >
+              <span
+                className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
+              >
+                トップページ
+              </span>
+            </div>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </div>
+        </a>
+        <li
+          className="MuiListItem-root makeStyles-link-17 MuiListItem-gutters"
+          disabled={false}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="MuiListItemIcon-root"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="GroupsIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 12.75c1.63 0 3.07.39 4.24.9 1.08.48 1.76 1.56 1.76 2.73V18H6v-1.61c0-1.18.68-2.26 1.76-2.73 1.17-.52 2.61-.91 4.24-.91zM4 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm1.13 1.1c-.37-.06-.74-.1-1.13-.1-.99 0-1.93.21-2.78.58C.48 14.9 0 15.62 0 16.43V18h4.5v-1.61c0-.83.23-1.61.63-2.29zM20 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 3.43c0-.81-.48-1.53-1.22-1.85-.85-.37-1.79-.58-2.78-.58-.39 0-.76.04-1.13.1.4.68.63 1.46.63 2.29V18H24v-1.57zM12 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"
+              />
+            </svg>
+          </div>
+          <div
+            className="MuiListItemText-root"
+          >
+            <span
+              className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
+            >
+              チーム情報
+            </span>
+          </div>
+        </li>
+        <a
+          className="makeStyles-link-17"
+          href="/players"
+          onClick={[Function]}
+        >
+          <div
+            aria-disabled={false}
+            className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"
+            onBlur={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <div
+              className="MuiListItemIcon-root"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="PersonIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div
+              className="MuiListItemText-root"
+            >
+              <span
+                className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
+              >
+                選手一覧ページ
+              </span>
+            </div>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </div>
+        </a>
+        <a
+          className="makeStyles-link-17"
+          href="/manager"
+          onClick={[Function]}
+        >
+          <div
+            aria-disabled={false}
+            className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"
+            onBlur={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <div
+              className="MuiListItemIcon-root"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="PersonIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div
+              className="MuiListItemText-root"
+            >
+              <span
+                className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
+              >
+                監督ページ
+              </span>
+            </div>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </div>
+        </a>
+      </ul>
+    </div>
+  </div>
+  <main
+    className="makeStyles-content-14"
+  >
+    <div
+      className="makeStyles-appBarSpacer-13"
+    />
+    <div
+      className="MuiContainer-root makeStyles-container-15 MuiContainer-maxWidthLg"
+    >
+      <h2
+        className="MuiTypography-root makeStyles-pageTitle-10 MuiTypography-h5 MuiTypography-colorInherit MuiTypography-noWrap"
+      >
+        チーム戦力チャート
+      </h2>
+      <div
+        className="MuiGrid-root MuiGrid-container css-go2vvz-MuiGrid-root"
+      >
+        <div
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-11fj2xm-MuiPaper-root"
+        >
+          <div
+            className="MuiBox-root css-1swb3j4"
+          >
+            <h2
+              className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+            >
+              チーム選択
+            </h2>
+            <div
+              className="MuiFormControl-root makeStyles-formControl-1"
+            >
+              <label
+                className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+                data-shrink={true}
+                id="demo-simple-select-label"
+              >
+                チームA年度
+              </label>
+              <div
+                className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+                onClick={[Function]}
+              >
+                <div
+                  aria-haspopup="listbox"
+                  aria-labelledby="demo-simple-select-label demo-simple-select"
+                  className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                  id="demo-simple-select"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseDown={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  2020
+                </div>
+                <input
+                  aria-hidden={true}
+                  className="MuiSelect-nativeInput"
+                  onAnimationStart={[Function]}
+                  onChange={[Function]}
+                  required={false}
+                  tabIndex={-1}
+                  value="2020"
+                />
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSelect-icon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="MuiFormControl-root makeStyles-formControl-1"
+            >
+              <label
+                className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+                data-shrink={true}
+                id="demo-simple-select-label"
+              >
+                チームA
+              </label>
+              <div
+                className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+                onClick={[Function]}
+              >
+                <div
+                  aria-haspopup="listbox"
+                  aria-labelledby="demo-simple-select-label demo-simple-select"
+                  className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                  id="demo-simple-select"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseDown={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  Hawks
+                </div>
+                <input
+                  aria-hidden={true}
+                  className="MuiSelect-nativeInput"
+                  onAnimationStart={[Function]}
+                  onChange={[Function]}
+                  required={false}
+                  tabIndex={-1}
+                  value="Hawks"
+                />
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSelect-icon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="MuiFormControl-root makeStyles-formControl-1"
+            >
+              <label
+                className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+                data-shrink={true}
+                id="demo-simple-select-label"
+              >
+                チームB年度
+              </label>
+              <div
+                className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+                onClick={[Function]}
+              >
+                <div
+                  aria-haspopup="listbox"
+                  aria-labelledby="demo-simple-select-label demo-simple-select"
+                  className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                  id="demo-simple-select"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseDown={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  2020
+                </div>
+                <input
+                  aria-hidden={true}
+                  className="MuiSelect-nativeInput"
+                  onAnimationStart={[Function]}
+                  onChange={[Function]}
+                  required={false}
+                  tabIndex={-1}
+                  value="2020"
+                />
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSelect-icon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="MuiFormControl-root makeStyles-formControl-1"
+            >
+              <label
+                className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+                data-shrink={true}
+                id="demo-simple-select-label"
+              >
+                チームB
+              </label>
+              <div
+                className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+                onClick={[Function]}
+              >
+                <div
+                  aria-haspopup="listbox"
+                  aria-labelledby="demo-simple-select-label demo-simple-select"
+                  className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                  id="demo-simple-select"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseDown={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  Buffaloes
+                </div>
+                <input
+                  aria-hidden={true}
+                  className="MuiSelect-nativeInput"
+                  onAnimationStart={[Function]}
+                  onChange={[Function]}
+                  required={false}
+                  tabIndex={-1}
+                  value="Buffaloes"
+                />
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSelect-icon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-11fj2xm-MuiPaper-root"
+        >
+          <div
+            className="MuiBox-root css-1qgmenl"
+          >
+            <div
+              className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+            >
+              <h2
+                className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+              >
+                戦力チャート
+              </h2>
+              <svg
+                aria-hidden={true}
+                aria-label="過去のデータの最大値を100、最小値を0として、点数換算した値を戦力値として表示"
+                aria-labelledby={null}
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-mui-internal-clone-element={true}
+                data-testid="HelpOutlineIcon"
+                focusable="false"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseLeave={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                onTouchStart={[Function]}
+                style={
+                  Object {
+                    "marginTop": "5px",
+                  }
+                }
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+                />
+              </svg>
+            </div>
+            <div
+              className="recharts-wrapper"
+              style={
+                Object {
+                  "cursor": "default",
+                  "height": 300,
+                  "position": "relative",
+                  "width": 400,
+                }
+              }
+            >
+              <svg
+                className="recharts-surface"
+                cx="50%"
+                cy="50%"
+                height={300}
+                version="1.1"
+                viewBox="0 0 400 300"
+                width={400}
+              >
+                <defs>
+                  <clipPath
+                    id="recharts1-clip"
+                  >
+                    <rect
+                      height={290}
+                      width={390}
+                      x={5}
+                      y={5}
+                    />
+                  </clipPath>
+                </defs>
+                <g
+                  className="recharts-polar-grid"
+                >
+                  <g
+                    className="recharts-polar-grid-angle"
+                  >
+                    <line
+                      cx={200}
+                      cy={150}
+                      stroke="#ccc"
+                      x1={200}
+                      x2={200}
+                      y1={150}
+                      y2={34}
+                    />
+                    <line
+                      cx={200}
+                      cy={150}
+                      stroke="#ccc"
+                      x1={200}
+                      x2={200}
+                      y1={150}
+                      y2={266}
+                    />
+                  </g>
+                  <g
+                    className="recharts-polar-grid-concentric"
+                  >
+                    <path
+                      className="recharts-polar-grid-concentric-polygon"
+                      cx={200}
+                      cy={150}
+                      d="M 200,150L 200,150Z"
+                      fill="none"
+                      stroke="#ccc"
+                    />
+                    <path
+                      className="recharts-polar-grid-concentric-polygon"
+                      cx={200}
+                      cy={150}
+                      d="M 200,121L 200,179Z"
+                      fill="none"
+                      stroke="#ccc"
+                    />
+                    <path
+                      className="recharts-polar-grid-concentric-polygon"
+                      cx={200}
+                      cy={150}
+                      d="M 200,92L 200,208Z"
+                      fill="none"
+                      stroke="#ccc"
+                    />
+                    <path
+                      className="recharts-polar-grid-concentric-polygon"
+                      cx={200}
+                      cy={150}
+                      d="M 200,63L 200,237Z"
+                      fill="none"
+                      stroke="#ccc"
+                    />
+                    <path
+                      className="recharts-polar-grid-concentric-polygon"
+                      cx={200}
+                      cy={150}
+                      d="M 200,34L 200,266Z"
+                      fill="none"
+                      stroke="#ccc"
+                    />
+                  </g>
+                </g>
+                <g
+                  className="recharts-layer recharts-polar-angle-axis"
+                >
+                  <path
+                    className="recharts-polygon angleAxis"
+                    cx={200}
+                    cy={150}
+                    d="M200,34L200,266L200,34Z"
+                    fill="none"
+                    orientation="outer"
+                    radius={116}
+                    type="category"
+                  />
+                  <g
+                    className="recharts-layer recharts-polar-angle-axis-ticks"
+                  >
+                    <g
+                      className="recharts-layer recharts-polar-angle-axis-tick"
+                    >
+                      <line
+                        className="angleAxis"
+                        cx={200}
+                        cy={150}
+                        fill="none"
+                        orientation="outer"
+                        radius={116}
+                        type="category"
+                        x1={200}
+                        x2={200}
+                        y1={34}
+                        y2={26}
+                      />
+                      <text
+                        className="recharts-text recharts-polar-angle-axis-tick-value"
+                        cx={200}
+                        cy={150}
+                        orientation="outer"
+                        radius={116}
+                        stroke="none"
+                        textAnchor="middle"
+                        type="category"
+                        x={200}
+                        y={26}
+                      >
+                        <tspan
+                          dy="0em"
+                          x={200}
+                        >
+                          0
+                        </tspan>
+                      </text>
+                    </g>
+                    <g
+                      className="recharts-layer recharts-polar-angle-axis-tick"
+                    >
+                      <line
+                        className="angleAxis"
+                        cx={200}
+                        cy={150}
+                        fill="none"
+                        orientation="outer"
+                        radius={116}
+                        type="category"
+                        x1={200}
+                        x2={200}
+                        y1={266}
+                        y2={274}
+                      />
+                      <text
+                        className="recharts-text recharts-polar-angle-axis-tick-value"
+                        cx={200}
+                        cy={150}
+                        orientation="outer"
+                        radius={116}
+                        stroke="none"
+                        textAnchor="middle"
+                        type="category"
+                        x={200}
+                        y={274}
+                      >
+                        <tspan
+                          dy="0em"
+                          x={200}
+                        >
+                          auto
+                        </tspan>
+                      </text>
+                    </g>
+                  </g>
+                </g>
+                <g
+                  className="recharts-layer recharts-polar-radius-axis"
+                >
+                  <line
+                    className="radiusAxis"
+                    fill="none"
+                    orientation="right"
+                    radius={116}
+                    stroke="#ccc"
+                    type="number"
+                    x1={200}
+                    x2={316}
+                    y1={150}
+                    y2={150}
+                  />
+                  <g
+                    className="recharts-layer recharts-polar-radius-axis-ticks"
+                  >
+                    <g
+                      className="recharts-layer recharts-polar-radius-axis-tick"
+                    >
+                      <text
+                        className="recharts-text recharts-polar-radius-axis-tick-value"
+                        cx={200}
+                        cy={150}
+                        fill="#ccc"
+                        orientation="right"
+                        radius={116}
+                        stroke="none"
+                        textAnchor="start"
+                        transform="rotate(90, 200, 150)"
+                        type="number"
+                        x={200}
+                        y={150}
+                      >
+                        <tspan
+                          dy="0em"
+                          x={200}
+                        >
+                          0
+                        </tspan>
+                      </text>
+                    </g>
+                    <g
+                      className="recharts-layer recharts-polar-radius-axis-tick"
+                    >
+                      <text
+                        className="recharts-text recharts-polar-radius-axis-tick-value"
+                        cx={200}
+                        cy={150}
+                        fill="#ccc"
+                        orientation="right"
+                        radius={116}
+                        stroke="none"
+                        textAnchor="start"
+                        transform="rotate(90, 229, 150)"
+                        type="number"
+                        x={229}
+                        y={150}
+                      >
+                        <tspan
+                          dy="0em"
+                          x={229}
+                        >
+                          25
+                        </tspan>
+                      </text>
+                    </g>
+                    <g
+                      className="recharts-layer recharts-polar-radius-axis-tick"
+                    >
+                      <text
+                        className="recharts-text recharts-polar-radius-axis-tick-value"
+                        cx={200}
+                        cy={150}
+                        fill="#ccc"
+                        orientation="right"
+                        radius={116}
+                        stroke="none"
+                        textAnchor="start"
+                        transform="rotate(90, 258, 150)"
+                        type="number"
+                        x={258}
+                        y={150}
+                      >
+                        <tspan
+                          dy="0em"
+                          x={258}
+                        >
+                          50
+                        </tspan>
+                      </text>
+                    </g>
+                    <g
+                      className="recharts-layer recharts-polar-radius-axis-tick"
+                    >
+                      <text
+                        className="recharts-text recharts-polar-radius-axis-tick-value"
+                        cx={200}
+                        cy={150}
+                        fill="#ccc"
+                        orientation="right"
+                        radius={116}
+                        stroke="none"
+                        textAnchor="start"
+                        transform="rotate(90, 287, 150)"
+                        type="number"
+                        x={287}
+                        y={150}
+                      >
+                        <tspan
+                          dy="0em"
+                          x={287}
+                        >
+                          75
+                        </tspan>
+                      </text>
+                    </g>
+                    <g
+                      className="recharts-layer recharts-polar-radius-axis-tick"
+                    >
+                      <text
+                        className="recharts-text recharts-polar-radius-axis-tick-value"
+                        cx={200}
+                        cy={150}
+                        fill="#ccc"
+                        orientation="right"
+                        radius={116}
+                        stroke="none"
+                        textAnchor="start"
+                        transform="rotate(90, 316, 150)"
+                        type="number"
+                        x={316}
+                        y={150}
+                      >
+                        <tspan
+                          dy="0em"
+                          x={316}
+                        >
+                          100
+                        </tspan>
+                      </text>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+              <div
+                className="recharts-legend-wrapper"
+                style={
+                  Object {
+                    "bottom": 5,
+                    "height": "auto",
+                    "left": 5,
+                    "position": "absolute",
+                    "width": 390,
+                  }
+                }
+              >
+                <ul
+                  className="recharts-default-legend"
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                      "textAlign": "center",
+                    }
+                  }
+                >
+                  <li
+                    className="recharts-legend-item legend-item-0"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      version="1.1"
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,4h32v24h-32z"
+                        fill="#8884d8"
+                        stroke="none"
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#8884d8",
+                        }
+                      }
+                    >
+                      Hawks
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-1"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      version="1.1"
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,4h32v24h-32z"
+                        fill="#82ca9d"
+                        stroke="none"
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#82ca9d",
+                        }
+                      }
+                    >
+                      Buffaloes
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="MuiBox-root MuiBox-root-18"
+      >
+        <p
+          className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+        >
+          Copyright © 
+          <a
+            color="inherit"
+            href="/"
+            onClick={[Function]}
+          >
+            管理画面
+          </a>
+           
+          2022
+          .
+        </p>
+      </div>
+    </div>
+  </main>
+</div>
+`;

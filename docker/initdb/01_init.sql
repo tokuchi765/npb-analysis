@@ -1,5 +1,5 @@
 -- Project Name : npm-scraping
--- Date/Time    : 2022/03/26 18:39:10
+-- Date/Time    : 2022/06/08 23:04:29
 -- Author       : hiroki
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -97,6 +97,7 @@ create table TEAM_PITCHING (
   , runs_allowed integer
   , earned_run integer
   , babip real
+  , strike_out_rate real
   , constraint TEAM_PITCHING_PKC primary key (team_id,year)
 ) ;
 
@@ -124,6 +125,7 @@ create table TEAM_BATTING (
   , intentional_walk integer
   , hit_by_pitches integer
   , strike_out integer
+  , strike_out_rate real
   , grounded_into_double_play integer
   , slugging_percentage real
   , on_base_percentage real
@@ -173,6 +175,7 @@ create table BATTER_GRADES (
   , base_on_balls integer
   , hit_by_pitches integer
   , strike_out integer
+  , strike_out_rate real
   , grounded_into_double_play integer
   , batting_average real
   , slugging_percentage real
@@ -228,6 +231,7 @@ create table PICHER_GRADES (
   , earned_run real
   , earned_run_average real
   , babip real
+  , strike_out_rate real
   , constraint PICHER_GRADES_PKC primary key (player_id,year,team_id)
 ) ;
 
@@ -298,6 +302,7 @@ comment on column TEAM_PITCHING.balk is 'ボーク';
 comment on column TEAM_PITCHING.runs_allowed is '失点';
 comment on column TEAM_PITCHING.earned_run is '自責点';
 comment on column TEAM_PITCHING.babip is '被BABIP';
+comment on column TEAM_PITCHING.strike_out_rate is '奪三振率';
 
 comment on table TEAM_BATTING is 'チーム打撃成績';
 comment on column TEAM_BATTING.team_id is 'チームID';
@@ -321,6 +326,7 @@ comment on column TEAM_BATTING.base_on_balls is '四球';
 comment on column TEAM_BATTING.intentional_walk is '故意四';
 comment on column TEAM_BATTING.hit_by_pitches is '死球';
 comment on column TEAM_BATTING.strike_out is '三振';
+comment on column TEAM_BATTING.strike_out_rate is '三振率';
 comment on column TEAM_BATTING.grounded_into_double_play is '併殺打';
 comment on column TEAM_BATTING.slugging_percentage is '長打率';
 comment on column TEAM_BATTING.on_base_percentage is '出塁率';
@@ -358,6 +364,7 @@ comment on column BATTER_GRADES.sacrifice_flies is '犠飛';
 comment on column BATTER_GRADES.base_on_balls is '四球';
 comment on column BATTER_GRADES.hit_by_pitches is '死球';
 comment on column BATTER_GRADES.strike_out is '三振';
+comment on column BATTER_GRADES.strike_out_rate is '三振率';
 comment on column BATTER_GRADES.grounded_into_double_play is '併殺打';
 comment on column BATTER_GRADES.batting_average is '打率';
 comment on column BATTER_GRADES.slugging_percentage is '長打率';
@@ -405,3 +412,4 @@ comment on column PICHER_GRADES.runs_allowed is '失点';
 comment on column PICHER_GRADES.earned_run is '自責点';
 comment on column PICHER_GRADES.earned_run_average is '防御率';
 comment on column PICHER_GRADES.babip is '被BABIP';
+comment on column PICHER_GRADES.strike_out_rate is '奪三振率';

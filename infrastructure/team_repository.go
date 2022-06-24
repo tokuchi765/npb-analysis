@@ -15,12 +15,12 @@ type TeamRepository struct {
 
 // InsertTeamPitchings チーム投手成績をDBに登録する
 func (Repository *TeamRepository) InsertTeamPitchings(pitching teamData.TeamPitching) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO team_pitching(team_id, year, earned_run_average, games, win, lose, save, hold, hold_point, complete_game, shutout, no_walks, winning_rate, batter, innings_pitched, hit, home_run, base_on_balls, intentional_walk, hit_by_ptches, strike_out, wild_pitches, balk, runs_allowed, earned_run, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26)")
+	stmt, err := Repository.Conn.Prepare("INSERT INTO team_pitching(team_id, year, earned_run_average, games, win, lose, save, hold, hold_point, complete_game, shutout, no_walks, winning_rate, batter, innings_pitched, hit, home_run, base_on_balls, intentional_walk, hit_by_ptches, strike_out, wild_pitches, balk, runs_allowed, earned_run, babip, strike_out_rate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
-	if _, err := stmt.Exec(pitching.TeamID, pitching.Year, pitching.EarnedRunAverage, pitching.Games, pitching.Win, pitching.Lose, pitching.Save, pitching.Hold, pitching.HoldPoint, pitching.CompleteGame, pitching.Shutout, pitching.NoWalks, pitching.WinningRate, pitching.Batter, pitching.InningsPitched, pitching.Hit, pitching.HomeRun, pitching.BaseOnBalls, pitching.IntentionalWalk, pitching.HitByPitches, pitching.StrikeOut, pitching.WildPitches, pitching.Balk, pitching.RunsAllowed, pitching.EarnedRun, pitching.BABIP); err != nil {
+	if _, err := stmt.Exec(pitching.TeamID, pitching.Year, pitching.EarnedRunAverage, pitching.Games, pitching.Win, pitching.Lose, pitching.Save, pitching.Hold, pitching.HoldPoint, pitching.CompleteGame, pitching.Shutout, pitching.NoWalks, pitching.WinningRate, pitching.Batter, pitching.InningsPitched, pitching.Hit, pitching.HomeRun, pitching.BaseOnBalls, pitching.IntentionalWalk, pitching.HitByPitches, pitching.StrikeOut, pitching.WildPitches, pitching.Balk, pitching.RunsAllowed, pitching.EarnedRun, pitching.BABIP, pitching.StrikeOutRate); err != nil {
 		fmt.Println(pitching.TeamID + ":" + pitching.Year)
 		log.Print(err)
 	}
@@ -49,7 +49,7 @@ func (Repository *TeamRepository) GetTeamPitchings(years []int) (teamPitchingMap
 				&teamPitching.WinningRate, &teamPitching.Batter, &teamPitching.InningsPitched,
 				&teamPitching.Hit, &teamPitching.HomeRun, &teamPitching.BaseOnBalls,
 				&teamPitching.IntentionalWalk, &teamPitching.HitByPitches, &teamPitching.StrikeOut,
-				&teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun, &teamPitching.BABIP)
+				&teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun, &teamPitching.BABIP, &teamPitching.StrikeOutRate)
 			teamPitchings = append(teamPitchings, teamPitching)
 		}
 		teamPitchingMap[strYear] = teamPitchings
@@ -57,14 +57,53 @@ func (Repository *TeamRepository) GetTeamPitchings(years []int) (teamPitchingMap
 	return teamPitchingMap
 }
 
+// GetTeamPitchingByTeamIDAndYear 引数で受け取ったチームIDと年に紐づくチーム投手成績を取得します。
+func (Repository *TeamRepository) GetTeamPitchingByTeamIDAndYear(year string, teamID string) (teamPitching teamData.TeamPitching) {
+	rows, err := Repository.SQLHandler.Conn.Query("select * from team_pitching where year = $1 and team_id = $2", year, teamID)
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&teamPitching.TeamID, &teamPitching.Year, &teamPitching.EarnedRunAverage, &teamPitching.Games, &teamPitching.Win, &teamPitching.Lose, &teamPitching.Save, &teamPitching.Hold, &teamPitching.HoldPoint, &teamPitching.CompleteGame, &teamPitching.Shutout, &teamPitching.NoWalks, &teamPitching.WinningRate, &teamPitching.Batter, &teamPitching.InningsPitched, &teamPitching.Hit, &teamPitching.HomeRun, &teamPitching.BaseOnBalls, &teamPitching.IntentionalWalk, &teamPitching.HitByPitches, &teamPitching.StrikeOut, &teamPitching.WildPitches, &teamPitching.Balk, &teamPitching.RunsAllowed, &teamPitching.EarnedRun, &teamPitching.BABIP, &teamPitching.StrikeOutRate)
+	}
+	return teamPitching
+}
+
+// GetTeamPitchingMax チーム投手成績の各項目の最大値を取得する。
+func (Repository *TeamRepository) GetTeamPitchingMax() (maxStrikeOutRate float64, maxRunsAllowed int) {
+	rows, err := Repository.SQLHandler.Conn.Query("select max(strike_out_rate),max(runs_allowed) from team_pitching")
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&maxStrikeOutRate, &maxRunsAllowed)
+	}
+	return maxStrikeOutRate, maxRunsAllowed
+}
+
+// GetTeamPitchingMin チーム投手成績の各項目の最小値を取得する。
+func (Repository *TeamRepository) GetTeamPitchingMin() (minStrikeOutRate float64, minRunsAllowed int) {
+	rows, err := Repository.SQLHandler.Conn.Query("select min(strike_out_rate),min(runs_allowed) from team_pitching")
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&minStrikeOutRate, &minRunsAllowed)
+	}
+	return minStrikeOutRate, minRunsAllowed
+}
+
 // InsertTeamBattings チーム打撃成績をDBに登録する
 func (Repository *TeamRepository) InsertTeamBattings(batting teamData.TeamBatting) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO team_batting(team_id, year, batting_average, games, plate_appearance, at_bat, score, hit, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, intentional_walk, hit_by_pitches, strike_out, grounded_into_double_play, slugging_percentage, on_base_percentage, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)")
+	stmt, err := Repository.Conn.Prepare("INSERT INTO team_batting(team_id, year, batting_average, games, plate_appearance, at_bat, score, hit, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, intentional_walk, hit_by_pitches, strike_out, strike_out_rate, grounded_into_double_play, slugging_percentage, on_base_percentage, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
-	if _, err := stmt.Exec(batting.TeamID, batting.Year, batting.BattingAverage, batting.Games, batting.PlateAppearance, batting.AtBat, batting.Score, batting.Hit, batting.Double, batting.Triple, batting.HomeRun, batting.BaseHit, batting.RunsBattedIn, batting.StolenBase, batting.CaughtStealing, batting.SacrificeHits, batting.SacrificeFlies, batting.BaseOnBalls, batting.IntentionalWalk, batting.HitByPitches, batting.StrikeOut, batting.GroundedIntoDoublePlay, batting.SluggingPercentage, batting.OnBasePercentage, batting.BABIP); err != nil {
+	if _, err := stmt.Exec(batting.TeamID, batting.Year, batting.BattingAverage, batting.Games, batting.PlateAppearance, batting.AtBat, batting.Score, batting.Hit, batting.Double, batting.Triple, batting.HomeRun, batting.BaseHit, batting.RunsBattedIn, batting.StolenBase, batting.CaughtStealing, batting.SacrificeHits, batting.SacrificeFlies, batting.BaseOnBalls, batting.IntentionalWalk, batting.HitByPitches, batting.StrikeOut, batting.StrikeOutRate, batting.GroundedIntoDoublePlay, batting.SluggingPercentage, batting.OnBasePercentage, batting.BABIP); err != nil {
 		fmt.Println(batting.TeamID + ":" + batting.Year)
 		log.Print(err)
 	}
@@ -85,12 +124,7 @@ func (Repository *TeamRepository) GetTeamBattings(years []int) (teamBattingMap m
 		var teamBattins []teamData.TeamBatting
 		for rows.Next() {
 			var teamBatting teamData.TeamBatting
-			rows.Scan(&teamBatting.TeamID, &teamBatting.Year, &teamBatting.BattingAverage, &teamBatting.Games, &teamBatting.PlateAppearance,
-				&teamBatting.AtBat, &teamBatting.Score, &teamBatting.Hit, &teamBatting.Double, &teamBatting.Triple, &teamBatting.HomeRun,
-				&teamBatting.BaseHit, &teamBatting.RunsBattedIn, &teamBatting.StolenBase, &teamBatting.CaughtStealing, &teamBatting.SacrificeHits,
-				&teamBatting.SacrificeFlies, &teamBatting.BaseOnBalls, &teamBatting.IntentionalWalk, &teamBatting.HitByPitches, &teamBatting.StrikeOut,
-				&teamBatting.GroundedIntoDoublePlay, &teamBatting.SluggingPercentage, &teamBatting.OnBasePercentage, &teamBatting.BABIP,
-			)
+			rows.Scan(&teamBatting.TeamID, &teamBatting.Year, &teamBatting.BattingAverage, &teamBatting.Games, &teamBatting.PlateAppearance, &teamBatting.AtBat, &teamBatting.Score, &teamBatting.Hit, &teamBatting.Double, &teamBatting.Triple, &teamBatting.HomeRun, &teamBatting.BaseHit, &teamBatting.RunsBattedIn, &teamBatting.StolenBase, &teamBatting.CaughtStealing, &teamBatting.SacrificeHits, &teamBatting.SacrificeFlies, &teamBatting.BaseOnBalls, &teamBatting.IntentionalWalk, &teamBatting.HitByPitches, &teamBatting.StrikeOut, &teamBatting.StrikeOutRate, &teamBatting.GroundedIntoDoublePlay, &teamBatting.SluggingPercentage, &teamBatting.OnBasePercentage, &teamBatting.BABIP)
 			teamBattins = append(teamBattins, teamBatting)
 		}
 
@@ -98,6 +132,45 @@ func (Repository *TeamRepository) GetTeamBattings(years []int) (teamBattingMap m
 	}
 
 	return teamBattingMap
+}
+
+// GetTeamBattingByTeamIDAndYear 引数で受け取ったチームIDと年に紐づくチーム野手成績を取得します。
+func (Repository *TeamRepository) GetTeamBattingByTeamIDAndYear(teamID string, year string) (teamBatting teamData.TeamBatting) {
+	rows, err := Repository.SQLHandler.Conn.Query("select * from team_batting where year = $1 and team_id = $2", year, teamID)
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&teamBatting.TeamID, &teamBatting.Year, &teamBatting.BattingAverage, &teamBatting.Games, &teamBatting.PlateAppearance, &teamBatting.AtBat, &teamBatting.Score, &teamBatting.Hit, &teamBatting.Double, &teamBatting.Triple, &teamBatting.HomeRun, &teamBatting.BaseHit, &teamBatting.RunsBattedIn, &teamBatting.StolenBase, &teamBatting.CaughtStealing, &teamBatting.SacrificeHits, &teamBatting.SacrificeFlies, &teamBatting.BaseOnBalls, &teamBatting.IntentionalWalk, &teamBatting.HitByPitches, &teamBatting.StrikeOut, &teamBatting.StrikeOutRate, &teamBatting.GroundedIntoDoublePlay, &teamBatting.SluggingPercentage, &teamBatting.OnBasePercentage, &teamBatting.BABIP)
+	}
+	return teamBatting
+}
+
+// GetTeamBattingMax チーム打撃成績の各項目の最大値を取得する。
+func (Repository *TeamRepository) GetTeamBattingMax() (maxHomeRun int, maxSluggingPercentage float64, maxOnBasePercentage float64) {
+	rows, err := Repository.SQLHandler.Conn.Query("select max(home_run),max(slugging_percentage),max(on_base_percentage) from team_batting")
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&maxHomeRun, &maxSluggingPercentage, &maxOnBasePercentage)
+	}
+	return maxHomeRun, maxSluggingPercentage, maxOnBasePercentage
+}
+
+// GetTeamBattingMin チーム打撃成績の各項目の最小値を取得する。
+func (Repository *TeamRepository) GetTeamBattingMin() (minHomeRun int, minSluggingPercentage float64, minOnBasePercentage float64) {
+	rows, err := Repository.SQLHandler.Conn.Query("select min(home_run),min(slugging_percentage),min(on_base_percentage) from team_batting")
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		rows.Scan(&minHomeRun, &minSluggingPercentage, &minOnBasePercentage)
+	}
+	return minHomeRun, minSluggingPercentage, minOnBasePercentage
 }
 
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。

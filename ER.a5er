@@ -1,7 +1,7 @@
 ﻿# A5:ER FORMAT:16
 # A5:ER ENCODING:UTF8
 # A5:ER Mk-1 Copyright © 2007 m.matsubara
-# A5:SQL Mk-2 Version 2.17.1 Copyright © 1997 - 2022 m.matsubara
+# A5:SQL Mk-2 Version 2.17.2 Copyright © 1997 - 2022 m.matsubara
 #  https://a5m2.mmatsubara.com
 
 [Manager]
@@ -74,11 +74,12 @@ Field="失点","runs_allowed","@FLOAT",,,"","",$FFFFFFFF,""
 Field="自責点","earned_run","@FLOAT",,,"","",$FFFFFFFF,""
 Field="防御率","earned_run_average","@FLOAT",,,"","",$FFFFFFFF,""
 Field="被BABIP","babip","@FLOAT",,,"","",$FFFFFFFF,""
+Field="奪三振率","strike_out_rate","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20220326155946
-Position="MAIN",1050,650,299,698
+ModifiedDateTime=20220411214454
+Position="MAIN",1050,650,299,728
 ZOrder=1
 
 [Entity]
@@ -157,6 +158,7 @@ Field="犠飛","sacrifice_flies","@INT",,,"","",$FFFFFFFF,""
 Field="四球","base_on_balls","@INT",,,"","",$FFFFFFFF,""
 Field="死球","hit_by_pitches","@INT",,,"","",$FFFFFFFF,""
 Field="三振","strike_out","@INT",,,"","",$FFFFFFFF,""
+Field="三振率","strike_out_rate","@FLOAT",,,"","",$FFFFFFFF,""
 Field="併殺打","grounded_into_double_play","@INT",,,"","",$FFFFFFFF,""
 Field="打率","batting_average","@FLOAT",,,"","",$FFFFFFFF,""
 Field="長打率","slugging_percentage","@FLOAT",,,"","",$FFFFFFFF,""
@@ -167,8 +169,8 @@ Field="BABIP","babip","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20220326183734
-Position="MAIN",550,650,275,749
+ModifiedDateTime=20220607225436
+Position="MAIN",550,650,275,773
 ZOrder=5
 
 [Relation]
@@ -278,6 +280,7 @@ Field="四球","base_on_balls","@INT",,,"","",$FFFFFFFF,""
 Field="故意四","intentional_walk","@INT",,,"","",$FFFFFFFF,""
 Field="死球","hit_by_pitches","@INT",,,"","",$FFFFFFFF,""
 Field="三振","strike_out","@INT",,,"","",$FFFFFFFF,""
+Field="三振率","strike_out_rate","@FLOAT",,,"","",$FFFFFFFF,""
 Field="併殺打","grounded_into_double_play","@INT",,,"","",$FFFFFFFF,""
 Field="長打率","slugging_percentage","@FLOAT",,,"","",$FFFFFFFF,""
 Field="出塁率","on_base_percentage","@FLOAT",,,"","",$FFFFFFFF,""
@@ -285,8 +288,8 @@ Field="BABIP","babip","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20220326183751
-Position="MAIN",1500,500,298,646
+ModifiedDateTime=20220608230400
+Position="MAIN",1500,500,298,669
 ZOrder=16
 
 [Relation]
@@ -345,11 +348,12 @@ Field="ボーク","balk","@INT",,,"","",$FFFFFFFF,""
 Field="失点","runs_allowed","@INT",,,"","",$FFFFFFFF,""
 Field="自責点","earned_run","@INT",,,"","",$FFFFFFFF,""
 Field="被BABIP","babip","@FLOAT",,,"","",$FFFFFFFF,""
+Field="奪三振率","strike_out_rate","@FLOAT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20220326183446
-Position="MAIN",1900,500,302,672
+ModifiedDateTime=20220415224250
+Position="MAIN",1900,500,302,691
 ZOrder=18
 
 [Relation]

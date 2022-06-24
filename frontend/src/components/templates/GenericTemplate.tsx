@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import * as colors from '@material-ui/core/colors';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
@@ -14,19 +14,26 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import IconButton from '@material-ui/core/IconButton';
-import HomeIcon from '@material-ui/icons/Home';
-import TableChartIcon from '@material-ui/icons/TableChart';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import PersonIcon from '@material-ui/icons/Person';
+import { Menu } from '@mui/material';
+import {
+  Groups,
+  SportsCricket,
+  SportsBaseball,
+  Person,
+  Home,
+  TableChart,
+  ChevronLeft,
+  Pentagon,
+} from '@mui/icons-material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const drawerWidth = 240;
 
-const theme = createMuiTheme({
+const theme = createTheme({
   typography: {
     fontFamily: [
       'Noto Sans JP',
@@ -161,6 +168,17 @@ function GenericTemplate(props: GenericTemplateProps) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  function handleClick(event: any) {
+    if (anchorEl !== event.currentTarget) {
+      setAnchorEl(event.currentTarget);
+    }
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -197,7 +215,7 @@ function GenericTemplate(props: GenericTemplateProps) {
         >
           <div className={classes.toolbarIcon}>
             <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
+              <ChevronLeft />
             </IconButton>
           </div>
           <Divider />
@@ -205,39 +223,61 @@ function GenericTemplate(props: GenericTemplateProps) {
             <Link to="/" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>
-                  <HomeIcon />
+                  <Home />
                 </ListItemIcon>
                 <ListItemText primary="トップページ" />
               </ListItem>
             </Link>
-            <Link to="/season" className={classes.link}>
-              <ListItem button>
-                <ListItemIcon>
-                  <TableChartIcon />
-                </ListItemIcon>
-                <ListItemText primary="チーム成績ページ" />
-              </ListItem>
-            </Link>
-            <Link to="/batting" className={classes.link}>
-              <ListItem button>
-                <ListItemIcon>
-                  <TableChartIcon />
-                </ListItemIcon>
-                <ListItemText primary="打撃成績ページ" />
-              </ListItem>
-            </Link>
-            <Link to="/pitching" className={classes.link}>
-              <ListItem button>
-                <ListItemIcon>
-                  <TableChartIcon />
-                </ListItemIcon>
-                <ListItemText primary="投手成績ページ" />
-              </ListItem>
-            </Link>
+            <ListItem className={classes.link} onMouseOver={handleClick}>
+              <ListItemIcon>
+                <Groups />
+              </ListItemIcon>
+              <ListItemText primary="チーム情報" />
+              <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                MenuListProps={{ onMouseLeave: handleClose }}
+              >
+                <Link to="/season" className={classes.link}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <TableChart />
+                    </ListItemIcon>
+                    <ListItemText primary="シーズン成績ページ" />
+                  </ListItem>
+                </Link>
+                <Link to="/batting" className={classes.link}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <SportsCricket />
+                    </ListItemIcon>
+                    <ListItemText primary="打撃成績ページ" />
+                  </ListItem>
+                </Link>
+                <Link to="/pitching" className={classes.link}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <SportsBaseball />
+                    </ListItemIcon>
+                    <ListItemText primary="投手成績ページ" />
+                  </ListItem>
+                </Link>
+                <Link to="/strength" className={classes.link}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <Pentagon />
+                    </ListItemIcon>
+                    <ListItemText primary="チーム戦力チャート" />
+                  </ListItem>
+                </Link>
+              </Menu>
+            </ListItem>
             <Link to="/players" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>
-                  <PersonIcon />
+                  <Person />
                 </ListItemIcon>
                 <ListItemText primary="選手一覧ページ" />
               </ListItem>
@@ -245,7 +285,7 @@ function GenericTemplate(props: GenericTemplateProps) {
             <Link to="/manager" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>
-                  <PersonIcon />
+                  <Person />
                 </ListItemIcon>
                 <ListItemText primary="監督ページ" />
               </ListItem>

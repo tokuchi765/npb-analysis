@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
 import { TableLinkComponent, SelectItem, HeadCell } from '../common/TableComponent';
-import axios from 'axios';
 import _ from 'lodash';
 import * as H from 'history';
+import { getCareers } from '../../data/api/teamCareers';
 
 const teamNameList = [
   'Giants',
@@ -81,7 +81,7 @@ function createPlayerIds(
   return playerIdMap;
 }
 
-function getTeamId(teamName: string) {
+export function getTeamId(teamName: string) {
   for (const index in teamNameList) {
     if (teamNameList[index] === teamName) {
       return _.padStart(String(Number(index) + 1), 2, '0');
@@ -94,10 +94,6 @@ export interface PageProps extends RouteComponentProps<{ id: string }> {
   location: H.Location<any>;
 }
 
-interface TeamCareersResponse {
-  careers: any;
-}
-
 function PlayersPage(props: PageProps) {
   const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
@@ -107,9 +103,7 @@ function PlayersPage(props: PageProps) {
 
   const getPlayerList = async () => {
     const teamID = getTeamId(team);
-    const result = await axios.get<TeamCareersResponse>(
-      `http://localhost:8081/team/careers/${teamID}/${year}`
-    );
+    const result = await getCareers(teamID, year);
     setPlayerIds(createPlayerIds(result.data.careers));
     setPlayerDates(createPlayerDates(result.data.careers));
 

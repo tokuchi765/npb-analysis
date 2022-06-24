@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
 import { TableComponent, HeadCell, SelectItem } from '../common/TableComponent';
-import axios from 'axios';
 import _ from 'lodash';
+import { getTeamPitchingByYear } from '../../data/api/teamPitching';
 
 interface PitchingData {
   main: string;
@@ -14,6 +14,7 @@ interface PitchingData {
   homeRun: number;
   baseOnBalls: number;
   strikeOut: number;
+  strikeOutRate: number;
   babip: number;
 }
 
@@ -27,6 +28,7 @@ const headCells: HeadCell[] = [
   { id: 'homeRun', numeric: true, disablePadding: false, label: '被本塁打' },
   { id: 'baseOnBalls', numeric: true, disablePadding: false, label: '与四球' },
   { id: 'strikeOut', numeric: true, disablePadding: false, label: '三振' },
+  { id: 'strikeOutRate', numeric: true, disablePadding: false, label: '奪三振率' },
   { id: 'babip', numeric: true, disablePadding: false, label: '被BABIP' },
 ];
 
@@ -40,6 +42,7 @@ function createPitchingData(
   homeRun: number,
   baseOnBalls: number,
   strikeOut: number,
+  strikeOutRate: number,
   babip: number
 ) {
   const result: PitchingData = {
@@ -52,6 +55,7 @@ function createPitchingData(
     homeRun,
     baseOnBalls,
     strikeOut,
+    strikeOutRate,
     babip,
   };
   return result;
@@ -90,6 +94,7 @@ function createPitchingDataList(
           val.HomeRun,
           val.BaseOnBalls,
           val.StrikeOut,
+          val.StrikeOutRate,
           val.BABIP
         )
       );
@@ -98,18 +103,12 @@ function createPitchingDataList(
   return datas;
 }
 
-interface TeamPitchingResponse {
-  teamPitching: any;
-}
-
 function PitchingPage(props: { years: string[]; initYear: string }) {
   const [centralYear, setCentralYear] = useState<string>('');
   const [centralDatas, setCentralData] = useState<PitchingData[]>([]);
 
   const getCentralPitchingDataList = async () => {
-    const result = await axios.get<TeamPitchingResponse>(
-      `http://localhost:8081/team/pitching?from_year=${centralYear}&to_year=${centralYear}`
-    );
+    const result = await getTeamPitchingByYear(centralYear, centralYear);
 
     const centralPitchings = _.map(result.data.teamPitching, (teamPitching) => {
       return {
@@ -139,9 +138,7 @@ function PitchingPage(props: { years: string[]; initYear: string }) {
   const [pacificDatas, setPacificData] = useState<PitchingData[]>([]);
 
   const getPacificPitchingDataList = async () => {
-    const result = await axios.get<TeamPitchingResponse>(
-      `http://localhost:8081/team/pitching?from_year=${pacificYear}&to_year=${pacificYear}`
-    );
+    const result = await getTeamPitchingByYear(pacificYear, pacificYear);
 
     const pacificPitchings = _.map(result.data.teamPitching, (teamPitching) => {
       return {

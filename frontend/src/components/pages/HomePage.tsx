@@ -1,94 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Chart from '../common/Chart';
+import Chart, { ChartData } from '../common/Chart';
 import GenericTemplate from '../templates/GenericTemplate';
-import Paper from '@material-ui/core/Paper';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
 import _ from 'lodash';
-import Grid from '@material-ui/core/Grid';
-
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  paper: {
-    position: 'relative',
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'row',
-  },
-  fixedHeight: {
-    height: 400,
-  },
-}));
+import { Grid } from '@mui/material';
+import { getTeamBattingByYear } from '../../data/api/teamBatting';
+import { BasePaper } from '../common/papers';
 
 function createCentralBattingAverages(
   teams: {
@@ -140,15 +56,6 @@ function createCentralBattingAverage(
   return { year, Giants, Baystars, Tigers, Carp, Dragons, Swallows };
 }
 
-const centralLineData = [
-  ['Giants', '#FF4F02'],
-  ['Baystars', '#00FFFF'],
-  ['Tigers', '#FFFF00'],
-  ['Carp', '#FF0000'],
-  ['Dragons', '#005FFF'],
-  ['Swallows', '#000055'],
-];
-
 function createPacificBattingAverages(
   teams: {
     Lions: any;
@@ -199,30 +106,33 @@ function createPacificBattingAverage(
   return { year, Lions, Hawks, Eagles, Marines, Fighters, Buffaloes };
 }
 
-const pacificLineData = [
-  ['Lions', '#BAD3FF'],
-  ['Hawks', '#FFD700'],
-  ['Eagles', '#FF0461'],
-  ['Marines', '#555555'],
-  ['Fighters', '#000011'],
-  ['Buffaloes', '#4B0082'],
-];
-
-interface TeamBattingResponse {
-  teamBatting: any;
-}
-
 function HomePage(props: { years: string[] }) {
   const [centralData, setCentralData] = useState<Array<{ year: string; Giants: number }>>(Array);
   const [pacificData, setPacificData] = useState<Array<{ year: string; Lions: number }>>(Array);
-  const classes = useStyles();
+  const width = 400;
+  const height = 300;
+
+  const centralChartDatas: ChartData[] = [
+    { key: 'Giants', name: 'Giants', stroke: '#FF4F02' },
+    { key: 'Baystars', name: 'Baystars', stroke: '#00FFFF' },
+    { key: 'Tigers', name: 'Tigers', stroke: '#FFFF00' },
+    { key: 'Carp', name: 'Carp', stroke: '#FF0000' },
+    { key: 'Dragons', name: 'Dragons', stroke: '#005FFF' },
+    { key: 'Swallows', name: 'Swallows', stroke: '#000055' },
+  ];
+
+  const pacificChartDatas: ChartData[] = [
+    { key: 'Lions', name: 'Lions', stroke: '#BAD3FF' },
+    { key: 'Hawks', name: 'Hawks', stroke: '#FFD700' },
+    { key: 'Eagles', name: 'Eagles', stroke: '#FF0461' },
+    { key: 'Marines', name: 'Marines', stroke: '#555555' },
+    { key: 'Fighters', name: 'Fighters', stroke: '#000011' },
+    { key: 'Buffaloes', name: 'Buffaloes', stroke: '#4B0082' },
+  ];
 
   useEffect(() => {
     (async () => {
-      const result = await axios.get<TeamBattingResponse>(
-        `http://localhost:8081/team/batting?from_year=2005&to_year=2021`
-      );
-
+      const result = await getTeamBattingByYear('2005', '2021');
       const centralTeams = _.map(result.data.teamBatting, (teamBatting) => {
         const teamBattings = {
           Giants: _.filter(teamBatting, { TeamID: '01' })[0],
@@ -253,24 +163,27 @@ function HomePage(props: { years: string[] }) {
     })();
   }, []);
 
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <GenericTemplate title="トップページ">
-      <Grid container alignItems="center" justify="center">
-        <Paper className={fixedHeightPaper}>
+      <Grid container alignItems="center" justifyContent="center">
+        <BasePaper>
           <Chart
             data={centralData}
             title={'（セ）チーム打率推移'}
             label={'打率'}
-            lineData={centralLineData}
+            chartDatas={centralChartDatas}
+            width={width}
+            height={height}
           />
           <Chart
             data={pacificData}
             title={'（パ）チーム打率推移'}
             label={'打率'}
-            lineData={pacificLineData}
+            chartDatas={pacificChartDatas}
+            width={width}
+            height={height}
           />
-        </Paper>
+        </BasePaper>
       </Grid>
     </GenericTemplate>
   );

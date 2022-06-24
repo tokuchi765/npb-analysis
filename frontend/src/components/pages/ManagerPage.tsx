@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
-import axios from 'axios';
 import _ from 'lodash';
 import { TableComponent, HeadCell, SelectItem } from '../common/TableComponent';
+import { getTeamStatsByYear } from '../../data/api/teamStats';
 
 const THREE = '(3年以上)';
 const ALL = '(全て)';
@@ -91,9 +91,7 @@ function ManagerPage() {
   const getTeamDataList = async () => {
     const managerMap = new Map<string, Array<ManagerData>>();
     for (const year of years) {
-      const result = await axios.get(
-        `http://localhost:8081/team/stats?from_year=${year}&to_year=${year}`
-      );
+      const result = await getTeamStatsByYear(year, year);
 
       const { teanStats } = result.data;
       const stats: Array<ManagerData> = teanStats[year];

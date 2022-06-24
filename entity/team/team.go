@@ -1,6 +1,11 @@
 package team
 
-import "math"
+import (
+	"database/sql"
+	"math"
+
+	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
+)
 
 // TEAMDATA チーム情報
 type TEAMDATA struct {
@@ -17,31 +22,32 @@ type TEAMNAME struct {
 
 // TeamBatting チーム打撃成績
 type TeamBatting struct {
-	TeamID                 string  // チームID
-	Year                   string  // 年度
-	BattingAverage         float64 // 打率
-	Games                  int     // 試合
-	PlateAppearance        int     // 打席
-	AtBat                  int     // 打数
-	Score                  int     // 得点
-	Hit                    int     // 安打
-	Double                 int     // 二塁打
-	Triple                 int     // 三塁打
-	HomeRun                int     // 本塁打
-	BaseHit                int     // 塁打
-	RunsBattedIn           int     // 打点
-	StolenBase             int     // 盗塁
-	CaughtStealing         int     // 盗塁刺
-	SacrificeHits          int     // 犠打
-	SacrificeFlies         int     // 犠飛
-	BaseOnBalls            int     // 四球
-	IntentionalWalk        int     // 故意四球
-	HitByPitches           int     // 死球
-	StrikeOut              int     // 三振
-	GroundedIntoDoublePlay int     // 併殺打
-	SluggingPercentage     float64 // 長打率
-	OnBasePercentage       float64 // 出塁率
-	BABIP                  float64 // BABIP
+	TeamID                 string                 // チームID
+	Year                   string                 // 年度
+	BattingAverage         float64                // 打率
+	Games                  int                    // 試合
+	PlateAppearance        int                    // 打席
+	AtBat                  int                    // 打数
+	Score                  int                    // 得点
+	Hit                    int                    // 安打
+	Double                 int                    // 二塁打
+	Triple                 int                    // 三塁打
+	HomeRun                int                    // 本塁打
+	BaseHit                int                    // 塁打
+	RunsBattedIn           int                    // 打点
+	StolenBase             int                    // 盗塁
+	CaughtStealing         int                    // 盗塁刺
+	SacrificeHits          int                    // 犠打
+	SacrificeFlies         int                    // 犠飛
+	BaseOnBalls            int                    // 四球
+	IntentionalWalk        int                    // 故意四球
+	HitByPitches           int                    // 死球
+	StrikeOut              int                    // 三振
+	StrikeOutRate          sqlwrapper.NullFloat64 // 三振率
+	GroundedIntoDoublePlay int                    // 併殺打
+	SluggingPercentage     float64                // 長打率
+	OnBasePercentage       float64                // 出塁率
+	BABIP                  float64                // BABIP
 }
 
 // SetBABIP BABIPを算出して設定する
@@ -49,6 +55,22 @@ func (teamBatting *TeamBatting) SetBABIP() {
 	teamBatting.BABIP = (float64(teamBatting.Hit) - float64(teamBatting.HomeRun)) / (float64(teamBatting.AtBat) - float64(teamBatting.StrikeOut) - float64(teamBatting.HomeRun) + float64(teamBatting.SacrificeFlies))
 	if math.IsNaN(teamBatting.BABIP) {
 		teamBatting.BABIP = 0.0
+	}
+}
+
+// SetStrikeOutRate 三振率を算出して設定する
+func (teamBatting *TeamBatting) SetStrikeOutRate() {
+	strikeOutRate := (float64(teamBatting.StrikeOut)) / float64(teamBatting.PlateAppearance)
+
+	if math.IsNaN(strikeOutRate) {
+		strikeOutRate = 0.0
+	}
+
+	teamBatting.StrikeOutRate = sqlwrapper.NullFloat64{
+		NullFloat64: sql.NullFloat64{
+			Float64: strikeOutRate,
+			Valid:   true,
+		},
 	}
 }
 
@@ -80,6 +102,7 @@ type TeamPitching struct {
 	RunsAllowed      int     // 失点
 	EarnedRun        int     // 自責点
 	BABIP            float64 // 被BABIP
+	StrikeOutRate    float64 // 奪三振率
 }
 
 // SetBABIP 被BABIPを算出して設定する
@@ -87,6 +110,14 @@ func (teamPitching *TeamPitching) SetBABIP() {
 	teamPitching.BABIP = (float64(teamPitching.Hit) - float64(teamPitching.HomeRun)) / (float64(teamPitching.Batter) - (float64(teamPitching.BaseOnBalls) + float64(teamPitching.HitByPitches)) - float64(teamPitching.StrikeOut) - float64(teamPitching.HomeRun))
 	if math.IsNaN(teamPitching.BABIP) {
 		teamPitching.BABIP = 0.0
+	}
+}
+
+// SetStrikeOutRate 奪三振率を算出して設定する
+func (teamPitching *TeamPitching) SetStrikeOutRate() {
+	teamPitching.StrikeOutRate = (float64(teamPitching.StrikeOut) * 9) / float64(teamPitching.InningsPitched)
+	if math.IsNaN(teamPitching.StrikeOutRate) {
+		teamPitching.StrikeOutRate = 0.0
 	}
 }
 

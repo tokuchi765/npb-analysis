@@ -4,19 +4,20 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/golang/mock/gomock"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 	data "github.com/tokuchi765/npb-analysis/entity/player"
-	"github.com/tokuchi765/npb-analysis/infrastructure"
-	testUtil "github.com/tokuchi765/npb-analysis/test"
+	mock_repository "github.com/tokuchi765/npb-analysis/interfaces/repository/mock"
 )
 
 func TestInsertTeamPlayers(t *testing.T) {
 	type args struct {
-		initial string
-		players [][]string
-		teamID  string
-		year    string
+		initial  string
+		players  [][]string
+		teamID   string
+		year     string
+		teamName string
 	}
 	tests := []struct {
 		name string
@@ -32,33 +33,31 @@ func TestInsertTeamPlayers(t *testing.T) {
 				},
 				"01",
 				"2020",
+				"Giants",
 			},
 		},
 	}
 
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().InsertTeamPlayers(tt.args.teamID, tt.args.teamName, tt.args.players, tt.args.year)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
+			mTeamRepository.EXPECT().GetTeamName(tt.args.teamID).Return(tt.args.teamName)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
+
 			interactor.InsertTeamPlayers(tt.args.initial, tt.args.players, tt.args.year)
-
-			rows, _ := db.Query("SELECT player_id,player_name FROM team_players WHERE year = $1 AND team_id = $2", "2020", tt.args.teamID)
-
-			var actual [][]string
-			for rows.Next() {
-				var prayerID, playerName string
-				rows.Scan(&prayerID, &playerName)
-				actual = append(actual, []string{prayerID, playerName})
-			}
-
-			assert.ElementsMatch(t, tt.args.players, actual)
 		})
 	}
 }
@@ -101,15 +100,14 @@ func TestGradesInteractor_TestReadCareers(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			runtimeCurrent, _ := filepath.Abs("../")
 			actual := interactor.ReadCareers(runtimeCurrent+"/test/resource/", tt.args.initial, tt.args.players)
-			assert.Exactly(t, tt.wantCareerList, actual)
+			assert.ElementsMatch(t, tt.wantCareerList, actual)
 		})
 	}
 }
 
 func TestInsertCareers(t *testing.T) {
 	type args struct {
-		playerID string
-		careers  []data.CAREER
+		careers []data.CAREER
 	}
 	tests := []struct {
 		name string
@@ -118,7 +116,6 @@ func TestInsertCareers(t *testing.T) {
 		{
 			"選手成績登録",
 			args{
-				"01105137",
 				[]data.CAREER{
 					{
 						PlayerID:           "01105137",
@@ -136,26 +133,23 @@ func TestInsertCareers(t *testing.T) {
 		},
 	}
 
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().InsertCareers(tt.args.careers)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
 			interactor.InsertCareers(tt.args.careers)
-			rows, _ := db.Query("SELECT name,position,pitching_and_batting FROM players WHERE player_id = $1", tt.args.playerID)
-			var name, position, pitchingAndBatting string
-			for rows.Next() {
-				rows.Scan(&name, &position, &pitchingAndBatting)
-			}
-			assert.Equal(t, tt.args.careers[0].Name, name)
-			assert.Equal(t, tt.args.careers[0].Position, position)
-			assert.Equal(t, tt.args.careers[0].PitchingAndBatting, pitchingAndBatting)
 		})
 	}
 }
@@ -267,10 +261,14 @@ func TestInsertPicherGrades(t *testing.T) {
 	playerID := "53355134"
 	picherMap := make(map[string][]data.PICHERGRADES)
 	picherGrades := getTestPicherGrades()
+	agsPicherGrades := getTestPicherGrades()
+	agsPicherGrades.SetBABIP()
+	agsPicherGrades.SetStrikeOutRate()
 	picherMap[playerID] = []data.PICHERGRADES{picherGrades}
 	type args struct {
-		picherMap map[string][]data.PICHERGRADES
-		playerID  string
+		picherMap       map[string][]data.PICHERGRADES
+		playerID        string
+		agsPicherGrades data.PICHERGRADES
 	}
 	tests := []struct {
 		name string
@@ -281,31 +279,28 @@ func TestInsertPicherGrades(t *testing.T) {
 			args{
 				picherMap,
 				playerID,
+				agsPicherGrades,
 			},
 		},
 	}
 
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().InsertPicherGrades(tt.args.playerID, tt.args.agsPicherGrades).Times(1)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
+
 			interactor.InsertPicherGrades(tt.args.picherMap)
-			rows, _ := db.Query("SELECT team,piched,earned_run_average FROM picher_grades WHERE player_id = $1 AND year = $2", tt.args.playerID, "2018")
-			var team string
-			var piched, earnedRunAverage float64
-			for rows.Next() {
-				rows.Scan(&team, &piched, &earnedRunAverage)
-			}
-			assert.Equal(t, picherGrades.Team, team)
-			assert.Equal(t, picherGrades.Piched, piched)
-			assert.Equal(t, picherGrades.EarnedRunAverage, earnedRunAverage)
 		})
 	}
 }
@@ -327,24 +322,25 @@ func TestGradesInteractor_GetPitching(t *testing.T) {
 			[]data.PICHERGRADES{getTestPicherGrades()},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().GetPitchings(tt.args.playerID).Return(tt.wantPitchings)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
-			picherMap := make(map[string][]data.PICHERGRADES)
-			picherGrades := getTestPicherGrades()
-			picherMap[tt.args.playerID] = []data.PICHERGRADES{picherGrades}
-			interactor.InsertPicherGrades(picherMap)
+
 			gotPitchings := interactor.GetPitching(tt.args.playerID)
-			assert.Equal(t, 0.24827586, gotPitchings[0].BABIP)
-			assert.Equal(t, 7.811321, gotPitchings[0].StrikeOutRate)
+			assert.ElementsMatch(t, tt.wantPitchings, gotPitchings)
 		})
 	}
 }
@@ -370,31 +366,24 @@ func TestInsertBatterGrades(t *testing.T) {
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().InsertBatterGrades(tt.args.playerID, gomock.Any())
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
 			runtimeCurrent, _ := filepath.Abs("../")
 			interactor.InsertBatterGrades(tt.args.batterMap, runtimeCurrent)
-			rows, _ := db.Query("SELECT team,plate_appearance,single,w_oba,rc FROM batter_grades WHERE player_id = $1 AND year = $2", tt.args.playerID, "2018")
-			var team string
-			var plateAppearance, single int
-			var wOba, rc float64
-			for rows.Next() {
-				rows.Scan(&team, &plateAppearance, &single, &wOba, &rc)
-			}
-			assert.Equal(t, grades.Team, team)
-			assert.Equal(t, grades.PlateAppearance, plateAppearance)
-			assert.Equal(t, 65, single)
-			assert.Equal(t, 0.30729485, wOba)
-			assert.Equal(t, 36.138172, rc)
 		})
 	}
 }
@@ -416,25 +405,25 @@ func TestGradesInteractor_GetBatting(t *testing.T) {
 			[]data.BATTERGRADES{getTestBatterGrades()},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().GetBattings(tt.args.playerID).Return(tt.wantBattings)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
-			batterMap := make(map[string][]data.BATTERGRADES)
-			batterMap[tt.args.playerID] = []data.BATTERGRADES{getTestBatterGrades()}
-			runtimeCurrent, _ := filepath.Abs("../")
-			interactor.InsertBatterGrades(batterMap, runtimeCurrent)
+
 			gotBattings := interactor.GetBatting(tt.args.playerID)
-			assert.Equal(t, 0.30729485, gotBattings[0].Woba)
-			assert.Equal(t, 36.138172, gotBattings[0].RC)
-			assert.Equal(t, 0.29501915, gotBattings[0].BABIP)
+			assert.ElementsMatch(t, tt.wantBattings, gotBattings)
 		})
 	}
 }
@@ -466,18 +455,23 @@ func TestGradesInteractor_GetCareer(t *testing.T) {
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().GetCareer(tt.args.playerID).Return(tt.args.career)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
-			interactor.InsertCareers([]data.CAREER{tt.args.career})
+
 			gotCareer := interactor.GetCareer(tt.args.playerID)
 			assert.Exactly(t, tt.args.career, gotCareer)
 		})
@@ -518,22 +512,22 @@ func TestGradesInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year).Return(tt.wantPlayers)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
-			players := [][]string{
-				{"93795138", "デラロサ"},
-				{"41045138", "戸郷　翔征"},
-			}
-			interactor.InsertTeamPlayers("g", players, tt.args.year)
 			gotPlayers := interactor.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
 		})
@@ -562,16 +556,19 @@ func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
 
 			runtimeCurrent, _ := filepath.Abs("../")
@@ -608,20 +605,24 @@ func TestExtractionCareers(t *testing.T) {
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().ExtractionCareers(&tt.args.careers)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
-			interactor.InsertCareers(tt.args.careers)
+
 			interactor.ExtractionCareers(&tt.args.careers)
-			assert.Empty(t, tt.args.careers)
 		})
 	}
 }
@@ -647,20 +648,24 @@ func TestExtractionPicherGrades(t *testing.T) {
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
-			interactor.InsertPicherGrades(tt.args.picherMap)
+
 			interactor.ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
-			assert.Empty(t, tt.args.picherMap)
 		})
 	}
 }
@@ -686,21 +691,24 @@ func TestExtractionBatterGrades(t *testing.T) {
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().ExtractionBatterGrades(&tt.args.batterMap, tt.args.teamID)
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := GradesInteractor{
-				GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
-				TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				GradesRepository: mGradesRepository,
+				TeamRepository:   mTeamRepository,
 			}
-			runtimeCurrent, _ := filepath.Abs("../")
-			interactor.InsertBatterGrades(tt.args.batterMap, runtimeCurrent)
+
 			interactor.ExtractionBatterGrades(&tt.args.batterMap, tt.args.teamID)
-			assert.Empty(t, tt.args.batterMap)
 		})
 	}
 }

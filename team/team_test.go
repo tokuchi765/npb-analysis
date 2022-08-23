@@ -1,13 +1,14 @@
 package team
 
 import (
-	"database/sql"
 	"path/filepath"
 	"testing"
 
+	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 	"github.com/tokuchi765/npb-analysis/infrastructure"
+	mock_repository "github.com/tokuchi765/npb-analysis/interfaces/repository/mock"
 	testUtil "github.com/tokuchi765/npb-analysis/test"
 )
 
@@ -16,10 +17,9 @@ func TestTeamInteractor_InsertPythagoreanExpectation(t *testing.T) {
 		years           []int
 		teamBattingMap  map[string][]teamData.TeamBatting
 		teamPitchingMap map[string][]teamData.TeamPitching
-		expected        float64
-		teamID          string
-		year            string
 	}
+	teamBatting := teamData.TeamBatting{TeamID: "01", Year: "2020", Score: 100}
+	teamPitching := teamData.TeamPitching{TeamID: "01", Year: "2020", RunsAllowed: 100}
 	tests := []struct {
 		name string
 		args args
@@ -29,134 +29,70 @@ func TestTeamInteractor_InsertPythagoreanExpectation(t *testing.T) {
 			args{
 				years: []int{2020},
 				teamBattingMap: map[string][]teamData.TeamBatting{"2020": {
-					{TeamID: "01", Year: "2020", Score: 100},
+					teamBatting,
 				}},
 				teamPitchingMap: map[string][]teamData.TeamPitching{"2020": {
-					{TeamID: "01", Year: "2020", RunsAllowed: 100},
+					teamPitching,
 				}},
-				expected: 0.5,
-				teamID:   "01",
-				year:     "2020",
 			},
 		},
 	}
 
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
+			mTeamRepository.EXPECT().InsertPythagoreanExpectation([]teamData.TeamBatting{teamBatting}, []teamData.TeamPitching{teamPitching})
+
 			interactor := TeamInteractor{
-				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				TeamRepository: mTeamRepository,
 			}
 
-			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
 			interactor.InsertPythagoreanExpectation(tt.args.years, tt.args.teamBattingMap, tt.args.teamPitchingMap)
-			actual := interactor.GetTeamStats([]int{2020})
-			assert.Exactly(t, tt.args.expected, actual["2020"][0].PythagoreanExpectation)
-		})
-	}
-}
-
-func Test_insertPythagoreanExpectation(t *testing.T) {
-	type args struct {
-		teamBattings  []teamData.TeamBatting
-		teamPitchings []teamData.TeamPitching
-		expected      float64
-		teamID        string
-		year          string
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"ピタゴラス勝率登録テスト",
-			args{
-				teamBattings: []teamData.TeamBatting{
-					{TeamID: "01", Year: "2020", Score: 100},
-				},
-				teamPitchings: []teamData.TeamPitching{
-					{TeamID: "01", Year: "2020", RunsAllowed: 100},
-				},
-				expected: 0.5,
-				teamID:   "01",
-				year:     "2020",
-			},
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
-			interactor := TeamInteractor{
-				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
-			}
-
-			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
-			interactor.TeamRepository.InsertPythagoreanExpectation(tt.args.teamBattings, tt.args.teamPitchings)
-			actual2 := interactor.GetTeamStats([]int{2020})
-			assert.Exactly(t, tt.args.expected, actual2["2020"][0].PythagoreanExpectation)
 		})
 	}
 }
 
 func TestTeamInteractor_GetTeamStats(t *testing.T) {
 	type args struct {
-		teamBattings  []teamData.TeamBatting
-		teamPitchings []teamData.TeamPitching
-		expected      float64
-		teamID        string
-		year          string
+		teamLeagueStats map[string][]teamData.TeamLeagueStats
+		years           []int
 	}
 	tests := []struct {
 		name string
 		args args
 	}{
 		{
-			"ピタゴラス勝率登録テスト",
+			"チーム成績取得",
 			args{
-				teamBattings: []teamData.TeamBatting{
-					{TeamID: "01", Year: "2020", Score: 100},
-				},
-				teamPitchings: []teamData.TeamPitching{
-					{TeamID: "01", Year: "2020", RunsAllowed: 100},
-				},
-				expected: 0.5,
-				teamID:   "01",
-				year:     "2020",
+				teamLeagueStats: map[string][]teamData.TeamLeagueStats{"2020": {{TeamID: "01"}}},
+				years:           []int{2020},
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
+			mTeamRepository.EXPECT().GetTeamStats(tt.args.years).Return(tt.args.teamLeagueStats)
+
 			interactor := TeamInteractor{
-				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				TeamRepository: mTeamRepository,
 			}
 
-			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
-			interactor.TeamRepository.InsertPythagoreanExpectation(tt.args.teamBattings, tt.args.teamPitchings)
-			actual2 := interactor.GetTeamStats([]int{2020})
-			assert.Exactly(t, tt.args.expected, actual2["2020"][0].PythagoreanExpectation)
+			actual := interactor.GetTeamStats(tt.args.years)
+			assert.Exactly(t, tt.args.teamLeagueStats, actual)
 		})
 	}
-}
-
-func insertDefaultTeamStats(teamID string, year string, db *sql.DB) {
-	stmt1, _ := db.Prepare("INSERT INTO team_season_stats(team_id, year, manager, games, win, lose, draw, winning_rate, exchange_win, exchange_lose, exchange_draw, home_win, home_lose, home_draw, load_win, load_lose, load_draw, pythagorean_expectation) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)")
-	stmt1.Exec(teamID, year, "manager", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0)
-	stmt1.Close()
 }
 
 func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
@@ -445,14 +381,9 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 
 func TestTeamInteractor_GetTeamPitchingByTeamIDAndYear(t *testing.T) {
 	type args struct {
-		teamID                   string
-		year                     string
-		leage                    string
-		years                    []int
-		expectedEarnedRunAverage float64
-		expectedGames            int
-		expectedWin              int
-		expectedLose             int
+		teamID       string
+		year         string
+		teamPitching teamData.TeamPitching
 	}
 	tests := []struct {
 		name string
@@ -461,52 +392,43 @@ func TestTeamInteractor_GetTeamPitchingByTeamIDAndYear(t *testing.T) {
 		{
 			"チーム投手成績取得（チームIDと年指定）",
 			args{
-				teamID:                   "04",
-				year:                     "2005",
-				leage:                    "central",
-				years:                    []int{2005},
-				expectedEarnedRunAverage: 4.8,
-				expectedGames:            146,
-				expectedWin:              58,
-				expectedLose:             84,
+				teamID: "04",
+				year:   "2005",
+				teamPitching: teamData.TeamPitching{
+					TeamID:           "04",
+					Year:             "2005",
+					EarnedRunAverage: 3.5,
+				},
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := TeamInteractor{
-				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				TeamRepository: mTeamRepository,
 			}
 
-			runtimeCurrent, _ := filepath.Abs("../")
-			interactor.InsertTeamPitchings(runtimeCurrent+"/test/resource", tt.args.leage, tt.args.years)
+			mTeamRepository.EXPECT().GetTeamPitchingByTeamIDAndYear(tt.args.year, tt.args.teamID).Return(tt.args.teamPitching)
 
-			pitching := interactor.GetTeamPitchingByTeamIDAndYear(tt.args.year, tt.args.teamID)
+			actual := interactor.GetTeamPitchingByTeamIDAndYear(tt.args.year, tt.args.teamID)
 
-			assert.Equal(t, tt.args.expectedEarnedRunAverage, pitching.EarnedRunAverage)
-			assert.Equal(t, tt.args.expectedGames, pitching.Games)
-			assert.Equal(t, tt.args.expectedWin, pitching.Win)
-			assert.Equal(t, tt.args.expectedLose, pitching.Lose)
-
-			testUtil.CloseContainer(resource, pool)
+			assert.Exactly(t, tt.args.teamPitching, actual)
 		})
 	}
 }
 
 func TestTeamInteractor_GetTeamBattingByTeamIDAndYear(t *testing.T) {
 	type args struct {
-		teamID                  string
-		year                    string
-		league                  string
-		years                   []int
-		expectedBattingAverage  float64
-		expectedGames           int
-		expectedPlateAppearance int
-		expectedAtBat           int
+		teamID      string
+		year        string
+		teamBatting teamData.TeamBatting
 	}
 	tests := []struct {
 		name string
@@ -515,38 +437,33 @@ func TestTeamInteractor_GetTeamBattingByTeamIDAndYear(t *testing.T) {
 		{
 			"セリーグ打撃成績登録確認",
 			args{
-				teamID:                  "06",
-				year:                    "2005",
-				league:                  "central",
-				years:                   []int{2005},
-				expectedBattingAverage:  0.276,
-				expectedGames:           146,
-				expectedPlateAppearance: 5523,
-				expectedAtBat:           5033,
+				teamID: "06",
+				year:   "2005",
+				teamBatting: teamData.TeamBatting{
+					TeamID:         "06",
+					Year:           "2005",
+					BattingAverage: 0.3,
+				},
 			},
 		},
 	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(infrastructure.SQLHandler)
-			sqlHandler.Conn = db
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
 			interactor := TeamInteractor{
-				TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+				TeamRepository: mTeamRepository,
 			}
 
-			runtimeCurrent, _ := filepath.Abs("../")
-			interactor.InsertTeamBattings(runtimeCurrent+"/test/resource", tt.args.league, tt.args.years)
+			mTeamRepository.EXPECT().GetTeamBattingByTeamIDAndYear(tt.args.teamID, tt.args.year).Return(tt.args.teamBatting)
 
-			batting := interactor.GetTeamBattingByTeamIDAndYear(tt.args.teamID, tt.args.year)
+			actual := interactor.GetTeamBattingByTeamIDAndYear(tt.args.teamID, tt.args.year)
 
-			assert.Equal(t, tt.args.expectedBattingAverage, batting.BattingAverage)
-			assert.Equal(t, tt.args.expectedGames, batting.Games)
-			assert.Equal(t, tt.args.expectedPlateAppearance, batting.PlateAppearance)
-			assert.Equal(t, tt.args.expectedAtBat, batting.AtBat)
-
-			testUtil.CloseContainer(resource, pool)
+			assert.Exactly(t, tt.args.teamBatting, actual)
 		})
 	}
 }

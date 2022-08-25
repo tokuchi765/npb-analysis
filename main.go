@@ -11,6 +11,7 @@ import (
 	"github.com/tokuchi765/npb-analysis/controller"
 	"github.com/tokuchi765/npb-analysis/grades"
 	"github.com/tokuchi765/npb-analysis/infrastructure"
+	"github.com/tokuchi765/npb-analysis/infrastructure/csv"
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
@@ -18,10 +19,12 @@ func main() {
 	sqlHandler := infrastructure.NewSQLHandler()
 	teamInteractor := team.TeamInteractor{
 		TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
+		TeamReader:     &csv.TeamReader{},
 	}
 
 	gradesInteractor := grades.GradesInteractor{
 		GradesRepository: &infrastructure.GradesRepository{SQLHandler: *sqlHandler},
+		GradesReader:     &csv.GradesReader{},
 		TeamRepository:   &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
 	}
 

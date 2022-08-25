@@ -9,7 +9,7 @@ import (
 
 	_ "github.com/lib/pq"
 	data "github.com/tokuchi765/npb-analysis/entity/player"
-	csvReader "github.com/tokuchi765/npb-analysis/infrastructure/csv"
+	"github.com/tokuchi765/npb-analysis/interfaces/reader"
 	"github.com/tokuchi765/npb-analysis/interfaces/repository"
 	"github.com/tokuchi765/npb-analysis/util"
 )
@@ -18,7 +18,7 @@ import (
 type GradesInteractor struct {
 	repository.GradesRepository
 	repository.TeamRepository
-	csvReader.GradesReader
+	reader.GradesReader
 	util.TeamUtil
 }
 

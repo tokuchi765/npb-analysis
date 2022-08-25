@@ -4,14 +4,14 @@ import (
 	"strconv"
 
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
-	csvReader "github.com/tokuchi765/npb-analysis/infrastructure/csv"
+	"github.com/tokuchi765/npb-analysis/interfaces/reader"
 	"github.com/tokuchi765/npb-analysis/interfaces/repository"
 )
 
 // TeamInteractor チーム情報処理のInteractor
 type TeamInteractor struct {
 	repository.TeamRepository
-	csvReader.TeamReader
+	reader.TeamReader
 }
 
 // InsertPythagoreanExpectation ピタゴラス勝率をDBに登録します。

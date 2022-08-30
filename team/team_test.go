@@ -417,7 +417,7 @@ func TestTeamInteractor_GetTeamBatting(t *testing.T) {
 				TeamReader:     mTeamReader,
 			}
 
-			actual := interactor.GetTeamBattings(tt.args.years)
+			actual := interactor.GetTeamBatting(tt.args.years)
 
 			assert.Exactly(t, tt.args.teamBattingMap, actual)
 
@@ -511,6 +511,152 @@ func TestTeamInteractor_GetTeamBattingByTeamIDAndYear(t *testing.T) {
 			actual := interactor.GetTeamBattingByTeamIDAndYear(tt.args.teamID, tt.args.year)
 
 			assert.Exactly(t, tt.args.teamBatting, actual)
+		})
+	}
+}
+
+func TestTeamInteractor_GetTeamPitchingMax(t *testing.T) {
+	tests := []struct {
+		name                 string
+		wantMaxStrikeOutRate float64
+		wantMaxRunsAllowed   int
+	}{
+		{
+			name:                 "チーム投手成績の各項目の最大値取得",
+			wantMaxStrikeOutRate: 8.6,
+			wantMaxRunsAllowed:   750,
+		},
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
+			mTeamRepository.EXPECT().GetTeamPitchingMax().Return(tt.wantMaxStrikeOutRate, tt.wantMaxRunsAllowed)
+
+			interactor := TeamInteractor{
+				TeamRepository: mTeamRepository,
+			}
+
+			gotMaxStrikeOutRate, gotMaxRunsAllowed := interactor.GetTeamPitchingMax()
+
+			assert.Equal(t, gotMaxStrikeOutRate, tt.wantMaxStrikeOutRate)
+			assert.Equal(t, gotMaxRunsAllowed, tt.wantMaxRunsAllowed)
+		})
+	}
+}
+
+func TestTeamInteractor_GetTeamPitchingMin(t *testing.T) {
+	tests := []struct {
+		name                 string
+		wantMinStrikeOutRate float64
+		wantMinRunsAllowed   int
+	}{
+		{
+			name:                 "チーム投手成績の各項目の最小値取得",
+			wantMinStrikeOutRate: 5.4,
+			wantMinRunsAllowed:   456,
+		},
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
+			mTeamRepository.EXPECT().GetTeamPitchingMin().Return(tt.wantMinStrikeOutRate, tt.wantMinRunsAllowed)
+
+			interactor := TeamInteractor{
+				TeamRepository: mTeamRepository,
+			}
+
+			gotMinStrikeOutRate, gotMinRunsAllowed := interactor.GetTeamPitchingMin()
+
+			assert.Equal(t, gotMinStrikeOutRate, tt.wantMinStrikeOutRate)
+			assert.Equal(t, gotMinRunsAllowed, tt.wantMinRunsAllowed)
+		})
+	}
+}
+
+func TestTeamInteractor_GetTeamBattingMax(t *testing.T) {
+	tests := []struct {
+		name                      string
+		wantMaxHomeRun            int
+		wantMaxSluggingPercentage float64
+		wantMaxOnBasePercentage   float64
+	}{
+		{
+			name:                      "チーム打撃成績の各項目の最大値取得",
+			wantMaxHomeRun:            580,
+			wantMaxSluggingPercentage: 0.48,
+			wantMaxOnBasePercentage:   0.36,
+		},
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
+			mTeamRepository.EXPECT().GetTeamBattingMax().Return(tt.wantMaxHomeRun, tt.wantMaxSluggingPercentage, tt.wantMaxOnBasePercentage)
+
+			interactor := TeamInteractor{
+				TeamRepository: mTeamRepository,
+			}
+
+			gotMaxHomeRun, gotMaxSluggingPercentage, gotMaxOnBasePercentage := interactor.GetTeamBattingMax()
+
+			assert.Equal(t, gotMaxHomeRun, tt.wantMaxHomeRun)
+			assert.Equal(t, gotMaxSluggingPercentage, tt.wantMaxSluggingPercentage)
+			assert.Equal(t, gotMaxOnBasePercentage, tt.wantMaxOnBasePercentage)
+		})
+	}
+}
+
+func TestTeamInteractor_GetTeamBattingMin(t *testing.T) {
+	tests := []struct {
+		name                      string
+		wantMinHomeRun            int
+		wantMinSluggingPercentage float64
+		wantMinOnBasePercentage   float64
+	}{
+		{
+			name:                      "チーム打撃成績の各項目の最小値取得",
+			wantMinHomeRun:            123,
+			wantMinSluggingPercentage: 0.29,
+			wantMinOnBasePercentage:   0.23,
+		},
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
+			mTeamRepository.EXPECT().GetTeamBattingMin().Return(tt.wantMinHomeRun, tt.wantMinSluggingPercentage, tt.wantMinOnBasePercentage)
+
+			interactor := TeamInteractor{
+				TeamRepository: mTeamRepository,
+			}
+
+			gotMinHomeRun, gotMinSluggingPercentage, gotMinOnBasePercentage := interactor.GetTeamBattingMin()
+
+			assert.Equal(t, gotMinHomeRun, tt.wantMinHomeRun)
+			assert.Equal(t, gotMinSluggingPercentage, tt.wantMinSluggingPercentage)
+			assert.Equal(t, gotMinOnBasePercentage, tt.wantMinOnBasePercentage)
 		})
 	}
 }

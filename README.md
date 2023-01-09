@@ -27,7 +27,8 @@
 ![image](https://user-images.githubusercontent.com/55987154/156882493-b333037b-a9ea-4740-b0ca-4fff1334262a.png)
  
 5. テストコード実行
-   - `test\testUtil.go` の `/home/runner/work/` をインストールしたディレクトリに書き換える
+   - `test\testUtil.go` の `/home/runner/work/` をインストールしたディレクトリに書き換える<br>
+     ※windowsの場合は `file:C:/home/xxx` の形式で書き換える
 
  # 表示しているデータについて
    分析に使用しているデータは日本プロ野球機構の公式サイトからスクレイピングしたデータを使用してます<br>

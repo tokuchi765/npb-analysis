@@ -6,6 +6,9 @@ import (
 	"log"
 	"time"
 
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
 	"github.com/ory/dockertest/v3"
 )
@@ -29,9 +32,6 @@ func CreateContainer() (*dockertest.Resource, *dockertest.Pool) {
 			"POSTGRES_DB=npb-analysis",
 			"POSTGRES_USER=npb-analysis",
 			"POSTGRES_PASSWORD=postgres",
-		},
-		Mounts: []string{
-			"/home/runner/work/npb-analysis/npb-analysis/docker/initdb:/docker-entrypoint-initdb.d", // コンテナ起動時に実行したいSQL
 		},
 	}
 
@@ -58,6 +58,22 @@ func ConnectDB(resource *dockertest.Resource, pool *dockertest.Pool) *sql.DB {
 	}); err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
+
+	driver, err := postgres.WithInstance(db, &postgres.Config{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	m, err := migrate.NewWithDatabaseInstance("file:///home/runner/work/npb-analysis/npb-analysis/migrations", "postgres", driver)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatal(err)
+	}
+
 	return db
 }
 

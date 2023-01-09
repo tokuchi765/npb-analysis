@@ -1,12 +1,16 @@
 package main
 
 import (
+	"log"
 	"os"
 	"strconv"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
 	"github.com/tokuchi765/npb-analysis/controller"
 	"github.com/tokuchi765/npb-analysis/grades"
@@ -16,6 +20,9 @@ import (
 )
 
 func main() {
+
+	migration()
+
 	sqlHandler := infrastructure.NewSQLHandler()
 	teamInteractor := team.TeamInteractor{
 		TeamRepository: &infrastructure.TeamRepository{SQLHandler: *sqlHandler},
@@ -62,6 +69,20 @@ func main() {
 	// webサーバーを起動
 	router := setupRouter()
 	router.Run(":8081")
+}
+
+func migration() {
+	m, err := migrate.New(
+		"file://migrations",
+		"postgres://npb-analysis:postgres@localhost:5555/npb-analysis?sslmode=disable")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatal(err)
+	}
 }
 
 func setTeamStatsAddValue(teamInteractor team.TeamInteractor, years []int) {

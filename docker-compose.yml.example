@@ -10,8 +10,6 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - 5555:5432
-    volumes:
-      - /yourdir/npb-analysis/docker/initdb:/docker-entrypoint-initdb.d
   postgres-gui:
     container_name: pgweb
     restart: always

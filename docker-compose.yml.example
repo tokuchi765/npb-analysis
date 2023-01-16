@@ -20,3 +20,12 @@ services:
       - DATABASE_URL=postgres://npb-analysis:postgres@postgres:5432/npb-analysis?sslmode=disable
     depends_on:
       - postgres
+  pgadmin4:
+    image: dpage/pgadmin4
+    ports:
+        - 8888:80
+    environment:
+        PGADMIN_DEFAULT_EMAIL: test@test.com
+        PGADMIN_DEFAULT_PASSWORD: password
+    depends_on:
+      - postgres

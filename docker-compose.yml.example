@@ -10,8 +10,6 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - 5555:5432
-    volumes:
-      - /yourdir/npb-analysis/docker/initdb:/docker-entrypoint-initdb.d
   postgres-gui:
     container_name: pgweb
     restart: always
@@ -20,5 +18,14 @@ services:
       - "8080:8081"
     environment:
       - DATABASE_URL=postgres://npb-analysis:postgres@postgres:5432/npb-analysis?sslmode=disable
+    depends_on:
+      - postgres
+  pgadmin4:
+    image: dpage/pgadmin4
+    ports:
+        - 8888:80
+    environment:
+        PGADMIN_DEFAULT_EMAIL: test@test.com
+        PGADMIN_DEFAULT_PASSWORD: password
     depends_on:
       - postgres

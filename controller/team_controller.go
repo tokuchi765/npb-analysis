@@ -8,6 +8,7 @@ import (
 	"github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/grades"
 	"github.com/tokuchi765/npb-analysis/infrastructure"
+	"github.com/tokuchi765/npb-analysis/infrastructure/csv"
 	"github.com/tokuchi765/npb-analysis/team"
 )
 
@@ -22,11 +23,13 @@ func NewTeamController(sqlHandler infrastructure.SQLHandler) *TeamController {
 	return &TeamController{
 		TeamInteractor: team.TeamInteractor{
 			TeamRepository: &infrastructure.TeamRepository{SQLHandler: sqlHandler},
+			TeamReader:     &csv.TeamReader{},
 		},
 		GradesInteractor: grades.GradesInteractor{
 			GradesRepository: &infrastructure.GradesRepository{
 				SQLHandler: sqlHandler,
 			},
+			GradesReader: &csv.GradesReader{},
 		}}
 }
 

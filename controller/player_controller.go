@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tokuchi765/npb-analysis/grades"
 	"github.com/tokuchi765/npb-analysis/infrastructure"
+	"github.com/tokuchi765/npb-analysis/infrastructure/csv"
 )
 
 // PlayerController チームデータを管理するAPI
@@ -20,6 +21,7 @@ func NewPlayerController(sqlHandler infrastructure.SQLHandler) *PlayerController
 			GradesRepository: &infrastructure.GradesRepository{
 				SQLHandler: sqlHandler,
 			},
+			GradesReader: &csv.GradesReader{},
 		},
 	}
 }

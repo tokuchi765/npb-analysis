@@ -80,6 +80,27 @@ func (Repository *GradesRepository) GetCareer(playerID string) (career data.CARE
 	return career
 }
 
+// SearchCareerByName 選手名から選手データを検索する
+func (Repository *GradesRepository) SearchCareerByName(name string) (careers []data.CAREER) {
+
+	rows, err := Repository.Conn.Query("SELECT * FROM players WHERE name LIKE $1", "%"+name+"%")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var career data.CAREER
+		rows.Scan(&career.PlayerID, &career.Name, &career.Position, &career.PitchingAndBatting,
+			&career.Height, &career.Weight, &career.Birthday, &career.Draft, &career.Career)
+		careers = append(careers, career)
+	}
+
+	return careers
+}
+
 // GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
 func (Repository *GradesRepository) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
 	rows, err := Repository.Conn.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)

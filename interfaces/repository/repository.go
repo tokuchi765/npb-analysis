@@ -24,6 +24,7 @@ type GradesRepository interface {
 	InsertPicherGrades(key string, picher data.PICHERGRADES)
 	ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID string)
 	InsertBatterGrades(playerID string, batterGrades data.BATTERGRADES)
+	SearchCareerByName(name string) (careers []data.CAREER)
 }
 
 // TeamRepository チーム成績データアクセスを管理するインターフェース

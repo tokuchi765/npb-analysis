@@ -224,6 +224,20 @@ func (mr *MockGradesRepositoryMockRecorder) InsertTeamPlayers(teamID, teamName, 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertTeamPlayers", reflect.TypeOf((*MockGradesRepository)(nil).InsertTeamPlayers), teamID, teamName, players, year)
 }
 
+// SearchCareerByName mocks base method.
+func (m *MockGradesRepository) SearchCareerByName(name string) []player.CAREER {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchCareerByName", name)
+	ret0, _ := ret[0].([]player.CAREER)
+	return ret0
+}
+
+// SearchCareerByName indicates an expected call of SearchCareerByName.
+func (mr *MockGradesRepositoryMockRecorder) SearchCareerByName(name interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchCareerByName", reflect.TypeOf((*MockGradesRepository)(nil).SearchCareerByName), name)
+}
+
 // MockTeamRepository is a mock of TeamRepository interface.
 type MockTeamRepository struct {
 	ctrl     *gomock.Controller

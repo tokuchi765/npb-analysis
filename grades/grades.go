@@ -37,6 +37,11 @@ func (Interactor *GradesInteractor) GetCareer(playerID string) (career data.CARE
 	return Interactor.GradesRepository.GetCareer(playerID)
 }
 
+// SearchCareerByName 選手名から選手データを検索する
+func (Interactor *GradesInteractor) SearchCareerByName(name string) (career []data.CAREER) {
+	return Interactor.GradesRepository.SearchCareerByName(name)
+}
+
 // GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
 func (Interactor *GradesInteractor) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
 	return Interactor.GradesRepository.GetPlayersByTeamIDAndYear(teamID, year)

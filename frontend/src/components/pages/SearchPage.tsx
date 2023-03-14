@@ -1,71 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { IconButton, InputBase, Paper, TableContainer } from '@mui/material';
 import _ from 'lodash';
-import { HeadCell, TableSearchComponent } from '../common/TableComponent';
+import { TableSearchComponent } from '../common/TableComponent';
 import GenericTemplate from '../templates/GenericTemplate';
 import { searchPlayer } from '../../data/api/player';
 import SearchIcon from '@mui/icons-material/Search';
 import Title from '../common/Title';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import * as H from 'history';
-
-const headCells: HeadCell[] = [
-  { id: 'main', numeric: false, disablePadding: true, label: '選手名' },
-  { id: 'position', numeric: false, disablePadding: true, label: 'ポジション' },
-  { id: 'height', numeric: false, disablePadding: true, label: '身長' },
-  { id: 'draft', numeric: false, disablePadding: true, label: 'ドラフト' },
-  { id: 'career', numeric: false, disablePadding: true, label: '経歴' },
-];
-
-interface PlayerDate {
-  main: string;
-  position: string;
-  height: string;
-  draft: string;
-  career: string;
-}
-
-function createPlayerDate(
-  main: string,
-  position: string,
-  height: string,
-  draft: string,
-  career: string
-) {
-  const result: PlayerDate = { main, position, height, draft, career };
-  return result;
-}
-
-function createPlayerDates(
-  careers: {
-    Name: string;
-    Position: string;
-    Height: string;
-    Draft: string;
-    Career: string;
-  }[]
-) {
-  const playerDateList: PlayerDate[] = [];
-  careers.forEach((career) => {
-    playerDateList.push(
-      createPlayerDate(career.Name, career.Position, career.Height, career.Draft, career.Career)
-    );
-  });
-  return playerDateList;
-}
-
-function createPlayerIds(
-  careers: {
-    PlayerID: string;
-    Name: string;
-  }[]
-) {
-  const playerIdMap: Map<string, string> = new Map<string, string>();
-  careers.forEach((career) => {
-    playerIdMap.set(career.Name, career.PlayerID);
-  });
-  return playerIdMap;
-}
+import {
+  CareerHeadCells,
+  createPlayerDatas,
+  createPlayerIds,
+  PlayerData,
+} from '../util/PlayerUtil';
 
 interface Search {
   name: string;
@@ -78,7 +26,7 @@ export interface SearchCondition extends RouteComponentProps<{ id: string }> {
 
 function SearchPage(props: SearchCondition) {
   const [name, setName] = useState('');
-  const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
+  const [playerDatas, setPlayerDatas] = useState<PlayerData[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
   const [noSearchResults, setNoSearchResults] = useState(false);
   const history = useHistory<Search>();
@@ -92,11 +40,11 @@ function SearchPage(props: SearchCondition) {
       if (_.isEmpty(result.careers)) {
         setNoSearchResults(true);
         setPlayerIds(new Map<string, string>());
-        setPlayerDates([]);
+        setPlayerDatas([]);
       } else {
         setNoSearchResults(false);
         setPlayerIds(createPlayerIds(result.careers));
-        setPlayerDates(createPlayerDates(result.careers));
+        setPlayerDatas(createPlayerDatas(result.careers));
         history.push({ state: { name: name } });
       }
     }
@@ -109,7 +57,7 @@ function SearchPage(props: SearchCondition) {
         const result = await searchPlayer(props.location.state.name);
         setNoSearchResults(false);
         setPlayerIds(createPlayerIds(result.careers));
-        setPlayerDates(createPlayerDates(result.careers));
+        setPlayerDatas(createPlayerDatas(result.careers));
         history.push({ state: { name: name } });
       }
     })();
@@ -136,8 +84,8 @@ function SearchPage(props: SearchCondition) {
         </Paper>
         {noSearchResults && <Title>{'※検索結果がありません'}</Title>}
         <TableSearchComponent
-          datas={playerDates}
-          headCells={headCells}
+          datas={playerDatas}
+          headCells={CareerHeadCells}
           initSorted={'main'}
           linkValues={playerIdMap}
         />

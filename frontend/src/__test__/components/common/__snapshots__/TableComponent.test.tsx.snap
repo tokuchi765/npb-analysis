@@ -2,27 +2,27 @@
 
 exports[`TableComponentテスト スナップショット作成 1`] = `
 <div
-  className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1ps6pg7-MuiPaper-root"
 >
   <div
     className="MuiTypography-root makeStyles-title-3 MuiTypography-h6"
     id="tableTitle"
   >
     <div
-      className="MuiGrid-root makeStyles-grid-6 MuiGrid-container"
+      className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row makeStyles-grid-6 css-1unhvdk-MuiGrid2-root"
     >
       <div
-        className="MuiGrid-root MuiGrid-item"
+        className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"
       >
         <div
-          className="MuiPaper-root makeStyles-paper-5 MuiPaper-elevation1 MuiPaper-rounded"
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-paper-5 css-1ps6pg7-MuiPaper-root"
         >
           選択1_
           タイトル
         </div>
       </div>
       <div
-        className="MuiGrid-root MuiGrid-item"
+        className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"
       >
         <div
           className="MuiFormControl-root makeStyles-formControl-4"
@@ -197,27 +197,27 @@ exports[`TableComponentテスト スナップショット作成 1`] = `
 
 exports[`TableLinkComponentテスト スナップショット作成 1`] = `
 <div
-  className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1ps6pg7-MuiPaper-root"
 >
   <div
     className="MuiTypography-root makeStyles-title-3 MuiTypography-h6"
     id="tableTitle"
   >
     <div
-      className="MuiGrid-root makeStyles-grid-6 MuiGrid-container"
+      className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row makeStyles-grid-6 css-1unhvdk-MuiGrid2-root"
     >
       <div
-        className="MuiGrid-root MuiGrid-item"
+        className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"
       >
         <div
-          className="MuiPaper-root makeStyles-paper-5 MuiPaper-elevation1 MuiPaper-rounded"
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-paper-5 css-1ps6pg7-MuiPaper-root"
         >
           選択1_
           タイトル
         </div>
       </div>
       <div
-        className="MuiGrid-root MuiGrid-item"
+        className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"
       >
         <div
           className="MuiFormControl-root makeStyles-formControl-4"

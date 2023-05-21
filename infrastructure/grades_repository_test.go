@@ -177,6 +177,7 @@ func TestGradesRepository_InsertCareers_GetCareer(t *testing.T) {
 						Birthday:           "1990年11月27日",
 						Career:             "神戸弘陵高 - 東京農業大生産学部",
 						Draft:              "2012年育成選手ドラフト3位",
+						SearchName:         "飯田優也",
 					},
 				},
 			},
@@ -274,6 +275,7 @@ func TestGradesRepository_ExtractionCareers(t *testing.T) {
 						Birthday:           "1990年11月27日",
 						Career:             "神戸弘陵高 - 東京農業大生産学部",
 						Draft:              "2012年育成選手ドラフト3位",
+						SearchName:         "飯田優也",
 					},
 				},
 			},
@@ -364,6 +366,53 @@ func TestGradesRepository_ExtractionBatterGrades(t *testing.T) {
 			repository.InsertBatterGrades(tt.args.prayerID, tt.args.batter)
 			repository.ExtractionBatterGrades(&tt.batterMap, tt.args.teamID)
 			assert.Empty(t, tt.batterMap)
+		})
+	}
+}
+
+func TestGradesRepository_SearchCareerByName(t *testing.T) {
+	type args struct {
+		name    string
+		careers []data.CAREER
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			"選手名検索",
+			args{
+				"飯田",
+				[]data.CAREER{
+					{
+						PlayerID:           "01105137",
+						Name:               "飯田　優也",
+						Position:           "投手",
+						PitchingAndBatting: "左投左打",
+						Height:             "187cm",
+						Weight:             "92kg",
+						Birthday:           "1990年11月27日",
+						Career:             "神戸弘陵高 - 東京農業大生産学部",
+						Draft:              "2012年育成選手ドラフト3位",
+						SearchName:         "飯田優也",
+					},
+				},
+			},
+		},
+	}
+
+	resource, pool := testUtil.CreateContainer()
+	defer testUtil.CloseContainer(resource, pool)
+	db := testUtil.ConnectDB(resource, pool)
+	sqlHandler := new(SQLHandler)
+	sqlHandler.Conn = db
+	repository := GradesRepository{SQLHandler: *sqlHandler}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			repository.InsertCareers(tt.args.careers)
+			actual := repository.SearchCareerByName(tt.args.name)
+			assert.ElementsMatch(t, tt.args.careers, actual)
 		})
 	}
 }

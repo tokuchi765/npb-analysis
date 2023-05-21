@@ -2,10 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
-import { TableLinkComponent, SelectItem, HeadCell } from '../common/TableComponent';
+import { TableLinkComponent, SelectItem } from '../common/TableComponent';
 import _ from 'lodash';
 import * as H from 'history';
 import { getCareers } from '../../data/api/teamCareers';
+import {
+  CareerHeadCells,
+  createPlayerDatas,
+  createPlayerIds,
+  PlayerData,
+} from '../util/PlayerUtil';
 
 const teamNameList = [
   'Giants',
@@ -24,63 +30,6 @@ const teamNameList = [
 
 const years = ['2020', '2021'];
 
-interface PlayerDate {
-  main: string;
-  position: string;
-  height: string;
-  draft: string;
-  career: string;
-}
-const headCells: HeadCell[] = [
-  { id: 'main', numeric: false, disablePadding: true, label: '選手名' },
-  { id: 'position', numeric: false, disablePadding: true, label: 'ポジション' },
-  { id: 'height', numeric: false, disablePadding: true, label: '身長' },
-  { id: 'draft', numeric: false, disablePadding: true, label: 'ドラフト' },
-  { id: 'career', numeric: false, disablePadding: true, label: '経歴' },
-];
-
-function createPlayerDate(
-  main: string,
-  position: string,
-  height: string,
-  draft: string,
-  career: string
-) {
-  const result: PlayerDate = { main, position, height, draft, career };
-  return result;
-}
-
-function createPlayerDates(
-  careers: {
-    Name: string;
-    Position: string;
-    Height: string;
-    Draft: string;
-    Career: string;
-  }[]
-) {
-  const playerDateList: PlayerDate[] = [];
-  careers.forEach((career) => {
-    playerDateList.push(
-      createPlayerDate(career.Name, career.Position, career.Height, career.Draft, career.Career)
-    );
-  });
-  return playerDateList;
-}
-
-function createPlayerIds(
-  careers: {
-    PlayerID: string;
-    Name: string;
-  }[]
-) {
-  const playerIdMap: Map<string, string> = new Map<string, string>();
-  careers.forEach((career) => {
-    playerIdMap.set(career.Name, career.PlayerID);
-  });
-  return playerIdMap;
-}
-
 export function getTeamId(teamName: string) {
   for (const index in teamNameList) {
     if (teamNameList[index] === teamName) {
@@ -95,7 +44,7 @@ export interface PageProps extends RouteComponentProps<{ id: string }> {
 }
 
 function PlayersPage(props: PageProps) {
-  const [playerDates, setPlayerDates] = useState<PlayerDate[]>([]);
+  const [playerDatas, setPlayerDatas] = useState<PlayerData[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
   const [team, setTeam] = useState<string>('');
   const [year, setYear] = useState<string>('');
@@ -105,7 +54,7 @@ function PlayersPage(props: PageProps) {
     const teamID = getTeamId(team);
     const result = await getCareers(teamID, year);
     setPlayerIds(createPlayerIds(result.data.careers));
-    setPlayerDates(createPlayerDates(result.data.careers));
+    setPlayerDatas(createPlayerDatas(result.data.careers));
 
     history.push({
       state: { teamName: team, year: year },
@@ -144,8 +93,8 @@ function PlayersPage(props: PageProps) {
     <GenericTemplate title="選手一覧ページ">
       <TableLinkComponent
         title={'選手一覧'}
-        datas={playerDates}
-        headCells={headCells}
+        datas={playerDatas}
+        headCells={CareerHeadCells}
         initSorted={'main'}
         selectItems={[
           new SelectItem(team, 'チーム', teamNameList, setTeam),

@@ -3,6 +3,7 @@ package player
 import (
 	"database/sql"
 	"math"
+	"strings"
 
 	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
 )
@@ -133,6 +134,12 @@ type CAREER struct {
 	Birthday           string // 生年月日
 	Career             string // 経歴
 	Draft              string // ドラフト
+	SearchName         string // 検索用選手名
+}
+
+// SetSearchName 選手名検索に不要な文字列を除去した検索用選手名を設定する
+func (career *CAREER) SetSearchName() {
+	career.SearchName = strings.ReplaceAll(strings.ReplaceAll(career.Name, "　", ""), "・", "")
 }
 
 type PLAYER struct {

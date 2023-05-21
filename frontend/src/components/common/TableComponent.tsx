@@ -10,13 +10,13 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import Grid from '@mui/material/Unstable_Grid2';
 import MenuItem from '@material-ui/core/MenuItem';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import _ from 'lodash';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
+import { Paper } from '@mui/material';
 
 type Order = 'asc' | 'desc';
 
@@ -155,13 +155,13 @@ function TableComponentTitleBar(props: {
   return (
     <Typography className={props.classes.title} variant="h6" id="tableTitle" component="div">
       <Grid container className={props.classes.grid}>
-        <Grid key={1} item>
+        <Grid key={1}>
           <Paper className={props.classes.paper}>
             {props.selectItems.map((selectItem) => selectItem.initSelect + '_')}
             {props.title}
           </Paper>
         </Grid>
-        <Grid key={2} item>
+        <Grid key={2}>
           {props.selectItems.map((selectItem) => (
             <Selectable
               key={selectItem.selectLabel}
@@ -178,7 +178,7 @@ function TableComponentTitleBar(props: {
   );
 }
 
-function TableComponentHader(props: {
+export function TableComponentHader(props: {
   classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
   headCells: HeadCell[];
   orderBy: string;
@@ -241,7 +241,7 @@ function TableComponentBody(props: { datas: { main: string }[]; order: Order; or
   );
 }
 
-function TableLinkComponentBody(props: {
+export function TableLinkComponentBody(props: {
   datas: { main: string }[];
   order: Order;
   orderBy: string;
@@ -367,6 +367,51 @@ export function TableLinkComponent(props: {
             path={props.path}
           />
         </Table>
+      </TableContainer>
+    </React.Fragment>
+  );
+}
+
+export function TableSearchComponent(props: {
+  datas: { main: string }[];
+  headCells: HeadCell[];
+  initSorted: string;
+  linkValues: Map<string, string>;
+}) {
+  const classes = useStyles();
+
+  const [order, setOrder] = React.useState<Order>('desc');
+  const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+  const createSortHandler = (property: string) => (event: React.MouseEvent<unknown>) => {
+    handleRequestSort(event, property);
+  };
+
+  return (
+    <React.Fragment>
+      <TableContainer component={Paper}>
+        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+          <Table className={classes.table} aria-label="simple table">
+            <TableComponentHader
+              classes={classes}
+              headCells={props.headCells}
+              orderBy={orderBy}
+              order={order}
+              createSortHandler={createSortHandler}
+            />
+            <TableLinkComponentBody
+              datas={props.datas}
+              order={order}
+              orderBy={orderBy}
+              linkValues={props.linkValues}
+              path={'/player/'}
+            />
+          </Table>
+        </Typography>
       </TableContainer>
     </React.Fragment>
   );

@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { getPlayer } from '../../data/api/player';
 import { BasePaper } from '../common/papers';
 import Chart, { ChartData } from '../common/Chart';
+import { SearchCondition } from './SearchPage';
 
 type PageProps = RouteComponentProps<{ id: string }>;
 
@@ -239,7 +240,7 @@ function createPitchingStrikeOutRateChartDatas(
   return pitchings;
 }
 
-function PlayerPage(props: PageProps) {
+function PlayerPage(props: PageProps | SearchCondition) {
   const [playerName, setPlayerName] = useState<string>('');
   const [battingDates, setBattingDates] = useState<BattingDate[]>([]);
   const [battingChartDatas, setBattingChartDates] = useState<BattingChartData[]>([]);

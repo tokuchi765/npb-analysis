@@ -74,10 +74,30 @@ func (Repository *GradesRepository) GetCareer(playerID string) (career data.CARE
 
 	for rows.Next() {
 		rows.Scan(&career.PlayerID, &career.Name, &career.Position, &career.PitchingAndBatting,
-			&career.Height, &career.Weight, &career.Birthday, &career.Draft, &career.Career)
+			&career.Height, &career.Weight, &career.Birthday, &career.Draft, &career.Career, &career.SearchName)
 	}
 
 	return career
+}
+
+// SearchCareerByName 選手名から選手データを検索する
+func (Repository *GradesRepository) SearchCareerByName(name string) (careers []data.CAREER) {
+
+	rows, err := Repository.Conn.Query("SELECT * FROM players WHERE search_name LIKE $1", "%"+name+"%")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var career data.CAREER
+		rows.Scan(&career.PlayerID, &career.Name, &career.Position, &career.PitchingAndBatting, &career.Height, &career.Weight, &career.Birthday, &career.Draft, &career.Career, &career.SearchName)
+		careers = append(careers, career)
+	}
+
+	return careers
 }
 
 // GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
@@ -133,7 +153,7 @@ func (Repository *GradesRepository) ExtractionCareers(careers *[]data.CAREER) {
 		var selectCareer data.CAREER
 		rows.Scan(&selectCareer.PlayerID, &selectCareer.Name, &selectCareer.Position,
 			&selectCareer.PitchingAndBatting, &selectCareer.Height, &selectCareer.Weight,
-			&selectCareer.Birthday, &selectCareer.Draft, &selectCareer.Career)
+			&selectCareer.Birthday, &selectCareer.Draft, &selectCareer.Career, &selectCareer.SearchName)
 		for index, career := range *careers {
 			if career.PlayerID == selectCareer.PlayerID {
 				*careers = unset(*careers, index)
@@ -151,15 +171,14 @@ func unset(s []data.CAREER, i int) []data.CAREER {
 
 // InsertCareers 引数で受け取った CAREER をDBへ登録する
 func (Repository *GradesRepository) InsertCareers(careers []data.CAREER) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO players(player_id, name, position, pitching_and_batting, height, weight, birthday, draft, career) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)")
+	stmt, err := Repository.Conn.Prepare("INSERT INTO players(player_id, name, position, pitching_and_batting, height, weight, birthday, draft, career, search_name) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)")
 	if err != nil {
 		log.Print(err)
 	}
 	defer stmt.Close()
 	for _, career := range careers {
-		if _, err := stmt.Exec(career.PlayerID, career.Name, career.Position,
-			career.PitchingAndBatting, career.Height, career.Weight,
-			career.Birthday, career.Draft, career.Career); err != nil {
+		career.SetSearchName()
+		if _, err := stmt.Exec(career.PlayerID, career.Name, career.Position, career.PitchingAndBatting, career.Height, career.Weight, career.Birthday, career.Draft, career.Career, career.SearchName); err != nil {
 			fmt.Println(career.PlayerID + ":" + career.Name)
 			log.Print(err)
 		}

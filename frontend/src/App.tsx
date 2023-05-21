@@ -16,6 +16,7 @@ import {
   MaxTeamBattingResponse,
   MinTeamBattingResponse,
 } from './data/type/index';
+import SearchPage from './components/pages/SearchPage';
 
 const years = [
   '2005',
@@ -108,6 +109,7 @@ function App() {
         />
         <Route path="/players" component={PlayersPage} exact />
         <Route path="/player/:id" component={PlayerPage} exact />
+        <Route path="/search" component={SearchPage} exact />
         <Route path="/manager" component={ManagerPage} exact />
       </Switch>
     </Router>

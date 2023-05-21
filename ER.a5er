@@ -1,7 +1,7 @@
-﻿# A5:ER FORMAT:16
+﻿# A5:ER FORMAT:17
 # A5:ER ENCODING:UTF8
 # A5:ER Mk-1 Copyright © 2007 m.matsubara
-# A5:SQL Mk-2 Version 2.17.2 Copyright © 1997 - 2022 m.matsubara
+# A5:SQL Mk-2 Version 2.18.2 Copyright © 1997 - 2023 m.matsubara
 #  https://a5m2.mmatsubara.com
 
 [Manager]
@@ -27,7 +27,7 @@ FooterLeft=
 FooterCenter=
 FooterRight=
 ShowPageoutRelation=1
-RDBMSType=6
+RDBMSType=7
 RDBMSTypeName=PostgreSQL
 DefaultPkName=%0:s_PKC
 DefaultPkIndexName=%0:s_PKI
@@ -99,10 +99,11 @@ Field="体重","weight","@VARCHAR",,,"","",$FFFFFFFF,""
 Field="生年月日","birthday","@VARCHAR",,,"","",$FFFFFFFF,""
 Field="ドラフト","draft","@VARCHAR",,,"","",$FFFFFFFF,""
 Field="経歴","career","@VARCHAR",,,"","",$FFFFFFFF,""
+Field="検索用選手名","search_name","@VARCHAR",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20201031225034
+ModifiedDateTime=20230517081848
 Position="MAIN",850,200,421,294
 ZOrder=2
 

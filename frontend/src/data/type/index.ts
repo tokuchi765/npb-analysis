@@ -41,6 +41,22 @@ type PlayerResponse = {
   pitching: any;
 };
 
+type PlayersResponse = {
+  careers: CareerResponse[];
+};
+
+type CareerResponse = {
+  PlayerID: string;
+  Name: string;
+  Position: string;
+  PitchingAndBatting: string;
+  Height: string;
+  Weight: string;
+  Birthday: string;
+  Career: string;
+  Draft: string;
+};
+
 export type {
   MaxTeamPitchingResponse,
   MinTeamPitchingResponse,
@@ -49,4 +65,6 @@ export type {
   TeamPitchingResponse,
   TeamBattingResponse,
   PlayerResponse,
+  PlayersResponse,
+  CareerResponse,
 };

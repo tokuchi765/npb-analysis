@@ -28,7 +28,7 @@ const teamNameList = [
   'Buffaloes',
 ];
 
-const years = ['2020', '2021'];
+const years = ['2020', '2021', '2022'];
 
 export function getTeamId(teamName: string) {
   for (const index in teamNameList) {
@@ -72,7 +72,7 @@ function PlayersPage(props: PageProps) {
   const getYear = (location: any) => {
     let year = location.state && location.state.year;
     if (year === undefined) {
-      year = '2021';
+      year = '2022';
     }
     return year;
   };

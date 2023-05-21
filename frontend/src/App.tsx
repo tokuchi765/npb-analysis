@@ -36,9 +36,10 @@ const years = [
   '2019',
   '2020',
   '2021',
+  '2022',
 ];
 
-const initYear = '2021';
+const initYear = '2022';
 
 function App() {
   const [maxTeamPitching, setMaxTeamPitching] = useState<MaxTeamPitchingResponse>({

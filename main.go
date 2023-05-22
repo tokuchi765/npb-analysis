@@ -50,7 +50,7 @@ func main() {
 		syastemRepository.SetSystemSetting("created_player_grades", "true")
 	}
 
-	years := makeRange(2005, 2021)
+	years := makeRange(2005, 2022)
 
 	// チーム成績をDBに登録する
 	createdTeamStats, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_team_stats"))
@@ -167,7 +167,7 @@ func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 	csvPath := current + "/csv"
 
 	// 2020~2021の選手一覧を取得する
-	years := []string{"2020", "2021"}
+	years := []string{"2020", "2021", "2022"}
 	for _, year := range years {
 		players := gradesInteractor.GetPlayers(csvPath, initial, year)
 

@@ -5,7 +5,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	data "github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
+	"github.com/tokuchi765/npb-analysis/entity/team"
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 	testUtil "github.com/tokuchi765/npb-analysis/test"
 )
@@ -641,6 +643,90 @@ func TestTeamRepository_GetTeamPitchingMin(t *testing.T) {
 
 			assert.Equal(t, tt.wantMinStrikeOutRate, minStrikeOutRate)
 			assert.Equal(t, tt.wantMinRunsAllowed, minRunsAllowed)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestGradesRepository_InsertTeamPlayers(t *testing.T) {
+	type args struct {
+		member []team.Member
+		year   string
+		teamID string
+	}
+	tests := []struct {
+		name        string
+		args        args
+		wantPlayers []data.PLAYER
+	}{
+		{
+			"選手一覧取得",
+			args{
+				[]team.Member{
+					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "93795138", PlayerName: "デラロサ"},
+					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "41045138", PlayerName: "戸郷　翔征"},
+				},
+				"2020",
+				"01",
+			},
+			[]data.PLAYER{
+				{Year: "2020", TeamID: "01", PlayerID: "93795138", Team: "Giants", Name: "デラロサ"},
+				{Year: "2020", TeamID: "01", PlayerID: "41045138", Team: "Giants", Name: "戸郷　翔征"},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			defer testUtil.CloseContainer(resource, pool)
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+			repository.InsertTeamPlayers(tt.args.member)
+			actual := repository.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
+			assert.ElementsMatch(t, tt.wantPlayers, actual)
+		})
+	}
+}
+
+func TestTeamRepository_InsertMembersCsv_IsRegisteredMembersCsv(t *testing.T) {
+	type args struct {
+		fileName       string
+		searchFileName string
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantResult bool
+	}{
+		{
+			"ファイルが登録済み",
+			args{
+				fileName:       "members_2019.csv",
+				searchFileName: "members_2019.csv",
+			},
+			true,
+		},
+		{
+			"ファイルが未登録",
+			args{
+				fileName:       "members_2019.csv",
+				searchFileName: "members_2020.csv",
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.Conn = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+			repository.InsertMembersCsv(tt.args.fileName)
+			actual := repository.IsRegisteredMembersCsv(tt.args.searchFileName)
+			assert.Equal(t, tt.wantResult, actual)
 			testUtil.CloseContainer(resource, pool)
 		})
 	}

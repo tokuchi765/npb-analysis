@@ -12,6 +12,7 @@ type TeamReader interface {
 	ReadTeamExchangeStats(csvPath string, league string, year string) (teamExchangeMatchResults []team.TeamMatchResults)
 	ReadTeamPitching(csvPath string, league string, year string) (teamPitching []team.TeamPitching)
 	ReadTeamBatting(csvPath string, league string, year string) (teamBatting []team.TeamBatting)
+	ReadTeamPlayers(csvPath string, initial string, teamName string) (players map[string][]team.Member)
 }
 
 type GradesReader interface {

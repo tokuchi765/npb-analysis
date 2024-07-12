@@ -198,61 +198,6 @@ func TestGradesRepository_InsertCareers_GetCareer(t *testing.T) {
 	}
 }
 
-func TestGradesRepository_GetPlayersByTeamIDAndYear(t *testing.T) {
-	type args struct {
-		teamID   string
-		teamName string
-		year     string
-	}
-	tests := []struct {
-		name        string
-		args        args
-		wantPlayers []data.PLAYER
-	}{
-		{
-			"選手一覧取得",
-			args{
-				"01",
-				"Giants",
-				"2020",
-			},
-			[]data.PLAYER{
-				{
-					Year:     "2020",
-					TeamID:   "01",
-					PlayerID: "93795138",
-					Team:     "Giants",
-					Name:     "デラロサ",
-				},
-				{
-					Year:     "2020",
-					TeamID:   "01",
-					PlayerID: "41045138",
-					Team:     "Giants",
-					Name:     "戸郷　翔征",
-				},
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
-			repository := GradesRepository{SQLHandler: *sqlHandler}
-			players := [][]string{
-				{"93795138", "デラロサ"},
-				{"41045138", "戸郷　翔征"},
-			}
-			repository.InsertTeamPlayers(tt.args.teamID, tt.args.teamName, players, tt.args.year)
-			actual := repository.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
-			assert.ElementsMatch(t, tt.wantPlayers, actual)
-		})
-	}
-}
-
 func TestGradesRepository_ExtractionCareers(t *testing.T) {
 	type args struct {
 		careers []data.CAREER

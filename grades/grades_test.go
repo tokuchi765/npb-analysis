@@ -12,57 +12,6 @@ import (
 	mock_repository "github.com/tokuchi765/npb-analysis/interfaces/repository/mock"
 )
 
-func TestInsertTeamPlayers(t *testing.T) {
-	type args struct {
-		initial  string
-		players  [][]string
-		teamID   string
-		year     string
-		teamName string
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"選手一覧登録",
-			args{
-				"g",
-				[][]string{
-					{"93795138", "デラロサ"},
-					{"41045138", "戸郷　翔征"},
-				},
-				"01",
-				"2020",
-				"Giants",
-			},
-		},
-	}
-
-	mockCtrl := gomock.NewController(t)
-	defer mockCtrl.Finish()
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-
-			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
-
-			mGradesRepository.EXPECT().InsertTeamPlayers(tt.args.teamID, tt.args.teamName, tt.args.players, tt.args.year)
-
-			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
-
-			mTeamRepository.EXPECT().GetTeamName(tt.args.teamID).Return(tt.args.teamName)
-
-			interactor := GradesInteractor{
-				GradesRepository: mGradesRepository,
-				TeamRepository:   mTeamRepository,
-			}
-
-			interactor.InsertTeamPlayers(tt.args.initial, tt.args.players, tt.args.year)
-		})
-	}
-}
-
 func TestGradesInteractor_TestReadCareers(t *testing.T) {
 	career := data.CAREER{
 		PlayerID:           "01105137",
@@ -528,62 +477,6 @@ func TestGradesInteractor_GetCareer(t *testing.T) {
 
 			gotCareer := interactor.GetCareer(tt.args.playerID)
 			assert.Exactly(t, tt.args.career, gotCareer)
-		})
-	}
-}
-
-func TestGradesInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
-	type args struct {
-		teamID string
-		year   string
-	}
-	tests := []struct {
-		name        string
-		args        args
-		wantPlayers []data.PLAYER
-	}{
-		{
-			"選手一覧取得",
-			args{
-				"01",
-				"2020",
-			},
-			[]data.PLAYER{
-				{
-					Year:     "2020",
-					TeamID:   "01",
-					PlayerID: "93795138",
-					Team:     "Giants",
-					Name:     "デラロサ",
-				},
-				{
-					Year:     "2020",
-					TeamID:   "01",
-					PlayerID: "41045138",
-					Team:     "Giants",
-					Name:     "戸郷　翔征",
-				},
-			},
-		},
-	}
-
-	mockCtrl := gomock.NewController(t)
-	defer mockCtrl.Finish()
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
-
-			mGradesRepository.EXPECT().GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year).Return(tt.wantPlayers)
-
-			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
-
-			interactor := GradesInteractor{
-				GradesRepository: mGradesRepository,
-				TeamRepository:   mTeamRepository,
-			}
-			gotPlayers := interactor.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
-			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
 		})
 	}
 }

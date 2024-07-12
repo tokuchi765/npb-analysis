@@ -3,15 +3,18 @@ package team
 import (
 	"strconv"
 
+	data "github.com/tokuchi765/npb-analysis/entity/player"
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 	"github.com/tokuchi765/npb-analysis/interfaces/reader"
 	"github.com/tokuchi765/npb-analysis/interfaces/repository"
+	"github.com/tokuchi765/npb-analysis/util"
 )
 
 // TeamInteractor チーム情報処理のInteractor
 type TeamInteractor struct {
 	repository.TeamRepository
 	reader.TeamReader
+	util.TeamUtil
 }
 
 // InsertPythagoreanExpectation ピタゴラス勝率をDBに登録します。
@@ -128,6 +131,25 @@ func (Interactor *TeamInteractor) InsertTeamBattings(csvPath string, league stri
 			batting.SetBABIP()
 			batting.SetStrikeOutRate()
 			Interactor.TeamRepository.InsertTeamBattings(batting)
+		}
+	}
+}
+
+// GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
+func (Interactor *TeamInteractor) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
+	return Interactor.TeamRepository.GetPlayersByTeamIDAndYear(teamID, year)
+}
+
+// InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
+func (Interactor *TeamInteractor) InsertTeamPlayers(csvPath string, initial string) {
+	teamID := Interactor.TeamUtil.GetTeamID(initial)
+	teamName := Interactor.TeamRepository.GetTeamName(teamID)
+	members := Interactor.TeamReader.ReadTeamPlayers(csvPath, initial, teamName)
+
+	for key, member := range members {
+		if !Interactor.TeamRepository.IsRegisteredMembersCsv(key) {
+			Interactor.TeamRepository.InsertTeamPlayers(member)
+			Interactor.TeamRepository.InsertMembersCsv(key)
 		}
 	}
 }

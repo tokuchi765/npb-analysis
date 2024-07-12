@@ -106,6 +106,20 @@ func (mr *MockTeamReaderMockRecorder) ReadTeamPitching(csvPath, league, year int
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadTeamPitching", reflect.TypeOf((*MockTeamReader)(nil).ReadTeamPitching), csvPath, league, year)
 }
 
+// ReadTeamPlayers mocks base method.
+func (m *MockTeamReader) ReadTeamPlayers(csvPath, initial, teamName string) map[string][]team.Member {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReadTeamPlayers", csvPath, initial, teamName)
+	ret0, _ := ret[0].(map[string][]team.Member)
+	return ret0
+}
+
+// ReadTeamPlayers indicates an expected call of ReadTeamPlayers.
+func (mr *MockTeamReaderMockRecorder) ReadTeamPlayers(csvPath, initial, teamName interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadTeamPlayers", reflect.TypeOf((*MockTeamReader)(nil).ReadTeamPlayers), csvPath, initial, teamName)
+}
+
 // MockGradesReader is a mock of GradesReader interface.
 type MockGradesReader struct {
 	ctrl     *gomock.Controller

@@ -42,18 +42,6 @@ func (Interactor *GradesInteractor) SearchCareerByName(name string) (career []da
 	return Interactor.GradesRepository.SearchCareerByName(name)
 }
 
-// GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
-func (Interactor *GradesInteractor) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
-	return Interactor.GradesRepository.GetPlayersByTeamIDAndYear(teamID, year)
-}
-
-// InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
-func (Interactor *GradesInteractor) InsertTeamPlayers(initial string, players [][]string, year string) {
-	teamID := Interactor.TeamUtil.GetTeamID(initial)
-	teamName := Interactor.TeamRepository.GetTeamName(teamID)
-	Interactor.GradesRepository.InsertTeamPlayers(teamID, teamName, players, year)
-}
-
 // GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
 func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string, year string) (players [][]string) {
 	return Interactor.GradesReader.GetPlayers(csvPath, initial, year)

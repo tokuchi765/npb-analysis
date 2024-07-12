@@ -5,6 +5,8 @@ import (
 	"log"
 	"strconv"
 
+	data "github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/entity/team"
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 )
 
@@ -12,6 +14,8 @@ import (
 type TeamRepository struct {
 	SQLHandler
 }
+
+const MEMBERS = "MEMBERS"
 
 // InsertTeamPitchings チーム投手成績をDBに登録する
 func (Repository *TeamRepository) InsertTeamPitchings(pitching teamData.TeamPitching) {
@@ -275,4 +279,57 @@ func (Repository *TeamRepository) GetTeamName(teamID string) (teamName string) {
 	}
 
 	return teamName
+}
+
+// InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
+func (Repository *TeamRepository) InsertTeamPlayers(members []team.Member) {
+	stmt, err := Repository.Conn.Prepare("INSERT INTO team_players(year,team_id,team_name,player_id,player_name) VALUES($1,$2,$3,$4,$5)")
+	if err != nil {
+		log.Print(err)
+	}
+	defer stmt.Close()
+	for _, member := range members {
+		if _, err := stmt.Exec(member.Year, member.TeamID, member.TeamName, member.PlayerID, member.PlayerName); err != nil {
+			fmt.Println(member.TeamID + ":" + member.PlayerID)
+			log.Print(err)
+		}
+	}
+}
+
+// GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
+func (Repository *TeamRepository) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
+	rows, err := Repository.Conn.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var player data.PLAYER
+		rows.Scan(&player.Year, &player.TeamID, &player.Team, &player.PlayerID, &player.Name)
+		players = append(players, player)
+	}
+
+	return players
+}
+
+// InsertMembersCsv メンバー一覧CSVファイルを登録します
+func (Repository *TeamRepository) InsertMembersCsv(filePath string) {
+	rows, err := Repository.Conn.Query("INSERT INTO registered_csv(csv_type,file_path) VALUES($1,$2);", MEMBERS, filePath)
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+// IsRegisteredMembersCsv メンバー一覧CSVファイルが登録済みか確認する
+func (Repository *TeamRepository) IsRegisteredMembersCsv(filePath string) bool {
+	var count int
+	err := Repository.Conn.QueryRow("SELECT COUNT(*) FROM registered_csv WHERE csv_type = $1 AND file_path = $2", MEMBERS, filePath).Scan(&count)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return count > 0
 }

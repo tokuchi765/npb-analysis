@@ -2,6 +2,7 @@ package repository
 
 import (
 	data "github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/entity/team"
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 )
 
@@ -16,8 +17,6 @@ type GradesRepository interface {
 	GetPitchings(playerID string) (pitchings []data.PICHERGRADES)
 	GetBattings(playerID string) (battings []data.BATTERGRADES)
 	GetCareer(playerID string) (career data.CAREER)
-	GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER)
-	InsertTeamPlayers(teamID string, teamName string, players [][]string, year string)
 	ExtractionCareers(careers *[]data.CAREER)
 	InsertCareers(careers []data.CAREER)
 	ExtractionPicherGrades(picherMap *map[string][]data.PICHERGRADES, teamID string)
@@ -44,4 +43,8 @@ type TeamRepository interface {
 	InsertTeamLeagueStats(teamLeagueStats []teamData.TeamLeagueStats)
 	InsertMatchResults(teamMatchResults []teamData.TeamMatchResults)
 	GetTeamName(teamID string) (teamName string)
+	GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER)
+	InsertTeamPlayers(members []team.Member)
+	InsertMembersCsv(fileName string)
+	IsRegisteredMembersCsv(fileName string) bool
 }

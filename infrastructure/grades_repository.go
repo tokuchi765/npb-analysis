@@ -100,41 +100,6 @@ func (Repository *GradesRepository) SearchCareerByName(name string) (careers []d
 	return careers
 }
 
-// GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
-func (Repository *GradesRepository) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
-	rows, err := Repository.Conn.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var player data.PLAYER
-		rows.Scan(&player.Year, &player.TeamID, &player.Team, &player.PlayerID, &player.Name)
-		players = append(players, player)
-	}
-
-	return players
-}
-
-// InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
-func (Repository *GradesRepository) InsertTeamPlayers(teamID string, teamName string, players [][]string, year string) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO team_players(year,team_id,team_name,player_id,player_name) VALUES($1,$2,$3,$4,$5)")
-	if err != nil {
-		log.Print(err)
-	}
-	defer stmt.Close()
-	for _, player := range players {
-		playerID := extractionPlayerID(player[0])
-		if _, err := stmt.Exec(year, teamID, teamName, playerID, player[1]); err != nil {
-			fmt.Println(teamID + ":" + playerID)
-			log.Print(err)
-		}
-	}
-}
-
 func extractionPlayerID(url string) string {
 	return strings.Replace(strings.Replace(url, "/bis/players/", "", 1), ".html", "", 1)
 }

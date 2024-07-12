@@ -2,16 +2,22 @@ package csv
 
 import (
 	"encoding/csv"
+	"fmt"
 	"log"
 	"os"
+	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
+	"github.com/tokuchi765/npb-analysis/util"
 )
 
 // TeamReader チーム成績CSVの読み込みを管理する
-type TeamReader struct{}
+type TeamReader struct {
+	util.TeamUtil
+}
 
 // ReadTeamLeagueStats リーグ対戦成績CSVを読み込む
 func (TeamReader *TeamReader) ReadTeamLeagueStats(csvPath string, league string, year string) (teamLeagueStats []teamData.TeamLeagueStats, teamMatchResults []teamData.TeamMatchResults) {
@@ -433,4 +439,71 @@ func setTeamBatting(line []string, year string) (teamBatting teamData.TeamBattin
 	teamBatting.SluggingPercentage, _ = strconv.ParseFloat(line[22], 64)
 	teamBatting.OnBasePercentage, _ = strconv.ParseFloat(line[23], 64)
 	return teamBatting
+}
+
+// ReadTeamPlayers メンバー一覧CSVを読み込む
+func (TeamReader *TeamReader) ReadTeamPlayers(csvPath string, initial string, teamName string) (players map[string][]teamData.Member) {
+	players = make(map[string][]teamData.Member)
+	pathes := getAllFilePathes(csvPath + "/members/" + initial)
+
+	for _, path := range pathes {
+		file, err := os.Open(path)
+
+		if err != nil {
+			log.Print(err)
+		}
+
+		splitedPath := strings.Split(path, "\\")
+		fileName := splitedPath[len(splitedPath)-1]
+		year := regexp.MustCompile("[0-9]+").FindAllString(fileName, -1)[0]
+
+		reader := csv.NewReader(file)
+
+		_, _ = reader.Read()
+
+		var members []teamData.Member
+
+		for {
+			line, err := reader.Read()
+			if err != nil {
+				break
+			}
+
+			members = append(members, teamData.Member{
+				Year:       year,
+				TeamID:     TeamReader.GetTeamID(initial),
+				TeamName:   teamName,
+				PlayerID:   extractionPlayerID(line[0]),
+				PlayerName: line[1],
+			})
+		}
+
+		players["/members/"+initial+"/"+fileName] = members
+	}
+
+	return players
+}
+
+// getAllFilePathes 指定したディレクトリ内のすべてのファイルパスを取得する
+func getAllFilePathes(directory string) (pathes []string) {
+	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() {
+			pathes = append(pathes, path)
+		}
+		return nil
+	})
+
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	return pathes
+}
+
+// extractionPlayerID URLから選手IDを抽出します
+func extractionPlayerID(url string) string {
+	return regexp.MustCompile("[0-9]+").FindAllString(url, -1)[0]
 }

@@ -37,6 +37,9 @@ func main() {
 
 	syastemRepository := infrastructure.SyastemRepository{SQLHandler: *sqlHandler}
 
+	current, _ := os.Getwd()
+	csvPath := current + "/" + "csv"
+
 	// プレイヤーの成績をDBに登録する
 	createdGades, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_player_grades"))
 	if !createdGades {
@@ -50,7 +53,20 @@ func main() {
 		syastemRepository.SetSystemSetting("created_player_grades", "true")
 	}
 
-	years := makeRange(2005, 2022)
+	// 選手一覧をDBに登録する
+	createdTeamPlayers, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_team_players"))
+	if !createdTeamPlayers {
+		// リーグ文字列の配列
+		leagues := []string{"b", "bs", "c", "d", "db", "e", "f", "g", "h", "l", "m", "s", "t"}
+
+		for _, league := range leagues {
+			teamInteractor.InsertTeamPlayers(csvPath, league)
+		}
+
+		syastemRepository.SetSystemSetting("created_team_players", "true")
+	}
+
+	years := makeRange(2005, 2021)
 
 	// チーム成績をDBに登録する
 	createdTeamStats, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_team_stats"))
@@ -170,8 +186,6 @@ func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 	years := []string{"2020", "2021", "2022"}
 	for _, year := range years {
 		players := gradesInteractor.GetPlayers(csvPath, initial, year)
-
-		gradesInteractor.InsertTeamPlayers(initial, players, year)
 
 		careers := gradesInteractor.ReadCareers(csvPath, initial, players)
 

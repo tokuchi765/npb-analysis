@@ -157,19 +157,18 @@ func (mr *MockGradesReaderMockRecorder) GetPlayers(csvPath, initial, year interf
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPlayers", reflect.TypeOf((*MockGradesReader)(nil).GetPlayers), csvPath, initial, year)
 }
 
-// ReadCareer mocks base method.
-func (m *MockGradesReader) ReadCareer(csvPath, initial, playerID, playerName string) (player.CAREER, bool) {
+// ReadCareers mocks base method.
+func (m *MockGradesReader) ReadCareers(csvPath string) []player.CAREER {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadCareer", csvPath, initial, playerID, playerName)
-	ret0, _ := ret[0].(player.CAREER)
-	ret1, _ := ret[1].(bool)
-	return ret0, ret1
+	ret := m.ctrl.Call(m, "ReadCareers", csvPath)
+	ret0, _ := ret[0].([]player.CAREER)
+	return ret0
 }
 
-// ReadCareer indicates an expected call of ReadCareer.
-func (mr *MockGradesReaderMockRecorder) ReadCareer(csvPath, initial, playerID, playerName interface{}) *gomock.Call {
+// ReadCareers indicates an expected call of ReadCareers.
+func (mr *MockGradesReaderMockRecorder) ReadCareers(csvPath interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadCareer", reflect.TypeOf((*MockGradesReader)(nil).ReadCareer), csvPath, initial, playerID, playerName)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadCareers", reflect.TypeOf((*MockGradesReader)(nil).ReadCareers), csvPath)
 }
 
 // ReadGrades mocks base method.

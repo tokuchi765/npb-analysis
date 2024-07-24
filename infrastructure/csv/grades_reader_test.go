@@ -6,7 +6,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/tokuchi765/npb-analysis/entity/player"
-	data "github.com/tokuchi765/npb-analysis/entity/player"
 )
 
 func TestGradesReader_GetPlayers(t *testing.T) {
@@ -41,48 +40,6 @@ func TestGradesReader_GetPlayers(t *testing.T) {
 	}
 }
 
-func TestGradesReader_ReadCareer(t *testing.T) {
-	type args struct {
-		initial    string
-		playerID   string
-		playerName string
-	}
-	tests := []struct {
-		name       string
-		args       args
-		wantCareer data.CAREER
-	}{
-		{
-			"選手成績読み込み",
-			args{
-				initial:    "b",
-				playerID:   "01105137",
-				playerName: "飯田　優也",
-			},
-			data.CAREER{
-				PlayerID:           "01105137",
-				Name:               "飯田　優也",
-				Position:           "投手",
-				PitchingAndBatting: "左投左打",
-				Height:             "187cm",
-				Weight:             "92kg",
-				Birthday:           "1990年11月27日",
-				Career:             "神戸弘陵高 - 東京農業大生産学部",
-				Draft:              "2012年育成選手ドラフト3位",
-			},
-		},
-	}
-	runtimeCurrent, _ := filepath.Abs("../../")
-	gradesReader := new(GradesReader)
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			actual, exsist := gradesReader.ReadCareer(runtimeCurrent+"/test/resource", tt.args.initial, tt.args.playerID, tt.args.playerName)
-			assert.Exactly(t, tt.wantCareer, actual)
-			assert.Equal(t, true, exsist)
-		})
-	}
-}
-
 func TestGradesReader_ReadGrades(t *testing.T) {
 	type args struct {
 		initial    string
@@ -92,8 +49,8 @@ func TestGradesReader_ReadGrades(t *testing.T) {
 	tests := []struct {
 		name                 string
 		args                 args
-		wantPicherGradesList []data.PICHERGRADES
-		wantBatterGradesList []data.BATTERGRADES
+		wantPicherGradesList []player.PICHERGRADES
+		wantBatterGradesList []player.BATTERGRADES
 		wantExsist           bool
 	}{
 		{
@@ -103,7 +60,7 @@ func TestGradesReader_ReadGrades(t *testing.T) {
 				"53355134",
 				"山本　由伸",
 			},
-			[]data.PICHERGRADES{getTestPicherGrades()},
+			[]player.PICHERGRADES{getTestPicherGrades()},
 			[]player.BATTERGRADES(nil),
 			true,
 		},
@@ -114,7 +71,7 @@ func TestGradesReader_ReadGrades(t *testing.T) {
 				"01605136",
 				"福田　周平",
 			},
-			[]data.PICHERGRADES(nil),
+			[]player.PICHERGRADES(nil),
 			[]player.BATTERGRADES{getTestBatterGrades()},
 			true,
 		},
@@ -131,8 +88,8 @@ func TestGradesReader_ReadGrades(t *testing.T) {
 	}
 }
 
-func getTestPicherGrades() data.PICHERGRADES {
-	return data.PICHERGRADES{
+func getTestPicherGrades() player.PICHERGRADES {
+	return player.PICHERGRADES{
 		Year:             "2018",
 		TeamID:           "12",
 		Team:             "オリックス",
@@ -161,8 +118,8 @@ func getTestPicherGrades() data.PICHERGRADES {
 	}
 }
 
-func getTestBatterGrades() data.BATTERGRADES {
-	return data.BATTERGRADES{
+func getTestBatterGrades() player.BATTERGRADES {
+	return player.BATTERGRADES{
 		Year:                   "2018",
 		TeamID:                 "12",
 		Team:                   "オリックス",
@@ -189,5 +146,48 @@ func getTestBatterGrades() data.BATTERGRADES {
 		SluggingPercentage:     0.32899999999999996,
 		OnBasePercentage:       0.34,
 		Woba:                   0.0,
+	}
+}
+
+func TestGradesReader_ReadCareers(t *testing.T) {
+	tests := []struct {
+		name        string
+		wantCareers []player.CAREER
+	}{
+		{
+			"",
+			[]player.CAREER{
+				{
+					PlayerID:           "01005112",
+					Name:               "田中 靖洋",
+					Position:           "",
+					PitchingAndBatting: "右投右打",
+					Height:             "183cm",
+					Weight:             "88kg",
+					Birthday:           "1987年6月21日",
+					Career:             "加賀高",
+					Draft:              "2005年高校生ドラフト4巡目",
+				},
+				{
+					PlayerID:           "01005130",
+					Name:               "高濱 祐仁",
+					Position:           "外野手",
+					PitchingAndBatting: "右投右打",
+					Height:             "185cm",
+					Weight:             "88kg",
+					Birthday:           "1996年8月8日",
+					Career:             "横浜高",
+					Draft:              "2014年ドラフト7位",
+				},
+			},
+		},
+	}
+	runtimeCurrent, _ := filepath.Abs("../../")
+	gradesReader := new(GradesReader)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			actual := gradesReader.ReadCareers(runtimeCurrent + "/test/resource")
+			assert.ElementsMatch(t, tt.wantCareers, actual)
+		})
 	}
 }

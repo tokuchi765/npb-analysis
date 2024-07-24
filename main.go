@@ -40,6 +40,13 @@ func main() {
 	current, _ := os.Getwd()
 	csvPath := current + "/" + "csv"
 
+	// 選手キャリア情報をDBに登録する
+	createdPlayerCareers, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_player_careers"))
+	if !createdPlayerCareers {
+		gradesInteractor.InsertCareers(csvPath)
+		syastemRepository.SetSystemSetting("created_player_careers", "true")
+	}
+
 	// プレイヤーの成績をDBに登録する
 	createdGades, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_player_grades"))
 	if !createdGades {
@@ -186,12 +193,6 @@ func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 	years := []string{"2020", "2021", "2022"}
 	for _, year := range years {
 		players := gradesInteractor.GetPlayers(csvPath, initial, year)
-
-		careers := gradesInteractor.ReadCareers(csvPath, initial, players)
-
-		gradesInteractor.ExtractionCareers(&careers)
-
-		gradesInteractor.InsertCareers(careers)
 
 		picherMap, batterMap := gradesInteractor.ReadGradesMap(csvPath, initial, players)
 

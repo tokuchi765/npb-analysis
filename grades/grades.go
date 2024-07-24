@@ -47,29 +47,13 @@ func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string, y
 	return Interactor.GradesReader.GetPlayers(csvPath, initial, year)
 }
 
-// ReadCareers 引数で受け取った選手リストをもとに、経歴をまとめたデータクラスのリストを返す
-func (Interactor *GradesInteractor) ReadCareers(csvPath string, initial string, players [][]string) (careerList []data.CAREER) {
-	for _, player := range players {
-		id := extractionPlayerID(player[0])
-		career, exists := Interactor.GradesReader.ReadCareer(csvPath, initial, id, player[1])
-		if exists {
-			careerList = append(careerList, career)
-		}
-	}
-	return careerList
-}
-
 func extractionPlayerID(url string) string {
 	return strings.Replace(strings.Replace(url, "/bis/players/", "", 1), ".html", "", 1)
 }
 
-// ExtractionCareers 引数で受け取ったCAREERリストから重複選手を除外する
-func (Interactor *GradesInteractor) ExtractionCareers(careers *[]data.CAREER) {
-	Interactor.GradesRepository.ExtractionCareers(careers)
-}
-
 // InsertCareers 引数で受け取った CAREER をDBへ登録する
-func (Interactor *GradesInteractor) InsertCareers(careers []data.CAREER) {
+func (Interactor *GradesInteractor) InsertCareers(csvPath string) {
+	careers := Interactor.GradesReader.ReadCareers(csvPath)
 	Interactor.GradesRepository.InsertCareers(careers)
 }
 

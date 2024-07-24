@@ -198,49 +198,6 @@ func TestGradesRepository_InsertCareers_GetCareer(t *testing.T) {
 	}
 }
 
-func TestGradesRepository_ExtractionCareers(t *testing.T) {
-	type args struct {
-		careers []data.CAREER
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"重複Careerを削除",
-			args{
-				[]data.CAREER{
-					{
-						PlayerID:           "01105137",
-						Name:               "飯田　優也",
-						Position:           "投手",
-						PitchingAndBatting: "左投左打",
-						Height:             "187cm",
-						Weight:             "92kg",
-						Birthday:           "1990年11月27日",
-						Career:             "神戸弘陵高 - 東京農業大生産学部",
-						Draft:              "2012年育成選手ドラフト3位",
-						SearchName:         "飯田優也",
-					},
-				},
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
-			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertCareers(tt.args.careers)
-			repository.ExtractionCareers(&tt.args.careers)
-			assert.Empty(t, tt.args.careers)
-		})
-	}
-}
-
 func TestGradesRepository_ExtractionPicherGrades(t *testing.T) {
 	type args struct {
 		picherMap map[string][]data.PICHERGRADES

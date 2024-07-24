@@ -96,18 +96,6 @@ func (mr *MockGradesRepositoryMockRecorder) ExtractionBatterGrades(batterMap, te
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExtractionBatterGrades", reflect.TypeOf((*MockGradesRepository)(nil).ExtractionBatterGrades), batterMap, teamID)
 }
 
-// ExtractionCareers mocks base method.
-func (m *MockGradesRepository) ExtractionCareers(careers *[]player.CAREER) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "ExtractionCareers", careers)
-}
-
-// ExtractionCareers indicates an expected call of ExtractionCareers.
-func (mr *MockGradesRepositoryMockRecorder) ExtractionCareers(careers interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExtractionCareers", reflect.TypeOf((*MockGradesRepository)(nil).ExtractionCareers), careers)
-}
-
 // ExtractionPicherGrades mocks base method.
 func (m *MockGradesRepository) ExtractionPicherGrades(picherMap *map[string][]player.PICHERGRADES, teamID string) {
 	m.ctrl.T.Helper()

@@ -104,36 +104,6 @@ func extractionPlayerID(url string) string {
 	return strings.Replace(strings.Replace(url, "/bis/players/", "", 1), ".html", "", 1)
 }
 
-// ExtractionCareers 引数で受け取ったCAREERリストから重複選手を除外する
-func (Repository *GradesRepository) ExtractionCareers(careers *[]data.CAREER) {
-	rows, err := Repository.Conn.Query("SELECT * FROM players")
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var selectCareer data.CAREER
-		rows.Scan(&selectCareer.PlayerID, &selectCareer.Name, &selectCareer.Position,
-			&selectCareer.PitchingAndBatting, &selectCareer.Height, &selectCareer.Weight,
-			&selectCareer.Birthday, &selectCareer.Draft, &selectCareer.Career, &selectCareer.SearchName)
-		for index, career := range *careers {
-			if career.PlayerID == selectCareer.PlayerID {
-				*careers = unset(*careers, index)
-			}
-		}
-	}
-}
-
-func unset(s []data.CAREER, i int) []data.CAREER {
-	if i >= len(s) {
-		return s
-	}
-	return append(s[:i], s[i+1:]...)
-}
-
 // InsertCareers 引数で受け取った CAREER をDBへ登録する
 func (Repository *GradesRepository) InsertCareers(careers []data.CAREER) {
 	stmt, err := Repository.Conn.Prepare("INSERT INTO players(player_id, name, position, pitching_and_batting, height, weight, birthday, draft, career, search_name) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)")

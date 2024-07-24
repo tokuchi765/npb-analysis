@@ -15,8 +15,9 @@ type TeamReader interface {
 	ReadTeamPlayers(csvPath string, initial string, teamName string) (players map[string][]team.Member)
 }
 
+// GradesReader 選手情報CSVの読み込みを管理する
 type GradesReader interface {
 	GetPlayers(csvPath string, initial string, year string) (players [][]string)
-	ReadCareer(csvPath string, initial string, playerID string, playerName string) (career player.CAREER, exsist bool)
+	ReadCareers(csvPath string) (careers []player.CAREER)
 	ReadGrades(csvPath string, initial string, playerID string, playerName string) (picherGradesList []player.PICHERGRADES, batterGradesList []player.BATTERGRADES, exsist bool)
 }

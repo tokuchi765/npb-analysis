@@ -12,71 +12,9 @@ import (
 	mock_repository "github.com/tokuchi765/npb-analysis/interfaces/repository/mock"
 )
 
-func TestGradesInteractor_TestReadCareers(t *testing.T) {
-	career := data.CAREER{
-		PlayerID:           "01105137",
-		Name:               "飯田　優也",
-		Position:           "投手",
-		PitchingAndBatting: "左投左打",
-		Height:             "187cm",
-		Weight:             "92kg",
-		Birthday:           "1990年11月27日",
-		Career:             "神戸弘陵高 - 東京農業大生産学部",
-		Draft:              "2012年育成選手ドラフト3位",
-	}
-	type args struct {
-		initial    string
-		player     string
-		id         string
-		playerName string
-		players    [][]string
-		career     data.CAREER
-	}
-	tests := []struct {
-		name           string
-		args           args
-		wantCareerList []data.CAREER
-	}{
-		{
-			"選手成績読み込み",
-			args{
-				initial:    "b",
-				player:     "/bis/players/01105137.html",
-				id:         "01105137",
-				playerName: "飯田　優也",
-				players: [][]string{
-					{"/bis/players/01105137.html", "飯田　優也"},
-				},
-				career: career,
-			},
-			[]data.CAREER{career},
-		},
-	}
-
-	mockCtrl := gomock.NewController(t)
-	defer mockCtrl.Finish()
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-
-			mGradesReader := mock_reader.NewMockGradesReader(mockCtrl)
-
-			csvPath := "csvPath"
-			mGradesReader.EXPECT().ReadCareer(csvPath, tt.args.initial, tt.args.id, tt.args.playerName).Return(tt.args.career, true)
-
-			interactor := GradesInteractor{
-				GradesReader: mGradesReader,
-			}
-
-			actual := interactor.ReadCareers(csvPath, tt.args.initial, tt.args.players)
-
-			assert.ElementsMatch(t, tt.wantCareerList, actual)
-		})
-	}
-}
-
 func TestInsertCareers(t *testing.T) {
 	type args struct {
+		csvPath string
 		careers []data.CAREER
 	}
 	tests := []struct {
@@ -86,6 +24,7 @@ func TestInsertCareers(t *testing.T) {
 		{
 			"選手成績登録",
 			args{
+				"csvPath",
 				[]data.CAREER{
 					{
 						PlayerID:           "01105137",
@@ -113,13 +52,15 @@ func TestInsertCareers(t *testing.T) {
 
 			mGradesRepository.EXPECT().InsertCareers(tt.args.careers)
 
-			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+			mGradesReader := mock_reader.NewMockGradesReader(mockCtrl)
+
+			mGradesReader.EXPECT().ReadCareers(tt.args.csvPath).Return(tt.args.careers)
 
 			interactor := GradesInteractor{
 				GradesRepository: mGradesRepository,
-				TeamRepository:   mTeamRepository,
+				GradesReader:     mGradesReader,
 			}
-			interactor.InsertCareers(tt.args.careers)
+			interactor.InsertCareers(tt.args.csvPath)
 		})
 	}
 }
@@ -521,55 +462,6 @@ func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 
 			gotPlayers := interactor.GetPlayers(csvPath, tt.args.initial, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
-		})
-	}
-}
-
-func TestExtractionCareers(t *testing.T) {
-	type args struct {
-		careers []data.CAREER
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"重複Careerを削除",
-			args{
-				[]data.CAREER{
-					{
-						PlayerID:           "01105137",
-						Name:               "飯田　優也",
-						Position:           "投手",
-						PitchingAndBatting: "左投左打",
-						Height:             "187cm",
-						Weight:             "92kg",
-						Birthday:           "1990年11月27日",
-						Career:             "神戸弘陵高 - 東京農業大生産学部",
-						Draft:              "2012年育成選手ドラフト3位",
-					},
-				},
-			},
-		},
-	}
-
-	mockCtrl := gomock.NewController(t)
-	defer mockCtrl.Finish()
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
-
-			mGradesRepository.EXPECT().ExtractionCareers(&tt.args.careers)
-
-			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
-
-			interactor := GradesInteractor{
-				GradesRepository: mGradesRepository,
-				TeamRepository:   mTeamRepository,
-			}
-
-			interactor.ExtractionCareers(&tt.args.careers)
 		})
 	}
 }

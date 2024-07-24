@@ -42,42 +42,33 @@ func (GradesReader *GradesReader) GetPlayers(csvPath string, initial string, yea
 	return players
 }
 
-// ReadCareer 引数で受け取ったチームイニシャル、プレイヤーID、プレイヤー名を元にCSVを読み込む
-func (GradesReader *GradesReader) ReadCareer(csvPath string, initial string, playerID string, playerName string) (career data.CAREER, exsist bool) {
-	url := csvPath + "/players/" + initial + "/careers/" + playerID + "_" + playerName + "_career.csv"
+// ReadCareers 選手キャリア情報を取得します
+func (GradesReader *GradesReader) ReadCareers(csvPath string) (careers []data.CAREER) {
+	pathes := getAllFilePathes(csvPath + "/players/careers")
 
-	exsist = exists(url)
-	if !exsist {
-		return career, exsist
-	}
+	for _, path := range pathes {
+		file, err := os.Open(path)
 
-	// バイト列を読み込む
-	file, err := os.Open(url)
-	if err != nil {
-		log.Print(err)
-	}
-	// 	終わったらファイルを閉じる
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-	var lines []string
-
-	// ヘッダーを取得
-	_, err = reader.Read()
-	if err != nil {
-		log.Print(err)
-	}
-
-	for {
-		line, err := reader.Read()
 		if err != nil {
-			break
+			log.Print(err)
 		}
 
-		lines = append(lines, line[2])
+		reader := csv.NewReader(file)
+
+		_, _ = reader.Read()
+		var lines []string
+		for {
+			line, err := reader.Read()
+			if err != nil {
+				break
+			}
+
+			lines = append(lines, line[2])
+		}
+		careers = append(careers, setCareer(lines))
 	}
 
-	return setCareer(lines), exsist
+	return careers
 }
 
 func setCareer(line []string) (career data.CAREER) {
@@ -86,10 +77,10 @@ func setCareer(line []string) (career data.CAREER) {
 	career.Position = line[0]
 	career.PitchingAndBatting = line[1]
 	career.Height = line[2]
-	career.Weight = line[6]
-	career.Birthday = line[3]
-	career.Career = line[4]
-	career.Draft = line[5]
+	career.Weight = line[3]
+	career.Birthday = line[4]
+	career.Career = line[5]
+	career.Draft = line[6]
 
 	return career
 }

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 
 	data "github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/util"
@@ -85,6 +86,38 @@ func setCareer(line []string) (career data.CAREER) {
 	return career
 }
 
+// ReadBatterGrades 選手打撃情報CSVを読み込みます
+func (GradesReader *GradesReader) ReadBatterGrades(csvPath string) (batterGrades map[string][]data.BATTERGRADES) {
+	batterGrades = make(map[string][]data.BATTERGRADES)
+	pathes := getAllFilePathes(csvPath + "/players/batting_grades")
+
+	for _, path := range pathes {
+		file, err := os.Open(path)
+
+		if err != nil {
+			log.Print(err)
+		}
+
+		reader := csv.NewReader(file)
+
+		var batterGradesList []data.BATTERGRADES
+
+		_, _ = reader.Read()
+		for {
+			line, err := reader.Read()
+			if err != nil {
+				break
+			}
+
+			batterGradesList = append(batterGradesList, GradesReader.setBatterGrades(line))
+		}
+		id := extractionPlayerID(file.Name())
+		batterGrades[id] = batterGradesList
+	}
+
+	return batterGrades
+}
+
 // ReadGrades 引数で受け取ったチームイニシャル、プレイヤーID、プレイヤー名を元に個人成績CSVを読み込む
 func (GradesReader *GradesReader) ReadGrades(csvPath string, initial string, playerID string, playerName string) (picherGradesList []data.PICHERGRADES, batterGradesList []data.BATTERGRADES, exsist bool) {
 	url := csvPath + "/players/" + initial + "/grades/" + playerID + "_" + playerName + "_grades.csv"
@@ -157,7 +190,7 @@ func (GradesReader *GradesReader) setPicherGrades(line []string) (grades data.PI
 }
 
 func (GradesReader *GradesReader) setBatterGrades(line []string) (grades data.BATTERGRADES) {
-	grades.Year = line[1]
+	grades.Year = strings.Replace(line[1], ".0", "", -1)
 	grades.TeamID = GradesReader.TeamUtil.GetTeamID(line[2])
 	grades.Team = line[2]
 	grades.Games, _ = strconv.Atoi(line[3])

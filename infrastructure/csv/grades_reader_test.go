@@ -6,6 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/tokuchi765/npb-analysis/entity/player"
+	data "github.com/tokuchi765/npb-analysis/entity/player"
 )
 
 func TestGradesReader_GetPlayers(t *testing.T) {
@@ -155,7 +156,7 @@ func TestGradesReader_ReadCareers(t *testing.T) {
 		wantCareers []player.CAREER
 	}{
 		{
-			"",
+			"選手キャリアCSV読み込み",
 			[]player.CAREER{
 				{
 					PlayerID:           "01005112",
@@ -188,6 +189,31 @@ func TestGradesReader_ReadCareers(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			actual := gradesReader.ReadCareers(runtimeCurrent + "/test/resource")
 			assert.ElementsMatch(t, tt.wantCareers, actual)
+		})
+	}
+}
+
+func TestGradesReader_ReadBatterGrades(t *testing.T) {
+	tests := []struct {
+		name             string
+		wantBatterGrades map[string][]data.BATTERGRADES
+	}{
+		{
+			"選手打撃CSV読み込み",
+			map[string][]data.BATTERGRADES{
+				"11015135": {
+					{Year: "2021", TeamID: "08", Team: "福岡ソフトバンク", Games: 34, PlateAppearance: 116, AtBat: 105, Score: 11, Hit: 19, Double: 4, Triple: 1, HomeRun: 7, BaseHit: 44, RunsBattedIn: 20, StolenBase: 4, CaughtStealing: 1, SacrificeHits: 0, SacrificeFlies: 3, BaseOnBalls: 6, HitByPitches: 2, StrikeOut: 38, GroundedIntoDoublePlay: 1, BattingAverage: 0.181, SluggingPercentage: 0.419, OnBasePercentage: 0.233},
+					{Year: "nan", TeamID: "13", Team: "通　算", Games: 94, PlateAppearance: 283, AtBat: 260, Score: 20, Hit: 43, Double: 9, Triple: 0, HomeRun: 10, BaseHit: 82, RunsBattedIn: 27, StolenBase: 0, CaughtStealing: 0, SacrificeHits: 0, SacrificeFlies: 3, BaseOnBalls: 15, HitByPitches: 5, StrikeOut: 104, GroundedIntoDoublePlay: 5, BattingAverage: 0.165, SluggingPercentage: 0.315, OnBasePercentage: 0.223},
+				},
+			},
+		},
+	}
+	runtimeCurrent, _ := filepath.Abs("../../")
+	gradesReader := new(GradesReader)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			actual := gradesReader.ReadBatterGrades(runtimeCurrent + "/test/resource")
+			assert.Equal(t, tt.wantBatterGrades, actual)
 		})
 	}
 }

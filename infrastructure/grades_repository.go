@@ -156,28 +156,6 @@ func (Repository *GradesRepository) InsertPicherGrades(key string, picher data.P
 	}
 }
 
-// ExtractionBatterGrades 引数で受け取ったBATTERGRADESリストから重複選手を除外する
-func (Repository *GradesRepository) ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID string) {
-	rows, err := Repository.Conn.Query("SELECT DISTINCT player_id FROM batter_grades where team_id = $1", teamID)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	for rows.Next() {
-		var playerID string
-		rows.Scan(&playerID)
-
-		for key := range *batterMap {
-			if key == playerID {
-				delete(*batterMap, key)
-			}
-		}
-	}
-
-	rows.Close()
-}
-
 // InsertBatterGrades 引数で受け取ったBATTERGRADESをDBに登録する
 func (Repository *GradesRepository) InsertBatterGrades(playerID string, batterGrades data.BATTERGRADES) {
 	stmt, err := Repository.Conn.Prepare("INSERT INTO batter_grades(player_id, year, team_id, team, games, plate_appearance, at_bat, score, hit, single, double, triple, home_run, base_hit, runs_batted_in, stolen_base, caught_stealing, sacrifice_hits, sacrifice_flies, base_on_balls, hit_by_pitches, strike_out, strike_out_rate, grounded_into_double_play, batting_average, slugging_percentage, on_base_percentage, w_oba, rc, babip) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30)")

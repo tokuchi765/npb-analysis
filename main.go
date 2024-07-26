@@ -47,6 +47,13 @@ func main() {
 		syastemRepository.SetSystemSetting("created_player_careers", "true")
 	}
 
+	// 選手打撃情報をDBに登録する
+	createdPlayerBattings, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_player_battings"))
+	if !createdPlayerBattings {
+		gradesInteractor.InsertBatterGrades(current)
+		syastemRepository.SetSystemSetting("created_player_battings", "true")
+	}
+
 	// プレイヤーの成績をDBに登録する
 	createdGades, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_player_grades"))
 	if !createdGades {
@@ -194,14 +201,10 @@ func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
 	for _, year := range years {
 		players := gradesInteractor.GetPlayers(csvPath, initial, year)
 
-		picherMap, batterMap := gradesInteractor.ReadGradesMap(csvPath, initial, players)
+		picherMap, _ := gradesInteractor.ReadGradesMap(csvPath, initial, players)
 
 		gradesInteractor.ExtractionPicherGrades(&picherMap, gradesInteractor.TeamUtil.GetTeamID(initial))
 
 		gradesInteractor.InsertPicherGrades(picherMap)
-
-		gradesInteractor.ExtractionBatterGrades(&batterMap, gradesInteractor.TeamUtil.GetTeamID(initial))
-
-		gradesInteractor.InsertBatterGrades(batterMap, current)
 	}
 }

@@ -320,14 +320,16 @@ func TestInsertBatterGrades(t *testing.T) {
 
 			mGradesRepository.EXPECT().InsertBatterGrades(tt.args.playerID, gomock.Any())
 
-			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+			mGradesReader := mock_reader.NewMockGradesReader(mockCtrl)
+
+			mGradesReader.EXPECT().ReadBatterGrades(gomock.Any()).Return(tt.args.batterMap)
 
 			interactor := GradesInteractor{
 				GradesRepository: mGradesRepository,
-				TeamRepository:   mTeamRepository,
+				GradesReader:     mGradesReader,
 			}
 			runtimeCurrent, _ := filepath.Abs("../")
-			interactor.InsertBatterGrades(tt.args.batterMap, runtimeCurrent)
+			interactor.InsertBatterGrades(runtimeCurrent)
 		})
 	}
 }
@@ -505,49 +507,6 @@ func TestExtractionPicherGrades(t *testing.T) {
 			}
 
 			interactor.ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
-		})
-	}
-}
-
-func TestExtractionBatterGrades(t *testing.T) {
-	playerID := "01605136"
-	batterMap := make(map[string][]data.BATTERGRADES)
-	grades := getTestBatterGrades()
-	batterMap[playerID] = []data.BATTERGRADES{grades}
-	type args struct {
-		batterMap map[string][]data.BATTERGRADES
-		teamID    string
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"重複打撃成績を削除する",
-			args{
-				batterMap,
-				"12",
-			},
-		},
-	}
-
-	mockCtrl := gomock.NewController(t)
-	defer mockCtrl.Finish()
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
-
-			mGradesRepository.EXPECT().ExtractionBatterGrades(&tt.args.batterMap, tt.args.teamID)
-
-			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
-
-			interactor := GradesInteractor{
-				GradesRepository: mGradesRepository,
-				TeamRepository:   mTeamRepository,
-			}
-
-			interactor.ExtractionBatterGrades(&tt.args.batterMap, tt.args.teamID)
 		})
 	}
 }

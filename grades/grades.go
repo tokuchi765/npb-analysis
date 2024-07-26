@@ -93,17 +93,14 @@ func (Interactor *GradesInteractor) InsertPicherGrades(picherMap map[string][]da
 	}
 }
 
-// ExtractionBatterGrades 引数で受け取ったBATTERGRADESリストから重複選手を除外する
-func (Interactor *GradesInteractor) ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID string) {
-	Interactor.GradesRepository.ExtractionBatterGrades(batterMap, teamID)
-}
+// InsertBatterGrades 選手打撃成績をDBに登録します
+func (Interactor *GradesInteractor) InsertBatterGrades(current string) {
+	batterGrades := Interactor.GradesReader.ReadBatterGrades(current + "/csv")
 
-// InsertBatterGrades 引数で受け取ったBATTERGRADESをDBに登録する
-func (Interactor *GradesInteractor) InsertBatterGrades(batterMap map[string][]data.BATTERGRADES, current string) {
 	// 加重出塁率の計算に必要なconfigファイルを読み込む
 	config, _ := loadConfig(current)
 
-	for key, value := range batterMap {
+	for key, value := range batterGrades {
 		for _, batter := range value {
 			setSingle(&batter)
 			setWoba(&batter, config)

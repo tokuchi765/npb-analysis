@@ -232,46 +232,6 @@ func TestGradesRepository_ExtractionPicherGrades(t *testing.T) {
 	}
 }
 
-func TestGradesRepository_ExtractionBatterGrades(t *testing.T) {
-	batter := createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3)
-	prayerID := "01605136"
-	type args struct {
-		prayerID string
-		batter   data.BATTERGRADES
-		teamID   string
-	}
-	tests := []struct {
-		name      string
-		args      args
-		batterMap map[string][]data.BATTERGRADES
-	}{
-		{
-			"重複打撃成績を削除する",
-			args{
-				prayerID,
-				batter,
-				"12",
-			},
-			map[string][]data.BATTERGRADES{
-				prayerID: {batter},
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
-			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertBatterGrades(tt.args.prayerID, tt.args.batter)
-			repository.ExtractionBatterGrades(&tt.batterMap, tt.args.teamID)
-			assert.Empty(t, tt.batterMap)
-		})
-	}
-}
-
 func TestGradesRepository_SearchCareerByName(t *testing.T) {
 	type args struct {
 		name    string

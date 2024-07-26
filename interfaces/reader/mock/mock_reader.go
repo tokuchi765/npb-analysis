@@ -157,6 +157,20 @@ func (mr *MockGradesReaderMockRecorder) GetPlayers(csvPath, initial, year interf
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPlayers", reflect.TypeOf((*MockGradesReader)(nil).GetPlayers), csvPath, initial, year)
 }
 
+// ReadBatterGrades mocks base method.
+func (m *MockGradesReader) ReadBatterGrades(csvPath string) map[string][]player.BATTERGRADES {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReadBatterGrades", csvPath)
+	ret0, _ := ret[0].(map[string][]player.BATTERGRADES)
+	return ret0
+}
+
+// ReadBatterGrades indicates an expected call of ReadBatterGrades.
+func (mr *MockGradesReaderMockRecorder) ReadBatterGrades(csvPath interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadBatterGrades", reflect.TypeOf((*MockGradesReader)(nil).ReadBatterGrades), csvPath)
+}
+
 // ReadCareers mocks base method.
 func (m *MockGradesReader) ReadCareers(csvPath string) []player.CAREER {
 	m.ctrl.T.Helper()

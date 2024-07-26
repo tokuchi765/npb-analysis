@@ -20,4 +20,5 @@ type GradesReader interface {
 	GetPlayers(csvPath string, initial string, year string) (players [][]string)
 	ReadCareers(csvPath string) (careers []player.CAREER)
 	ReadGrades(csvPath string, initial string, playerID string, playerName string) (picherGradesList []player.PICHERGRADES, batterGradesList []player.BATTERGRADES, exsist bool)
+	ReadBatterGrades(csvPath string) (batterGrades map[string][]player.BATTERGRADES)
 }

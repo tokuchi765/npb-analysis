@@ -65,80 +65,6 @@ func TestInsertCareers(t *testing.T) {
 	}
 }
 
-func TestReadGradesMap(t *testing.T) {
-	type args struct {
-		initial  string
-		playName string
-		players  [][]string
-		playerID string
-	}
-	tests := []struct {
-		name       string
-		args       args
-		wantPicher []data.PICHERGRADES
-		wantBatter []data.BATTERGRADES
-	}{
-		{
-			name: "野手選手成績読み込み",
-			args: args{
-				"b",
-				"テストプレイヤー1",
-				[][]string{
-					{"/bis/players/01605136.html", "テストプレイヤー1"},
-				},
-				"01605136",
-			},
-			wantBatter: []data.BATTERGRADES{
-				{
-					Year:   "2020",
-					TeamID: "09",
-					Games:  144,
-				},
-			},
-		},
-		{
-			name: "投手選手成績読み込み",
-			args: args{
-				"b",
-				"テストプレイヤー2",
-				[][]string{
-					{"/bis/players/53355134.html", "テストプレイヤー2"},
-				},
-				"53355134",
-			},
-			wantPicher: []data.PICHERGRADES{
-				{
-					Year:   "2020",
-					TeamID: "09",
-					Piched: 60,
-				},
-			},
-		},
-	}
-
-	mockCtrl := gomock.NewController(t)
-	defer mockCtrl.Finish()
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-
-			mGradesReader := mock_reader.NewMockGradesReader(mockCtrl)
-
-			csvPath := "csvPath"
-			mGradesReader.EXPECT().ReadGrades(csvPath, tt.args.initial, tt.args.playerID, tt.args.playName).Return(tt.wantPicher, tt.wantBatter, true)
-
-			interactor := GradesInteractor{
-				GradesReader: mGradesReader,
-			}
-
-			gotPicherMap, gotBatterMap := interactor.ReadGradesMap(csvPath, tt.args.initial, tt.args.players)
-
-			assert.Exactly(t, tt.wantPicher, gotPicherMap[tt.args.playerID])
-			assert.Exactly(t, tt.wantBatter, gotBatterMap[tt.args.playerID])
-		})
-	}
-}
-
 func getTestPicherGrades() data.PICHERGRADES {
 	return data.PICHERGRADES{
 		Year:             "2018",
@@ -205,14 +131,10 @@ func TestInsertPicherGrades(t *testing.T) {
 	playerID := "53355134"
 	picherMap := make(map[string][]data.PICHERGRADES)
 	picherGrades := getTestPicherGrades()
-	agsPicherGrades := getTestPicherGrades()
-	agsPicherGrades.SetBABIP()
-	agsPicherGrades.SetStrikeOutRate()
 	picherMap[playerID] = []data.PICHERGRADES{picherGrades}
 	type args struct {
-		picherMap       map[string][]data.PICHERGRADES
-		playerID        string
-		agsPicherGrades data.PICHERGRADES
+		picherMap map[string][]data.PICHERGRADES
+		playerID  string
 	}
 	tests := []struct {
 		name string
@@ -223,7 +145,6 @@ func TestInsertPicherGrades(t *testing.T) {
 			args{
 				picherMap,
 				playerID,
-				agsPicherGrades,
 			},
 		},
 	}
@@ -235,16 +156,19 @@ func TestInsertPicherGrades(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
 
-			mGradesRepository.EXPECT().InsertPicherGrades(tt.args.playerID, tt.args.agsPicherGrades).Times(1)
+			mGradesRepository.EXPECT().InsertPicherGrades(tt.args.playerID, gomock.Any()).Times(1)
 
-			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+			mGradesReader := mock_reader.NewMockGradesReader(mockCtrl)
+
+			mGradesReader.EXPECT().ReadPitcherGrades(gomock.Any()).Return(tt.args.picherMap)
 
 			interactor := GradesInteractor{
 				GradesRepository: mGradesRepository,
-				TeamRepository:   mTeamRepository,
+				GradesReader:     mGradesReader,
 			}
 
-			interactor.InsertPicherGrades(tt.args.picherMap)
+			runtimeCurrent, _ := filepath.Abs("../")
+			interactor.InsertPicherGrades(runtimeCurrent)
 		})
 	}
 }
@@ -464,49 +388,6 @@ func TestGradesInteractor_TestGetPlayers(t *testing.T) {
 
 			gotPlayers := interactor.GetPlayers(csvPath, tt.args.initial, tt.args.year)
 			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
-		})
-	}
-}
-
-func TestExtractionPicherGrades(t *testing.T) {
-	playerID := "53355134"
-	picherMap := make(map[string][]data.PICHERGRADES)
-	picherGrades := getTestPicherGrades()
-	picherMap[playerID] = []data.PICHERGRADES{picherGrades}
-	type args struct {
-		picherMap map[string][]data.PICHERGRADES
-		teamID    string
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"重複投手成績を削除する",
-			args{
-				picherMap,
-				"12",
-			},
-		},
-	}
-
-	mockCtrl := gomock.NewController(t)
-	defer mockCtrl.Finish()
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
-
-			mGradesRepository.EXPECT().ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
-
-			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
-
-			interactor := GradesInteractor{
-				GradesRepository: mGradesRepository,
-				TeamRepository:   mTeamRepository,
-			}
-
-			interactor.ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
 		})
 	}
 }

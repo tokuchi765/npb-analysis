@@ -54,17 +54,11 @@ func main() {
 		syastemRepository.SetSystemSetting("created_player_battings", "true")
 	}
 
-	// プレイヤーの成績をDBに登録する
-	createdGades, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_player_grades"))
-	if !createdGades {
-		// リーグ文字列の配列
-		leagues := []string{"b", "c", "d", "db", "e", "f", "g", "h", "l", "m", "s", "t"}
-
-		for _, league := range leagues {
-			setPlayerGrades(league, gradesInteractor)
-		}
-
-		syastemRepository.SetSystemSetting("created_player_grades", "true")
+	// 選手投手情報をDBに登録する
+	createdPlayerPitchings, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_player_pitchings"))
+	if !createdPlayerPitchings {
+		gradesInteractor.InsertPicherGrades(csvPath)
+		syastemRepository.SetSystemSetting("created_player_pitchings", "true")
 	}
 
 	// 選手一覧をDBに登録する
@@ -188,23 +182,4 @@ func setTeamStats(teamInteractor team.TeamInteractor, years []int) {
 	teamInteractor.InsertSeasonLeagueStats(csvPath, years)
 	teamInteractor.InsertSeasonMatchResults(csvPath, years)
 
-}
-
-func setPlayerGrades(initial string, gradesInteractor grades.GradesInteractor) {
-
-	current, _ := os.Getwd()
-
-	csvPath := current + "/csv"
-
-	// 2020~2021の選手一覧を取得する
-	years := []string{"2020", "2021", "2022"}
-	for _, year := range years {
-		players := gradesInteractor.GetPlayers(csvPath, initial, year)
-
-		picherMap, _ := gradesInteractor.ReadGradesMap(csvPath, initial, players)
-
-		gradesInteractor.ExtractionPicherGrades(&picherMap, gradesInteractor.TeamUtil.GetTeamID(initial))
-
-		gradesInteractor.InsertPicherGrades(picherMap)
-	}
 }

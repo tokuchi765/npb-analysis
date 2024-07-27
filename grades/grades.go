@@ -5,7 +5,6 @@ import (
 	"log"
 	"math"
 	"os"
-	"strings"
 
 	_ "github.com/lib/pq"
 	data "github.com/tokuchi765/npb-analysis/entity/player"
@@ -47,44 +46,17 @@ func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string, y
 	return Interactor.GradesReader.GetPlayers(csvPath, initial, year)
 }
 
-func extractionPlayerID(url string) string {
-	return strings.Replace(strings.Replace(url, "/bis/players/", "", 1), ".html", "", 1)
-}
-
 // InsertCareers 引数で受け取った CAREER をDBへ登録する
 func (Interactor *GradesInteractor) InsertCareers(csvPath string) {
 	careers := Interactor.GradesReader.ReadCareers(csvPath)
 	Interactor.GradesRepository.InsertCareers(careers)
 }
 
-// ReadGradesMap 引数のplayersに設定されている選手成績を読み込み、Mapにして返す
-func (Interactor *GradesInteractor) ReadGradesMap(csvPath string, initial string, players [][]string) (picherMap map[string][]data.PICHERGRADES, batterMap map[string][]data.BATTERGRADES) {
-	picherMap = make(map[string][]data.PICHERGRADES)
-	batterMap = make(map[string][]data.BATTERGRADES)
-	for _, player := range players {
-		id := strings.Replace(strings.Replace(player[0], "/bis/players/", "", 1), ".html", "", 1)
+// InsertPicherGrades 選手投手成績をDBに登録します
+func (Interactor *GradesInteractor) InsertPicherGrades(csvPath string) {
+	pitcherGrades := Interactor.GradesReader.ReadPitcherGrades(csvPath)
 
-		picherGrades, batterGrades, exist := Interactor.GradesReader.ReadGrades(csvPath, initial, id, player[1])
-
-		if exist {
-			if picherGrades != nil {
-				picherMap[id] = picherGrades
-			} else {
-				batterMap[id] = batterGrades
-			}
-		}
-	}
-	return picherMap, batterMap
-}
-
-// ExtractionPicherGrades 引数で受け取ったPICHERGRADESリストから重複選手を除外する
-func (Interactor *GradesInteractor) ExtractionPicherGrades(picherMap *map[string][]data.PICHERGRADES, teamID string) {
-	Interactor.GradesRepository.ExtractionPicherGrades(picherMap, teamID)
-}
-
-// InsertPicherGrades 引数で受け取ったPICHERGRADESをDBに登録する
-func (Interactor *GradesInteractor) InsertPicherGrades(picherMap map[string][]data.PICHERGRADES) {
-	for key, pichers := range picherMap {
+	for key, pichers := range pitcherGrades {
 		for _, picher := range pichers {
 			picher.SetBABIP()
 			picher.SetStrikeOutRate()

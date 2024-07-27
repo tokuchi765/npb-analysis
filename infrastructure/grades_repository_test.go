@@ -43,12 +43,6 @@ func TestGradesRepository_InsertPicherGrades_GetPitchings(t *testing.T) {
 	}
 }
 
-func createPicherGradesList() []data.PICHERGRADES {
-	return []data.PICHERGRADES{
-		createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3, 3.6),
-	}
-}
-
 func createPicherGrades(year string, teamID string, team string, piched float64, win float64, lose float64, save float64, hold float64, holdPoint float64, completeGame float64, shutout float64, noWalks float64, winningRate float64, batter float64, inningsPitched float64, hit float64, homeRun float64, baseOnBalls float64, hitByPitches float64, strikeOut float64, wildPitches float64, balk float64, runsAllowed float64, earnedRun float64, earnedRunAverage float64, babip float64, strikeOutRate float64) data.PICHERGRADES {
 	return data.PICHERGRADES{
 		Year:             year,
@@ -110,12 +104,6 @@ func TestGradesRepository_InsertBatterGrades_GetBattings(t *testing.T) {
 			actual := repository.GetBattings(tt.args.playerID)
 			assert.Equal(t, []data.BATTERGRADES{tt.args.batting}, actual)
 		})
-	}
-}
-
-func createBatterGradesList() []data.BATTERGRADES {
-	return []data.BATTERGRADES{
-		createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3),
 	}
 }
 
@@ -194,40 +182,6 @@ func TestGradesRepository_InsertCareers_GetCareer(t *testing.T) {
 			repository.InsertCareers(tt.args.careers)
 			actual := repository.GetCareer(tt.args.playerID)
 			assert.Exactly(t, tt.args.careers[0], actual)
-		})
-	}
-}
-
-func TestGradesRepository_ExtractionPicherGrades(t *testing.T) {
-	type args struct {
-		picherMap map[string][]data.PICHERGRADES
-		teamID    string
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"重複投手成績を削除する",
-			args{
-				map[string][]data.PICHERGRADES{
-					"53355134": createPicherGradesList(),
-				},
-				"01",
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
-			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertPicherGrades("53355134", createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3, 3.6))
-			repository.ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
-			assert.Empty(t, tt.args.picherMap)
 		})
 	}
 }

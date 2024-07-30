@@ -28,7 +28,7 @@ const teamNameList = [
   'Buffaloes',
 ];
 
-const years = ['2020', '2021', '2022'];
+const years = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
 export function getTeamId(teamName: string) {
   for (const index in teamNameList) {

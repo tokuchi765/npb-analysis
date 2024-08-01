@@ -55,6 +55,15 @@ func (picherGrades *PICHERGRADES) SetStrikeOutRate() {
 	}
 }
 
+// SetInningsPitched 投球回数を正確な数値に変換します
+func (picherGrades *PICHERGRADES) SetInningsPitched() {
+	int, frac := math.Modf(picherGrades.InningsPitched)
+	precision := 2
+	multiplier := math.Pow(10, float64(precision))
+	frac = math.Round(frac*multiplier) / multiplier
+	picherGrades.InningsPitched = float64(int) + frac*3.0
+}
+
 // BATTERGRADES 成績
 type BATTERGRADES struct {
 	Year                   string                 // 年度

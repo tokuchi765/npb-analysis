@@ -58,6 +58,7 @@ func (Interactor *GradesInteractor) InsertPicherGrades(csvPath string) {
 
 	for key, pichers := range pitcherGrades {
 		for _, picher := range pichers {
+			picher.SetInningsPitched()
 			picher.SetBABIP()
 			picher.SetStrikeOutRate()
 			Interactor.GradesRepository.InsertPicherGrades(key, picher)

@@ -81,7 +81,7 @@ func getTestPicherGrades() data.PICHERGRADES {
 		NoWalks:          0.0,
 		WinningRate:      0.667,
 		Batter:           213.0,
-		InningsPitched:   53.0,
+		InningsPitched:   53.1,
 		Hit:              40.0,
 		HomeRun:          4.0,
 		BaseOnBalls:      16.0,
@@ -132,9 +132,16 @@ func TestInsertPicherGrades(t *testing.T) {
 	picherMap := make(map[string][]data.PICHERGRADES)
 	picherGrades := getTestPicherGrades()
 	picherMap[playerID] = []data.PICHERGRADES{picherGrades}
+	wantPicherMap := make(map[string][]data.PICHERGRADES)
+	wantPicherGrades := getTestPicherGrades()
+	wantPicherGrades.SetInningsPitched()
+	wantPicherGrades.SetBABIP()
+	wantPicherGrades.SetStrikeOutRate()
+	wantPicherMap[playerID] = []data.PICHERGRADES{wantPicherGrades}
 	type args struct {
-		picherMap map[string][]data.PICHERGRADES
-		playerID  string
+		picherMap     map[string][]data.PICHERGRADES
+		wantPicherMap map[string][]data.PICHERGRADES
+		playerID      string
 	}
 	tests := []struct {
 		name string
@@ -144,6 +151,7 @@ func TestInsertPicherGrades(t *testing.T) {
 			"投手成績登録",
 			args{
 				picherMap,
+				wantPicherMap,
 				playerID,
 			},
 		},
@@ -156,7 +164,7 @@ func TestInsertPicherGrades(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
 
-			mGradesRepository.EXPECT().InsertPicherGrades(tt.args.playerID, gomock.Any()).Times(1)
+			mGradesRepository.EXPECT().InsertPicherGrades(tt.args.playerID, wantPicherGrades).Times(1)
 
 			mGradesReader := mock_reader.NewMockGradesReader(mockCtrl)
 

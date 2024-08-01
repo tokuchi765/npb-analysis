@@ -41,11 +41,6 @@ func (Interactor *GradesInteractor) SearchCareerByName(name string) (career []da
 	return Interactor.GradesRepository.SearchCareerByName(name)
 }
 
-// GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
-func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string, year string) (players [][]string) {
-	return Interactor.GradesReader.GetPlayers(csvPath, initial, year)
-}
-
 // InsertCareers 引数で受け取った CAREER をDBへ登録する
 func (Interactor *GradesInteractor) InsertCareers(csvPath string) {
 	careers := Interactor.GradesReader.ReadCareers(csvPath)

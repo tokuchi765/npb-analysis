@@ -444,17 +444,16 @@ func setTeamBatting(line []string, year string) (teamBatting teamData.TeamBattin
 // ReadTeamPlayers メンバー一覧CSVを読み込む
 func (TeamReader *TeamReader) ReadTeamPlayers(csvPath string, initial string, teamName string) (players map[string][]teamData.Member) {
 	players = make(map[string][]teamData.Member)
-	pathes := getAllFilePathes(csvPath + "/members/" + initial)
+	pathesAndNames := getAllFilePathesAndNames(csvPath + "/members/" + initial)
 
-	for _, path := range pathes {
-		file, err := os.Open(path)
+	for _, patheAndName := range pathesAndNames {
+		file, err := os.Open(patheAndName[0])
 
 		if err != nil {
 			log.Print(err)
 		}
 
-		splitedPath := strings.Split(path, "\\")
-		fileName := splitedPath[len(splitedPath)-1]
+		fileName := patheAndName[1]
 		year := regexp.MustCompile("[0-9]+").FindAllString(fileName, -1)[0]
 
 		reader := csv.NewReader(file)
@@ -485,13 +484,13 @@ func (TeamReader *TeamReader) ReadTeamPlayers(csvPath string, initial string, te
 }
 
 // getAllFilePathes 指定したディレクトリ内のすべてのファイルパスを取得する
-func getAllFilePathes(directory string) (pathes []string) {
+func getAllFilePathesAndNames(directory string) (pathesAndNames [][]string) {
 	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() {
-			pathes = append(pathes, path)
+			pathesAndNames = append(pathesAndNames, []string{path, info.Name()})
 		}
 		return nil
 	})
@@ -500,7 +499,7 @@ func getAllFilePathes(directory string) (pathes []string) {
 		fmt.Println("Error:", err)
 	}
 
-	return pathes
+	return pathesAndNames
 }
 
 // extractionPlayerID URLから選手IDを抽出します

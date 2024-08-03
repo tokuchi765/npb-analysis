@@ -45,10 +45,10 @@ func (GradesReader *GradesReader) GetPlayers(csvPath string, initial string, yea
 
 // ReadCareers 選手キャリア情報を取得します
 func (GradesReader *GradesReader) ReadCareers(csvPath string) (careers []player.CAREER) {
-	pathes := getAllFilePathes(csvPath + "/players/careers")
+	pathesAndNames := getAllFilePathesAndNames(csvPath + "/players/careers")
 
-	for _, path := range pathes {
-		file, err := os.Open(path)
+	for _, patheAndName := range pathesAndNames {
+		file, err := os.Open(patheAndName[0])
 
 		if err != nil {
 			log.Print(err)
@@ -89,10 +89,10 @@ func setCareer(line []string) (career player.CAREER) {
 // ReadBatterGrades 選手打撃情報CSVを読み込みます
 func (GradesReader *GradesReader) ReadBatterGrades(csvPath string) (batterGrades map[string][]player.BATTERGRADES) {
 	batterGrades = make(map[string][]player.BATTERGRADES)
-	pathes := getAllFilePathes(csvPath + "/players/batting_grades")
+	pathesAndNames := getAllFilePathesAndNames(csvPath + "/players/batting_grades")
 
-	for _, path := range pathes {
-		file, err := os.Open(path)
+	for _, patheAndName := range pathesAndNames {
+		file, err := os.Open(patheAndName[0])
 
 		if err != nil {
 			log.Print(err)
@@ -150,10 +150,10 @@ func (GradesReader *GradesReader) setBatterGrades(line []string) (grades player.
 // ReadPitcherGrades 選手投手情報CSVを読み込みます
 func (GradesReader *GradesReader) ReadPitcherGrades(csvPath string) (pitcherGrades map[string][]player.PICHERGRADES) {
 	pitcherGrades = make(map[string][]player.PICHERGRADES)
-	pathes := getAllFilePathes(csvPath + "/players/pitching_grades")
+	pathesAndNames := getAllFilePathesAndNames(csvPath + "/players/pitching_grades")
 
-	for _, path := range pathes {
-		file, err := os.Open(path)
+	for _, patheAndName := range pathesAndNames {
+		file, err := os.Open(patheAndName[0])
 
 		if err != nil {
 			log.Print(err)

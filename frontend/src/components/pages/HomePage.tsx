@@ -132,7 +132,7 @@ function HomePage(props: { years: string[] }) {
 
   useEffect(() => {
     (async () => {
-      const result = await getTeamBattingByYear('2005', '2022');
+      const result = await getTeamBattingByYear('2005', '2023');
       const centralTeams = _.map(result.data.teamBatting, (teamBatting) => {
         const teamBattings = {
           Giants: _.filter(teamBatting, { TeamID: '01' })[0],

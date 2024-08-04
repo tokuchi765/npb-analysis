@@ -268,7 +268,7 @@ export function TableLinkComponentBody(props: {
                 return;
               }
               return (
-                <TableCell align="right" key={key}>
+                <TableCell align="left" key={key}>
                   {val}
                 </TableCell>
               );

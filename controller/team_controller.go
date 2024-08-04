@@ -129,7 +129,7 @@ func (controller *TeamController) GetCareers(c Context) {
 	teamID := c.Param("teamId")
 	year := c.Param("year")
 
-	players := controller.GradesInteractor.GetPlayersByTeamIDAndYear(teamID, year)
+	players := controller.TeamInteractor.GetPlayersByTeamIDAndYear(teamID, year)
 	var careers []player.CAREER
 	for _, player := range players {
 		career := controller.GradesInteractor.GetCareer(player.PlayerID)

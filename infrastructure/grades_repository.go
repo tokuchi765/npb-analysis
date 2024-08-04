@@ -100,73 +100,8 @@ func (Repository *GradesRepository) SearchCareerByName(name string) (careers []d
 	return careers
 }
 
-// GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
-func (Repository *GradesRepository) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
-	rows, err := Repository.Conn.Query("SELECT * FROM team_players WHERE year = $1 AND team_id = $2", year, teamID)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var player data.PLAYER
-		rows.Scan(&player.Year, &player.TeamID, &player.Team, &player.PlayerID, &player.Name)
-		players = append(players, player)
-	}
-
-	return players
-}
-
-// InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
-func (Repository *GradesRepository) InsertTeamPlayers(teamID string, teamName string, players [][]string, year string) {
-	stmt, err := Repository.Conn.Prepare("INSERT INTO team_players(year,team_id,team_name,player_id,player_name) VALUES($1,$2,$3,$4,$5)")
-	if err != nil {
-		log.Print(err)
-	}
-	defer stmt.Close()
-	for _, player := range players {
-		playerID := extractionPlayerID(player[0])
-		if _, err := stmt.Exec(year, teamID, teamName, playerID, player[1]); err != nil {
-			fmt.Println(teamID + ":" + playerID)
-			log.Print(err)
-		}
-	}
-}
-
 func extractionPlayerID(url string) string {
 	return strings.Replace(strings.Replace(url, "/bis/players/", "", 1), ".html", "", 1)
-}
-
-// ExtractionCareers 引数で受け取ったCAREERリストから重複選手を除外する
-func (Repository *GradesRepository) ExtractionCareers(careers *[]data.CAREER) {
-	rows, err := Repository.Conn.Query("SELECT * FROM players")
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var selectCareer data.CAREER
-		rows.Scan(&selectCareer.PlayerID, &selectCareer.Name, &selectCareer.Position,
-			&selectCareer.PitchingAndBatting, &selectCareer.Height, &selectCareer.Weight,
-			&selectCareer.Birthday, &selectCareer.Draft, &selectCareer.Career, &selectCareer.SearchName)
-		for index, career := range *careers {
-			if career.PlayerID == selectCareer.PlayerID {
-				*careers = unset(*careers, index)
-			}
-		}
-	}
-}
-
-func unset(s []data.CAREER, i int) []data.CAREER {
-	if i >= len(s) {
-		return s
-	}
-	return append(s[:i], s[i+1:]...)
 }
 
 // InsertCareers 引数で受け取った CAREER をDBへ登録する
@@ -185,28 +120,6 @@ func (Repository *GradesRepository) InsertCareers(careers []data.CAREER) {
 	}
 }
 
-// ExtractionPicherGrades 引数で受け取ったPICHERGRADESリストから重複選手を除外する
-func (Repository *GradesRepository) ExtractionPicherGrades(picherMap *map[string][]data.PICHERGRADES, teamID string) {
-	rows, err := Repository.Conn.Query("SELECT DISTINCT player_id FROM picher_grades where team_id = $1", teamID)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var playerID string
-		rows.Scan(&playerID)
-
-		for key := range *picherMap {
-			if key == playerID {
-				delete(*picherMap, key)
-			}
-		}
-	}
-}
-
 // InsertPicherGrades 引数で受け取ったPICHERGRADESリストから重複選手を除外する
 func (Repository *GradesRepository) InsertPicherGrades(key string, picher data.PICHERGRADES) {
 	stmt, err := Repository.Conn.Prepare("INSERT INTO picher_grades(player_id, year, team_id, team, piched, win, lose, save, hold, hold_point, complete_game, shutout, no_walks, winning_rate, batter, innings_pitched, hit, home_run, base_on_balls, hit_by_ptches, strike_out, wild_pitches, balk, runs_allowed, earned_run, earned_run_average, babip, strike_out_rate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28)")
@@ -219,28 +132,6 @@ func (Repository *GradesRepository) InsertPicherGrades(key string, picher data.P
 		fmt.Println(key + ":" + picher.Year)
 		log.Print(err)
 	}
-}
-
-// ExtractionBatterGrades 引数で受け取ったBATTERGRADESリストから重複選手を除外する
-func (Repository *GradesRepository) ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID string) {
-	rows, err := Repository.Conn.Query("SELECT DISTINCT player_id FROM batter_grades where team_id = $1", teamID)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	for rows.Next() {
-		var playerID string
-		rows.Scan(&playerID)
-
-		for key := range *batterMap {
-			if key == playerID {
-				delete(*batterMap, key)
-			}
-		}
-	}
-
-	rows.Close()
 }
 
 // InsertBatterGrades 引数で受け取ったBATTERGRADESをDBに登録する

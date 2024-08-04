@@ -1,7 +1,7 @@
-﻿# A5:ER FORMAT:17
+﻿# A5:ER FORMAT:18
 # A5:ER ENCODING:UTF8
 # A5:ER Mk-1 Copyright © 2007 m.matsubara
-# A5:SQL Mk-2 Version 2.18.2 Copyright © 1997 - 2023 m.matsubara
+# A5:SQL Mk-2 Version 2.19.2 Copyright © 1997 - 2024 m.matsubara
 #  https://a5m2.mmatsubara.com
 
 [Manager]
@@ -43,6 +43,7 @@ BugFixEntityWidth=0
 PName=PICHER_GRADES
 LName=投手成績
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=1050
@@ -86,6 +87,7 @@ ZOrder=1
 PName=Players
 LName=選手テーブル
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=850
@@ -133,6 +135,7 @@ ZOrder=4
 PName=BATTER_GRADES
 LName=野手成績
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=550
@@ -200,6 +203,7 @@ ZOrder=6
 PName=TEAM_STATS
 LName=チーム情報
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=1900
@@ -218,6 +222,7 @@ ZOrder=7
 PName=TEAM_NAME
 LName=チーム名
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=2750
@@ -256,6 +261,7 @@ ZOrder=10
 PName=TEAM_BATTING
 LName=チーム打撃成績
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=1500
@@ -319,6 +325,7 @@ ZOrder=17
 PName=TEAM_PITCHING
 LName=チーム投手成績
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=1900
@@ -383,6 +390,7 @@ ZOrder=19
 PName=TEAM_SEASON_STATS
 LName=チームシーズン成績
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=2300
@@ -438,6 +446,7 @@ ZOrder=21
 PName=TEAM_MATCH_RESULTS
 LName=対戦成績
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=2700
@@ -482,6 +491,7 @@ ZOrder=24
 PName=system_setting
 LName=システム設定
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=3100
@@ -492,13 +502,14 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20210131223011
-Position="MAIN",3100,200,267,74
+Position="MAIN",3100,200,196,98
 ZOrder=26
 
 [Entity]
 PName=team_players
 LName=選手一覧テーブル
 Comment=
+TableInnerOption=
 TableOption=
 Page=MAIN
 Left=1400
@@ -556,3 +567,21 @@ Bar3=128
 TermPos1=R
 TermPos2=R
 ZOrder=30
+
+[Entity]
+PName=registered_csv
+LName=登録済みCSV
+Comment=
+TableInnerOption=
+TableOption=
+Page=Main
+Left=3400
+Top=200
+Field="CSV種別","csv_type","@VARCHAR","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ファイルパス","file_path","@VARCHAR","NOT NULL",1,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20240720211953
+Position="Main",3400,200,196,93
+ZOrder=31

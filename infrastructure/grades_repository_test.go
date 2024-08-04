@@ -43,12 +43,6 @@ func TestGradesRepository_InsertPicherGrades_GetPitchings(t *testing.T) {
 	}
 }
 
-func createPicherGradesList() []data.PICHERGRADES {
-	return []data.PICHERGRADES{
-		createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3, 3.6),
-	}
-}
-
 func createPicherGrades(year string, teamID string, team string, piched float64, win float64, lose float64, save float64, hold float64, holdPoint float64, completeGame float64, shutout float64, noWalks float64, winningRate float64, batter float64, inningsPitched float64, hit float64, homeRun float64, baseOnBalls float64, hitByPitches float64, strikeOut float64, wildPitches float64, balk float64, runsAllowed float64, earnedRun float64, earnedRunAverage float64, babip float64, strikeOutRate float64) data.PICHERGRADES {
 	return data.PICHERGRADES{
 		Year:             year,
@@ -110,12 +104,6 @@ func TestGradesRepository_InsertBatterGrades_GetBattings(t *testing.T) {
 			actual := repository.GetBattings(tt.args.playerID)
 			assert.Equal(t, []data.BATTERGRADES{tt.args.batting}, actual)
 		})
-	}
-}
-
-func createBatterGradesList() []data.BATTERGRADES {
-	return []data.BATTERGRADES{
-		createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3),
 	}
 }
 
@@ -194,178 +182,6 @@ func TestGradesRepository_InsertCareers_GetCareer(t *testing.T) {
 			repository.InsertCareers(tt.args.careers)
 			actual := repository.GetCareer(tt.args.playerID)
 			assert.Exactly(t, tt.args.careers[0], actual)
-		})
-	}
-}
-
-func TestGradesRepository_GetPlayersByTeamIDAndYear(t *testing.T) {
-	type args struct {
-		teamID   string
-		teamName string
-		year     string
-	}
-	tests := []struct {
-		name        string
-		args        args
-		wantPlayers []data.PLAYER
-	}{
-		{
-			"選手一覧取得",
-			args{
-				"01",
-				"Giants",
-				"2020",
-			},
-			[]data.PLAYER{
-				{
-					Year:     "2020",
-					TeamID:   "01",
-					PlayerID: "93795138",
-					Team:     "Giants",
-					Name:     "デラロサ",
-				},
-				{
-					Year:     "2020",
-					TeamID:   "01",
-					PlayerID: "41045138",
-					Team:     "Giants",
-					Name:     "戸郷　翔征",
-				},
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
-			repository := GradesRepository{SQLHandler: *sqlHandler}
-			players := [][]string{
-				{"93795138", "デラロサ"},
-				{"41045138", "戸郷　翔征"},
-			}
-			repository.InsertTeamPlayers(tt.args.teamID, tt.args.teamName, players, tt.args.year)
-			actual := repository.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
-			assert.ElementsMatch(t, tt.wantPlayers, actual)
-		})
-	}
-}
-
-func TestGradesRepository_ExtractionCareers(t *testing.T) {
-	type args struct {
-		careers []data.CAREER
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"重複Careerを削除",
-			args{
-				[]data.CAREER{
-					{
-						PlayerID:           "01105137",
-						Name:               "飯田　優也",
-						Position:           "投手",
-						PitchingAndBatting: "左投左打",
-						Height:             "187cm",
-						Weight:             "92kg",
-						Birthday:           "1990年11月27日",
-						Career:             "神戸弘陵高 - 東京農業大生産学部",
-						Draft:              "2012年育成選手ドラフト3位",
-						SearchName:         "飯田優也",
-					},
-				},
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
-			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertCareers(tt.args.careers)
-			repository.ExtractionCareers(&tt.args.careers)
-			assert.Empty(t, tt.args.careers)
-		})
-	}
-}
-
-func TestGradesRepository_ExtractionPicherGrades(t *testing.T) {
-	type args struct {
-		picherMap map[string][]data.PICHERGRADES
-		teamID    string
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		{
-			"重複投手成績を削除する",
-			args{
-				map[string][]data.PICHERGRADES{
-					"53355134": createPicherGradesList(),
-				},
-				"01",
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
-			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertPicherGrades("53355134", createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3, 3.6))
-			repository.ExtractionPicherGrades(&tt.args.picherMap, tt.args.teamID)
-			assert.Empty(t, tt.args.picherMap)
-		})
-	}
-}
-
-func TestGradesRepository_ExtractionBatterGrades(t *testing.T) {
-	batter := createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3)
-	prayerID := "01605136"
-	type args struct {
-		prayerID string
-		batter   data.BATTERGRADES
-		teamID   string
-	}
-	tests := []struct {
-		name      string
-		args      args
-		batterMap map[string][]data.BATTERGRADES
-	}{
-		{
-			"重複打撃成績を削除する",
-			args{
-				prayerID,
-				batter,
-				"12",
-			},
-			map[string][]data.BATTERGRADES{
-				prayerID: {batter},
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			resource, pool := testUtil.CreateContainer()
-			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
-			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
-			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertBatterGrades(tt.args.prayerID, tt.args.batter)
-			repository.ExtractionBatterGrades(&tt.batterMap, tt.args.teamID)
-			assert.Empty(t, tt.batterMap)
 		})
 	}
 }

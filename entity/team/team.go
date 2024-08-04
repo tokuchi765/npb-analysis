@@ -153,3 +153,12 @@ type TeamMatchResults struct {
 	Lose              int    // 敗北
 	Draw              int    // 引き分け
 }
+
+// Member 年度毎選手一覧データ
+type Member struct {
+	Year       string // 年度
+	TeamID     string // チームID
+	TeamName   string // チーム名
+	PlayerID   string // 選手ID
+	PlayerName string // 選手名
+}

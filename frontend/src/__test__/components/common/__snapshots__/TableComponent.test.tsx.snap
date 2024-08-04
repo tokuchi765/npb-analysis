@@ -383,7 +383,7 @@ exports[`TableLinkComponentテスト スナップショット作成 1`] = `
         </th>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
         >
           0.3
         </td>

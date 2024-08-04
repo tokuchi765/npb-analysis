@@ -17,7 +17,7 @@ func (TeamUtil *TeamUtil) GetTeamID(teamName string) (teamID string) {
 		"09": {"楽 天", "楽　天", "東北楽天ゴールデンイーグルス", "東北楽天", "e"},
 		"10": {"ロッテ", "千葉ロッテマリーンズ", "千葉ロッテ", "m"},
 		"11": {"日本ハム", "北海道日本ハムファイターズ", "北海道日本ハム", "f"},
-		"12": {"オリックス", "オリックスバファローズ", "大阪近鉄", "b"},
+		"12": {"オリックス", "オリックスバファローズ", "大阪近鉄", "b", "bs"},
 	}
 	for key, idData := range idDatas {
 		for _, idName := range idData {

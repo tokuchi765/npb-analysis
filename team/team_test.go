@@ -5,6 +5,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	data "github.com/tokuchi765/npb-analysis/entity/player"
 	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 	mock_reader "github.com/tokuchi765/npb-analysis/interfaces/reader/mock"
 	mock_repository "github.com/tokuchi765/npb-analysis/interfaces/repository/mock"
@@ -657,6 +658,130 @@ func TestTeamInteractor_GetTeamBattingMin(t *testing.T) {
 			assert.Equal(t, gotMinHomeRun, tt.wantMinHomeRun)
 			assert.Equal(t, gotMinSluggingPercentage, tt.wantMinSluggingPercentage)
 			assert.Equal(t, gotMinOnBasePercentage, tt.wantMinOnBasePercentage)
+		})
+	}
+}
+
+func TestTeamInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
+	type args struct {
+		teamID string
+		year   string
+	}
+	tests := []struct {
+		name        string
+		args        args
+		wantPlayers []data.PLAYER
+	}{
+		{
+			"選手一覧取得",
+			args{
+				"01",
+				"2020",
+			},
+			[]data.PLAYER{
+				{Year: "2020", TeamID: "01", PlayerID: "93795138", Team: "Giants", Name: "デラロサ"},
+				{Year: "2020", TeamID: "01", PlayerID: "41045138", Team: "Giants", Name: "戸郷　翔征"},
+			},
+		},
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
+			mTeamRepository.EXPECT().GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year).Return(tt.wantPlayers)
+
+			interactor := TeamInteractor{
+				TeamRepository: mTeamRepository,
+			}
+			gotPlayers := interactor.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
+			assert.ElementsMatch(t, tt.wantPlayers, gotPlayers)
+		})
+	}
+}
+
+func TestTeamInteractor_InsertTeamPlayers(t *testing.T) {
+	type args struct {
+		initial    string
+		teamID     string
+		year       string
+		teamName   string
+		csvpath    string
+		fileName   string
+		resistered bool
+		members    map[string][]teamData.Member
+		execInsert int
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			"選手一覧登録",
+			args{
+				"g",
+				"01",
+				"2020",
+				"Giants",
+				"csvpath",
+				"members_2023.csv",
+				false,
+				map[string][]teamData.Member{"members_2023.csv": {
+					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "93795138", PlayerName: "デラロサ"},
+					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "41045138", PlayerName: "戸郷　翔征"},
+				}},
+				1,
+			},
+		},
+		{
+			"選手一覧登録済み",
+			args{
+				"g",
+				"01",
+				"2020",
+				"Giants",
+				"csvpath",
+				"members_2023.csv",
+				true,
+				map[string][]teamData.Member{"members_2023.csv": {
+					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "93795138", PlayerName: "デラロサ"},
+					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "41045138", PlayerName: "戸郷　翔征"},
+				}},
+				0,
+			},
+		},
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
+
+			mTeamRepository.EXPECT().InsertTeamPlayers(gomock.Any()).Times(tt.args.execInsert)
+
+			mTeamRepository.EXPECT().GetTeamName(tt.args.teamID).Return(tt.args.teamName)
+
+			mTeamRepository.EXPECT().IsRegisteredMembersCsv(tt.args.fileName).Return(tt.args.resistered)
+
+			mTeamRepository.EXPECT().InsertMembersCsv(gomock.Any()).Times(tt.args.execInsert)
+
+			mTeamReader := mock_reader.NewMockTeamReader(mockCtrl)
+
+			mTeamReader.EXPECT().ReadTeamPlayers(tt.args.csvpath, tt.args.initial, tt.args.teamName).Return(tt.args.members)
+
+			interactor := TeamInteractor{
+				TeamRepository: mTeamRepository,
+				TeamReader:     mTeamReader,
+			}
+
+			interactor.InsertTeamPlayers(tt.args.csvpath, tt.args.initial)
 		})
 	}
 }

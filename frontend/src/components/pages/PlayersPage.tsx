@@ -72,7 +72,7 @@ function PlayersPage(props: PageProps) {
   const getYear = (location: any) => {
     let year = location.state && location.state.year;
     if (year === undefined) {
-      year = '2022';
+      year = '2023';
     }
     return year;
   };

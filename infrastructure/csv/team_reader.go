@@ -51,18 +51,18 @@ func (TeamReader *TeamReader) ReadTeamLeagueStats(csvPath string, league string,
 // GetTeamID 引数で受け取ったチーム名とイニシャルからチームIDを取得する
 func GetTeamID(teamName string) (teamID string) {
 	idDatas := map[string][]string{
-		"01": {"巨 人", "巨　人", "読 売ジャイアンツ", "読　売ジャイアンツ", "読　売", "g"},
-		"02": {"横 浜", "横 浜ベイスターズ", "DeNA", "横浜DeNAベイスターズ", "横　浜", "横浜DeNA", "db"},
-		"03": {"阪 神", "阪　神", "阪 神タイガース", "阪　神タイガース", "t"},
-		"04": {"広 島", "広　島", "広島東洋カープ", "広島東洋", "c"},
-		"05": {"中 日", "中　日", "中 日ドラゴンズ", "中　日ドラゴンズ", "d"},
-		"06": {"ヤクルト", "ヤクルトスワローズ", "東京ヤクルトスワローズ", "東京ヤクルト", "s"},
-		"07": {"西 武", "西　武", "西 武ライオンズ", "埼玉西武ライオンズ", "埼玉西武", "l"},
-		"08": {"ソフトバンク", "福岡ソフトバンクホークス", "福岡ソフトバンク", "福岡ダイエー", "h"},
-		"09": {"楽 天", "楽　天", "東北楽天ゴールデンイーグルス", "東北楽天", "e"},
-		"10": {"ロッテ", "千葉ロッテマリーンズ", "千葉ロッテ", "m"},
-		"11": {"日本ハム", "北海道日本ハムファイターズ", "北海道日本ハム", "f"},
-		"12": {"オリックス", "オリックスバファローズ", "大阪近鉄", "b"},
+		"01": {"巨 人", "巨　人", "読 売ジャイアンツ", "読　売ジャイアンツ", "読\u3000売 ジャイアンツ", "読　売", "g"},
+		"02": {"横 浜", "横 浜ベイスターズ", "DeNA", "横浜DeNAベイスターズ", "横浜DeNA ベイスターズ", "横　浜", "横浜DeNA", "db"},
+		"03": {"阪 神", "阪　神", "阪 神タイガース", "阪\u3000神 タイガース", "阪　神タイガース", "t"},
+		"04": {"広 島", "広　島", "広島東洋カープ", "広島東洋 カープ", "広島東洋", "c"},
+		"05": {"中 日", "中　日", "中 日ドラゴンズ", "中　日ドラゴンズ", "中\u3000日 ドラゴンズ", "d"},
+		"06": {"ヤクルト", "ヤクルトスワローズ", "東京ヤクルトスワローズ", "東京ヤクルト スワローズ", "東京ヤクルト", "s"},
+		"07": {"西 武", "西　武", "西 武ライオンズ", "埼玉西武ライオンズ", "埼玉西武 ライオンズ", "埼玉西武", "l"},
+		"08": {"ソフトバンク", "福岡ソフトバンクホークス", "福岡ソフトバンク ホークス", "福岡ソフトバンク", "福岡ダイエー", "h"},
+		"09": {"楽 天", "楽　天", "東北楽天ゴールデンイーグルス", "東北楽天 ゴールデンイーグルス", "東北楽天", "e"},
+		"10": {"ロッテ", "千葉ロッテマリーンズ", "千葉ロッテ マリーンズ", "千葉ロッテ", "m"},
+		"11": {"日本ハム", "北海道日本ハムファイターズ", "北海道日本ハム ファイターズ", "北海道日本ハム", "f"},
+		"12": {"オリックス", "オリックスバファローズ", "オリックス バファローズ", "大阪近鉄", "b"},
 	}
 	for key, idData := range idDatas {
 		for _, idName := range idData {
@@ -218,28 +218,30 @@ func setResults(teamMatchResults *teamData.TeamMatchResults, teamID string, year
 
 func getIndex(lines []string) (indexMap map[string]int) {
 	indexMap = make(map[string]int)
-	headerNameMap := []map[string][]string{
-		{"exchange_win": {"交流戦(勝)"}}, {"exchange_lose": {"交流戦(負)"}}, {"exchange_draw": {"交流戦(引)"}},
-		{"home_win": {"ホ｜ム(勝)"}}, {"home_lose": {"ホ｜ム(負)"}}, {"home_draw": {"ホ｜ム(引)"}},
-		{"load_win": {"ロ｜ド(勝)"}}, {"load_lose": {"ロ｜ド(負)"}}, {"load_draw": {"ロ｜ド(引)"}},
-		{"Tigers_win": {"対神(勝)"}}, {"Tigers_lose": {"対神(負)"}}, {"Tigers_draw": {"対神(引)"}},
-		{"Dragons_win": {"対中(勝)"}}, {"Dragons_lose": {"対中(負)"}}, {"Dragons_draw": {"対中(引)"}},
-		{"Baystars_win": {"対横(勝)", "対デ(勝)"}}, {"Baystars_lose": {"対横(負)", "対デ(負)"}}, {"Baystars_draw": {"対横(引)", "対デ(引)"}},
-		{"Swallows_win": {"対ヤ(勝)"}}, {"Swallows_lose": {"対ヤ(負)"}}, {"Swallows_draw": {"対ヤ(引)"}},
-		{"Giants_win": {"対巨(勝)"}}, {"Giants_lose": {"対巨(負)"}}, {"Giants_draw": {"対巨(引)"}},
-		{"Carp_win": {"対広(勝)"}}, {"Carp_lose": {"対広(負)"}}, {"Carp_draw": {"対広(引)"}},
-		{"Lions_win": {"対西(勝)"}}, {"Lions_lose": {"対西(負)"}}, {"Lions_draw": {"対西(引)"}},
-		{"Hawks_win": {"対ソ(勝)"}}, {"Hawks_lose": {"対ソ(負)"}}, {"Hawks_draw": {"対ソ(引)"}},
-		{"Eagles_win": {"対楽(勝)"}}, {"Eagles_lose": {"対楽(負)"}}, {"Eagles_draw": {"対楽(引)"}},
-		{"Marines_win": {"対ロ(勝)"}}, {"Marines_lose": {"対ロ(負)"}}, {"Marines_draw": {"対ロ(引)"}},
-		{"Fighters_win": {"対日(勝)"}}, {"Fighters_lose": {"対日(負)"}}, {"Fighters_draw": {"対日(引)"}},
-		{"Buffaloes_win": {"対オ(勝)"}}, {"Buffaloes_lose": {"対オ(負)"}}, {"Buffaloes_draw": {"対オ(引)"}},
+	headerNamesMap := []map[string][]string{
+		{"exchange_win": {"交流戦(勝)", "交 流 戦(勝)"}}, {"exchange_lose": {"交流戦(負)", "交 流 戦(負)"}}, {"exchange_draw": {"交流戦(引)", "交 流 戦(引)"}},
+		{"home_win": {"ホ｜ム(勝)", "ホ ｜ ム(勝)"}}, {"home_lose": {"ホ｜ム(負)", "ホ ｜ ム(負)"}}, {"home_draw": {"ホ｜ム(引)", "ホ ｜ ム(引)"}},
+		{"load_win": {"ロ｜ド(勝)", "ロ ｜ ド(勝)"}}, {"load_lose": {"ロ｜ド(負)", "ロ ｜ ド(負)"}}, {"load_draw": {"ロ｜ド(引)", "ロ ｜ ド(引)"}},
+		{"Tigers_win": {"対神(勝)", "対 神(勝)"}}, {"Tigers_lose": {"対神(負)", "対 神(負)"}}, {"Tigers_draw": {"対神(引)", "対 神(引)"}},
+		{"Dragons_win": {"対中(勝)", "対 中(勝)"}}, {"Dragons_lose": {"対中(負)", "対 中(負)"}}, {"Dragons_draw": {"対中(引)", "対 中(引)"}},
+		{"Baystars_win": {"対横(勝)", "対デ(勝)", "対 デ(勝)"}}, {"Baystars_lose": {"対横(負)", "対デ(負)", "対 デ(負)"}}, {"Baystars_draw": {"対横(引)", "対デ(引)", "対 デ(引)"}},
+		{"Swallows_win": {"対ヤ(勝)", "対 ヤ(勝)"}}, {"Swallows_lose": {"対ヤ(負)", "対 ヤ(負)"}}, {"Swallows_draw": {"対ヤ(引)", "対 ヤ(引)"}},
+		{"Giants_win": {"対巨(勝)", "対 巨(勝)"}}, {"Giants_lose": {"対巨(負)", "対 巨(負)"}}, {"Giants_draw": {"対巨(引)", "対 巨(引)"}},
+		{"Carp_win": {"対広(勝)", "対 広(勝)"}}, {"Carp_lose": {"対広(負)", "対 広(負)"}}, {"Carp_draw": {"対広(引)", "対 広(引)"}},
+		{"Lions_win": {"対西(勝)", "対 西(勝)"}}, {"Lions_lose": {"対西(負)", "対 西(負)"}}, {"Lions_draw": {"対西(引)", "対 西(引)"}},
+		{"Hawks_win": {"対ソ(勝)", "対 ソ(勝)"}}, {"Hawks_lose": {"対ソ(負)", "対 ソ(負)"}}, {"Hawks_draw": {"対ソ(引)", "対 ソ(引)"}},
+		{"Eagles_win": {"対楽(勝)", "対 楽(勝)"}}, {"Eagles_lose": {"対楽(負)", "対 楽(負)"}}, {"Eagles_draw": {"対楽(引)", "対 楽(引)"}},
+		{"Marines_win": {"対ロ(勝)", "対 ロ(勝)"}}, {"Marines_lose": {"対ロ(負)", "対 ロ(負)"}}, {"Marines_draw": {"対ロ(引)", "対 ロ(引)"}},
+		{"Fighters_win": {"対日(勝)", "対 日(勝)"}}, {"Fighters_lose": {"対日(負)", "対 日(負)"}}, {"Fighters_draw": {"対日(引)", "対 日(引)"}},
+		{"Buffaloes_win": {"対オ(勝)", "対 オ(勝)"}}, {"Buffaloes_lose": {"対オ(負)", "対 オ(負)"}}, {"Buffaloes_draw": {"対オ(引)", "対 オ(引)"}},
 	}
 	for index, line := range lines {
-		for _, headerNames := range headerNameMap {
-			for key, headerName := range headerNames {
-				if headerName[0] == line {
-					indexMap[key] = index
+		for _, headerNameMap := range headerNamesMap {
+			for key, headerNames := range headerNameMap {
+				for _, headerName := range headerNames {
+					if headerName == line {
+						indexMap[key] = index
+					}
 				}
 			}
 		}

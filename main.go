@@ -74,7 +74,7 @@ func main() {
 		syastemRepository.SetSystemSetting("created_team_players", "true")
 	}
 
-	years := makeRange(2005, 2021)
+	years := makeRange(2005, 2023)
 
 	// チーム成績をDBに登録する
 	createdTeamStats, _ := strconv.ParseBool(syastemRepository.GetSystemSetting("created_team_stats"))

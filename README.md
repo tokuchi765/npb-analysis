@@ -19,20 +19,29 @@
     - ファイル名を `docker-compose.yml` に書き換える
     - `/npb-analysis/` 配下で `docker compose up -d` を実行<br>
  ※dockerが使える環境前提です<br>
-  
-1. アプリケーション起動<br>
+
+3. 選手データを展開
+    - 下記のzipファイル内のCSVファイルを展開する
+        - `/csv/players/batting_grades/batting_grades_2014-2023.zip`
+        - `/csv/players/careers/careers_2014-2023.zip`
+        - `/csv/players/pitching_grades/pitching_grades_2014-2023.zip` 
+
+4. アプリケーション起動<br>
     - `/npb-analysis/` 配下で `go run .\main.go` を実行する
  
-4. `http://localhost:8081/`  をブラウザで開く
+5. `http://localhost:8081/`  をブラウザで開く
 ![image](https://user-images.githubusercontent.com/55987154/156882493-b333037b-a9ea-4740-b0ca-4fff1334262a.png)
  
-5. テストコード実行
+1. テストコード実行
    - `test\testUtil.go` の `/home/runner/work/` をインストールしたディレクトリに書き換える<br>
      ※windowsの場合は `file:C:/home/xxx` の形式で書き換える
 
  # 表示しているデータについて
-   分析に使用しているデータは日本プロ野球機構の公式サイトからスクレイピングしたデータを使用してます<br>
- <a href="https://npb.jp/bis/2020/stats/" target="_blank">日本プロ野球機構</a>
+   分析に使用しているデータは日本プロ野球機構の公式サイトからスクレイピングしたデータを使用してます。<br>
+   <a href="https://npb.jp/bis/2020/stats/" target="_blank">日本プロ野球機構</a><br>
+   ※データの正確性を保証していません。
+   アプリの情報を元に何かしらのデータを作成して損害が発生しても一切の責任を負いません。
+
  
  # 今後の拡張予定（目標）
   - セイバーメトリクスの数値を算出

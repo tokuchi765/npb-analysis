@@ -4,15 +4,15 @@
 
 # 推奨環境
 - windows
-- golang 1.18.3
-- node.js 16.14.0 LTS
+- golang 1.22.5
+- node.js 20.16.0 LTS
   - https://nodejs.org/ja/
 
 # 使い方
 
 ### 起動
 1. フロントのソースコードをビルドする<br>
-   - `/npb-analysis/frontend/` 配下で `yarn run-script build` を実行
+   - `/npb-analysis/frontend/` 配下で `yarn build` を実行
  
 2. DB起動<br>
     - `docker-compose.yml.example` ファイルの `volumes` をインストールしたディレクトリに書きかえる
@@ -21,10 +21,10 @@
  ※dockerが使える環境前提です<br>
 
 3. 選手データを展開
-    - 下記のzipファイル内のCSVファイルを展開する
-        - `/csv/players/batting_grades/batting_grades_2014-2023.zip`
-        - `/csv/players/careers/careers_2014-2023.zip`
-        - `/csv/players/pitching_grades/pitching_grades_2014-2023.zip` 
+    - 下記のzipファイルを `/csv/players/` 配下に展開してリネームする
+        - `/resource/batting_grades_2014-2023.zip` -> `/csv/players/batting_grades`
+        - `/resource/careers_2014-2023.zip` -> `/csv/players/careers`
+        - `/resource/pitching_grades_2014-2023.zip` -> `/csv/players/pitching_grades`
 
 4. アプリケーション起動<br>
     - `/npb-analysis/` 配下で `go run .\main.go` を実行する

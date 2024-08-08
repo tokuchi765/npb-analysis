@@ -9,7 +9,7 @@ exports[`TableComponentテスト スナップショット作成 1`] = `
     id="tableTitle"
   >
     <div
-      className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row makeStyles-grid-6 css-1unhvdk-MuiGrid2-root"
+      className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row makeStyles-grid-6 css-1pi8xg4-MuiGrid2-root"
     >
       <div
         className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"
@@ -204,7 +204,7 @@ exports[`TableLinkComponentテスト スナップショット作成 1`] = `
     id="tableTitle"
   >
     <div
-      className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row makeStyles-grid-6 css-1unhvdk-MuiGrid2-root"
+      className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row makeStyles-grid-6 css-1pi8xg4-MuiGrid2-root"
     >
       <div
         className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"

@@ -5,7 +5,6 @@ import { Box, Grid } from '@mui/material';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import _ from 'lodash';
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />

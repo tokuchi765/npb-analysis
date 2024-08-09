@@ -40,7 +40,7 @@ exports[`チーム成績ページテスト スナップショット作成 1`] = 
             viewBox="0 0 24 24"
           >
             <path
-              d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+              d="M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"
             />
           </svg>
         </span>
@@ -166,7 +166,7 @@ exports[`チーム成績ページテスト スナップショット作成 1`] = 
               viewBox="0 0 24 24"
             >
               <path
-                d="M12 12.75c1.63 0 3.07.39 4.24.9 1.08.48 1.76 1.56 1.76 2.73V18H6v-1.61c0-1.18.68-2.26 1.76-2.73 1.17-.52 2.61-.91 4.24-.91zM4 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm1.13 1.1c-.37-.06-.74-.1-1.13-.1-.99 0-1.93.21-2.78.58C.48 14.9 0 15.62 0 16.43V18h4.5v-1.61c0-.83.23-1.61.63-2.29zM20 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 3.43c0-.81-.48-1.53-1.22-1.85-.85-.37-1.79-.58-2.78-.58-.39 0-.76.04-1.13.1.4.68.63 1.46.63 2.29V18H24v-1.57zM12 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"
+                d="M12 12.75c1.63 0 3.07.39 4.24.9 1.08.48 1.76 1.56 1.76 2.73V18H6v-1.61c0-1.18.68-2.26 1.76-2.73 1.17-.52 2.61-.91 4.24-.91M4 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m1.13 1.1c-.37-.06-.74-.1-1.13-.1-.99 0-1.93.21-2.78.58C.48 14.9 0 15.62 0 16.43V18h4.5v-1.61c0-.83.23-1.61.63-2.29M20 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m4 3.43c0-.81-.48-1.53-1.22-1.85-.85-.37-1.79-.58-2.78-.58-.39 0-.76.04-1.13.1.4.68.63 1.46.63 2.29V18H24zM12 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3"
               />
             </svg>
           </div>
@@ -213,7 +213,7 @@ exports[`チーム成績ページテスト スナップショット作成 1`] = 
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4"
                 />
               </svg>
             </div>
@@ -261,7 +261,7 @@ exports[`チーム成績ページテスト スナップショット作成 1`] = 
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4"
                 />
               </svg>
             </div>
@@ -272,6 +272,54 @@ exports[`チーム成績ページテスト スナップショット作成 1`] = 
                 className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
               >
                 監督ページ
+              </span>
+            </div>
+          </div>
+        </a>
+        <a
+          className="makeStyles-link-16"
+          href="/search"
+          onClick={[Function]}
+        >
+          <div
+            aria-disabled={false}
+            className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"
+            onBlur={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <div
+              className="MuiListItemIcon-root"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="SearchIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                />
+              </svg>
+            </div>
+            <div
+              className="MuiListItemText-root"
+            >
+              <span
+                className="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
+              >
+                選手検索ページ
               </span>
             </div>
           </div>
@@ -294,27 +342,27 @@ exports[`チーム成績ページテスト スナップショット作成 1`] = 
         チーム成績ページ
       </h2>
       <div
-        className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1ps6pg7-MuiPaper-root"
       >
         <div
           className="MuiTypography-root makeStyles-title-19 MuiTypography-h6"
           id="tableTitle"
         >
           <div
-            className="MuiGrid-root makeStyles-grid-22 MuiGrid-container"
+            className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row makeStyles-grid-22 css-1pi8xg4-MuiGrid2-root"
           >
             <div
-              className="MuiGrid-root MuiGrid-item"
+              className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"
             >
               <div
-                className="MuiPaper-root makeStyles-paper-21 MuiPaper-elevation1 MuiPaper-rounded"
+                className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-paper-21 css-1ps6pg7-MuiPaper-root"
               >
                 _
                 シーズン成績(セ)
               </div>
             </div>
             <div
-              className="MuiGrid-root MuiGrid-item"
+              className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"
             >
               <div
                 className="MuiFormControl-root makeStyles-formControl-20"
@@ -653,27 +701,27 @@ exports[`チーム成績ページテスト スナップショット作成 1`] = 
         </table>
       </div>
       <div
-        className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1ps6pg7-MuiPaper-root"
       >
         <div
           className="MuiTypography-root makeStyles-title-19 MuiTypography-h6"
           id="tableTitle"
         >
           <div
-            className="MuiGrid-root makeStyles-grid-22 MuiGrid-container"
+            className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row makeStyles-grid-22 css-1pi8xg4-MuiGrid2-root"
           >
             <div
-              className="MuiGrid-root MuiGrid-item"
+              className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"
             >
               <div
-                className="MuiPaper-root makeStyles-paper-21 MuiPaper-elevation1 MuiPaper-rounded"
+                className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-paper-21 css-1ps6pg7-MuiPaper-root"
               >
                 _
                 シーズン成績(パ)
               </div>
             </div>
             <div
-              className="MuiGrid-root MuiGrid-item"
+              className="MuiGrid2-root MuiGrid2-direction-xs-row css-27y2fm-MuiGrid2-root"
             >
               <div
                 className="MuiFormControl-root makeStyles-formControl-20"
@@ -1026,7 +1074,7 @@ exports[`チーム成績ページテスト スナップショット作成 1`] = 
             管理画面
           </a>
            
-          2023
+          2024
           .
         </p>
       </div>

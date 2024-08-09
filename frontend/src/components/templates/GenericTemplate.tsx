@@ -28,6 +28,7 @@ import {
   TableChart,
   ChevronLeft,
   Pentagon,
+  Search,
 } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -288,6 +289,14 @@ function GenericTemplate(props: GenericTemplateProps) {
                   <Person />
                 </ListItemIcon>
                 <ListItemText primary="監督ページ" />
+              </ListItem>
+            </Link>
+            <Link to="/search" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <Search />
+                </ListItemIcon>
+                <ListItemText primary="選手検索ページ" />
               </ListItem>
             </Link>
           </List>

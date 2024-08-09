@@ -3,6 +3,7 @@ package player
 import (
 	"database/sql"
 	"math"
+	"strings"
 
 	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
 )
@@ -52,6 +53,15 @@ func (picherGrades *PICHERGRADES) SetStrikeOutRate() {
 	if math.IsNaN(picherGrades.StrikeOutRate) {
 		picherGrades.StrikeOutRate = 0.0
 	}
+}
+
+// SetInningsPitched 投球回数を正確な数値に変換します
+func (picherGrades *PICHERGRADES) SetInningsPitched() {
+	int, frac := math.Modf(picherGrades.InningsPitched)
+	precision := 2
+	multiplier := math.Pow(10, float64(precision))
+	frac = math.Round(frac*multiplier) / multiplier
+	picherGrades.InningsPitched = float64(int) + frac*3.0
 }
 
 // BATTERGRADES 成績
@@ -133,6 +143,12 @@ type CAREER struct {
 	Birthday           string // 生年月日
 	Career             string // 経歴
 	Draft              string // ドラフト
+	SearchName         string // 検索用選手名
+}
+
+// SetSearchName 選手名検索に不要な文字列を除去した検索用選手名を設定する
+func (career *CAREER) SetSearchName() {
+	career.SearchName = strings.ReplaceAll(strings.ReplaceAll(career.Name, "　", ""), "・", "")
 }
 
 type PLAYER struct {

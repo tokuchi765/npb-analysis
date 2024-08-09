@@ -35,3 +35,11 @@ func (controller *PlayerController) GetPlayer(c Context) {
 		"pitching": controller.GradesInteractor.GetPitching(playerID),
 	})
 }
+
+// SearchPlayer 選手データを検索します
+func (controller *PlayerController) SearchPlayer(c Context) {
+	name := c.Query("Name")
+	c.JSON(http.StatusOK, gin.H{
+		"careers": controller.GradesInteractor.SearchCareerByName(name),
+	})
+}

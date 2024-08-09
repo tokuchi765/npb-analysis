@@ -180,3 +180,25 @@ func TestBATTERGRADES_SetStrikeOutRate(t *testing.T) {
 		})
 	}
 }
+
+func TestCAREER_SetSearchName(t *testing.T) {
+	tests := []struct {
+		name     string
+		career   *CAREER
+		wantName string
+	}{
+		{
+			"選手名から不要な文字列を削除",
+			&CAREER{
+				Name: "田中　カーター・ジュニア",
+			},
+			"田中カータージュニア",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.career.SetSearchName()
+			assert.Equal(t, tt.wantName, tt.career.SearchName)
+		})
+	}
+}

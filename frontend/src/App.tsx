@@ -16,6 +16,7 @@ import {
   MaxTeamBattingResponse,
   MinTeamBattingResponse,
 } from './data/type/index';
+import SearchPage from './components/pages/SearchPage';
 
 const years = [
   '2005',
@@ -35,9 +36,11 @@ const years = [
   '2019',
   '2020',
   '2021',
+  '2022',
+  '2023',
 ];
 
-const initYear = '2021';
+const initYear = '2023';
 
 function App() {
   const [maxTeamPitching, setMaxTeamPitching] = useState<MaxTeamPitchingResponse>({
@@ -108,6 +111,7 @@ function App() {
         />
         <Route path="/players" component={PlayersPage} exact />
         <Route path="/player/:id" component={PlayerPage} exact />
+        <Route path="/search" component={SearchPage} exact />
         <Route path="/manager" component={ManagerPage} exact />
       </Switch>
     </Router>

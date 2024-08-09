@@ -1,5 +1,5 @@
 import { rest } from '../rest';
-import { PlayerResponse } from '../type';
+import { PlayerResponse, PlayersResponse } from '../type';
 
 const baseUri = '/player';
 
@@ -12,4 +12,17 @@ const getPlayer = async (playerID: string): Promise<PlayerResponse> => {
   }
 };
 
-export { getPlayer };
+const searchPlayer = async (name: string): Promise<PlayersResponse> => {
+  try {
+    const { data } = await rest.getParams(baseUri + '/search', {
+      params: {
+        Name: name,
+      },
+    });
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export { getPlayer, searchPlayer };

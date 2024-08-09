@@ -115,7 +115,7 @@ function HomePage(props: { years: string[] }) {
   const centralChartDatas: ChartData[] = [
     { key: 'Giants', name: 'Giants', stroke: '#FF4F02' },
     { key: 'Baystars', name: 'Baystars', stroke: '#00FFFF' },
-    { key: 'Tigers', name: 'Tigers', stroke: '#FFFF00' },
+    { key: 'Tigers', name: 'Tigers', stroke: '#ffbf00' },
     { key: 'Carp', name: 'Carp', stroke: '#FF0000' },
     { key: 'Dragons', name: 'Dragons', stroke: '#005FFF' },
     { key: 'Swallows', name: 'Swallows', stroke: '#000055' },
@@ -132,7 +132,7 @@ function HomePage(props: { years: string[] }) {
 
   useEffect(() => {
     (async () => {
-      const result = await getTeamBattingByYear('2005', '2021');
+      const result = await getTeamBattingByYear('2005', '2023');
       const centralTeams = _.map(result.data.teamBatting, (teamBatting) => {
         const teamBattings = {
           Giants: _.filter(teamBatting, { TeamID: '01' })[0],

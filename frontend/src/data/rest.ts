@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const rest = (() => {
   const client = axios.create({
@@ -9,6 +9,12 @@ const rest = (() => {
     client,
     get: <T = any, R = AxiosResponse<T>>(url: string): Promise<R> => {
       return client.get(url);
+    },
+    getParams: <T = any, R = AxiosResponse<T>>(
+      url: string,
+      params: AxiosRequestConfig
+    ): Promise<R> => {
+      return client.get(url, params);
     },
   };
 })();

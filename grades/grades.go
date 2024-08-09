@@ -5,7 +5,6 @@ import (
 	"log"
 	"math"
 	"os"
-	"strings"
 
 	_ "github.com/lib/pq"
 	data "github.com/tokuchi765/npb-analysis/entity/player"
@@ -37,78 +36,24 @@ func (Interactor *GradesInteractor) GetCareer(playerID string) (career data.CARE
 	return Interactor.GradesRepository.GetCareer(playerID)
 }
 
-// GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
-func (Interactor *GradesInteractor) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
-	return Interactor.GradesRepository.GetPlayersByTeamIDAndYear(teamID, year)
-}
-
-// InsertTeamPlayers 年度ごとの選手一覧をDBに登録する
-func (Interactor *GradesInteractor) InsertTeamPlayers(initial string, players [][]string, year string) {
-	teamID := Interactor.TeamUtil.GetTeamID(initial)
-	teamName := Interactor.TeamRepository.GetTeamName(teamID)
-	Interactor.GradesRepository.InsertTeamPlayers(teamID, teamName, players, year)
-}
-
-// GetPlayers 引数で受け取った x_players.csv ファイルを読み取って、配列にして返す
-func (Interactor *GradesInteractor) GetPlayers(csvPath string, initial string, year string) (players [][]string) {
-	return Interactor.GradesReader.GetPlayers(csvPath, initial, year)
-}
-
-// ReadCareers 引数で受け取った選手リストをもとに、経歴をまとめたデータクラスのリストを返す
-func (Interactor *GradesInteractor) ReadCareers(csvPath string, initial string, players [][]string) (careerList []data.CAREER) {
-	for _, player := range players {
-		id := extractionPlayerID(player[0])
-		career, exists := Interactor.GradesReader.ReadCareer(csvPath, initial, id, player[1])
-		if exists {
-			careerList = append(careerList, career)
-		}
-	}
-	return careerList
-}
-
-func extractionPlayerID(url string) string {
-	return strings.Replace(strings.Replace(url, "/bis/players/", "", 1), ".html", "", 1)
-}
-
-// ExtractionCareers 引数で受け取ったCAREERリストから重複選手を除外する
-func (Interactor *GradesInteractor) ExtractionCareers(careers *[]data.CAREER) {
-	Interactor.GradesRepository.ExtractionCareers(careers)
+// SearchCareerByName 選手名から選手データを検索する
+func (Interactor *GradesInteractor) SearchCareerByName(name string) (career []data.CAREER) {
+	return Interactor.GradesRepository.SearchCareerByName(name)
 }
 
 // InsertCareers 引数で受け取った CAREER をDBへ登録する
-func (Interactor *GradesInteractor) InsertCareers(careers []data.CAREER) {
+func (Interactor *GradesInteractor) InsertCareers(csvPath string) {
+	careers := Interactor.GradesReader.ReadCareers(csvPath)
 	Interactor.GradesRepository.InsertCareers(careers)
 }
 
-// ReadGradesMap 引数のplayersに設定されている選手成績を読み込み、Mapにして返す
-func (Interactor *GradesInteractor) ReadGradesMap(csvPath string, initial string, players [][]string) (picherMap map[string][]data.PICHERGRADES, batterMap map[string][]data.BATTERGRADES) {
-	picherMap = make(map[string][]data.PICHERGRADES)
-	batterMap = make(map[string][]data.BATTERGRADES)
-	for _, player := range players {
-		id := strings.Replace(strings.Replace(player[0], "/bis/players/", "", 1), ".html", "", 1)
+// InsertPicherGrades 選手投手成績をDBに登録します
+func (Interactor *GradesInteractor) InsertPicherGrades(csvPath string) {
+	pitcherGrades := Interactor.GradesReader.ReadPitcherGrades(csvPath)
 
-		picherGrades, batterGrades, exist := Interactor.GradesReader.ReadGrades(csvPath, initial, id, player[1])
-
-		if exist {
-			if picherGrades != nil {
-				picherMap[id] = picherGrades
-			} else {
-				batterMap[id] = batterGrades
-			}
-		}
-	}
-	return picherMap, batterMap
-}
-
-// ExtractionPicherGrades 引数で受け取ったPICHERGRADESリストから重複選手を除外する
-func (Interactor *GradesInteractor) ExtractionPicherGrades(picherMap *map[string][]data.PICHERGRADES, teamID string) {
-	Interactor.GradesRepository.ExtractionPicherGrades(picherMap, teamID)
-}
-
-// InsertPicherGrades 引数で受け取ったPICHERGRADESをDBに登録する
-func (Interactor *GradesInteractor) InsertPicherGrades(picherMap map[string][]data.PICHERGRADES) {
-	for key, pichers := range picherMap {
+	for key, pichers := range pitcherGrades {
 		for _, picher := range pichers {
+			picher.SetInningsPitched()
 			picher.SetBABIP()
 			picher.SetStrikeOutRate()
 			Interactor.GradesRepository.InsertPicherGrades(key, picher)
@@ -116,17 +61,14 @@ func (Interactor *GradesInteractor) InsertPicherGrades(picherMap map[string][]da
 	}
 }
 
-// ExtractionBatterGrades 引数で受け取ったBATTERGRADESリストから重複選手を除外する
-func (Interactor *GradesInteractor) ExtractionBatterGrades(batterMap *map[string][]data.BATTERGRADES, teamID string) {
-	Interactor.GradesRepository.ExtractionBatterGrades(batterMap, teamID)
-}
+// InsertBatterGrades 選手打撃成績をDBに登録します
+func (Interactor *GradesInteractor) InsertBatterGrades(current string) {
+	batterGrades := Interactor.GradesReader.ReadBatterGrades(current + "/csv")
 
-// InsertBatterGrades 引数で受け取ったBATTERGRADESをDBに登録する
-func (Interactor *GradesInteractor) InsertBatterGrades(batterMap map[string][]data.BATTERGRADES, current string) {
 	// 加重出塁率の計算に必要なconfigファイルを読み込む
 	config, _ := loadConfig(current)
 
-	for key, value := range batterMap {
+	for key, value := range batterGrades {
 		for _, batter := range value {
 			setSingle(&batter)
 			setWoba(&batter, config)

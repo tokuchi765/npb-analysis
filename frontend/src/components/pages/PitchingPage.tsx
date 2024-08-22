@@ -95,7 +95,7 @@ function createPitchingDataList(
           val.BaseOnBalls,
           val.StrikeOut,
           val.StrikeOutRate,
-          val.BABIP
+          val.Babip
         )
       );
     });

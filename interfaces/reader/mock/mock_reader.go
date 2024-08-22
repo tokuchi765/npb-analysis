@@ -78,10 +78,10 @@ func (mr *MockTeamReaderMockRecorder) ReadTeamExchangeStats(csvPath, league, yea
 }
 
 // ReadTeamLeagueStats mocks base method.
-func (m *MockTeamReader) ReadTeamLeagueStats(csvPath, league, year string) ([]team.TeamLeagueStats, []team.TeamMatchResults) {
+func (m *MockTeamReader) ReadTeamLeagueStats(csvPath, league, year string) ([]team.TeamSeasonStats, []team.TeamMatchResults) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReadTeamLeagueStats", csvPath, league, year)
-	ret0, _ := ret[0].([]team.TeamLeagueStats)
+	ret0, _ := ret[0].([]team.TeamSeasonStats)
 	ret1, _ := ret[1].([]team.TeamMatchResults)
 	return ret0, ret1
 }
@@ -107,10 +107,10 @@ func (mr *MockTeamReaderMockRecorder) ReadTeamPitching(csvPath, league, year int
 }
 
 // ReadTeamPlayers mocks base method.
-func (m *MockTeamReader) ReadTeamPlayers(csvPath, initial, teamName string) map[string][]team.Member {
+func (m *MockTeamReader) ReadTeamPlayers(csvPath, initial, teamName string) map[string][]team.TeamPlayers {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReadTeamPlayers", csvPath, initial, teamName)
-	ret0, _ := ret[0].(map[string][]team.Member)
+	ret0, _ := ret[0].(map[string][]team.TeamPlayers)
 	return ret0
 }
 

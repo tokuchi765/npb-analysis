@@ -95,7 +95,7 @@ function createBattingDataList(
           val.StrikeOut,
           val.StrikeOutRate,
           val.OnBasePercentage,
-          val.BABIP
+          val.Babip
         )
       );
     });

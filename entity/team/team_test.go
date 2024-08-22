@@ -29,7 +29,7 @@ func TestTeamBatting_SetBABIP(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.teamBatting.SetBABIP()
-			assert.Equal(t, tt.wantBABIP, tt.teamBatting.BABIP)
+			assert.Equal(t, tt.wantBABIP, tt.teamBatting.Babip)
 		})
 	}
 }
@@ -56,7 +56,7 @@ func TestTeamPitching_SetBABIP(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.teamPitching.SetBABIP()
-			assert.Equal(t, tt.wantBABIP, tt.teamPitching.BABIP)
+			assert.Equal(t, tt.wantBABIP, tt.teamPitching.Babip)
 		})
 	}
 }

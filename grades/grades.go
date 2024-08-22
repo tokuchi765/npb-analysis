@@ -7,7 +7,7 @@ import (
 	"os"
 
 	_ "github.com/lib/pq"
-	data "github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/interfaces/reader"
 	"github.com/tokuchi765/npb-analysis/interfaces/repository"
 	"github.com/tokuchi765/npb-analysis/util"
@@ -22,29 +22,49 @@ type GradesInteractor struct {
 }
 
 // GetPitching 個人投手成績一覧を取得する
-func (Interactor *GradesInteractor) GetPitching(playerID string) (pitchings []data.PICHERGRADES) {
+func (Interactor *GradesInteractor) GetPitching(playerID string) (pitchings []player.PitcherGrades) {
 	return Interactor.GradesRepository.GetPitchings(playerID)
 }
 
 // GetBatting 個人打撃成績一覧を取得する
-func (Interactor *GradesInteractor) GetBatting(playerID string) (battings []data.BATTERGRADES) {
+func (Interactor *GradesInteractor) GetBatting(playerID string) (battings []player.BatterGrades) {
 	return Interactor.GradesRepository.GetBattings(playerID)
 }
 
 // GetCareer 選手情報を取得する
-func (Interactor *GradesInteractor) GetCareer(playerID string) (career data.CAREER) {
-	return Interactor.GradesRepository.GetCareer(playerID)
+func (Interactor *GradesInteractor) GetCareer(playerID string) (career player.Players) {
+	return Interactor.GradesRepository.GetPlayers(playerID)
 }
 
 // SearchCareerByName 選手名から選手データを検索する
-func (Interactor *GradesInteractor) SearchCareerByName(name string) (career []data.CAREER) {
+func (Interactor *GradesInteractor) SearchCareerByName(name string) (career []player.Players) {
 	return Interactor.GradesRepository.SearchCareerByName(name)
 }
 
 // InsertCareers 引数で受け取った CAREER をDBへ登録する
 func (Interactor *GradesInteractor) InsertCareers(csvPath string) {
 	careers := Interactor.GradesReader.ReadCareers(csvPath)
-	Interactor.GradesRepository.InsertCareers(careers)
+	var players []player.Players
+	for _, career := range careers {
+		career.SetSearchName()
+		players = append(players, Interactor.mappingCareers(career))
+	}
+	Interactor.GradesRepository.InsertPlayers(players)
+}
+
+func (Interactor *GradesInteractor) mappingCareers(career player.CAREER) player.Players {
+	return player.Players{
+		PlayerID:           career.PlayerID,
+		Name:               career.Name,
+		Position:           career.Position,
+		PitchingAndBatting: career.PitchingAndBatting,
+		Height:             career.Height,
+		Weight:             career.Weight,
+		Birthday:           career.Birthday,
+		Career:             career.Career,
+		Draft:              career.Draft,
+		SearchName:         career.SearchName,
+	}
 }
 
 // InsertPicherGrades 選手投手成績をDBに登録します
@@ -56,8 +76,41 @@ func (Interactor *GradesInteractor) InsertPicherGrades(csvPath string) {
 			picher.SetInningsPitched()
 			picher.SetBABIP()
 			picher.SetStrikeOutRate()
-			Interactor.GradesRepository.InsertPicherGrades(key, picher)
+			Interactor.GradesRepository.InsertPicherGrades(Interactor.mappingPicherGrades(key, picher))
 		}
+	}
+}
+
+func (Interactor *GradesInteractor) mappingPicherGrades(key string, picher player.PICHERGRADES) player.PitcherGrades {
+	return player.PitcherGrades{
+		PlayerID:         key,
+		Year:             picher.Year,
+		TeamID:           picher.TeamID,
+		Team:             picher.Team,
+		Pitched:          picher.Pitched,
+		Win:              picher.Win,
+		Lose:             picher.Lose,
+		Save:             picher.Save,
+		Hold:             picher.Hold,
+		HoldPoint:        picher.HoldPoint,
+		CompleteGame:     picher.CompleteGame,
+		Shutout:          picher.Shutout,
+		NoWalks:          picher.NoWalks,
+		WinningRate:      picher.WinningRate,
+		Batter:           picher.Batter,
+		InningsPitched:   picher.InningsPitched,
+		Hit:              picher.Hit,
+		HomeRun:          picher.HomeRun,
+		BaseOnBalls:      picher.BaseOnBalls,
+		HitByPitches:     picher.HitByPitches,
+		StrikeOut:        picher.StrikeOut,
+		WildPitches:      picher.WildPitches,
+		Balk:             picher.Balk,
+		RunsAllowed:      picher.RunsAllowed,
+		EarnedRun:        picher.EarnedRun,
+		EarnedRunAverage: picher.EarnedRunAverage,
+		Babip:            picher.BABIP,
+		StrikeOutRate:    picher.StrikeOutRate,
 	}
 }
 
@@ -75,12 +128,47 @@ func (Interactor *GradesInteractor) InsertBatterGrades(current string) {
 			batter.SetRC()
 			batter.SetBABIP()
 			batter.SetStrikeOutRate()
-			Interactor.GradesRepository.InsertBatterGrades(key, batter)
+			Interactor.GradesRepository.InsertBatterGrades(Interactor.mappingBatterGrades(key, batter))
 		}
 	}
 }
 
-func setWoba(batterGrades *data.BATTERGRADES, config *config) {
+func (Interactor *GradesInteractor) mappingBatterGrades(key string, batter player.BATTERGRADES) player.BatterGrades {
+	return player.BatterGrades{
+		PlayerID:               key,
+		Year:                   batter.Year,
+		TeamID:                 batter.TeamID,
+		Team:                   batter.Team,
+		Games:                  batter.Games,
+		PlateAppearance:        batter.PlateAppearance,
+		AtBat:                  batter.AtBat,
+		Score:                  batter.Score,
+		Hit:                    batter.Hit,
+		Single:                 batter.Single,
+		Double:                 batter.Double,
+		Triple:                 batter.Triple,
+		HomeRun:                batter.HomeRun,
+		BaseHit:                batter.BaseHit,
+		RunsBattedIn:           batter.RunsBattedIn,
+		StolenBase:             batter.StolenBase,
+		CaughtStealing:         batter.CaughtStealing,
+		SacrificeHits:          batter.SacrificeHits,
+		SacrificeFlies:         batter.SacrificeFlies,
+		BaseOnBalls:            batter.BaseOnBalls,
+		HitByPitches:           batter.HitByPitches,
+		StrikeOut:              batter.StrikeOut,
+		StrikeOutRate:          batter.StrikeOutRate.Float64,
+		GroundedIntoDoublePlay: batter.GroundedIntoDoublePlay,
+		BattingAverage:         batter.BattingAverage,
+		SluggingPercentage:     batter.SluggingPercentage,
+		OnBasePercentage:       batter.OnBasePercentage,
+		WOba:                   batter.Woba,
+		RC:                     batter.RC,
+		Babip:                  batter.BABIP,
+	}
+}
+
+func setWoba(batterGrades *player.BATTERGRADES, config *config) {
 	molecule := config.BaseOnBallsAndHitByPitches*(float64(batterGrades.BaseOnBalls)+float64(batterGrades.HitByPitches)) +
 		config.Single*float64(batterGrades.Single) +
 		config.Double*float64(batterGrades.Double) +
@@ -114,6 +202,6 @@ func loadConfig(current string) (*config, error) {
 	return &cfg, err
 }
 
-func setSingle(batterGrades *data.BATTERGRADES) {
+func setSingle(batterGrades *player.BATTERGRADES) {
 	batterGrades.Single = batterGrades.Hit - batterGrades.Double - batterGrades.Triple - batterGrades.HomeRun
 }

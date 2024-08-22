@@ -1,54 +1,46 @@
 package infrastructure
 
 import (
-	"database/sql"
 	"testing"
 
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
-	data "github.com/tokuchi765/npb-analysis/entity/player"
-	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
+	"github.com/tokuchi765/npb-analysis/entity/player"
 	testUtil "github.com/tokuchi765/npb-analysis/test"
 )
 
 func TestGradesRepository_InsertPicherGrades_GetPitchings(t *testing.T) {
-	type args struct {
-		playerID string
-		pitcher  data.PICHERGRADES
-	}
 	tests := []struct {
-		name string
-		args args
+		name    string
+		pitcher player.PitcherGrades
 	}{
 		{
 			"投手成績登録と取得",
-			args{
-				"53355134",
-				createPicherGrades("2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3, 3.6),
-			},
+			createPicherGradesMapping("00001", "2020", "01", "チーム名", 54.0, 4.0, 2.0, 1.0, 32.0, 36.0, 2.0, 3.0, 1.0, 0.667, 213.0, 53.0, 40.0, 4.0, 16.0, 2.0, 46.0, 2.0, 10.0, 19.0, 17.0, 2.89, 0.3, 3.6),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
 			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
+			gorm := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = gorm
 			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertPicherGrades(tt.args.playerID, tt.args.pitcher)
-			actual := repository.GetPitchings(tt.args.playerID)
-			assert.ElementsMatch(t, []data.PICHERGRADES{tt.args.pitcher}, actual)
+			repository.InsertPicherGrades(tt.pitcher)
+			actual := repository.GetPitchings(tt.pitcher.PlayerID)
+			assert.ElementsMatch(t, []player.PitcherGrades{tt.pitcher}, actual)
 		})
 	}
 }
 
-func createPicherGrades(year string, teamID string, team string, piched float64, win float64, lose float64, save float64, hold float64, holdPoint float64, completeGame float64, shutout float64, noWalks float64, winningRate float64, batter float64, inningsPitched float64, hit float64, homeRun float64, baseOnBalls float64, hitByPitches float64, strikeOut float64, wildPitches float64, balk float64, runsAllowed float64, earnedRun float64, earnedRunAverage float64, babip float64, strikeOutRate float64) data.PICHERGRADES {
-	return data.PICHERGRADES{
+func createPicherGradesMapping(playerID string, year string, teamID string, team string, pitched float64, win float64, lose float64, save float64, hold float64, holdPoint float64, completeGame float64, shutout float64, noWalks float64, winningRate float64, batter float64, inningsPitched float64, hit float64, homeRun float64, baseOnBalls float64, hitByPitches float64, strikeOut float64, wildPitches float64, balk float64, runsAllowed float64, earnedRun float64, earnedRunAverage float64, babip float64, strikeOutRate float64) player.PitcherGrades {
+	return player.PitcherGrades{
+		PlayerID:         playerID,
 		Year:             year,
 		TeamID:           teamID,
 		Team:             team,
-		Piched:           piched,
+		Pitched:          pitched,
 		Win:              win,
 		Lose:             lose,
 		Save:             save,
@@ -70,45 +62,39 @@ func createPicherGrades(year string, teamID string, team string, piched float64,
 		RunsAllowed:      runsAllowed,
 		EarnedRun:        earnedRun,
 		EarnedRunAverage: earnedRunAverage,
-		BABIP:            babip,
+		Babip:            babip,
 		StrikeOutRate:    strikeOutRate,
 	}
 }
 
 func TestGradesRepository_InsertBatterGrades_GetBattings(t *testing.T) {
-	type args struct {
-		playerID string
-		batting  data.BATTERGRADES
-	}
 	tests := []struct {
-		name string
-		args args
+		name    string
+		batting player.BatterGrades
 	}{
 		{
 			"打者成績登録と取得",
-			args{
-				"01605136",
-				createBatterGrades("2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3),
-			},
+			createBatterGradesMapping("01605136", "2018", "12", "オリックス", 113, 345, 295, 39, 78, 0, 8, 4, 1, 97, 15, 16, 9, 16, 0, 31, 3, 33, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
 			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
+			gorm := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = gorm
 			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertBatterGrades(tt.args.playerID, tt.args.batting)
-			actual := repository.GetBattings(tt.args.playerID)
-			assert.Equal(t, []data.BATTERGRADES{tt.args.batting}, actual)
+			repository.InsertBatterGrades(tt.batting)
+			actual := repository.GetBattings(tt.batting.PlayerID)
+			assert.Equal(t, []player.BatterGrades{tt.batting}, actual)
 		})
 	}
 }
 
-func createBatterGrades(Year string, TeamID string, Team string, Games int, PlateAppearance int, AtBat int, Score int, Hit int, Single int, Double int, Triple int, HomeRun int, BaseHit int, RunsBattedIn int, StolenBase int, CaughtStealing int, SacrificeHits int, SacrificeFlies int, BaseOnBalls int, HitByPitches int, StrikeOut int, StrikeOutRate float64, GroundedIntoDoublePlay int, BattingAverage float64, SluggingPercentage float64, OnBasePercentage float64, Woba float64, RC float64, BABIP float64) data.BATTERGRADES {
-	return data.BATTERGRADES{
+func createBatterGradesMapping(PlayerID string, Year string, TeamID string, Team string, Games int, PlateAppearance int, AtBat int, Score int, Hit int, Single int, Double int, Triple int, HomeRun int, BaseHit int, RunsBattedIn int, StolenBase int, CaughtStealing int, SacrificeHits int, SacrificeFlies int, BaseOnBalls int, HitByPitches int, StrikeOut int, StrikeOutRate float64, GroundedIntoDoublePlay int, BattingAverage float64, SluggingPercentage float64, OnBasePercentage float64, Woba float64, RC float64, BABIP float64) player.BatterGrades {
+	return player.BatterGrades{
+		PlayerID:               PlayerID,
 		Year:                   Year,
 		TeamID:                 TeamID,
 		Team:                   Team,
@@ -130,21 +116,21 @@ func createBatterGrades(Year string, TeamID string, Team string, Games int, Plat
 		BaseOnBalls:            BaseOnBalls,
 		HitByPitches:           HitByPitches,
 		StrikeOut:              StrikeOut,
-		StrikeOutRate:          sqlwrapper.NullFloat64{NullFloat64: sql.NullFloat64{Float64: StrikeOutRate, Valid: true}},
+		StrikeOutRate:          StrikeOutRate,
 		GroundedIntoDoublePlay: GroundedIntoDoublePlay,
 		BattingAverage:         BattingAverage,
 		SluggingPercentage:     SluggingPercentage,
 		OnBasePercentage:       OnBasePercentage,
-		Woba:                   Woba,
+		WOba:                   Woba,
 		RC:                     RC,
-		BABIP:                  BABIP,
+		Babip:                  BABIP,
 	}
 }
 
 func TestGradesRepository_InsertCareers_GetCareer(t *testing.T) {
 	type args struct {
 		playerID string
-		careers  []data.CAREER
+		players  []player.Players
 	}
 	tests := []struct {
 		name string
@@ -154,7 +140,7 @@ func TestGradesRepository_InsertCareers_GetCareer(t *testing.T) {
 			"選手成績登録と取得",
 			args{
 				"01105137",
-				[]data.CAREER{
+				[]player.Players{
 					{
 						PlayerID:           "01105137",
 						Name:               "飯田　優也",
@@ -175,13 +161,13 @@ func TestGradesRepository_InsertCareers_GetCareer(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
 			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
+			gorm := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = gorm
 			repository := GradesRepository{SQLHandler: *sqlHandler}
-			repository.InsertCareers(tt.args.careers)
-			actual := repository.GetCareer(tt.args.playerID)
-			assert.Exactly(t, tt.args.careers[0], actual)
+			repository.InsertPlayers(tt.args.players)
+			actual := repository.GetPlayers(tt.args.playerID)
+			assert.Exactly(t, tt.args.players[0], actual)
 		})
 	}
 }
@@ -189,7 +175,7 @@ func TestGradesRepository_InsertCareers_GetCareer(t *testing.T) {
 func TestGradesRepository_SearchCareerByName(t *testing.T) {
 	type args struct {
 		name    string
-		careers []data.CAREER
+		players []player.Players
 	}
 	tests := []struct {
 		name string
@@ -199,7 +185,7 @@ func TestGradesRepository_SearchCareerByName(t *testing.T) {
 			"選手名検索",
 			args{
 				"飯田",
-				[]data.CAREER{
+				[]player.Players{
 					{
 						PlayerID:           "01105137",
 						Name:               "飯田　優也",
@@ -219,16 +205,16 @@ func TestGradesRepository_SearchCareerByName(t *testing.T) {
 
 	resource, pool := testUtil.CreateContainer()
 	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
+	db := testUtil.ConnectGormDB(resource, pool)
 	sqlHandler := new(SQLHandler)
-	sqlHandler.Conn = db
+	sqlHandler.GormDB = db
 	repository := GradesRepository{SQLHandler: *sqlHandler}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			repository.InsertCareers(tt.args.careers)
+			repository.InsertPlayers(tt.args.players)
 			actual := repository.SearchCareerByName(tt.args.name)
-			assert.ElementsMatch(t, tt.args.careers, actual)
+			assert.ElementsMatch(t, tt.args.players, actual)
 		})
 	}
 }

@@ -20,7 +20,7 @@ type TeamReader struct {
 }
 
 // ReadTeamLeagueStats リーグ対戦成績CSVを読み込む
-func (TeamReader *TeamReader) ReadTeamLeagueStats(csvPath string, league string, year string) (teamLeagueStats []teamData.TeamLeagueStats, teamMatchResults []teamData.TeamMatchResults) {
+func (TeamReader *TeamReader) ReadTeamLeagueStats(csvPath string, league string, year string) (teamLeagueStats []teamData.TeamSeasonStats, teamMatchResults []teamData.TeamMatchResults) {
 	path := csvPath + "/teams/stats/season/" + league + "/" + year + "_league_stats.csv"
 	file, err := os.Open(path)
 
@@ -74,7 +74,7 @@ func GetTeamID(teamName string) (teamID string) {
 	return "13"
 }
 
-func setTeamLeagueStats(line []string, year string, indexMap map[string]int) (teamPitching teamData.TeamLeagueStats) {
+func setTeamLeagueStats(line []string, year string, indexMap map[string]int) (teamPitching teamData.TeamSeasonStats) {
 	teamPitching.TeamID = GetTeamID(line[1])
 	teamPitching.Year = year
 	teamPitching.Games, _ = strconv.Atoi(line[2])
@@ -444,8 +444,8 @@ func setTeamBatting(line []string, year string) (teamBatting teamData.TeamBattin
 }
 
 // ReadTeamPlayers メンバー一覧CSVを読み込む
-func (TeamReader *TeamReader) ReadTeamPlayers(csvPath string, initial string, teamName string) (players map[string][]teamData.Member) {
-	players = make(map[string][]teamData.Member)
+func (TeamReader *TeamReader) ReadTeamPlayers(csvPath string, initial string, teamName string) (players map[string][]teamData.TeamPlayers) {
+	players = make(map[string][]teamData.TeamPlayers)
 	pathesAndNames := getAllFilePathesAndNames(csvPath + "/members/" + initial)
 
 	for _, patheAndName := range pathesAndNames {
@@ -462,7 +462,7 @@ func (TeamReader *TeamReader) ReadTeamPlayers(csvPath string, initial string, te
 
 		_, _ = reader.Read()
 
-		var members []teamData.Member
+		var members []teamData.TeamPlayers
 
 		for {
 			line, err := reader.Read()
@@ -470,7 +470,7 @@ func (TeamReader *TeamReader) ReadTeamPlayers(csvPath string, initial string, te
 				break
 			}
 
-			members = append(members, teamData.Member{
+			members = append(members, teamData.TeamPlayers{
 				Year:       year,
 				TeamID:     TeamReader.GetTeamID(initial),
 				TeamName:   teamName,

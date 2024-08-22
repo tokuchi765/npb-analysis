@@ -47,14 +47,14 @@ type TeamBatting struct {
 	GroundedIntoDoublePlay int                    // 併殺打
 	SluggingPercentage     float64                // 長打率
 	OnBasePercentage       float64                // 出塁率
-	BABIP                  float64                // BABIP
+	Babip                  float64                // BABIP
 }
 
 // SetBABIP BABIPを算出して設定する
 func (teamBatting *TeamBatting) SetBABIP() {
-	teamBatting.BABIP = (float64(teamBatting.Hit) - float64(teamBatting.HomeRun)) / (float64(teamBatting.AtBat) - float64(teamBatting.StrikeOut) - float64(teamBatting.HomeRun) + float64(teamBatting.SacrificeFlies))
-	if math.IsNaN(teamBatting.BABIP) {
-		teamBatting.BABIP = 0.0
+	teamBatting.Babip = (float64(teamBatting.Hit) - float64(teamBatting.HomeRun)) / (float64(teamBatting.AtBat) - float64(teamBatting.StrikeOut) - float64(teamBatting.HomeRun) + float64(teamBatting.SacrificeFlies))
+	if math.IsNaN(teamBatting.Babip) {
+		teamBatting.Babip = 0.0
 	}
 }
 
@@ -101,15 +101,15 @@ type TeamPitching struct {
 	Balk             int     // ボーク
 	RunsAllowed      int     // 失点
 	EarnedRun        int     // 自責点
-	BABIP            float64 // 被BABIP
+	Babip            float64 // 被BABIP
 	StrikeOutRate    float64 // 奪三振率
 }
 
 // SetBABIP 被BABIPを算出して設定する
 func (teamPitching *TeamPitching) SetBABIP() {
-	teamPitching.BABIP = (float64(teamPitching.Hit) - float64(teamPitching.HomeRun)) / (float64(teamPitching.Batter) - (float64(teamPitching.BaseOnBalls) + float64(teamPitching.HitByPitches)) - float64(teamPitching.StrikeOut) - float64(teamPitching.HomeRun))
-	if math.IsNaN(teamPitching.BABIP) {
-		teamPitching.BABIP = 0.0
+	teamPitching.Babip = (float64(teamPitching.Hit) - float64(teamPitching.HomeRun)) / (float64(teamPitching.Batter) - (float64(teamPitching.BaseOnBalls) + float64(teamPitching.HitByPitches)) - float64(teamPitching.StrikeOut) - float64(teamPitching.HomeRun))
+	if math.IsNaN(teamPitching.Babip) {
+		teamPitching.Babip = 0.0
 	}
 }
 
@@ -121,8 +121,8 @@ func (teamPitching *TeamPitching) SetStrikeOutRate() {
 	}
 }
 
-// TeamLeagueStats チームシーズン成績
-type TeamLeagueStats struct {
+// TeamSeasonStats チームシーズン成績
+type TeamSeasonStats struct {
 	TeamID                 string  // チームID
 	Year                   string  // 年度
 	Manager                string  // 監督
@@ -154,8 +154,8 @@ type TeamMatchResults struct {
 	Draw              int    // 引き分け
 }
 
-// Member 年度毎選手一覧データ
-type Member struct {
+// TeamPlayers 年度毎選手一覧データ
+type TeamPlayers struct {
 	Year       string // 年度
 	TeamID     string // チームID
 	TeamName   string // チーム名

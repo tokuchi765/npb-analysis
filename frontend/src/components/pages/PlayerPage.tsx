@@ -55,9 +55,9 @@ function createBattingDatas(
     StrikeOut: string;
     StrikeOutRate: string;
     GroundedIntoDoublePlay: string;
-    Woba: string;
+    WOba: string;
     RC: string;
-    BABIP: string;
+    Babip: string;
   }[]
 ) {
   const battings: BattingDate[] = [];
@@ -73,9 +73,9 @@ function createBattingDatas(
       strikeOut: Number(batting.StrikeOut),
       strikeOutRate: Number(batting.StrikeOutRate),
       groundedIntoDoublePlay: Number(batting.GroundedIntoDoublePlay),
-      woba: Number(batting.Woba),
+      woba: Number(batting.WOba),
       rc: Number(batting.RC),
-      babip: Number(batting.BABIP),
+      babip: Number(batting.Babip),
     });
   });
   return battings;
@@ -115,7 +115,7 @@ function createPitchingDatas(
   pitchingList: {
     Year: string;
     Team: string;
-    Piched: string;
+    Pitched: string;
     InningsPitched: string;
     EarnedRunAverage: string;
     Batter: string;
@@ -124,7 +124,7 @@ function createPitchingDatas(
     HomeRun: string;
     BaseOnBalls: string;
     HitByPitches: string;
-    BABIP: string;
+    Babip: string;
   }[]
 ) {
   const pitchings: PitchingDate[] = [];
@@ -132,7 +132,7 @@ function createPitchingDatas(
     pitchings.push({
       main: pitching.Year === 'nan' ? '通算' : pitching.Year,
       team: pitching.Team,
-      piched: Number(pitching.Piched),
+      piched: Number(pitching.Pitched),
       inningsPitched: Number(pitching.InningsPitched),
       earnedRunAverage: Number(pitching.EarnedRunAverage),
       batter: Number(pitching.Batter),
@@ -141,7 +141,7 @@ function createPitchingDatas(
       homeRun: Number(pitching.HomeRun),
       baseOnBalls: Number(pitching.BaseOnBalls),
       hitByPitches: Number(pitching.HitByPitches),
-      babip: Number(pitching.BABIP),
+      babip: Number(pitching.Babip),
     });
   });
   return pitchings;

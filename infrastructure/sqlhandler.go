@@ -4,11 +4,15 @@ import (
 	"database/sql"
 	"fmt"
 	"time"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 // SQLHandler SQLのコネクションをハンドリングする
 type SQLHandler struct {
-	Conn *sql.DB
+	GormDB *gorm.DB
 }
 
 // NewSQLHandler SQLHandlerを生成
@@ -23,8 +27,20 @@ func NewSQLHandler() *SQLHandler {
 		fmt.Println(err)
 	}
 
+	db, err := gorm.Open(postgres.New(postgres.Config{
+		Conn: conn,
+	}), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	sqlHandler := new(SQLHandler)
-	sqlHandler.Conn = conn
+	sqlHandler.GormDB = db
 
 	return sqlHandler
 }

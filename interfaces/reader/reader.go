@@ -7,12 +7,12 @@ import (
 
 // TeamReader チーム成績CSVの読み込みを管理する
 type TeamReader interface {
-	ReadTeamLeagueStats(csvPath string, league string, year string) (teamLeagueStats []team.TeamLeagueStats, teamMatchResults []team.TeamMatchResults)
+	ReadTeamLeagueStats(csvPath string, league string, year string) (teamLeagueStats []team.TeamSeasonStats, teamMatchResults []team.TeamMatchResults)
 	ReadManager(csvPath string, teamID string, year string) (manager string)
 	ReadTeamExchangeStats(csvPath string, league string, year string) (teamExchangeMatchResults []team.TeamMatchResults)
 	ReadTeamPitching(csvPath string, league string, year string) (teamPitching []team.TeamPitching)
 	ReadTeamBatting(csvPath string, league string, year string) (teamBatting []team.TeamBatting)
-	ReadTeamPlayers(csvPath string, initial string, teamName string) (players map[string][]team.Member)
+	ReadTeamPlayers(csvPath string, initial string, teamName string) (players map[string][]team.TeamPlayers)
 }
 
 // GradesReader 選手情報CSVの読み込みを管理する

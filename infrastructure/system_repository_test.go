@@ -34,9 +34,9 @@ func TestSyastemRepository_GetSystemSetting(t *testing.T) {
 	}
 	resource, pool := testUtil.CreateContainer()
 	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
+	gorm := testUtil.ConnectGormDB(resource, pool)
 	sqlHandler := new(SQLHandler)
-	sqlHandler.Conn = db
+	sqlHandler.GormDB = gorm
 	Repository := SyastemRepository{SQLHandler: *sqlHandler}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -61,9 +61,11 @@ func TestSyastemRepository_SetSystemSetting(t *testing.T) {
 	}
 	resource, pool := testUtil.CreateContainer()
 	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
+	//db := testUtil.ConnectDB(resource, pool)
+	gorm := testUtil.ConnectGormDB(resource, pool)
 	sqlHandler := new(SQLHandler)
-	sqlHandler.Conn = db
+	//sqlHandler.Conn = db
+	sqlHandler.GormDB = gorm
 	Repository := SyastemRepository{SQLHandler: *sqlHandler}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -3,8 +3,7 @@ package team
 import (
 	"strconv"
 
-	data "github.com/tokuchi765/npb-analysis/entity/player"
-	teamData "github.com/tokuchi765/npb-analysis/entity/team"
+	"github.com/tokuchi765/npb-analysis/entity/team"
 	"github.com/tokuchi765/npb-analysis/interfaces/reader"
 	"github.com/tokuchi765/npb-analysis/interfaces/repository"
 	"github.com/tokuchi765/npb-analysis/util"
@@ -18,7 +17,7 @@ type TeamInteractor struct {
 }
 
 // InsertPythagoreanExpectation ピタゴラス勝率をDBに登録します。
-func (Interactor *TeamInteractor) InsertPythagoreanExpectation(years []int, teamBattingMap map[string][]teamData.TeamBatting, teamPitchingMap map[string][]teamData.TeamPitching) {
+func (Interactor *TeamInteractor) InsertPythagoreanExpectation(years []int, teamBattingMap map[string][]team.TeamBatting, teamPitchingMap map[string][]team.TeamPitching) {
 	for _, year := range years {
 		strYear := strconv.Itoa(year)
 		teamBattings := teamBattingMap[strYear]
@@ -28,12 +27,12 @@ func (Interactor *TeamInteractor) InsertPythagoreanExpectation(years []int, team
 }
 
 // GetTeamPitching 引数で受け取った年に紐づくチーム投手成績を取得します。
-func (Interactor *TeamInteractor) GetTeamPitching(years []int) (teamPitchingMap map[string][]teamData.TeamPitching) {
+func (Interactor *TeamInteractor) GetTeamPitching(years []int) (teamPitchingMap map[string][]team.TeamPitching) {
 	return Interactor.TeamRepository.GetTeamPitchings(years)
 }
 
 // GetTeamPitchingByTeamIDAndYear 引数で受け取った年とチームIDに紐づくチーム投手成績を取得します。
-func (Interactor *TeamInteractor) GetTeamPitchingByTeamIDAndYear(year string, teamID string) (teamPitching teamData.TeamPitching) {
+func (Interactor *TeamInteractor) GetTeamPitchingByTeamIDAndYear(year string, teamID string) (teamPitching team.TeamPitching) {
 	return Interactor.TeamRepository.GetTeamPitchingByTeamIDAndYear(year, teamID)
 }
 
@@ -48,12 +47,12 @@ func (Interactor *TeamInteractor) GetTeamPitchingMin() (minStrikeOutRate float64
 }
 
 // GetTeamBatting 引数で受け取った年に紐づくチーム打撃成績を取得します。
-func (Interactor *TeamInteractor) GetTeamBatting(years []int) (teamBattingMap map[string][]teamData.TeamBatting) {
+func (Interactor *TeamInteractor) GetTeamBatting(years []int) (teamBattingMap map[string][]team.TeamBatting) {
 	return Interactor.TeamRepository.GetTeamBattings(years)
 }
 
 // GetTeamBattingByTeamIDAndYear 引数で受け取った年とチームIDに紐づくチーム打撃成績を取得します。
-func (Interactor *TeamInteractor) GetTeamBattingByTeamIDAndYear(teamID string, year string) (teamBatting teamData.TeamBatting) {
+func (Interactor *TeamInteractor) GetTeamBattingByTeamIDAndYear(teamID string, year string) (teamBatting team.TeamBatting) {
 	return Interactor.TeamRepository.GetTeamBattingByTeamIDAndYear(teamID, year)
 }
 
@@ -68,7 +67,7 @@ func (Interactor *TeamInteractor) GetTeamBattingMin() (minHomeRun int, minSluggi
 }
 
 // GetTeamStats 引数で受け取った年に紐づくチーム成績を取得します。
-func (Interactor *TeamInteractor) GetTeamStats(years []int) (teamStatsMap map[string][]teamData.TeamLeagueStats) {
+func (Interactor *TeamInteractor) GetTeamStats(years []int) (teamStatsMap map[string][]team.TeamSeasonStats) {
 	return Interactor.TeamRepository.GetTeamStats(years)
 }
 
@@ -82,11 +81,11 @@ func (Interactor *TeamInteractor) InsertSeasonLeagueStats(csvPath string, years 
 		Interactor.setManager(csvPath, &pTeamLeagueStats)
 
 		// DBに登録する
-		Interactor.TeamRepository.InsertTeamLeagueStats(append(cTeamLeagueStats, pTeamLeagueStats...))
+		Interactor.TeamRepository.InsertTeamSeasonStats(append(cTeamLeagueStats, pTeamLeagueStats...))
 	}
 }
 
-func (Interactor *TeamInteractor) setManager(csvPath string, teamLeagueStatsList *[]teamData.TeamLeagueStats) {
+func (Interactor *TeamInteractor) setManager(csvPath string, teamLeagueStatsList *[]team.TeamSeasonStats) {
 	teamLeagueStatses := *teamLeagueStatsList
 	for i, teamLeagueStats := range teamLeagueStatses {
 		teamLeagueStatses[i].Manager = Interactor.ReadManager(csvPath, teamLeagueStats.TeamID, teamLeagueStats.Year)
@@ -136,7 +135,7 @@ func (Interactor *TeamInteractor) InsertTeamBattings(csvPath string, league stri
 }
 
 // GetPlayersByTeamIDAndYear チームIDと年から選手一覧を取得する
-func (Interactor *TeamInteractor) GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER) {
+func (Interactor *TeamInteractor) GetPlayersByTeamIDAndYear(teamID string, year string) (players []team.TeamPlayers) {
 	return Interactor.TeamRepository.GetPlayersByTeamIDAndYear(teamID, year)
 }
 

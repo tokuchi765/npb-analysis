@@ -7,7 +7,7 @@ import (
 	"github.com/golang/mock/gomock"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
-	data "github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/entity/player"
 	mock_reader "github.com/tokuchi765/npb-analysis/interfaces/reader/mock"
 	mock_repository "github.com/tokuchi765/npb-analysis/interfaces/repository/mock"
 )
@@ -15,7 +15,7 @@ import (
 func TestInsertCareers(t *testing.T) {
 	type args struct {
 		csvPath string
-		careers []data.CAREER
+		careers []player.Players
 	}
 	tests := []struct {
 		name string
@@ -25,7 +25,7 @@ func TestInsertCareers(t *testing.T) {
 			"選手成績登録",
 			args{
 				"csvPath",
-				[]data.CAREER{
+				[]player.Players{
 					{
 						PlayerID:           "01105137",
 						Name:               "飯田　優也",
@@ -36,6 +36,7 @@ func TestInsertCareers(t *testing.T) {
 						Birthday:           "1990年11月27日",
 						Career:             "神戸弘陵高 - 東京農業大生産学部",
 						Draft:              "2012年育成選手ドラフト3位",
+						SearchName:         "飯田優也",
 					},
 				},
 			},
@@ -50,11 +51,11 @@ func TestInsertCareers(t *testing.T) {
 
 			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
 
-			mGradesRepository.EXPECT().InsertCareers(tt.args.careers)
+			mGradesRepository.EXPECT().InsertPlayers(tt.args.careers)
 
 			mGradesReader := mock_reader.NewMockGradesReader(mockCtrl)
 
-			mGradesReader.EXPECT().ReadCareers(tt.args.csvPath).Return(tt.args.careers)
+			mGradesReader.EXPECT().ReadCareers(tt.args.csvPath).Return([]player.CAREER{getCAREER()})
 
 			interactor := GradesInteractor{
 				GradesRepository: mGradesRepository,
@@ -65,12 +66,59 @@ func TestInsertCareers(t *testing.T) {
 	}
 }
 
-func getTestPicherGrades() data.PICHERGRADES {
-	return data.PICHERGRADES{
+func getCAREER() player.CAREER {
+	return player.CAREER{
+		PlayerID:           "01105137",
+		Name:               "飯田　優也",
+		Position:           "投手",
+		PitchingAndBatting: "左投左打",
+		Height:             "187cm",
+		Weight:             "92kg",
+		Birthday:           "1990年11月27日",
+		Career:             "神戸弘陵高 - 東京農業大生産学部",
+		Draft:              "2012年育成選手ドラフト3位",
+	}
+}
+
+func getPicherGrades() player.PitcherGrades {
+	return player.PitcherGrades{
+		PlayerID:         "53355134",
 		Year:             "2018",
 		TeamID:           "12",
 		Team:             "オリックス",
-		Piched:           54.0,
+		Pitched:          54.0,
+		Win:              4.0,
+		Lose:             2.0,
+		Save:             1.0,
+		Hold:             32.0,
+		HoldPoint:        36.0,
+		CompleteGame:     0.0,
+		Shutout:          0.0,
+		NoWalks:          0.0,
+		WinningRate:      0.667,
+		Batter:           213.0,
+		InningsPitched:   53.3,
+		Hit:              40.0,
+		HomeRun:          4.0,
+		BaseOnBalls:      16.0,
+		HitByPitches:     2.0,
+		StrikeOut:        46.0,
+		WildPitches:      2.0,
+		Balk:             0.0,
+		RunsAllowed:      19.0,
+		EarnedRun:        17.0,
+		EarnedRunAverage: 2.89,
+		Babip:            0.2482758620689655,
+		StrikeOutRate:    7.76735459662289,
+	}
+}
+
+func getTestPicherGrades() player.PICHERGRADES {
+	return player.PICHERGRADES{
+		Year:             "2018",
+		TeamID:           "12",
+		Team:             "オリックス",
+		Pitched:          54.0,
 		Win:              4.0,
 		Lose:             2.0,
 		Save:             1.0,
@@ -95,8 +143,43 @@ func getTestPicherGrades() data.PICHERGRADES {
 	}
 }
 
-func getTestBatterGrades() data.BATTERGRADES {
-	return data.BATTERGRADES{
+func getBatterGrades() player.BatterGrades {
+	return player.BatterGrades{
+		PlayerID:               "01605136",
+		Year:                   "2018",
+		TeamID:                 "12",
+		Team:                   "オリックス",
+		Games:                  113,
+		PlateAppearance:        345,
+		AtBat:                  295,
+		Score:                  39,
+		Hit:                    78,
+		Single:                 65,
+		Double:                 8,
+		Triple:                 4,
+		HomeRun:                1,
+		BaseHit:                97,
+		RunsBattedIn:           15,
+		StolenBase:             16,
+		CaughtStealing:         9,
+		SacrificeHits:          16,
+		SacrificeFlies:         0,
+		BaseOnBalls:            31,
+		HitByPitches:           3,
+		StrikeOut:              33,
+		StrikeOutRate:          0.09565217391304348,
+		GroundedIntoDoublePlay: 2,
+		BattingAverage:         0.264,
+		SluggingPercentage:     0.32899999999999996,
+		OnBasePercentage:       0.34,
+		WOba:                   0.30729483282674774,
+		RC:                     36.13817391304349,
+		Babip:                  0.2950191570881226,
+	}
+}
+
+func getTestBatterGrades() player.BATTERGRADES {
+	return player.BATTERGRADES{
 		Year:                   "2018",
 		TeamID:                 "12",
 		Team:                   "オリックス",
@@ -129,18 +212,18 @@ func getTestBatterGrades() data.BATTERGRADES {
 
 func TestInsertPicherGrades(t *testing.T) {
 	playerID := "53355134"
-	picherMap := make(map[string][]data.PICHERGRADES)
+	picherMap := make(map[string][]player.PICHERGRADES)
 	picherGrades := getTestPicherGrades()
-	picherMap[playerID] = []data.PICHERGRADES{picherGrades}
-	wantPicherMap := make(map[string][]data.PICHERGRADES)
+	picherMap[playerID] = []player.PICHERGRADES{picherGrades}
+	wantPicherMap := make(map[string][]player.PICHERGRADES)
 	wantPicherGrades := getTestPicherGrades()
 	wantPicherGrades.SetInningsPitched()
 	wantPicherGrades.SetBABIP()
 	wantPicherGrades.SetStrikeOutRate()
-	wantPicherMap[playerID] = []data.PICHERGRADES{wantPicherGrades}
+	wantPicherMap[playerID] = []player.PICHERGRADES{wantPicherGrades}
 	type args struct {
-		picherMap     map[string][]data.PICHERGRADES
-		wantPicherMap map[string][]data.PICHERGRADES
+		picherMap     map[string][]player.PICHERGRADES
+		wantPicherMap map[string][]player.PICHERGRADES
 		playerID      string
 	}
 	tests := []struct {
@@ -164,7 +247,7 @@ func TestInsertPicherGrades(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
 
-			mGradesRepository.EXPECT().InsertPicherGrades(tt.args.playerID, wantPicherGrades).Times(1)
+			mGradesRepository.EXPECT().InsertPicherGrades(getPicherGrades()).Times(1)
 
 			mGradesReader := mock_reader.NewMockGradesReader(mockCtrl)
 
@@ -188,14 +271,14 @@ func TestGradesInteractor_GetPitching(t *testing.T) {
 	tests := []struct {
 		name          string
 		args          args
-		wantPitchings []data.PICHERGRADES
+		wantPitchings []player.PitcherGrades
 	}{
 		{
 			"投手成績取得",
 			args{
 				"53355134",
 			},
-			[]data.PICHERGRADES{getTestPicherGrades()},
+			[]player.PitcherGrades{getPicherGrades()},
 		},
 	}
 
@@ -223,11 +306,11 @@ func TestGradesInteractor_GetPitching(t *testing.T) {
 
 func TestInsertBatterGrades(t *testing.T) {
 	playerID := "01605136"
-	batterMap := make(map[string][]data.BATTERGRADES)
+	batterMap := make(map[string][]player.BATTERGRADES)
 	grades := getTestBatterGrades()
-	batterMap[playerID] = []data.BATTERGRADES{grades}
+	batterMap[playerID] = []player.BATTERGRADES{grades}
 	type args struct {
-		batterMap map[string][]data.BATTERGRADES
+		batterMap map[string][]player.BATTERGRADES
 		playerID  string
 	}
 	tests := []struct {
@@ -250,7 +333,7 @@ func TestInsertBatterGrades(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
 
-			mGradesRepository.EXPECT().InsertBatterGrades(tt.args.playerID, gomock.Any())
+			mGradesRepository.EXPECT().InsertBatterGrades(getBatterGrades()).Times(1)
 
 			mGradesReader := mock_reader.NewMockGradesReader(mockCtrl)
 
@@ -273,14 +356,14 @@ func TestGradesInteractor_GetBatting(t *testing.T) {
 	tests := []struct {
 		name         string
 		args         args
-		wantBattings []data.BATTERGRADES
+		wantBattings []player.BatterGrades
 	}{
 		{
 			"打席成績取得",
 			args{
 				"01605136",
 			},
-			[]data.BATTERGRADES{getTestBatterGrades()},
+			[]player.BatterGrades{getBatterGrades()},
 		},
 	}
 
@@ -309,7 +392,7 @@ func TestGradesInteractor_GetBatting(t *testing.T) {
 func TestGradesInteractor_GetCareer(t *testing.T) {
 	type args struct {
 		playerID string
-		career   data.CAREER
+		career   player.Players
 	}
 	tests := []struct {
 		name string
@@ -319,7 +402,7 @@ func TestGradesInteractor_GetCareer(t *testing.T) {
 			"選手成績取得",
 			args{
 				"01105137",
-				data.CAREER{
+				player.Players{
 					PlayerID:           "01105137",
 					Name:               "飯田　優也",
 					Position:           "投手",
@@ -329,6 +412,7 @@ func TestGradesInteractor_GetCareer(t *testing.T) {
 					Birthday:           "1990年11月27日",
 					Career:             "神戸弘陵高 - 東京農業大生産学部",
 					Draft:              "2012年育成選手ドラフト3位",
+					SearchName:         "飯田優也",
 				},
 			},
 		},
@@ -341,7 +425,7 @@ func TestGradesInteractor_GetCareer(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
 
-			mGradesRepository.EXPECT().GetCareer(tt.args.playerID).Return(tt.args.career)
+			mGradesRepository.EXPECT().GetPlayers(tt.args.playerID).Return(tt.args.career)
 
 			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
 
@@ -352,6 +436,56 @@ func TestGradesInteractor_GetCareer(t *testing.T) {
 
 			gotCareer := interactor.GetCareer(tt.args.playerID)
 			assert.Exactly(t, tt.args.career, gotCareer)
+		})
+	}
+}
+
+func TestGradesInteractor_SearchCareerByName(t *testing.T) {
+	type args struct {
+		name string
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantCareer []player.Players
+	}{
+		{
+			"選手名検索",
+			args{
+				"飯田",
+			},
+			[]player.Players{
+				{
+					PlayerID:           "01105137",
+					Name:               "飯田　優也",
+					Position:           "投手",
+					PitchingAndBatting: "左投左打",
+					Height:             "187cm",
+					Weight:             "92kg",
+					Birthday:           "1990年11月27日",
+					Career:             "神戸弘陵高 - 東京農業大生産学部",
+					Draft:              "2012年育成選手ドラフト3位",
+					SearchName:         "飯田優也",
+				},
+			},
+		},
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().SearchCareerByName(tt.args.name).Return(tt.wantCareer)
+
+			interactor := GradesInteractor{
+				GradesRepository: mGradesRepository,
+			}
+
+			gotCareer := interactor.SearchCareerByName(tt.args.name)
+			assert.Exactly(t, tt.wantCareer, gotCareer)
 		})
 	}
 }

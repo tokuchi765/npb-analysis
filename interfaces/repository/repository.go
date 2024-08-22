@@ -1,9 +1,8 @@
 package repository
 
 import (
-	data "github.com/tokuchi765/npb-analysis/entity/player"
+	"github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/entity/team"
-	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 )
 
 // SyastemRepository システム設定を登録するインターフェース
@@ -14,34 +13,34 @@ type SyastemRepository interface {
 
 // GradesRepository チーム成績データアクセスを管理するインターフェース
 type GradesRepository interface {
-	GetPitchings(playerID string) (pitchings []data.PICHERGRADES)
-	GetBattings(playerID string) (battings []data.BATTERGRADES)
-	GetCareer(playerID string) (career data.CAREER)
-	InsertCareers(careers []data.CAREER)
-	InsertPicherGrades(key string, picher data.PICHERGRADES)
-	InsertBatterGrades(playerID string, batterGrades data.BATTERGRADES)
-	SearchCareerByName(name string) (careers []data.CAREER)
+	GetPitchings(playerID string) (pitchings []player.PitcherGrades)
+	GetBattings(playerID string) (battings []player.BatterGrades)
+	GetPlayers(playerID string) (career player.Players)
+	InsertPlayers(careers []player.Players)
+	InsertPicherGrades(picher player.PitcherGrades)
+	InsertBatterGrades(batterGrades player.BatterGrades)
+	SearchCareerByName(name string) (careers []player.Players)
 }
 
 // TeamRepository チーム成績データアクセスを管理するインターフェース
 type TeamRepository interface {
-	InsertTeamPitchings(teamPitching teamData.TeamPitching)
-	GetTeamPitchings(years []int) (teamPitchingMap map[string][]teamData.TeamPitching)
-	GetTeamPitchingByTeamIDAndYear(year string, teamID string) (teamPitching teamData.TeamPitching)
+	InsertTeamPitchings(teamPitching team.TeamPitching)
+	GetTeamPitchings(years []int) (teamPitchingMap map[string][]team.TeamPitching)
+	GetTeamPitchingByTeamIDAndYear(year string, teamID string) (teamPitching team.TeamPitching)
 	GetTeamPitchingMax() (maxStrikeOutRate float64, maxRunsAllowed int)
 	GetTeamPitchingMin() (minStrikeOutRate float64, minRunsAllowed int)
-	InsertTeamBattings(teamBatting teamData.TeamBatting)
-	GetTeamBattings(years []int) (teamBattingMap map[string][]teamData.TeamBatting)
-	GetTeamBattingByTeamIDAndYear(teamID string, year string) (teamBatting teamData.TeamBatting)
+	InsertTeamBattings(teamBatting team.TeamBatting)
+	GetTeamBattings(years []int) (teamBattingMap map[string][]team.TeamBatting)
+	GetTeamBattingByTeamIDAndYear(teamID string, year string) (teamBatting team.TeamBatting)
 	GetTeamBattingMax() (maxHomeRun int, maxSluggingPercentage float64, maxOnBasePercentage float64)
 	GetTeamBattingMin() (minHomeRun int, minSluggingPercentage float64, minOnBasePercentage float64)
-	GetTeamStats(years []int) (teamStatsMap map[string][]teamData.TeamLeagueStats)
-	InsertPythagoreanExpectation(teamBattings []teamData.TeamBatting, teamPitchings []teamData.TeamPitching)
-	InsertTeamLeagueStats(teamLeagueStats []teamData.TeamLeagueStats)
-	InsertMatchResults(teamMatchResults []teamData.TeamMatchResults)
+	GetTeamStats(years []int) (teamStatsMap map[string][]team.TeamSeasonStats)
+	InsertPythagoreanExpectation(teamBattings []team.TeamBatting, teamPitchings []team.TeamPitching)
+	InsertTeamSeasonStats(teamSeasonStats []team.TeamSeasonStats)
+	InsertMatchResults(teamMatchResults []team.TeamMatchResults)
 	GetTeamName(teamID string) (teamName string)
-	GetPlayersByTeamIDAndYear(teamID string, year string) (players []data.PLAYER)
-	InsertTeamPlayers(members []team.Member)
+	GetPlayersByTeamIDAndYear(teamID string, year string) (players []team.TeamPlayers)
+	InsertTeamPlayers(members []team.TeamPlayers)
 	InsertMembersCsv(fileName string)
 	IsRegisteredMembersCsv(fileName string) bool
 }

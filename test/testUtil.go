@@ -11,6 +11,9 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
 	"github.com/ory/dockertest/v3"
+	gorm_postgres "gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 // CreateContainer dockertestを用いてテスト用のDBを立ち上げる
@@ -44,28 +47,41 @@ func CreateContainer() (*dockertest.Resource, *dockertest.Pool) {
 	return resource, pool
 }
 
-// ConnectDB テスト用のDBとの接続を行う
-func ConnectDB(resource *dockertest.Resource, pool *dockertest.Pool) *sql.DB {
-	// DB(コンテナ)との接続
-	var db *sql.DB
+// ConnectGormDB テスト用のDBとの接続を行う
+func ConnectGormDB(resource *dockertest.Resource, pool *dockertest.Pool) *gorm.DB {
+	var db *gorm.DB
+	var conn *sql.DB
 	if err := pool.Retry(func() error {
 		var err error
-		db, err = sql.Open("postgres", fmt.Sprintf("host=localhost port=%s password=postgres user=npb-analysis dbname=npb-analysis sslmode=disable", resource.GetPort("5432/tcp")))
+		conn, err = sql.Open("postgres", fmt.Sprintf("host=localhost port=%s password=postgres user=npb-analysis dbname=npb-analysis sslmode=disable", resource.GetPort("5432/tcp")))
+
 		if err != nil {
 			return err
 		}
-		return db.Ping()
+
+		return conn.Ping()
 	}); err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
 
-	driver, err := postgres.WithInstance(db, &postgres.Config{})
+	var err error
+	db, err = gorm.Open(gorm_postgres.New(gorm_postgres.Config{
+		Conn: conn,
+	}), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	driver, err := postgres.WithInstance(conn, &postgres.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	m, err := migrate.NewWithDatabaseInstance("file:///home/runner/work/npb-analysis/npb-analysis/migrations", "postgres", driver)
-
 	if err != nil {
 		log.Fatal(err)
 	}

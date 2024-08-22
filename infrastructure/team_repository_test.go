@@ -5,17 +5,16 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	data "github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/entity/sqlwrapper"
 	"github.com/tokuchi765/npb-analysis/entity/team"
-	teamData "github.com/tokuchi765/npb-analysis/entity/team"
 	testUtil "github.com/tokuchi765/npb-analysis/test"
+	"gorm.io/gorm"
 )
 
 func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 	type args struct {
 		years        []int
-		teamPitching teamData.TeamPitching
+		teamPitching team.TeamPitching
 	}
 	tests := []struct {
 		name string
@@ -32,9 +31,9 @@ func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			repository.InsertTeamPitchings(tt.args.teamPitching)
@@ -46,8 +45,8 @@ func TestTeamRepository_InsertTeamPitchings_GetTeamPitchings(t *testing.T) {
 	}
 }
 
-func createTeamPitching(teamID string, year string, earnedRunAverage float64, games int, win int, lose int, save int, hold int, holdPoint int, completeGame int, shutout int, noWalks int, winningRate float64, batter int, inningsPitched int, hit int, homeRun int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, wildPitches int, balk int, runsAllowed int, earnedRun int, babip float64, strikeOutRate float64) (teamPitching teamData.TeamPitching) {
-	return teamData.TeamPitching{
+func createTeamPitching(teamID string, year string, earnedRunAverage float64, games int, win int, lose int, save int, hold int, holdPoint int, completeGame int, shutout int, noWalks int, winningRate float64, batter int, inningsPitched int, hit int, homeRun int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, wildPitches int, balk int, runsAllowed int, earnedRun int, babip float64, strikeOutRate float64) (teamPitching team.TeamPitching) {
+	return team.TeamPitching{
 		TeamID:           teamID,
 		Year:             year,
 		EarnedRunAverage: earnedRunAverage,
@@ -73,14 +72,14 @@ func createTeamPitching(teamID string, year string, earnedRunAverage float64, ga
 		Balk:             balk,
 		RunsAllowed:      runsAllowed,
 		EarnedRun:        earnedRun,
-		BABIP:            babip,
+		Babip:            babip,
 		StrikeOutRate:    strikeOutRate,
 	}
 }
 
 func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 	type args struct {
-		teamBatting teamData.TeamBatting
+		teamBatting team.TeamBatting
 	}
 	tests := []struct {
 		name string
@@ -96,9 +95,9 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			repository.InsertTeamBattings(tt.args.teamBatting)
@@ -112,8 +111,8 @@ func TestTeamInteractor_InsertTeamBattings_GetTeamBatting(t *testing.T) {
 	}
 }
 
-func createTeamBatting(teamID string, year string, battingAverage float64, games int, plateAppearance int, atBat int, score int, hit int, double int, triple int, homeRun int, baseHit int, runsBattedIn int, stolenBase int, caughtStealing int, sacrificeHits int, sacrificeFlies int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, strikeOutRate float64, groundedIntoDoublePlay int, sluggingPercentage float64, onBasePercentage float64, babip float64) teamData.TeamBatting {
-	return teamData.TeamBatting{
+func createTeamBatting(teamID string, year string, battingAverage float64, games int, plateAppearance int, atBat int, score int, hit int, double int, triple int, homeRun int, baseHit int, runsBattedIn int, stolenBase int, caughtStealing int, sacrificeHits int, sacrificeFlies int, baseOnBalls int, intentionalWalk int, hitByPitches int, strikeOut int, strikeOutRate float64, groundedIntoDoublePlay int, sluggingPercentage float64, onBasePercentage float64, babip float64) team.TeamBatting {
+	return team.TeamBatting{
 		TeamID:                 teamID,
 		Year:                   year,
 		BattingAverage:         battingAverage,
@@ -139,14 +138,14 @@ func createTeamBatting(teamID string, year string, battingAverage float64, games
 		GroundedIntoDoublePlay: groundedIntoDoublePlay,
 		SluggingPercentage:     sluggingPercentage,
 		OnBasePercentage:       onBasePercentage,
-		BABIP:                  babip,
+		Babip:                  babip,
 	}
 }
 
 func TestTeamRepository_GetTeamStats(t *testing.T) {
 	type args struct {
-		teamBattings  []teamData.TeamBatting
-		teamPitchings []teamData.TeamPitching
+		teamBattings  []team.TeamBatting
+		teamPitchings []team.TeamPitching
 		expected      float64
 		teamID        string
 		year          string
@@ -158,10 +157,10 @@ func TestTeamRepository_GetTeamStats(t *testing.T) {
 		{
 			"チームリーグ成績取得",
 			args{
-				teamBattings: []teamData.TeamBatting{
+				teamBattings: []team.TeamBatting{
 					{TeamID: "01", Year: "2020", Score: 100},
 				},
-				teamPitchings: []teamData.TeamPitching{
+				teamPitchings: []team.TeamPitching{
 					{TeamID: "01", Year: "2020", RunsAllowed: 100},
 				},
 				expected: 0.5,
@@ -174,9 +173,9 @@ func TestTeamRepository_GetTeamStats(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
 			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
@@ -187,10 +186,8 @@ func TestTeamRepository_GetTeamStats(t *testing.T) {
 	}
 }
 
-func insertDefaultTeamStats(teamID string, year string, db *sql.DB) {
-	stmt1, _ := db.Prepare("INSERT INTO team_season_stats(team_id, year, manager, games, win, lose, draw, winning_rate, exchange_win, exchange_lose, exchange_draw, home_win, home_lose, home_draw, load_win, load_lose, load_draw, pythagorean_expectation) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)")
-	stmt1.Exec(teamID, year, "manager", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0)
-	stmt1.Close()
+func insertDefaultTeamStats(teamID string, year string, db *gorm.DB) {
+	db.Exec("INSERT INTO team_season_stats(team_id, year, manager, games, win, lose, draw, winning_rate, exchange_win, exchange_lose, exchange_draw, home_win, home_lose, home_draw, load_win, load_lose, load_draw, pythagorean_expectation) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", teamID, year, "manager", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0)
 }
 
 func Test_calcPythagoreanExpectation(t *testing.T) {
@@ -218,8 +215,8 @@ func Test_calcPythagoreanExpectation(t *testing.T) {
 func TestTeamRepository_InsertPythagoreanExpectation(t *testing.T) {
 	type args struct {
 		years         []int
-		teamBattings  []teamData.TeamBatting
-		teamPitchings []teamData.TeamPitching
+		teamBattings  []team.TeamBatting
+		teamPitchings []team.TeamPitching
 		expected      float64
 		teamID        string
 		year          string
@@ -232,10 +229,10 @@ func TestTeamRepository_InsertPythagoreanExpectation(t *testing.T) {
 			"ピタゴラス勝率登録",
 			args{
 				years: []int{2020},
-				teamBattings: []teamData.TeamBatting{
+				teamBattings: []team.TeamBatting{
 					{TeamID: "01", Year: "2020", Score: 100},
 				},
-				teamPitchings: []teamData.TeamPitching{
+				teamPitchings: []team.TeamPitching{
 					{TeamID: "01", Year: "2020", RunsAllowed: 100},
 				},
 				expected: 0.5,
@@ -248,9 +245,9 @@ func TestTeamRepository_InsertPythagoreanExpectation(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
 			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			insertDefaultTeamStats(tt.args.teamID, tt.args.year, db)
@@ -270,7 +267,7 @@ func TestTeamRepository_InsertTeamLeagueStats(t *testing.T) {
 		expectedWin     int
 		expectedLose    int
 		expectedDraw    int
-		teamLeagueStats []teamData.TeamLeagueStats
+		teamLeagueStats []team.TeamSeasonStats
 	}
 	tests := []struct {
 		name string
@@ -286,7 +283,7 @@ func TestTeamRepository_InsertTeamLeagueStats(t *testing.T) {
 				expectedWin:     60,
 				expectedLose:    40,
 				expectedDraw:    46,
-				teamLeagueStats: []teamData.TeamLeagueStats{
+				teamLeagueStats: []team.TeamSeasonStats{
 					{
 						TeamID:                 "01",
 						Year:                   "2020",
@@ -315,24 +312,27 @@ func TestTeamRepository_InsertTeamLeagueStats(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
 			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
-			repository.InsertTeamLeagueStats(tt.args.teamLeagueStats)
-			rows, _ := db.Query("SELECT manager,games,win,lose,draw FROM team_season_stats WHERE team_id = $1 AND year = $2", tt.args.teamID, tt.args.year)
-			var manager string
-			var games, win, lose, draw int
-			for rows.Next() {
-				rows.Scan(&manager, &games, &win, &lose, &draw)
+			repository.InsertTeamSeasonStats(tt.args.teamLeagueStats)
+
+			type Result struct {
+				Manager string
+				Games   int
+				Win     int
+				Lose    int
+				Draw    int
 			}
-			rows.Close()
-			assert.Equal(t, tt.args.expectedManager, manager)
-			assert.Equal(t, tt.args.expectedGames, games)
-			assert.Equal(t, tt.args.expectedWin, win)
-			assert.Equal(t, tt.args.expectedLose, lose)
-			assert.Equal(t, tt.args.expectedDraw, draw)
+			var result = Result{}
+			db.Raw("SELECT manager,games,win,lose,draw FROM team_season_stats WHERE team_id = ? AND year = ?", tt.args.teamID, tt.args.year).Scan(&result)
+			assert.Equal(t, tt.args.expectedManager, result.Manager)
+			assert.Equal(t, tt.args.expectedGames, result.Games)
+			assert.Equal(t, tt.args.expectedWin, result.Win)
+			assert.Equal(t, tt.args.expectedLose, result.Lose)
+			assert.Equal(t, tt.args.expectedDraw, result.Draw)
 		})
 	}
 }
@@ -400,12 +400,12 @@ func TestTeamRepository_InsertMatchResults(t *testing.T) {
 	}
 	resource, pool := testUtil.CreateContainer()
 	defer testUtil.CloseContainer(resource, pool)
-	db := testUtil.ConnectDB(resource, pool)
+	db := testUtil.ConnectGormDB(resource, pool)
 	sqlHandler := new(SQLHandler)
-	sqlHandler.Conn = db
+	sqlHandler.GormDB = db
 	repository := TeamRepository{SQLHandler: *sqlHandler}
 
-	teamMatchResults := []teamData.TeamMatchResults{
+	teamMatchResults := []team.TeamMatchResults{
 		{
 			TeamID:            "01",
 			Year:              "2020",
@@ -428,17 +428,18 @@ func TestTeamRepository_InsertMatchResults(t *testing.T) {
 	repository.InsertMatchResults(teamMatchResults)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			rows, _ := db.Query("SELECT vs_type,win,lose,draw FROM team_match_results WHERE team_id = $1 AND year = $2 AND competitive_team_id = $3", tt.args.teamID, tt.args.year, tt.args.opponentTeamID)
-			var vsType string
-			var win, lose, draw int
-			for rows.Next() {
-				rows.Scan(&vsType, &win, &lose, &draw)
+			type Result struct {
+				VsType string
+				Win    int
+				Lose   int
+				Draw   int
 			}
-			rows.Close()
-			assert.Equal(t, tt.args.league.expectedVsType, vsType)
-			assert.Equal(t, tt.args.league.expectedWin, win)
-			assert.Equal(t, tt.args.league.expectedLose, lose)
-			assert.Equal(t, tt.args.league.expectedDraw, draw)
+			var result = Result{}
+			db.Raw("SELECT vs_type,win,lose,draw FROM team_match_results WHERE team_id = ? AND year = ? AND competitive_team_id = ?", tt.args.teamID, tt.args.year, tt.args.opponentTeamID).Scan(&result)
+			assert.Equal(t, tt.args.league.expectedVsType, result.VsType)
+			assert.Equal(t, tt.args.league.expectedWin, result.Win)
+			assert.Equal(t, tt.args.league.expectedLose, result.Lose)
+			assert.Equal(t, tt.args.league.expectedDraw, result.Draw)
 		})
 	}
 }
@@ -451,7 +452,7 @@ func TestTeamRepository_GetTeamPitchingByTeamIDAndYear(t *testing.T) {
 	tests := []struct {
 		name             string
 		args             args
-		wantTeamPitching teamData.TeamPitching
+		wantTeamPitching team.TeamPitching
 	}{
 		{
 			"チーム投手成績取得（チームIDと年指定）",
@@ -466,9 +467,9 @@ func TestTeamRepository_GetTeamPitchingByTeamIDAndYear(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			repository.InsertTeamPitchings(tt.wantTeamPitching)
@@ -487,7 +488,7 @@ func TestTeamRepository_GetTeamBattingByTeamIDAndYear(t *testing.T) {
 	tests := []struct {
 		name            string
 		args            args
-		wantTeamBatting teamData.TeamBatting
+		wantTeamBatting team.TeamBatting
 	}{
 		{
 			"チーム打撃成績取得（チームIDと年指定）",
@@ -501,9 +502,9 @@ func TestTeamRepository_GetTeamBattingByTeamIDAndYear(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			repository.InsertTeamBattings(tt.wantTeamBatting)
@@ -531,9 +532,9 @@ func TestTeamRepository_GetTeamBattingMax(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			repository.InsertTeamBattings(createTeamBatting("01", "2005", 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.67, 0.451, 0))
@@ -566,9 +567,9 @@ func TestTeamRepository_GetTeamBattingMin(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			repository.InsertTeamBattings(createTeamBatting("01", "2005", 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.67, 0.451, 0))
@@ -600,9 +601,9 @@ func TestTeamRepository_GetTeamPitchingMax(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			repository.InsertTeamPitchings(createTeamPitching("01", "2020", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 3.6))
@@ -631,9 +632,9 @@ func TestTeamRepository_GetTeamPitchingMin(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 
 			repository.InsertTeamPitchings(createTeamPitching("01", "2020", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 3.6))
@@ -650,28 +651,23 @@ func TestTeamRepository_GetTeamPitchingMin(t *testing.T) {
 
 func TestGradesRepository_InsertTeamPlayers(t *testing.T) {
 	type args struct {
-		member []team.Member
+		member []team.TeamPlayers
 		year   string
 		teamID string
 	}
 	tests := []struct {
-		name        string
-		args        args
-		wantPlayers []data.PLAYER
+		name string
+		args args
 	}{
 		{
 			"選手一覧取得",
 			args{
-				[]team.Member{
+				[]team.TeamPlayers{
 					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "93795138", PlayerName: "デラロサ"},
 					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "41045138", PlayerName: "戸郷　翔征"},
 				},
 				"2020",
 				"01",
-			},
-			[]data.PLAYER{
-				{Year: "2020", TeamID: "01", PlayerID: "93795138", Team: "Giants", Name: "デラロサ"},
-				{Year: "2020", TeamID: "01", PlayerID: "41045138", Team: "Giants", Name: "戸郷　翔征"},
 			},
 		},
 	}
@@ -679,13 +675,13 @@ func TestGradesRepository_InsertTeamPlayers(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
 			defer testUtil.CloseContainer(resource, pool)
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 			repository.InsertTeamPlayers(tt.args.member)
 			actual := repository.GetPlayersByTeamIDAndYear(tt.args.teamID, tt.args.year)
-			assert.ElementsMatch(t, tt.wantPlayers, actual)
+			assert.ElementsMatch(t, tt.args.member, actual)
 		})
 	}
 }
@@ -720,13 +716,42 @@ func TestTeamRepository_InsertMembersCsv_IsRegisteredMembersCsv(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			resource, pool := testUtil.CreateContainer()
-			db := testUtil.ConnectDB(resource, pool)
+			db := testUtil.ConnectGormDB(resource, pool)
 			sqlHandler := new(SQLHandler)
-			sqlHandler.Conn = db
+			sqlHandler.GormDB = db
 			repository := TeamRepository{SQLHandler: *sqlHandler}
 			repository.InsertMembersCsv(tt.args.fileName)
 			actual := repository.IsRegisteredMembersCsv(tt.args.searchFileName)
 			assert.Equal(t, tt.wantResult, actual)
+			testUtil.CloseContainer(resource, pool)
+		})
+	}
+}
+
+func TestTeamRepository_GetTeamName(t *testing.T) {
+	type args struct {
+		teamID string
+	}
+	tests := []struct {
+		name         string
+		args         args
+		wantTeamName string
+	}{
+		{
+			name:         "チーム名取得",
+			args:         args{"01"},
+			wantTeamName: "Giants",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resource, pool := testUtil.CreateContainer()
+			db := testUtil.ConnectGormDB(resource, pool)
+			sqlHandler := new(SQLHandler)
+			sqlHandler.GormDB = db
+			repository := TeamRepository{SQLHandler: *sqlHandler}
+			actual := repository.GetTeamName(tt.args.teamID)
+			assert.Equal(t, tt.wantTeamName, actual)
 			testUtil.CloseContainer(resource, pool)
 		})
 	}

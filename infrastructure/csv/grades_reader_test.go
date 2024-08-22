@@ -46,7 +46,7 @@ func getTestPicherGrades() player.PICHERGRADES {
 		Year:             "2018",
 		TeamID:           "12",
 		Team:             "オリックス",
-		Piched:           54.0,
+		Pitched:          54.0,
 		Win:              4.0,
 		Lose:             2.0,
 		Save:             1.0,
@@ -179,8 +179,8 @@ func TestGradesReader_ReadPitcherGrades(t *testing.T) {
 			"選手投手CSV読み込み",
 			map[string][]data.PICHERGRADES{
 				"11415153": {
-					{Year: "2022", TeamID: "08", Team: "福岡ソフトバンク", Piched: 10.0, Win: 5.0, Lose: 3.0, Save: 1.0, Hold: 1.0, HoldPoint: 1.0, CompleteGame: 3.0, Shutout: 2.0, NoWalks: 1.0, WinningRate: 0.62, Batter: 124.0, InningsPitched: 56.1, Hit: 23.0, HomeRun: 6.0, BaseOnBalls: 16.0, HitByPitches: 5.0, StrikeOut: 22.0, WildPitches: 5.0, Balk: 1.0, RunsAllowed: 15.0, EarnedRun: 14.0, EarnedRunAverage: 2.45},
-					{Year: "nan", TeamID: "13", Team: "通　算", Piched: 2.0, Win: 0.0, Lose: 0.0, Save: 0.0, Hold: 0.0, HoldPoint: 0.0, CompleteGame: 0.0, Shutout: 0.0, NoWalks: 0.0, WinningRate: 0.0, Batter: 31.0, InningsPitched: 7.1, Hit: 4.0, HomeRun: 0.0, BaseOnBalls: 6.0, HitByPitches: 0.0, StrikeOut: 2.0, WildPitches: 0.0, Balk: 0.0, RunsAllowed: 2.0, EarnedRun: 2.0, EarnedRunAverage: 2.45}},
+					{Year: "2022", TeamID: "08", Team: "福岡ソフトバンク", Pitched: 10.0, Win: 5.0, Lose: 3.0, Save: 1.0, Hold: 1.0, HoldPoint: 1.0, CompleteGame: 3.0, Shutout: 2.0, NoWalks: 1.0, WinningRate: 0.62, Batter: 124.0, InningsPitched: 56.1, Hit: 23.0, HomeRun: 6.0, BaseOnBalls: 16.0, HitByPitches: 5.0, StrikeOut: 22.0, WildPitches: 5.0, Balk: 1.0, RunsAllowed: 15.0, EarnedRun: 14.0, EarnedRunAverage: 2.45},
+					{Year: "nan", TeamID: "13", Team: "通　算", Pitched: 2.0, Win: 0.0, Lose: 0.0, Save: 0.0, Hold: 0.0, HoldPoint: 0.0, CompleteGame: 0.0, Shutout: 0.0, NoWalks: 0.0, WinningRate: 0.0, Batter: 31.0, InningsPitched: 7.1, Hit: 4.0, HomeRun: 0.0, BaseOnBalls: 6.0, HitByPitches: 0.0, StrikeOut: 2.0, WildPitches: 0.0, Balk: 0.0, RunsAllowed: 2.0, EarnedRun: 2.0, EarnedRunAverage: 2.45}},
 			},
 		},
 	}

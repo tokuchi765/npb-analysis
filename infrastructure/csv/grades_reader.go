@@ -183,7 +183,7 @@ func (GradesReader *GradesReader) setPicherGrades(line []string) (grades player.
 	grades.Year = strings.Replace(line[0], ".0", "", -1)
 	grades.TeamID = GradesReader.TeamUtil.GetTeamID(line[1])
 	grades.Team = line[1]
-	grades.Piched, _ = strconv.ParseFloat(line[2], 64)
+	grades.Pitched, _ = strconv.ParseFloat(line[2], 64)
 	grades.Win, _ = strconv.ParseFloat(line[3], 64)
 	grades.Lose, _ = strconv.ParseFloat(line[4], 64)
 	grades.Save, _ = strconv.ParseFloat(line[5], 64)

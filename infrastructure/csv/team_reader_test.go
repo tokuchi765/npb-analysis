@@ -16,7 +16,7 @@ func TestTeamReader_ReadTeamLeagueStats(t *testing.T) {
 	tests := []struct {
 		name                 string
 		args                 args
-		wantTeamLeagueStats  []team.TeamLeagueStats
+		wantTeamLeagueStats  []team.TeamSeasonStats
 		wantTeamMatchResults []team.TeamMatchResults
 	}{
 		{
@@ -25,7 +25,7 @@ func TestTeamReader_ReadTeamLeagueStats(t *testing.T) {
 				"p",
 				"2005",
 			},
-			[]team.TeamLeagueStats{
+			[]team.TeamSeasonStats{
 				{TeamID: "10", Year: "2005", Manager: "", Games: 136, Win: 84, Lose: 49, Draw: 3, WinningRate: 0.632, ExchangeWin: 24, ExchangeLose: 11, ExchangeDraw: 1, HomeWin: 38, HomeLose: 30, HomeDraw: 0, LoadWin: 46, LoadLose: 19, LoadDraw: 3, PythagoreanExpectation: 0},
 				{TeamID: "08", Year: "2005", Manager: "", Games: 136, Win: 89, Lose: 45, Draw: 2, WinningRate: 0.664, ExchangeWin: 23, ExchangeLose: 12, ExchangeDraw: 1, HomeWin: 45, HomeLose: 21, HomeDraw: 2, LoadWin: 44, LoadLose: 24, LoadDraw: 0, PythagoreanExpectation: 0},
 				{TeamID: "07", Year: "2005", Manager: "", Games: 136, Win: 67, Lose: 69, Draw: 0, WinningRate: 0.493, ExchangeWin: 18, ExchangeLose: 18, ExchangeDraw: 0, HomeWin: 36, HomeLose: 32, HomeDraw: 0, LoadWin: 31, LoadLose: 37, LoadDraw: 0, PythagoreanExpectation: 0},
@@ -77,7 +77,7 @@ func TestTeamReader_ReadTeamLeagueStats(t *testing.T) {
 				"c",
 				"2005",
 			},
-			[]team.TeamLeagueStats{
+			[]team.TeamSeasonStats{
 				{TeamID: "03", Year: "2005", Manager: "", Games: 146, Win: 87, Lose: 54, Draw: 5, WinningRate: 0.617, ExchangeWin: 21, ExchangeLose: 13, ExchangeDraw: 2, HomeWin: 42, HomeLose: 26, HomeDraw: 5, LoadWin: 45, LoadLose: 28, LoadDraw: 0, PythagoreanExpectation: 0},
 				{TeamID: "05", Year: "2005", Manager: "", Games: 146, Win: 79, Lose: 66, Draw: 1, WinningRate: 0.545, ExchangeWin: 15, ExchangeLose: 21, ExchangeDraw: 0, HomeWin: 42, HomeLose: 31, HomeDraw: 0, LoadWin: 37, LoadLose: 35, LoadDraw: 1, PythagoreanExpectation: 0},
 				{TeamID: "02", Year: "2005", Manager: "", Games: 146, Win: 69, Lose: 70, Draw: 7, WinningRate: 0.496, ExchangeWin: 19, ExchangeLose: 17, ExchangeDraw: 0, HomeWin: 39, HomeLose: 32, HomeDraw: 2, LoadWin: 30, LoadLose: 38, LoadDraw: 5, PythagoreanExpectation: 0},
@@ -361,13 +361,13 @@ func TestTeamReader_ReadTeamPlayers(t *testing.T) {
 		name        string
 		initial     string
 		teamName    string
-		wantPlayers map[string][]team.Member
+		wantPlayers map[string][]team.TeamPlayers
 	}{
 		{
 			"選手一覧CSVを読み込みます",
 			"h",
 			"Hawks",
-			map[string][]team.Member{
+			map[string][]team.TeamPlayers{
 				"/members/h/members_2023.csv": {
 					{Year: "2023", TeamID: "08", TeamName: "Hawks", PlayerID: "41545157", PlayerName: "木村 光"},
 					{Year: "2023", TeamID: "08", TeamName: "Hawks", PlayerID: "33435157", PlayerName: "Ｄ．ヘルナンデス"},

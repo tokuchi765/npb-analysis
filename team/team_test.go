@@ -5,8 +5,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	data "github.com/tokuchi765/npb-analysis/entity/player"
-	teamData "github.com/tokuchi765/npb-analysis/entity/team"
+	"github.com/tokuchi765/npb-analysis/entity/team"
 	mock_reader "github.com/tokuchi765/npb-analysis/interfaces/reader/mock"
 	mock_repository "github.com/tokuchi765/npb-analysis/interfaces/repository/mock"
 )
@@ -14,11 +13,11 @@ import (
 func TestTeamInteractor_InsertPythagoreanExpectation(t *testing.T) {
 	type args struct {
 		years           []int
-		teamBattingMap  map[string][]teamData.TeamBatting
-		teamPitchingMap map[string][]teamData.TeamPitching
+		teamBattingMap  map[string][]team.TeamBatting
+		teamPitchingMap map[string][]team.TeamPitching
 	}
-	teamBatting := teamData.TeamBatting{TeamID: "01", Year: "2020", Score: 100}
-	teamPitching := teamData.TeamPitching{TeamID: "01", Year: "2020", RunsAllowed: 100}
+	teamBatting := team.TeamBatting{TeamID: "01", Year: "2020", Score: 100}
+	teamPitching := team.TeamPitching{TeamID: "01", Year: "2020", RunsAllowed: 100}
 	tests := []struct {
 		name string
 		args args
@@ -27,10 +26,10 @@ func TestTeamInteractor_InsertPythagoreanExpectation(t *testing.T) {
 			"ピタゴラス勝率登録テスト",
 			args{
 				years: []int{2020},
-				teamBattingMap: map[string][]teamData.TeamBatting{"2020": {
+				teamBattingMap: map[string][]team.TeamBatting{"2020": {
 					teamBatting,
 				}},
-				teamPitchingMap: map[string][]teamData.TeamPitching{"2020": {
+				teamPitchingMap: map[string][]team.TeamPitching{"2020": {
 					teamPitching,
 				}},
 			},
@@ -45,7 +44,7 @@ func TestTeamInteractor_InsertPythagoreanExpectation(t *testing.T) {
 
 			mTeamRepository := mock_repository.NewMockTeamRepository(mockCtrl)
 
-			mTeamRepository.EXPECT().InsertPythagoreanExpectation([]teamData.TeamBatting{teamBatting}, []teamData.TeamPitching{teamPitching})
+			mTeamRepository.EXPECT().InsertPythagoreanExpectation([]team.TeamBatting{teamBatting}, []team.TeamPitching{teamPitching})
 
 			interactor := TeamInteractor{
 				TeamRepository: mTeamRepository,
@@ -58,7 +57,7 @@ func TestTeamInteractor_InsertPythagoreanExpectation(t *testing.T) {
 
 func TestTeamInteractor_GetTeamStats(t *testing.T) {
 	type args struct {
-		teamLeagueStats map[string][]teamData.TeamLeagueStats
+		teamLeagueStats map[string][]team.TeamSeasonStats
 		years           []int
 	}
 	tests := []struct {
@@ -68,7 +67,7 @@ func TestTeamInteractor_GetTeamStats(t *testing.T) {
 		{
 			"チーム成績取得",
 			args{
-				teamLeagueStats: map[string][]teamData.TeamLeagueStats{"2020": {{TeamID: "01"}}},
+				teamLeagueStats: map[string][]team.TeamSeasonStats{"2020": {{TeamID: "01"}}},
 				years:           []int{2020},
 			},
 		},
@@ -98,10 +97,10 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 	type args struct {
 		year                      string
 		years                     []int
-		cTeamMatchResults         []teamData.TeamMatchResults
-		pTeamMatchResults         []teamData.TeamMatchResults
-		cTeamExchangeMatchResults []teamData.TeamMatchResults
-		pTeamExchangeMatchResults []teamData.TeamMatchResults
+		cTeamMatchResults         []team.TeamMatchResults
+		pTeamMatchResults         []team.TeamMatchResults
+		cTeamExchangeMatchResults []team.TeamMatchResults
+		pTeamExchangeMatchResults []team.TeamMatchResults
 	}
 	tests := []struct {
 		name string
@@ -112,10 +111,10 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 			args{
 				year:  "2020",
 				years: []int{2020},
-				cTeamMatchResults: []teamData.TeamMatchResults{
+				cTeamMatchResults: []team.TeamMatchResults{
 					{TeamID: "01", Year: "2020", CompetitiveTeamID: "02", VsType: "league", Win: 7, Lose: 8, Draw: 3},
 				},
-				pTeamMatchResults: []teamData.TeamMatchResults{
+				pTeamMatchResults: []team.TeamMatchResults{
 					{TeamID: "10", Year: "2020", CompetitiveTeamID: "06", VsType: "league", Win: 7, Lose: 5, Draw: 3},
 				},
 			},
@@ -125,16 +124,16 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 			args{
 				year:  "2005",
 				years: []int{2005},
-				cTeamMatchResults: []teamData.TeamMatchResults{
+				cTeamMatchResults: []team.TeamMatchResults{
 					{TeamID: "02", Year: "2005", CompetitiveTeamID: "06", VsType: "league", Win: 7, Lose: 8, Draw: 3},
 				},
-				pTeamMatchResults: []teamData.TeamMatchResults{
+				pTeamMatchResults: []team.TeamMatchResults{
 					{TeamID: "09", Year: "2005", CompetitiveTeamID: "07", VsType: "league", Win: 7, Lose: 5, Draw: 3},
 				},
-				cTeamExchangeMatchResults: []teamData.TeamMatchResults{
+				cTeamExchangeMatchResults: []team.TeamMatchResults{
 					{TeamID: "02", Year: "2005", CompetitiveTeamID: "10", VsType: "exchange", Win: 2, Lose: 1, Draw: 1},
 				},
-				pTeamExchangeMatchResults: []teamData.TeamMatchResults{
+				pTeamExchangeMatchResults: []team.TeamMatchResults{
 					{TeamID: "09", Year: "2005", CompetitiveTeamID: "04", VsType: "exchange", Win: 1, Lose: 2, Draw: 1},
 				},
 			},
@@ -151,8 +150,8 @@ func TestTeamInteractor_InsertSeasonMatchResults(t *testing.T) {
 			mTeamReader := mock_reader.NewMockTeamReader(mockCtrl)
 
 			csvPath := "csvpath"
-			mTeamReader.EXPECT().ReadTeamLeagueStats(csvPath, "c", tt.args.year).Return([]teamData.TeamLeagueStats{}, tt.args.cTeamMatchResults)
-			mTeamReader.EXPECT().ReadTeamLeagueStats(csvPath, "p", tt.args.year).Return([]teamData.TeamLeagueStats{}, tt.args.pTeamMatchResults)
+			mTeamReader.EXPECT().ReadTeamLeagueStats(csvPath, "c", tt.args.year).Return([]team.TeamSeasonStats{}, tt.args.cTeamMatchResults)
+			mTeamReader.EXPECT().ReadTeamLeagueStats(csvPath, "p", tt.args.year).Return([]team.TeamSeasonStats{}, tt.args.pTeamMatchResults)
 
 			if tt.args.year != "2020" {
 				mTeamReader.EXPECT().ReadTeamExchangeStats(csvPath, "c", tt.args.year).Return(tt.args.cTeamExchangeMatchResults)
@@ -180,8 +179,8 @@ func TestTeamInteractor_InsertSeasonLeagueStats(t *testing.T) {
 	type args struct {
 		year             string
 		years            []int
-		cTeamLeagueStats []teamData.TeamLeagueStats
-		pTeamLeagueStats []teamData.TeamLeagueStats
+		cTeamLeagueStats []team.TeamSeasonStats
+		pTeamLeagueStats []team.TeamSeasonStats
 	}
 	tests := []struct {
 		name string
@@ -192,10 +191,10 @@ func TestTeamInteractor_InsertSeasonLeagueStats(t *testing.T) {
 			args{
 				year:  "2015",
 				years: []int{2015},
-				cTeamLeagueStats: []teamData.TeamLeagueStats{
+				cTeamLeagueStats: []team.TeamSeasonStats{
 					{TeamID: "01", Year: "2015", Games: 144, Win: 80, Lose: 60, Draw: 4},
 				},
-				pTeamLeagueStats: []teamData.TeamLeagueStats{
+				pTeamLeagueStats: []team.TeamSeasonStats{
 					{TeamID: "09", Year: "2015", Games: 144, Win: 60, Lose: 80, Draw: 4},
 				},
 			},
@@ -213,8 +212,8 @@ func TestTeamInteractor_InsertSeasonLeagueStats(t *testing.T) {
 
 			csvPath := "csvpath"
 
-			mTeamReader.EXPECT().ReadTeamLeagueStats(csvPath, "c", tt.args.year).Return(tt.args.cTeamLeagueStats, []teamData.TeamMatchResults{})
-			mTeamReader.EXPECT().ReadTeamLeagueStats(csvPath, "p", tt.args.year).Return(tt.args.pTeamLeagueStats, []teamData.TeamMatchResults{})
+			mTeamReader.EXPECT().ReadTeamLeagueStats(csvPath, "c", tt.args.year).Return(tt.args.cTeamLeagueStats, []team.TeamMatchResults{})
+			mTeamReader.EXPECT().ReadTeamLeagueStats(csvPath, "p", tt.args.year).Return(tt.args.pTeamLeagueStats, []team.TeamMatchResults{})
 
 			cManager := "セントラル監督"
 			mTeamReader.EXPECT().ReadManager(csvPath, tt.args.cTeamLeagueStats[0].TeamID, tt.args.year).Return(cManager)
@@ -223,7 +222,7 @@ func TestTeamInteractor_InsertSeasonLeagueStats(t *testing.T) {
 
 			tt.args.cTeamLeagueStats[0].Manager = cManager
 			tt.args.pTeamLeagueStats[0].Manager = pManager
-			mTeamRepository.EXPECT().InsertTeamLeagueStats(append(tt.args.cTeamLeagueStats, tt.args.pTeamLeagueStats...))
+			mTeamRepository.EXPECT().InsertTeamSeasonStats(append(tt.args.cTeamLeagueStats, tt.args.pTeamLeagueStats...))
 
 			interactor := TeamInteractor{
 				TeamRepository: mTeamRepository,
@@ -241,7 +240,7 @@ func TestTeamInteractor_InsertTeamPitchings(t *testing.T) {
 		year         string
 		leage        string
 		years        []int
-		teamPitching []teamData.TeamPitching
+		teamPitching []team.TeamPitching
 	}
 	tests := []struct {
 		name string
@@ -253,7 +252,7 @@ func TestTeamInteractor_InsertTeamPitchings(t *testing.T) {
 				year:  "2005",
 				leage: "central",
 				years: []int{2005},
-				teamPitching: []teamData.TeamPitching{
+				teamPitching: []team.TeamPitching{
 					{TeamID: "04", Year: "2005", EarnedRunAverage: 0.35},
 				},
 			},
@@ -289,7 +288,7 @@ func TestTeamInteractor_InsertTeamPitchings(t *testing.T) {
 func TestTeamInteractor_GetTeamPitching(t *testing.T) {
 	type args struct {
 		years           []int
-		teamPitchingMap map[string][]teamData.TeamPitching
+		teamPitchingMap map[string][]team.TeamPitching
 	}
 	tests := []struct {
 		name string
@@ -299,7 +298,7 @@ func TestTeamInteractor_GetTeamPitching(t *testing.T) {
 			"投手成績登録取得",
 			args{
 				years: []int{2005},
-				teamPitchingMap: map[string][]teamData.TeamPitching{"2005": {
+				teamPitchingMap: map[string][]team.TeamPitching{"2005": {
 					{TeamID: "04", Year: "2005", EarnedRunAverage: 0.35},
 				}},
 			},
@@ -335,7 +334,7 @@ func TestTeamInteractor_InsertTeamBattings(t *testing.T) {
 		year        string
 		years       []int
 		league      string
-		teamBatting []teamData.TeamBatting
+		teamBatting []team.TeamBatting
 	}
 	tests := []struct {
 		name string
@@ -347,7 +346,7 @@ func TestTeamInteractor_InsertTeamBattings(t *testing.T) {
 				year:   "2005",
 				years:  []int{2005},
 				league: "central",
-				teamBatting: []teamData.TeamBatting{
+				teamBatting: []team.TeamBatting{
 					{TeamID: "05", Year: "2005", BattingAverage: 0.28},
 				},
 			},
@@ -384,7 +383,7 @@ func TestTeamInteractor_InsertTeamBattings(t *testing.T) {
 func TestTeamInteractor_GetTeamBatting(t *testing.T) {
 	type args struct {
 		years          []int
-		teamBattingMap map[string][]teamData.TeamBatting
+		teamBattingMap map[string][]team.TeamBatting
 	}
 	tests := []struct {
 		name string
@@ -394,7 +393,7 @@ func TestTeamInteractor_GetTeamBatting(t *testing.T) {
 			"打撃成績取得",
 			args{
 				years: []int{2005},
-				teamBattingMap: map[string][]teamData.TeamBatting{
+				teamBattingMap: map[string][]team.TeamBatting{
 					"2005": {
 						{TeamID: "05", Year: "2005", BattingAverage: 0.28}},
 				},
@@ -431,7 +430,7 @@ func TestTeamInteractor_GetTeamPitchingByTeamIDAndYear(t *testing.T) {
 	type args struct {
 		teamID       string
 		year         string
-		teamPitching teamData.TeamPitching
+		teamPitching team.TeamPitching
 	}
 	tests := []struct {
 		name string
@@ -442,7 +441,7 @@ func TestTeamInteractor_GetTeamPitchingByTeamIDAndYear(t *testing.T) {
 			args{
 				teamID: "04",
 				year:   "2005",
-				teamPitching: teamData.TeamPitching{
+				teamPitching: team.TeamPitching{
 					TeamID:           "04",
 					Year:             "2005",
 					EarnedRunAverage: 3.5,
@@ -476,7 +475,7 @@ func TestTeamInteractor_GetTeamBattingByTeamIDAndYear(t *testing.T) {
 	type args struct {
 		teamID      string
 		year        string
-		teamBatting teamData.TeamBatting
+		teamBatting team.TeamBatting
 	}
 	tests := []struct {
 		name string
@@ -487,7 +486,7 @@ func TestTeamInteractor_GetTeamBattingByTeamIDAndYear(t *testing.T) {
 			args{
 				teamID: "06",
 				year:   "2005",
-				teamBatting: teamData.TeamBatting{
+				teamBatting: team.TeamBatting{
 					TeamID:         "06",
 					Year:           "2005",
 					BattingAverage: 0.3,
@@ -670,7 +669,7 @@ func TestTeamInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 	tests := []struct {
 		name        string
 		args        args
-		wantPlayers []data.PLAYER
+		wantPlayers []team.TeamPlayers
 	}{
 		{
 			"選手一覧取得",
@@ -678,9 +677,9 @@ func TestTeamInteractor_GetPlayersByTeamIDAndYear(t *testing.T) {
 				"01",
 				"2020",
 			},
-			[]data.PLAYER{
-				{Year: "2020", TeamID: "01", PlayerID: "93795138", Team: "Giants", Name: "デラロサ"},
-				{Year: "2020", TeamID: "01", PlayerID: "41045138", Team: "Giants", Name: "戸郷　翔征"},
+			[]team.TeamPlayers{
+				{Year: "2020", TeamID: "01", PlayerID: "93795138", TeamName: "Giants", PlayerName: "デラロサ"},
+				{Year: "2020", TeamID: "01", PlayerID: "41045138", TeamName: "Giants", PlayerName: "戸郷　翔征"},
 			},
 		},
 	}
@@ -713,7 +712,7 @@ func TestTeamInteractor_InsertTeamPlayers(t *testing.T) {
 		csvpath    string
 		fileName   string
 		resistered bool
-		members    map[string][]teamData.Member
+		members    map[string][]team.TeamPlayers
 		execInsert int
 	}
 	tests := []struct {
@@ -730,7 +729,7 @@ func TestTeamInteractor_InsertTeamPlayers(t *testing.T) {
 				"csvpath",
 				"members_2023.csv",
 				false,
-				map[string][]teamData.Member{"members_2023.csv": {
+				map[string][]team.TeamPlayers{"members_2023.csv": {
 					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "93795138", PlayerName: "デラロサ"},
 					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "41045138", PlayerName: "戸郷　翔征"},
 				}},
@@ -747,7 +746,7 @@ func TestTeamInteractor_InsertTeamPlayers(t *testing.T) {
 				"csvpath",
 				"members_2023.csv",
 				true,
-				map[string][]teamData.Member{"members_2023.csv": {
+				map[string][]team.TeamPlayers{"members_2023.csv": {
 					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "93795138", PlayerName: "デラロサ"},
 					{Year: "2020", TeamID: "01", TeamName: "Giants", PlayerID: "41045138", PlayerName: "戸郷　翔征"},
 				}},

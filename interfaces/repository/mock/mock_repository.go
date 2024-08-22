@@ -85,10 +85,10 @@ func (m *MockGradesRepository) EXPECT() *MockGradesRepositoryMockRecorder {
 }
 
 // GetBattings mocks base method.
-func (m *MockGradesRepository) GetBattings(playerID string) []player.BATTERGRADES {
+func (m *MockGradesRepository) GetBattings(playerID string) []player.BatterGrades {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBattings", playerID)
-	ret0, _ := ret[0].([]player.BATTERGRADES)
+	ret0, _ := ret[0].([]player.BatterGrades)
 	return ret0
 }
 
@@ -98,25 +98,11 @@ func (mr *MockGradesRepositoryMockRecorder) GetBattings(playerID interface{}) *g
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBattings", reflect.TypeOf((*MockGradesRepository)(nil).GetBattings), playerID)
 }
 
-// GetCareer mocks base method.
-func (m *MockGradesRepository) GetCareer(playerID string) player.CAREER {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCareer", playerID)
-	ret0, _ := ret[0].(player.CAREER)
-	return ret0
-}
-
-// GetCareer indicates an expected call of GetCareer.
-func (mr *MockGradesRepositoryMockRecorder) GetCareer(playerID interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCareer", reflect.TypeOf((*MockGradesRepository)(nil).GetCareer), playerID)
-}
-
 // GetPitchings mocks base method.
-func (m *MockGradesRepository) GetPitchings(playerID string) []player.PICHERGRADES {
+func (m *MockGradesRepository) GetPitchings(playerID string) []player.PitcherGrades {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPitchings", playerID)
-	ret0, _ := ret[0].([]player.PICHERGRADES)
+	ret0, _ := ret[0].([]player.PitcherGrades)
 	return ret0
 }
 
@@ -126,47 +112,61 @@ func (mr *MockGradesRepositoryMockRecorder) GetPitchings(playerID interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPitchings", reflect.TypeOf((*MockGradesRepository)(nil).GetPitchings), playerID)
 }
 
-// InsertBatterGrades mocks base method.
-func (m *MockGradesRepository) InsertBatterGrades(playerID string, batterGrades player.BATTERGRADES) {
+// GetPlayers mocks base method.
+func (m *MockGradesRepository) GetPlayers(playerID string) player.Players {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "InsertBatterGrades", playerID, batterGrades)
+	ret := m.ctrl.Call(m, "GetPlayers", playerID)
+	ret0, _ := ret[0].(player.Players)
+	return ret0
+}
+
+// GetPlayers indicates an expected call of GetPlayers.
+func (mr *MockGradesRepositoryMockRecorder) GetPlayers(playerID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPlayers", reflect.TypeOf((*MockGradesRepository)(nil).GetPlayers), playerID)
+}
+
+// InsertBatterGrades mocks base method.
+func (m *MockGradesRepository) InsertBatterGrades(batterGrades player.BatterGrades) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "InsertBatterGrades", batterGrades)
 }
 
 // InsertBatterGrades indicates an expected call of InsertBatterGrades.
-func (mr *MockGradesRepositoryMockRecorder) InsertBatterGrades(playerID, batterGrades interface{}) *gomock.Call {
+func (mr *MockGradesRepositoryMockRecorder) InsertBatterGrades(batterGrades interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertBatterGrades", reflect.TypeOf((*MockGradesRepository)(nil).InsertBatterGrades), playerID, batterGrades)
-}
-
-// InsertCareers mocks base method.
-func (m *MockGradesRepository) InsertCareers(careers []player.CAREER) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "InsertCareers", careers)
-}
-
-// InsertCareers indicates an expected call of InsertCareers.
-func (mr *MockGradesRepositoryMockRecorder) InsertCareers(careers interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertCareers", reflect.TypeOf((*MockGradesRepository)(nil).InsertCareers), careers)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertBatterGrades", reflect.TypeOf((*MockGradesRepository)(nil).InsertBatterGrades), batterGrades)
 }
 
 // InsertPicherGrades mocks base method.
-func (m *MockGradesRepository) InsertPicherGrades(key string, picher player.PICHERGRADES) {
+func (m *MockGradesRepository) InsertPicherGrades(picher player.PitcherGrades) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "InsertPicherGrades", key, picher)
+	m.ctrl.Call(m, "InsertPicherGrades", picher)
 }
 
 // InsertPicherGrades indicates an expected call of InsertPicherGrades.
-func (mr *MockGradesRepositoryMockRecorder) InsertPicherGrades(key, picher interface{}) *gomock.Call {
+func (mr *MockGradesRepositoryMockRecorder) InsertPicherGrades(picher interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertPicherGrades", reflect.TypeOf((*MockGradesRepository)(nil).InsertPicherGrades), key, picher)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertPicherGrades", reflect.TypeOf((*MockGradesRepository)(nil).InsertPicherGrades), picher)
+}
+
+// InsertPlayers mocks base method.
+func (m *MockGradesRepository) InsertPlayers(careers []player.Players) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "InsertPlayers", careers)
+}
+
+// InsertPlayers indicates an expected call of InsertPlayers.
+func (mr *MockGradesRepositoryMockRecorder) InsertPlayers(careers interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertPlayers", reflect.TypeOf((*MockGradesRepository)(nil).InsertPlayers), careers)
 }
 
 // SearchCareerByName mocks base method.
-func (m *MockGradesRepository) SearchCareerByName(name string) []player.CAREER {
+func (m *MockGradesRepository) SearchCareerByName(name string) []player.Players {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SearchCareerByName", name)
-	ret0, _ := ret[0].([]player.CAREER)
+	ret0, _ := ret[0].([]player.Players)
 	return ret0
 }
 
@@ -200,10 +200,10 @@ func (m *MockTeamRepository) EXPECT() *MockTeamRepositoryMockRecorder {
 }
 
 // GetPlayersByTeamIDAndYear mocks base method.
-func (m *MockTeamRepository) GetPlayersByTeamIDAndYear(teamID, year string) []player.PLAYER {
+func (m *MockTeamRepository) GetPlayersByTeamIDAndYear(teamID, year string) []team.TeamPlayers {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPlayersByTeamIDAndYear", teamID, year)
-	ret0, _ := ret[0].([]player.PLAYER)
+	ret0, _ := ret[0].([]team.TeamPlayers)
 	return ret0
 }
 
@@ -346,10 +346,10 @@ func (mr *MockTeamRepositoryMockRecorder) GetTeamPitchings(years interface{}) *g
 }
 
 // GetTeamStats mocks base method.
-func (m *MockTeamRepository) GetTeamStats(years []int) map[string][]team.TeamLeagueStats {
+func (m *MockTeamRepository) GetTeamStats(years []int) map[string][]team.TeamSeasonStats {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTeamStats", years)
-	ret0, _ := ret[0].(map[string][]team.TeamLeagueStats)
+	ret0, _ := ret[0].(map[string][]team.TeamSeasonStats)
 	return ret0
 }
 
@@ -407,18 +407,6 @@ func (mr *MockTeamRepositoryMockRecorder) InsertTeamBattings(teamBatting interfa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertTeamBattings", reflect.TypeOf((*MockTeamRepository)(nil).InsertTeamBattings), teamBatting)
 }
 
-// InsertTeamLeagueStats mocks base method.
-func (m *MockTeamRepository) InsertTeamLeagueStats(teamLeagueStats []team.TeamLeagueStats) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "InsertTeamLeagueStats", teamLeagueStats)
-}
-
-// InsertTeamLeagueStats indicates an expected call of InsertTeamLeagueStats.
-func (mr *MockTeamRepositoryMockRecorder) InsertTeamLeagueStats(teamLeagueStats interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertTeamLeagueStats", reflect.TypeOf((*MockTeamRepository)(nil).InsertTeamLeagueStats), teamLeagueStats)
-}
-
 // InsertTeamPitchings mocks base method.
 func (m *MockTeamRepository) InsertTeamPitchings(teamPitching team.TeamPitching) {
 	m.ctrl.T.Helper()
@@ -432,7 +420,7 @@ func (mr *MockTeamRepositoryMockRecorder) InsertTeamPitchings(teamPitching inter
 }
 
 // InsertTeamPlayers mocks base method.
-func (m *MockTeamRepository) InsertTeamPlayers(members []team.Member) {
+func (m *MockTeamRepository) InsertTeamPlayers(members []team.TeamPlayers) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "InsertTeamPlayers", members)
 }
@@ -441,6 +429,18 @@ func (m *MockTeamRepository) InsertTeamPlayers(members []team.Member) {
 func (mr *MockTeamRepositoryMockRecorder) InsertTeamPlayers(members interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertTeamPlayers", reflect.TypeOf((*MockTeamRepository)(nil).InsertTeamPlayers), members)
+}
+
+// InsertTeamSeasonStats mocks base method.
+func (m *MockTeamRepository) InsertTeamSeasonStats(teamSeasonStats []team.TeamSeasonStats) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "InsertTeamSeasonStats", teamSeasonStats)
+}
+
+// InsertTeamSeasonStats indicates an expected call of InsertTeamSeasonStats.
+func (mr *MockTeamRepositoryMockRecorder) InsertTeamSeasonStats(teamSeasonStats interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertTeamSeasonStats", reflect.TypeOf((*MockTeamRepository)(nil).InsertTeamSeasonStats), teamSeasonStats)
 }
 
 // IsRegisteredMembersCsv mocks base method.

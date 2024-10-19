@@ -343,10 +343,22 @@ type SearchBatterGradesCondition struct {
 	SluggingPercentage                  float64       `form:"sluggingPercentage"`                  // 長打率
 	HomeRunThresholdType                ThresholdType `form:"homeRunThresholdType"`                // 本塁打の以上、以下
 	HomeRun                             int           `form:"homeRun"`                             // 本塁打
+	BaseOnBallsThresholdType            ThresholdType `form:"baseOnBallsThresholdType"`            // 四球の以上、以下
+	BaseOnBalls                         int           `form:"baseOnBalls"`                         // 四球
+	HitThresholdType                    ThresholdType `form:"hitThresholdType"`                    // 安打の以上、以下
+	Hit                                 int           `form:"hit"`                                 // 安打
+	SingleThresholdType                 ThresholdType `form:"singleThresholdType"`                 // 単打の以上、以下
+	Single                              int           `form:"single"`                              // 単打
+	DoubleThresholdType                 ThresholdType `form:"doubleThresholdType"`                 // 二塁打の以上、以下
+	Double                              int           `form:"double"`                              // 二塁打
+	TripleThresholdType                 ThresholdType `form:"tripleThresholdType"`                 // 三塁打の以上、以下
+	Triple                              int           `form:"triple"`                              // 三塁打
 	StrikeOutThresholdType              ThresholdType `form:"strikeOutThresholdType"`              // 三振の以上、以下
 	StrikeOut                           int           `form:"strikeOut"`                           // 三振
 	StrikeOutRateThresholdType          ThresholdType `form:"strikeOutRateThresholdType"`          // 三振率の以上、以下
 	StrikeOutRate                       float64       `form:"strikeOutRate"`                       // 三振率
+	StolenBaseThresholdType             ThresholdType `form:"stolenBaseThresholdType"`             // 盗塁の以上、以下
+	StolenBase                          int           `form:"stolenBase"`                          // 盗塁
 	GroundedIntoDoublePlayThresholdType ThresholdType `form:"groundedIntoDoublePlayThresholdType"` // 併殺打の以上、以下
 	GroundedIntoDoublePlay              int           `form:"groundedIntoDoublePlay"`              // 併殺打
 	WObaThresholdType                   ThresholdType `form:"wObaThresholdType"`                   // 加重出塁率の以上、以下

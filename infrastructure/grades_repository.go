@@ -98,12 +98,36 @@ func (Repository *GradesRepository) SearchBatterGrades(condition player.SearchBa
 		query.Where("bg.home_run "+condition.HomeRunThresholdType.String()+" ?", condition.HomeRun)
 	}
 
+	if condition.BaseOnBalls > 0 {
+		query.Where("bg.base_on_balls "+condition.BaseOnBallsThresholdType.String()+" ?", condition.BaseOnBalls)
+	}
+
+	if condition.Hit > 0 {
+		query.Where("bg.hit "+condition.HitThresholdType.String()+" ?", condition.Hit)
+	}
+
+	if condition.Single > 0 {
+		query.Where("bg.single "+condition.SingleThresholdType.String()+" ?", condition.Single)
+	}
+
+	if condition.Double > 0 {
+		query.Where("bg.double "+condition.DoubleThresholdType.String()+" ?", condition.Double)
+	}
+
+	if condition.Triple > 0 {
+		query.Where("bg.triple "+condition.TripleThresholdType.String()+" ?", condition.Triple)
+	}
+
 	if condition.StrikeOut > 0 {
 		query.Where("bg.strike_out "+condition.StrikeOutThresholdType.String()+" ?", condition.StrikeOut)
 	}
 
 	if condition.StrikeOutRate > 0 {
 		query.Where("bg.strike_out_rate "+condition.StrikeOutRateThresholdType.String()+" ?", condition.StrikeOutRate)
+	}
+
+	if condition.StolenBase > 0 {
+		query.Where("bg.stolen_base "+condition.StolenBaseThresholdType.String()+" ?", condition.StolenBase)
 	}
 
 	if condition.GroundedIntoDoublePlay > 0 {

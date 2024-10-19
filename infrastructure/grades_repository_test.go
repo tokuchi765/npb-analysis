@@ -224,11 +224,11 @@ func TestGradesRepository_SearchCareerByName(t *testing.T) {
 func TestGradesRepository_SearchBatterGrades(t *testing.T) {
 	test1 := createBatterGradesResult("00001", "テスト1", "2018", "オリックス", 100, 400, 380, 40, 120, 60, 20, 10, 30, 20, 15, 30, 10, 10, 5, 10, 3, 15, 0.2, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3)
 	test1_total := createBatterGradesResult("00001", "テスト1", "nan", "", 100, 400, 380, 40, 120, 60, 20, 10, 30, 20, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3)
-	test2 := createBatterGradesResult("00002", "テスト2", "2019", "北海道日本ハム", 120, 500, 480, 40, 160, 70, 40, 20, 30, 20, 15, 30, 10, 10, 5, 10, 3, 20, 0.27, 2, 0.281, 0.369, 0.41, 0.382, 70.2, 0.34)
-	test2_total := createBatterGradesResult("00002", "テスト2", "nan", "", 120, 500, 480, 40, 160, 70, 40, 20, 30, 20, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 2, 0.281, 0.369, 0.41, 0.382, 70.2, 0.34)
-	test3 := createBatterGradesResult("00003", "テスト3", "2020", "北海道日本ハム", 200, 600, 550, 50, 200, 90, 50, 30, 40, 30, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 6, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43)
-	test3_2 := createBatterGradesResult("00003", "テスト3", "2021", "北海道日本ハム", 200, 610, 550, 50, 200, 90, 50, 30, 40, 30, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 6, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43)
-	test3_total := createBatterGradesResult("00003", "テスト3", "nan", "", 200, 600, 550, 50, 200, 90, 50, 30, 40, 30, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 2, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43)
+	test2 := createBatterGradesResult("00002", "テスト2", "2019", "北海道日本ハム", 120, 500, 480, 40, 160, 70, 40, 20, 30, 20, 15, 40, 10, 10, 5, 15, 3, 20, 0.27, 2, 0.281, 0.369, 0.41, 0.382, 70.2, 0.34)
+	test2_total := createBatterGradesResult("00002", "テスト2", "nan", "", 120, 500, 480, 40, 160, 70, 40, 20, 30, 20, 15, 40, 10, 10, 5, 15, 3, 30, 0.3, 2, 0.281, 0.369, 0.41, 0.382, 70.2, 0.34)
+	test3 := createBatterGradesResult("00003", "テスト3", "2020", "北海道日本ハム", 200, 600, 550, 50, 200, 90, 50, 30, 40, 30, 15, 50, 10, 10, 5, 30, 3, 30, 0.3, 6, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43)
+	test3_2 := createBatterGradesResult("00003", "テスト3", "2021", "北海道日本ハム", 200, 610, 550, 50, 200, 90, 50, 30, 40, 30, 15, 50, 10, 10, 5, 30, 3, 30, 0.3, 6, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43)
+	test3_total := createBatterGradesResult("00003", "テスト3", "nan", "", 200, 600, 550, 50, 200, 90, 50, 30, 40, 30, 15, 50, 10, 10, 5, 30, 3, 30, 0.3, 2, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43)
 
 	tests := []struct {
 		name        string
@@ -344,6 +344,86 @@ func TestGradesRepository_SearchBatterGrades(t *testing.T) {
 			[]player.SearchBatterGradesResult{test1, test2},
 		},
 		{
+			"四球、以上による検索が可能",
+			player.SearchBatterGradesCondition{
+				BaseOnBallsThresholdType: player.GreaterOrEqual,
+				BaseOnBalls:              30,
+			},
+			[]player.SearchBatterGradesResult{test3, test3_2},
+		},
+		{
+			"四球、以下による検索が可能",
+			player.SearchBatterGradesCondition{
+				BaseOnBallsThresholdType: player.LessOrEqual,
+				BaseOnBalls:              15,
+			},
+			[]player.SearchBatterGradesResult{test1, test2},
+		},
+		{
+			"安打、以上による検索が可能",
+			player.SearchBatterGradesCondition{
+				HitThresholdType: player.GreaterOrEqual,
+				Hit:              200,
+			},
+			[]player.SearchBatterGradesResult{test3, test3_2},
+		},
+		{
+			"安打、以下による検索が可能",
+			player.SearchBatterGradesCondition{
+				HitThresholdType: player.LessOrEqual,
+				Hit:              160,
+			},
+			[]player.SearchBatterGradesResult{test1, test2},
+		},
+		{
+			"単打、以上による検索が可能",
+			player.SearchBatterGradesCondition{
+				SingleThresholdType: player.GreaterOrEqual,
+				Single:              90,
+			},
+			[]player.SearchBatterGradesResult{test3, test3_2},
+		},
+		{
+			"単打、以下による検索が可能",
+			player.SearchBatterGradesCondition{
+				SingleThresholdType: player.LessOrEqual,
+				Single:              70,
+			},
+			[]player.SearchBatterGradesResult{test1, test2},
+		},
+		{
+			"二塁打、以上による検索が可能",
+			player.SearchBatterGradesCondition{
+				DoubleThresholdType: player.GreaterOrEqual,
+				Double:              50,
+			},
+			[]player.SearchBatterGradesResult{test3, test3_2},
+		},
+		{
+			"二塁打、以下による検索が可能",
+			player.SearchBatterGradesCondition{
+				DoubleThresholdType: player.LessOrEqual,
+				Double:              40,
+			},
+			[]player.SearchBatterGradesResult{test1, test2},
+		},
+		{
+			"三塁打、以上による検索が可能",
+			player.SearchBatterGradesCondition{
+				TripleThresholdType: player.GreaterOrEqual,
+				Triple:              30,
+			},
+			[]player.SearchBatterGradesResult{test3, test3_2},
+		},
+		{
+			"三塁打、以下による検索が可能",
+			player.SearchBatterGradesCondition{
+				TripleThresholdType: player.LessOrEqual,
+				Triple:              20,
+			},
+			[]player.SearchBatterGradesResult{test1, test2},
+		},
+		{
 			"三振、以上による検索が可能",
 			player.SearchBatterGradesCondition{
 				StrikeOutThresholdType: player.GreaterOrEqual,
@@ -372,6 +452,22 @@ func TestGradesRepository_SearchBatterGrades(t *testing.T) {
 			player.SearchBatterGradesCondition{
 				StrikeOutRateThresholdType: player.LessOrEqual,
 				StrikeOutRate:              0.29,
+			},
+			[]player.SearchBatterGradesResult{test1, test2},
+		},
+		{
+			"盗塁、以上による検索が可能",
+			player.SearchBatterGradesCondition{
+				StolenBaseThresholdType: player.GreaterOrEqual,
+				StolenBase:              50,
+			},
+			[]player.SearchBatterGradesResult{test3, test3_2},
+		},
+		{
+			"盗塁、以下による検索が可能",
+			player.SearchBatterGradesCondition{
+				StolenBaseThresholdType: player.LessOrEqual,
+				StolenBase:              40,
 			},
 			[]player.SearchBatterGradesResult{test1, test2},
 		},
@@ -489,11 +585,11 @@ func TestGradesRepository_SearchBatterGrades(t *testing.T) {
 	repository := GradesRepository{SQLHandler: *sqlHandler}
 	repository.InsertBatterGrades(createBatterGradesMapping("00001", "2018", "12", "オリックス", 100, 400, 380, 40, 120, 60, 20, 10, 30, 20, 15, 30, 10, 10, 5, 10, 3, 15, 0.2, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3))
 	repository.InsertBatterGrades(createBatterGradesMapping("00001", "nan", "13", "", 100, 400, 380, 40, 120, 60, 20, 10, 30, 20, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 2, 0.264, 0.328, 0.34, 0.351, 60.2, 0.3))
-	repository.InsertBatterGrades(createBatterGradesMapping("00002", "2019", "11", "北海道日本ハム", 120, 500, 480, 40, 160, 70, 40, 20, 30, 20, 15, 30, 10, 10, 5, 10, 3, 20, 0.27, 2, 0.281, 0.369, 0.41, 0.382, 70.2, 0.34))
-	repository.InsertBatterGrades(createBatterGradesMapping("00002", "nan", "13", "", 120, 500, 480, 40, 160, 70, 40, 20, 30, 20, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 2, 0.281, 0.369, 0.41, 0.382, 70.2, 0.34))
-	repository.InsertBatterGrades(createBatterGradesMapping("00003", "2020", "11", "北海道日本ハム", 200, 600, 550, 50, 200, 90, 50, 30, 40, 30, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 6, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43))
-	repository.InsertBatterGrades(createBatterGradesMapping("00003", "2021", "11", "北海道日本ハム", 200, 610, 550, 50, 200, 90, 50, 30, 40, 30, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 6, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43))
-	repository.InsertBatterGrades(createBatterGradesMapping("00003", "nan", "13", "", 200, 600, 550, 50, 200, 90, 50, 30, 40, 30, 15, 30, 10, 10, 5, 10, 3, 30, 0.3, 2, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43))
+	repository.InsertBatterGrades(createBatterGradesMapping("00002", "2019", "11", "北海道日本ハム", 120, 500, 480, 40, 160, 70, 40, 20, 30, 20, 15, 40, 10, 10, 5, 15, 3, 20, 0.27, 2, 0.281, 0.369, 0.41, 0.382, 70.2, 0.34))
+	repository.InsertBatterGrades(createBatterGradesMapping("00002", "nan", "13", "", 120, 500, 480, 40, 160, 70, 40, 20, 30, 20, 15, 40, 10, 10, 5, 15, 3, 30, 0.3, 2, 0.281, 0.369, 0.41, 0.382, 70.2, 0.34))
+	repository.InsertBatterGrades(createBatterGradesMapping("00003", "2020", "11", "北海道日本ハム", 200, 600, 550, 50, 200, 90, 50, 30, 40, 30, 15, 50, 10, 10, 5, 30, 3, 30, 0.3, 6, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43))
+	repository.InsertBatterGrades(createBatterGradesMapping("00003", "2021", "11", "北海道日本ハム", 200, 610, 550, 50, 200, 90, 50, 30, 40, 30, 15, 50, 10, 10, 5, 30, 3, 30, 0.3, 6, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43))
+	repository.InsertBatterGrades(createBatterGradesMapping("00003", "nan", "13", "", 200, 600, 550, 50, 200, 90, 50, 30, 40, 30, 15, 50, 10, 10, 5, 30, 3, 30, 0.3, 2, 0.330, 0.400, 0.52, 0.438, 81.2, 0.43))
 	players := []player.Players{
 		{PlayerID: "00001", Name: "テスト1"},
 		{PlayerID: "00002", Name: "テスト2"},

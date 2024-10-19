@@ -299,6 +299,14 @@ function GenericTemplate(props: GenericTemplateProps) {
                 <ListItemText primary="選手検索ページ" />
               </ListItem>
             </Link>
+            <Link to="/search_grades" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <Search />
+                </ListItemIcon>
+                <ListItemText primary="選手成績検索ページ" />
+              </ListItem>
+            </Link>
           </List>
         </Drawer>
         <main className={classes.content}>

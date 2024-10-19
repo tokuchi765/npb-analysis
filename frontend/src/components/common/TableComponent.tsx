@@ -377,6 +377,7 @@ export function TableSearchComponent(props: {
   headCells: HeadCell[];
   initSorted: string;
   linkValues: Map<string, string>;
+  width?: number;
 }) {
   const classes = useStyles();
 
@@ -393,7 +394,7 @@ export function TableSearchComponent(props: {
 
   return (
     <React.Fragment>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ width: props.width }}>
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
           <Table className={classes.table} aria-label="simple table">
             <TableComponentHader

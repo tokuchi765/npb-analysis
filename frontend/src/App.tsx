@@ -17,6 +17,7 @@ import {
   MinTeamBattingResponse,
 } from './data/type/index';
 import SearchPage from './components/pages/SearchPage';
+import SearchGradesPage from './components/pages/SearchGradesPage';
 
 const years = [
   '2005',
@@ -112,6 +113,7 @@ function App() {
         <Route path="/players" component={PlayersPage} exact />
         <Route path="/player/:id" component={PlayerPage} exact />
         <Route path="/search" component={SearchPage} exact />
+        <Route path="/search_grades" component={SearchGradesPage} exact />
         <Route path="/manager" component={ManagerPage} exact />
       </Switch>
     </Router>

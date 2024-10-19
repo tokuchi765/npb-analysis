@@ -76,7 +76,6 @@ function SearchPage(props: SearchCondition) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="選手名を入力"
-            inputProps={{ 'aria-label': 'search google maps' }}
           />
           <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />

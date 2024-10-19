@@ -7,4 +7,5 @@ type Context interface {
 	Bind(interface{}) error
 	Status(int)
 	JSON(int, interface{})
+	ShouldBindQuery(obj any) error
 }

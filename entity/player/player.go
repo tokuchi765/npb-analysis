@@ -98,43 +98,45 @@ func (picherGrades *PICHERGRADES) SetInningsPitched() {
 
 // SearchPitcherGradesCondition 選手投手成績検索コンディション
 type SearchPitcherGradesCondition struct {
-	Total                         bool          // 通算
-	TotalYear                     int           // 通算年数
-	FromYear                      int           // 年度From
-	ToYear                        int           // 年度To
-	TeamID                        string        // チームID
-	Pitched                       int           // 登板
-	InningsPitched                int           // 投球回数
-	EarnedRunAverageThresholdType ThresholdType // 防御率の以上、以下
-	EarnedRunAverage              float64       // 防御率
-	BabipThresholdType            ThresholdType // 被BABIPの以上、以下
-	Babip                         float64       // 被BABIP
-	StrikeOutRateThresholdType    ThresholdType // 奪三振率の以上、以下
-	StrikeOutRate                 float64       // 奪三振率
-	StrikeOutThresholdType        ThresholdType // 奪三振数の以上、以下
-	StrikeOut                     int           // 奪三振数
-	HitThresholdType              ThresholdType // 被安打数の以上、以下
-	Hit                           int           // 被安打数
-	BaseOnBallsThresholdType      ThresholdType // 四球数の以上、以下
-	BaseOnBalls                   int           // 四球数
-	HomeRunThresholdType          ThresholdType // 被ホームラン数の以上、以下
-	HomeRun                       int           // 被ホームラン数
-	WinThresholdType              ThresholdType // 勝利数の以上、以下
-	Win                           int           // 勝利数
-	LoseThresholdType             ThresholdType // 敗北数の以上、以下
-	Lose                          int           // 敗北数
-	SaveThresholdType             ThresholdType // セーブ数の以上、以下
-	Save                          int           // セーブ数
-	HoldThresholdType             ThresholdType // ホールド数の以上、以下
-	Hold                          int           // ホールド数
-	HoldPointThresholdType        ThresholdType // ホールドポイント数の以上、以下
-	HoldPoint                     int           // ホールドポイント数
-	CompleteGameThresholdType     ThresholdType // 完投数の以上、以下
-	CompleteGame                  int           // 完投数
-	ShutoutThresholdType          ThresholdType // 完封数の以上、以下
-	Shutout                       int           // 完封数
-	WinningRateThresholdType      ThresholdType // 勝率数の以上、以下
-	WinningRate                   float64       // 勝率数
+	Total                         bool          `form:"total"`                         // 通算
+	TotalYear                     int           `form:"totalYear"`                     // 通算年数
+	FromYear                      int           `form:"fromYear"`                      // 年度From
+	ToYear                        int           `form:"toYear"`                        // 年度To
+	TeamID                        string        `form:"teamID"`                        // チームID
+	PitchedThresholdType          ThresholdType `form:"pitchedThresholdType"`          // 登板の以上、以下
+	Pitched                       int           `form:"pitched"`                       // 登板
+	InningsPitchedThresholdType   ThresholdType `form:"inningsPitchedThresholdType"`   // 投球回数の以上、以下
+	InningsPitched                int           `form:"inningsPitched"`                // 投球回数
+	EarnedRunAverageThresholdType ThresholdType `form:"earnedRunAverageThresholdType"` // 防御率の以上、以下
+	EarnedRunAverage              float64       `form:"earnedRunAverage"`              // 防御率
+	BabipThresholdType            ThresholdType `form:"babipThresholdType"`            // 被BABIPの以上、以下
+	Babip                         float64       `form:"babip"`                         // 被BABIP
+	StrikeOutRateThresholdType    ThresholdType `form:"strikeOutRateThresholdType"`    // 奪三振率の以上、以下
+	StrikeOutRate                 float64       `form:"strikeOutRate"`                 // 奪三振率
+	StrikeOutThresholdType        ThresholdType `form:"strikeOutThresholdType"`        // 奪三振数の以上、以下
+	StrikeOut                     int           `form:"strikeOut"`                     // 奪三振数
+	HitThresholdType              ThresholdType `form:"hitThresholdType"`              // 被安打数の以上、以下
+	Hit                           int           `form:"hit"`                           // 被安打数
+	BaseOnBallsThresholdType      ThresholdType `form:"baseOnBallsThresholdType"`      // 四球数の以上、以下
+	BaseOnBalls                   int           `form:"baseOnBalls"`                   // 四球数
+	HomeRunThresholdType          ThresholdType `form:"homeRunThresholdType"`          // 被ホームラン数の以上、以下
+	HomeRun                       int           `form:"homeRun"`                       // 被ホームラン数
+	WinThresholdType              ThresholdType `form:"winThresholdType"`              // 勝利数の以上、以下
+	Win                           int           `form:"win"`                           // 勝利数
+	LoseThresholdType             ThresholdType `form:"loseThresholdType"`             // 敗北数の以上、以下
+	Lose                          int           `form:"lose"`                          // 敗北数
+	SaveThresholdType             ThresholdType `form:"saveThresholdType"`             // セーブ数の以上、以下
+	Save                          int           `form:"save"`                          // セーブ数
+	HoldThresholdType             ThresholdType `form:"holdThresholdType"`             // ホールド数の以上、以下
+	Hold                          int           `form:"hold"`                          // ホールド数
+	HoldPointThresholdType        ThresholdType `form:"holdPointThresholdType"`        // ホールドポイント数の以上、以下
+	HoldPoint                     int           `form:"holdPoint"`                     // ホールドポイント数
+	CompleteGameThresholdType     ThresholdType `form:"completeGameThresholdType"`     // 完投数の以上、以下
+	CompleteGame                  int           `form:"completeGame"`                  // 完投数
+	ShutoutThresholdType          ThresholdType `form:"shutoutThresholdType"`          // 完封数の以上、以下
+	Shutout                       int           `form:"shutout"`                       // 完封数
+	WinningRateThresholdType      ThresholdType `form:"winningRateThresholdType"`      // 勝率数の以上、以下
+	WinningRate                   float64       `form:"winningRate"`                   // 勝率数
 }
 
 // SearchPitcherGradesResult 選手投手成績検索結果
@@ -326,30 +328,33 @@ func (d ThresholdType) String() string {
 
 // SearchBatterGradesCondition 選手野手成績検索コンディション
 type SearchBatterGradesCondition struct {
-	Total                               bool          // 通算
-	TotalYear                           int           // 通算年数
-	FromYear                            int           // 年度From
-	ToYear                              int           // 年度To
-	TeamID                              string        // チームID
-	PlateAppearance                     int           // 打席
-	OnBasePercentageThresholdType       ThresholdType // 出塁率の以上、以下
-	OnBasePercentage                    float64       // 出塁率
-	SluggingPercentageThresholdType     ThresholdType // 長打率の以上、以下
-	SluggingPercentage                  float64       // 長打率
-	HomeRunThresholdType                ThresholdType // 本塁打の以上、以下
-	HomeRun                             int           // 本塁打
-	StrikeOutThresholdType              ThresholdType // 三振の以上、以下
-	StrikeOut                           int           // 三振
-	StrikeOutRateThresholdType          ThresholdType // 三振率の以上、以下
-	StrikeOutRate                       float64       // 三振率
-	GroundedIntoDoublePlayThresholdType ThresholdType // 併殺打の以上、以下
-	GroundedIntoDoublePlay              int           // 併殺打
-	WObaThresholdType                   ThresholdType // 加重出塁率の以上、以下
-	WOba                                float64       // 加重出塁率
-	RCThresholdType                     ThresholdType // 創出得点の以上、以下
-	RC                                  float64       // 創出得点
-	BabipThresholdType                  ThresholdType // BABIPの以上、以下
-	Babip                               float64       // BABIP
+	Total                               bool          `form:"total"`                               // 通算
+	TotalYear                           int           `form:"totalYear"`                           // 通算年数
+	FromYear                            int           `form:"fromYear"`                            // 年度From
+	ToYear                              int           `form:"toYear"`                              // 年度To
+	TeamID                              string        `form:"teamID"`                              // チームID
+	PlateAppearanceThresholdType        ThresholdType `form:"plateAppearanceThresholdType"`        // 打席の以上、以下
+	PlateAppearance                     int           `form:"plateAppearance"`                     // 打席
+	OnBasePercentageThresholdType       ThresholdType `form:"onBasePercentageThresholdType"`       // 出塁率の以上、以下
+	OnBasePercentage                    float64       `form:"onBasePercentage"`                    // 出塁率
+	BattingAverageThresholdType         ThresholdType `form:"battingAverageThresholdType"`         // 打率の以上、以下
+	BattingAverage                      float64       `form:"battingAverage"`                      // 打率
+	SluggingPercentageThresholdType     ThresholdType `form:"sluggingPercentageThresholdType"`     // 長打率の以上、以下
+	SluggingPercentage                  float64       `form:"sluggingPercentage"`                  // 長打率
+	HomeRunThresholdType                ThresholdType `form:"homeRunThresholdType"`                // 本塁打の以上、以下
+	HomeRun                             int           `form:"homeRun"`                             // 本塁打
+	StrikeOutThresholdType              ThresholdType `form:"strikeOutThresholdType"`              // 三振の以上、以下
+	StrikeOut                           int           `form:"strikeOut"`                           // 三振
+	StrikeOutRateThresholdType          ThresholdType `form:"strikeOutRateThresholdType"`          // 三振率の以上、以下
+	StrikeOutRate                       float64       `form:"strikeOutRate"`                       // 三振率
+	GroundedIntoDoublePlayThresholdType ThresholdType `form:"groundedIntoDoublePlayThresholdType"` // 併殺打の以上、以下
+	GroundedIntoDoublePlay              int           `form:"groundedIntoDoublePlay"`              // 併殺打
+	WObaThresholdType                   ThresholdType `form:"wObaThresholdType"`                   // 加重出塁率の以上、以下
+	WOba                                float64       `form:"wOba"`                                // 加重出塁率
+	RCThresholdType                     ThresholdType `form:"rCThresholdType"`                     // 創出得点の以上、以下
+	RC                                  float64       `form:"rC"`                                  // 創出得点
+	BabipThresholdType                  ThresholdType `form:"babipThresholdType"`                  // BABIPの以上、以下
+	Babip                               float64       `form:"babip"`                               // BABIP
 }
 
 // SearchBatterGradesResult 選手野手成績検索結果

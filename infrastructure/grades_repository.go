@@ -79,11 +79,15 @@ func (Repository *GradesRepository) SearchBatterGrades(condition player.SearchBa
 	}
 
 	if condition.PlateAppearance > 0 {
-		query.Where("bg.plate_appearance >= ?", condition.PlateAppearance)
+		query.Where("bg.plate_appearance "+condition.PlateAppearanceThresholdType.String()+" ?", condition.PlateAppearance)
 	}
 
 	if condition.OnBasePercentage > 0 {
 		query.Where("bg.on_base_percentage "+condition.OnBasePercentageThresholdType.String()+" ?", condition.OnBasePercentage)
+	}
+
+	if condition.BattingAverage > 0 {
+		query.Where("bg.batting_average "+condition.BattingAverageThresholdType.String()+" ?", condition.BattingAverage)
 	}
 
 	if condition.SluggingPercentage > 0 {
@@ -144,12 +148,12 @@ func (Repository *GradesRepository) SearchPicherGrades(condition player.SearchPi
 		query.Where("pg.team_id = ?", condition.TeamID)
 	}
 
-	if condition.Pitched >= 0 {
-		query.Where("pg.pitched >= ?", condition.Pitched)
+	if condition.Pitched > 0 {
+		query.Where("pg.pitched "+condition.PitchedThresholdType.String()+" ?", condition.Pitched)
 	}
 
-	if condition.InningsPitched >= 0 {
-		query.Where("pg.innings_pitched >= ?", condition.InningsPitched)
+	if condition.InningsPitched > 0 {
+		query.Where("pg.innings_pitched "+condition.InningsPitchedThresholdType.String()+" ?", condition.InningsPitched)
 	}
 
 	if condition.EarnedRunAverage > 0 {

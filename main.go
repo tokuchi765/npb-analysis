@@ -148,6 +148,8 @@ func setupRouter() *gin.Engine {
 	// 選手情報取得
 	router.GET("/player/:playerId", func(c *gin.Context) { playerController.GetPlayer(c) })
 	router.GET("/player/search", func(c *gin.Context) { playerController.SearchPlayer(c) })
+	router.GET("/player/search/batter-grades", func(c *gin.Context) { playerController.SearchBatterGrades(c) })
+	router.GET("/player/search/pitcher-grades", func(c *gin.Context) { playerController.SearchPitcherGrades(c) })
 
 	// 画面表示
 	router.Use(static.Serve("/", static.LocalFile("./frontend/build", true)))

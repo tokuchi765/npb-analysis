@@ -264,11 +264,20 @@ func TestGradesRepository_SearchBatterGrades(t *testing.T) {
 			[]player.SearchBatterGradesResult{test1},
 		},
 		{
-			"打席数による検索が可能",
+			"打席数、以上による検索が可能",
 			player.SearchBatterGradesCondition{
-				PlateAppearance: 610,
+				PlateAppearanceThresholdType: player.GreaterOrEqual,
+				PlateAppearance:              610,
 			},
 			[]player.SearchBatterGradesResult{test3_2},
+		},
+		{
+			"打席数、以下による検索が可能",
+			player.SearchBatterGradesCondition{
+				PlateAppearanceThresholdType: player.LessOrEqual,
+				PlateAppearance:              500,
+			},
+			[]player.SearchBatterGradesResult{test1, test2},
 		},
 		{
 			"出塁率、以上による検索が可能",
@@ -283,6 +292,22 @@ func TestGradesRepository_SearchBatterGrades(t *testing.T) {
 			player.SearchBatterGradesCondition{
 				OnBasePercentageThresholdType: player.LessOrEqual,
 				OnBasePercentage:              0.437,
+			},
+			[]player.SearchBatterGradesResult{test1, test2},
+		},
+		{
+			"打率、以上による検索が可能",
+			player.SearchBatterGradesCondition{
+				BattingAverageThresholdType: player.GreaterOrEqual,
+				BattingAverage:              0.33,
+			},
+			[]player.SearchBatterGradesResult{test3, test3_2},
+		},
+		{
+			"打率、以下による検索が可能",
+			player.SearchBatterGradesCondition{
+				BattingAverageThresholdType: player.LessOrEqual,
+				BattingAverage:              0.281,
 			},
 			[]player.SearchBatterGradesResult{test1, test2},
 		},
@@ -561,18 +586,36 @@ func TestGradesRepository_SearchPicherGrades(t *testing.T) {
 			[]player.SearchPitcherGradesResult{test1},
 		},
 		{
-			"登板数による検索が可能",
+			"登板数、以上による検索が可能",
 			player.SearchPitcherGradesCondition{
-				Pitched: 48,
+				PitchedThresholdType: player.GreaterOrEqual,
+				Pitched:              48,
 			},
 			[]player.SearchPitcherGradesResult{test3, test3_2},
 		},
 		{
-			"投球回数による検索が可能",
+			"登板数、以下による検索が可能",
 			player.SearchPitcherGradesCondition{
-				InningsPitched: 56,
+				PitchedThresholdType: player.LessOrEqual,
+				Pitched:              47,
+			},
+			[]player.SearchPitcherGradesResult{test1, test2},
+		},
+		{
+			"投球回数、以上による検索が可能",
+			player.SearchPitcherGradesCondition{
+				InningsPitchedThresholdType: player.GreaterOrEqual,
+				InningsPitched:              56,
 			},
 			[]player.SearchPitcherGradesResult{test3, test3_2},
+		},
+		{
+			"投球回数、以下による検索が可能",
+			player.SearchPitcherGradesCondition{
+				InningsPitchedThresholdType: player.LessOrEqual,
+				InningsPitched:              55,
+			},
+			[]player.SearchPitcherGradesResult{test1, test2},
 		},
 		{
 			"防御率、以上による検索が可能",

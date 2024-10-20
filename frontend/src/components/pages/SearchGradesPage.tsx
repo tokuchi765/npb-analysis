@@ -49,14 +49,20 @@ interface BatterGradesData {
   battingAverage: number;
   plateAppearance: number;
   onBasePercentage: number;
-  sluggingPercentage: number;
+  baseOnBalls: number;
+  hit: number;
+  single: number;
+  double: number;
+  triple: number;
   homeRun: number;
+  stolenBase: number;
   strikeOut: number;
   strikeOutRate: number;
   wOba: number;
   rc: number;
   babip: number;
   groundedIntoDoublePlay: number;
+  sluggingPercentage: number;
 }
 
 const BatterGradesHeadCells: HeadCell[] = [
@@ -66,14 +72,20 @@ const BatterGradesHeadCells: HeadCell[] = [
   { id: 'plateAppearance', numeric: true, disablePadding: true, label: '打席' },
   { id: 'onBasePercentage', numeric: true, disablePadding: true, label: '出塁率' },
   { id: 'battingAverage', numeric: true, disablePadding: true, label: '打率' },
-  { id: 'sluggingPercentage', numeric: true, disablePadding: true, label: '長打率' },
+  { id: 'baseOnBalls', numeric: true, disablePadding: true, label: '四球' },
+  { id: 'hit', numeric: true, disablePadding: true, label: '安打' },
+  { id: 'single', numeric: true, disablePadding: true, label: '単打' },
+  { id: 'double', numeric: true, disablePadding: true, label: '二塁打' },
+  { id: 'triple', numeric: true, disablePadding: true, label: '三塁打' },
   { id: 'homeRun', numeric: true, disablePadding: true, label: '本塁打' },
+  { id: 'stolenBase', numeric: true, disablePadding: true, label: '盗塁' },
   { id: 'strikeOut', numeric: true, disablePadding: true, label: '三振' },
   { id: 'strikeOutRate', numeric: true, disablePadding: true, label: '三振率' },
   { id: 'wOba', numeric: true, disablePadding: true, label: '加重出塁率' },
   { id: 'rc', numeric: true, disablePadding: true, label: '創出得点' },
   { id: 'babip', numeric: true, disablePadding: true, label: 'BABIP' },
   { id: 'groundedIntoDoublePlay', numeric: true, disablePadding: true, label: '併殺打' },
+  { id: 'sluggingPercentage', numeric: true, disablePadding: true, label: '長打率' },
 ];
 
 function buildBatterGradesDatas(responses: BatterGrades[]) {
@@ -86,14 +98,20 @@ function buildBatterGradesDatas(responses: BatterGrades[]) {
       plateAppearance: response.PlateAppearance,
       onBasePercentage: response.OnBasePercentage,
       battingAverage: response.BattingAverage,
-      sluggingPercentage: response.SluggingPercentage,
+      baseOnBalls: response.BaseOnBalls,
+      hit: response.Hit,
+      single: response.Single,
+      double: response.Double,
+      triple: response.Triple,
       homeRun: response.HomeRun,
+      stolenBase: response.StolenBase,
       strikeOut: response.StrikeOut,
       strikeOutRate: response.StrikeOutRate,
       wOba: response.WOba,
       rc: response.RC,
       babip: response.Babip,
       groundedIntoDoublePlay: response.GroundedIntoDoublePlay,
+      sluggingPercentage: response.SluggingPercentage,
     });
   });
   return gradesDate;
@@ -528,6 +546,16 @@ function SearchGradesPage() {
       OnBasePercentage: undefined,
       BattingAverageThresholdType: ThresholdType.GreaterOrEqual,
       BattingAverage: undefined,
+      BaseOnBallsThresholdType: ThresholdType.GreaterOrEqual,
+      BaseOnBalls: undefined,
+      HitThresholdType: ThresholdType.GreaterOrEqual,
+      Hit: undefined,
+      SingleThresholdType: ThresholdType.GreaterOrEqual,
+      Single: undefined,
+      DoubleThresholdType: ThresholdType.GreaterOrEqual,
+      Double: undefined,
+      TripleThresholdType: ThresholdType.GreaterOrEqual,
+      Triple: undefined,
       SluggingPercentageThresholdType: ThresholdType.GreaterOrEqual,
       SluggingPercentage: undefined,
       HomeRunThresholdType: ThresholdType.GreaterOrEqual,
@@ -536,6 +564,8 @@ function SearchGradesPage() {
       StrikeOut: undefined,
       StrikeOutRateThresholdType: ThresholdType.GreaterOrEqual,
       StrikeOutRate: undefined,
+      StolenBaseThresholdType: ThresholdType.GreaterOrEqual,
+      StolenBase: undefined,
       GroundedIntoDoublePlayThresholdType: ThresholdType.GreaterOrEqual,
       GroundedIntoDoublePlay: undefined,
       WObaThresholdType: ThresholdType.GreaterOrEqual,
@@ -627,6 +657,16 @@ function SearchGradesPage() {
       OnBasePercentage: undefined,
       BattingAverageThresholdType: ThresholdType.GreaterOrEqual,
       BattingAverage: undefined,
+      BaseOnBallsThresholdType: ThresholdType.GreaterOrEqual,
+      BaseOnBalls: undefined,
+      HitThresholdType: ThresholdType.GreaterOrEqual,
+      Hit: undefined,
+      SingleThresholdType: ThresholdType.GreaterOrEqual,
+      Single: undefined,
+      DoubleThresholdType: ThresholdType.GreaterOrEqual,
+      Double: undefined,
+      TripleThresholdType: ThresholdType.GreaterOrEqual,
+      Triple: undefined,
       SluggingPercentageThresholdType: ThresholdType.GreaterOrEqual,
       SluggingPercentage: undefined,
       HomeRunThresholdType: ThresholdType.GreaterOrEqual,
@@ -635,6 +675,8 @@ function SearchGradesPage() {
       StrikeOut: undefined,
       StrikeOutRateThresholdType: ThresholdType.GreaterOrEqual,
       StrikeOutRate: undefined,
+      StolenBaseThresholdType: ThresholdType.GreaterOrEqual,
+      StolenBase: undefined,
       GroundedIntoDoublePlayThresholdType: ThresholdType.GreaterOrEqual,
       GroundedIntoDoublePlay: undefined,
       WObaThresholdType: ThresholdType.GreaterOrEqual,
@@ -1010,7 +1052,7 @@ function SearchGradesPage() {
             headCells={BatterGradesHeadCells}
             initSorted={'main'}
             linkValues={playerIdMap}
-            width={1200}
+            width={1600}
           />
         </Box>
       )}

@@ -77,6 +77,16 @@ type SearchBatterGradesCondition = {
   OnBasePercentage: number | undefined;
   BattingAverageThresholdType: ThresholdType;
   BattingAverage: number | undefined;
+  BaseOnBallsThresholdType: ThresholdType;
+  BaseOnBalls: number | undefined;
+  HitThresholdType: ThresholdType;
+  Hit: number | undefined;
+  SingleThresholdType: ThresholdType;
+  Single: number | undefined;
+  DoubleThresholdType: ThresholdType;
+  Double: number | undefined;
+  TripleThresholdType: ThresholdType;
+  Triple: number | undefined;
   SluggingPercentageThresholdType: ThresholdType;
   SluggingPercentage: number | undefined;
   HomeRunThresholdType: ThresholdType;
@@ -85,6 +95,8 @@ type SearchBatterGradesCondition = {
   StrikeOut: number | undefined;
   StrikeOutRateThresholdType: ThresholdType;
   StrikeOutRate: number | undefined;
+  StolenBaseThresholdType: ThresholdType;
+  StolenBase: number | undefined;
   GroundedIntoDoublePlayThresholdType: ThresholdType;
   GroundedIntoDoublePlay: number | undefined;
   WObaThresholdType: ThresholdType;

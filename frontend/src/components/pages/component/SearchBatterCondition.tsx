@@ -107,6 +107,153 @@ export function SearchBatterCondition(props: SearchBatterConditionProps) {
       </Grid>
       <Grid item xs={12} display={'flex'}>
         <Grid item display={'flex'} alignItems="center">
+          <SearchLabel label={'四球：'} />
+          <InputNumberText
+            name={'baseOnBalls'}
+            minValue={0}
+            maxValue={9999}
+            maxLength={4}
+            height={0}
+            width={50}
+            placeholder={'四球'}
+            value={props.searchBatterGradesCondition.BaseOnBalls}
+            setValue={(i) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                BaseOnBalls: i,
+              })
+            }
+          />
+          <ThresholdRadioGroup
+            name={'baseOnBallsThresholdType'}
+            initValue={props.searchBatterGradesCondition.BaseOnBallsThresholdType}
+            setThresholdType={(value) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                BaseOnBallsThresholdType: value,
+              })
+            }
+          />
+        </Grid>
+        <Grid item display={'flex'} alignItems="center">
+          <SearchLabel label={'安打：'} />
+          <InputNumberText
+            name={'hit'}
+            minValue={0}
+            maxValue={9999}
+            maxLength={4}
+            height={0}
+            width={50}
+            placeholder={'安打'}
+            value={props.searchBatterGradesCondition.Hit}
+            setValue={(i) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                Hit: i,
+              })
+            }
+          />
+          <ThresholdRadioGroup
+            name={'hitThresholdType'}
+            initValue={props.searchBatterGradesCondition.HitThresholdType}
+            setThresholdType={(value) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                HitThresholdType: value,
+              })
+            }
+          />
+        </Grid>
+        <Grid item display={'flex'} alignItems="center">
+          <SearchLabel label={'単打：'} />
+          <InputNumberText
+            name={'single'}
+            minValue={0}
+            maxValue={9999}
+            maxLength={4}
+            height={0}
+            width={50}
+            placeholder={'単打'}
+            value={props.searchBatterGradesCondition.Single}
+            setValue={(i) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                Single: i,
+              })
+            }
+          />
+          <ThresholdRadioGroup
+            name={'singleThresholdType'}
+            initValue={props.searchBatterGradesCondition.SingleThresholdType}
+            setThresholdType={(value) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                SingleThresholdType: value,
+              })
+            }
+          />
+        </Grid>
+      </Grid>
+      <Grid item xs={12} display={'flex'}>
+        <Grid item display={'flex'} alignItems="center">
+          <SearchLabel label={'二塁打：'} />
+          <InputNumberText
+            name={'double'}
+            minValue={0}
+            maxValue={999}
+            maxLength={3}
+            height={0}
+            width={50}
+            placeholder={'二塁打'}
+            value={props.searchBatterGradesCondition.Double}
+            setValue={(i) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                Double: i,
+              })
+            }
+          />
+          <ThresholdRadioGroup
+            name={'doubleThresholdType'}
+            initValue={props.searchBatterGradesCondition.DoubleThresholdType}
+            setThresholdType={(value) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                DoubleThresholdType: value,
+              })
+            }
+          />
+        </Grid>
+        <Grid item display={'flex'} alignItems="center">
+          <SearchLabel label={'三塁打：'} />
+          <InputNumberText
+            name={'triple'}
+            minValue={0}
+            maxValue={99}
+            maxLength={2}
+            height={0}
+            width={50}
+            placeholder={'三塁打'}
+            value={props.searchBatterGradesCondition.Triple}
+            setValue={(i) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                Triple: i,
+              })
+            }
+          />
+          <ThresholdRadioGroup
+            name={'tripleThresholdType'}
+            initValue={props.searchBatterGradesCondition.TripleThresholdType}
+            setThresholdType={(value) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                TripleThresholdType: value,
+              })
+            }
+          />
+        </Grid>
+        <Grid item display={'flex'} alignItems="center">
           <SearchLabel label={'本塁打：'} />
           <InputNumberText
             name={'homeRun'}
@@ -131,6 +278,37 @@ export function SearchBatterCondition(props: SearchBatterConditionProps) {
               props.setSearchBatterGradesCondition({
                 ...props.searchBatterGradesCondition,
                 HomeRunThresholdType: value,
+              })
+            }
+          />
+        </Grid>
+      </Grid>
+      <Grid item xs={12} display={'flex'}>
+        <Grid item display={'flex'} alignItems="center">
+          <SearchLabel label={'盗塁：'} />
+          <InputNumberText
+            name={'stolenBase'}
+            minValue={0}
+            maxValue={999}
+            maxLength={3}
+            height={0}
+            width={50}
+            placeholder={'盗塁'}
+            value={props.searchBatterGradesCondition.StolenBase}
+            setValue={(i) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                StolenBase: i,
+              })
+            }
+          />
+          <ThresholdRadioGroup
+            name={'stolenBaseThresholdType'}
+            initValue={props.searchBatterGradesCondition.StolenBaseThresholdType}
+            setThresholdType={(value) =>
+              props.setSearchBatterGradesCondition({
+                ...props.searchBatterGradesCondition,
+                StolenBaseThresholdType: value,
               })
             }
           />

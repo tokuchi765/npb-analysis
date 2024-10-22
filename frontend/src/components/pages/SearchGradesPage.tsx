@@ -31,6 +31,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SearchBatterCondition } from './component/SearchBatterCondition';
 import { SearchPitchrCondition } from './component/SearchPitcherCondition';
+import Loading from '../common/Loading';
 
 enum Type {
   Batter = 'batter',
@@ -822,6 +823,8 @@ function SearchGradesPage() {
       return;
     }
 
+    setLoading(true);
+
     if (type === Type.Batter) {
       const response = await searchBatterGrades(
         searchBaseGradesCondition,
@@ -839,10 +842,15 @@ function SearchGradesPage() {
     }
 
     clearErrorState();
+
+    setLoading(false);
   };
+
+  const [loading, setLoading] = useState(false);
 
   return (
     <GenericTemplate title="選手成績検索ページ">
+      <Loading loading={loading} />
       <Paper
         component="form"
         onSubmit={handleSearch}

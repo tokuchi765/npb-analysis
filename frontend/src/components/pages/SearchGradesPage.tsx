@@ -32,6 +32,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SearchBatterCondition } from './component/SearchBatterCondition';
 import { SearchPitchrCondition } from './component/SearchPitcherCondition';
 import Loading from '../common/Loading';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
+import * as H from 'history';
 
 enum Type {
   Batter = 'batter',
@@ -508,7 +510,20 @@ function SearchDropdown(props: {
   );
 }
 
-function SearchGradesPage() {
+interface Search {
+  baseCondition: SearchBaseGradesCondition;
+  batterCondition: SearchBatterGradesCondition;
+  pitcherCondition: SearchPitcherGradesCondition;
+  type: Type;
+  periodType: PeriodType;
+}
+
+export interface SearchGradesCondition extends RouteComponentProps<{ id: string }> {
+  history: H.History<Search>;
+  location: H.Location<Search>;
+}
+
+function SearchGradesPage(props: SearchGradesCondition) {
   // 共通
   const [errors, setErrors] = useState<string[]>([]);
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
@@ -612,6 +627,8 @@ function SearchGradesPage() {
       WinningRateThresholdType: ThresholdType.GreaterOrEqual,
       WinningRate: undefined,
     });
+
+    history.push({});
   };
 
   const handleChangePeriodType = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -731,6 +748,12 @@ function SearchGradesPage() {
       !searchBatterGradesCondition.PlateAppearance &&
       !searchBatterGradesCondition.OnBasePercentage &&
       !searchBatterGradesCondition.BattingAverage &&
+      !searchBatterGradesCondition.BaseOnBalls &&
+      !searchBatterGradesCondition.Hit &&
+      !searchBatterGradesCondition.Single &&
+      !searchBatterGradesCondition.Double &&
+      !searchBatterGradesCondition.Triple &&
+      !searchBatterGradesCondition.StolenBase &&
       !searchBatterGradesCondition.SluggingPercentage &&
       !searchBatterGradesCondition.HomeRun &&
       !searchBatterGradesCondition.StrikeOut &&
@@ -763,7 +786,8 @@ function SearchGradesPage() {
       !searchPitcherGradesCondition.HoldPoint &&
       !searchPitcherGradesCondition.CompleteGame &&
       !searchPitcherGradesCondition.Shutout &&
-      !searchPitcherGradesCondition.WinningRate
+      !searchPitcherGradesCondition.WinningRate &&
+      !searchPitcherGradesCondition.Babip
     );
   };
 
@@ -841,10 +865,62 @@ function SearchGradesPage() {
       setPlayerIds(createPlayerIds(response.results));
     }
 
+    history.push({
+      state: {
+        baseCondition: searchBaseGradesCondition,
+        batterCondition: searchBatterGradesCondition,
+        pitcherCondition: searchPitcherGradesCondition,
+        type: type,
+        periodType: periodType,
+      },
+    });
+
     clearErrorState();
 
     setLoading(false);
   };
+
+  const history = useHistory<Search>();
+
+  useEffect(() => {
+    (async () => {
+      if (!props.location.state) {
+        return;
+      }
+      const base = props.location.state.baseCondition;
+      const batter = props.location.state.batterCondition;
+      const pitcher = props.location.state.pitcherCondition;
+
+      if ((base.Total && base.TotalYear) || (base.FromYear && base.ToYear)) {
+        setLoading(true);
+        setType(props.location.state.type);
+        setPeriodType(props.location.state.periodType);
+        setSearchBaseGradesCondition(base);
+        setSearchBatterGradesCondition(batter);
+        setSearchPitcherGradesCondition(pitcher);
+        if (props.location.state.type === Type.Batter) {
+          const response = await searchBatterGrades(base, batter);
+          setBatterGradesDatas(buildBatterGradesDatas(response.results));
+          setPlayerIds(createPlayerIds(response.results));
+        } else {
+          const response = await searchPitcherGrades(base, pitcher);
+          setPitcherGradesDatas(buildPitcherGradesDatas(response.results));
+          setPlayerIds(createPlayerIds(response.results));
+        }
+
+        history.push({
+          state: {
+            baseCondition: base,
+            batterCondition: batter,
+            pitcherCondition: pitcher,
+            type: props.location.state.type,
+            periodType: props.location.state.periodType,
+          },
+        });
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   const [loading, setLoading] = useState(false);
 

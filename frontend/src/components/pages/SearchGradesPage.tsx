@@ -30,17 +30,17 @@ import {
 } from '../../data/type';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SearchBatterCondition } from './component/SearchBatterCondition';
-import { SearchPitchrCondition } from './component/SearchPitcherCondition';
+import { SearchPitcherCondition } from './component/SearchPitcherCondition';
 import Loading from '../common/Loading';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import * as H from 'history';
 
-enum Type {
+export enum Type {
   Batter = 'batter',
   Pitcher = 'pitcher',
 }
 
-enum PeriodType {
+export enum PeriodType {
   Period = 'period',
   Total = 'total',
 }
@@ -510,7 +510,7 @@ function SearchDropdown(props: {
   );
 }
 
-interface Search {
+export interface SearchGrades {
   baseCondition: SearchBaseGradesCondition;
   batterCondition: SearchBatterGradesCondition;
   pitcherCondition: SearchPitcherGradesCondition;
@@ -518,9 +518,9 @@ interface Search {
   periodType: PeriodType;
 }
 
-export interface SearchGradesCondition extends RouteComponentProps<{ id: string }> {
-  history: H.History<Search>;
-  location: H.Location<Search>;
+export interface SearchGradesCondition extends RouteComponentProps {
+  history: H.History<SearchGrades>;
+  location: H.Location<SearchGrades>;
 }
 
 function SearchGradesPage(props: SearchGradesCondition) {
@@ -880,7 +880,7 @@ function SearchGradesPage(props: SearchGradesCondition) {
     setLoading(false);
   };
 
-  const history = useHistory<Search>();
+  const history = useHistory<SearchGrades>();
 
   useEffect(() => {
     (async () => {
@@ -1098,7 +1098,7 @@ function SearchGradesPage(props: SearchGradesCondition) {
                   setSearchBatterGradesCondition={setSearchBatterGradesCondition}
                 />
               ) : (
-                <SearchPitchrCondition
+                <SearchPitcherCondition
                   searchPitcherGradesCondition={searchPitcherGradesCondition}
                   setSearchPitcherGradesCondition={setSearchPitcherGradesCondition}
                 />

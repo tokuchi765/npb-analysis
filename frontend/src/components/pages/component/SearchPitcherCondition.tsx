@@ -15,7 +15,7 @@ export interface SearchPitcherConditionProps {
   >;
 }
 
-export function SearchPitchrCondition(props: SearchPitcherConditionProps) {
+export function SearchPitcherCondition(props: SearchPitcherConditionProps) {
   return (
     <React.Fragment>
       <Grid item xs={12} display={'flex'}>

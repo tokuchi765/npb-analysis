@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/tokuchi765/npb-analysis/entity/player"
 	"github.com/tokuchi765/npb-analysis/grades"
 	"github.com/tokuchi765/npb-analysis/infrastructure"
 	"github.com/tokuchi765/npb-analysis/infrastructure/csv"
@@ -41,5 +42,27 @@ func (controller *PlayerController) SearchPlayer(c Context) {
 	name := c.Query("Name")
 	c.JSON(http.StatusOK, gin.H{
 		"careers": controller.GradesInteractor.SearchCareerByName(name),
+	})
+}
+
+// SearchBatterGrades 打撃成績を検索します
+func (controller *PlayerController) SearchBatterGrades(c Context) {
+	var condition player.SearchBatterGradesCondition
+
+	c.ShouldBindQuery(&condition)
+
+	c.JSON(http.StatusOK, gin.H{
+		"results": controller.GradesInteractor.SearchBatterGrades(condition),
+	})
+}
+
+// SearchPitcherGrades 投手成績を検索します
+func (controller *PlayerController) SearchPitcherGrades(c Context) {
+	var condition player.SearchPitcherGradesCondition
+
+	c.ShouldBindQuery(&condition)
+
+	c.JSON(http.StatusOK, gin.H{
+		"results": controller.GradesInteractor.SearchPicherGrades(condition),
 	})
 }

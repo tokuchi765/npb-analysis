@@ -1,0 +1,3254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`戦力ページテスト スナップショット作成 1`] = `
+Array [
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        打席数：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={5}
+            name="plateAppearance"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="打席"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="plateAppearanceThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="plateAppearanceThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="plateAppearanceThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        出塁率：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="onBasePercentage"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="出塁率"
+            required={false}
+            style={
+              Object {
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="onBasePercentageThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="onBasePercentageThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="onBasePercentageThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        打率：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="battingAverage"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="打率"
+            required={false}
+            style={
+              Object {
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="battingAverageThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="battingAverageThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="battingAverageThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+  </div>,
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        四球：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="baseOnBalls"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="四球"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="baseOnBallsThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="baseOnBallsThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="baseOnBallsThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        安打：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="hit"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="安打"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="hitThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="hitThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="hitThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        単打：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="single"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="単打"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="singleThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="singleThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="singleThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+  </div>,
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        二塁打：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={3}
+            name="double"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="二塁打"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="doubleThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="doubleThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="doubleThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        三塁打：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={2}
+            name="triple"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="三塁打"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="tripleThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="tripleThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="tripleThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        本塁打：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={3}
+            name="homeRun"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="本塁打"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="homeRunThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="homeRunThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="homeRunThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+  </div>,
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        盗塁：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={3}
+            name="stolenBase"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="盗塁"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="stolenBaseThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="stolenBaseThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="stolenBaseThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        三振：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="strikeOut"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="三振"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="strikeOutThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="strikeOutThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="strikeOutThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        三振率：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="strikeOutRate"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="三振率"
+            required={false}
+            style={
+              Object {
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="strikeOutRateThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="strikeOutRateThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="strikeOutRateThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+  </div>,
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        加重出塁率：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="wOba"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="加重出塁率"
+            required={false}
+            style={
+              Object {
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="wObaThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="wObaThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="wObaThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        創出得点：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="rC"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="創出得点"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="rCThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="rCThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="rCThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        BABIP：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="babip"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="BABIP"
+            required={false}
+            style={
+              Object {
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="babipThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="babipThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="babipThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+  </div>,
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        併殺打：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={3}
+            name="groundedIntoDoublePlay"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="併殺打"
+            required={false}
+            style={
+              Object {
+                "backgroundColor": "inherit",
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="groundedIntoDoublePlayThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="groundedIntoDoublePlayThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="groundedIntoDoublePlayThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item css-ev762u-MuiGrid-root"
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-1843znr-MuiTypography-root"
+      >
+        長打率：
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-b59fow-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            inputMode="numeric"
+            maxLength={4}
+            name="sluggingPercentage"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="長打率"
+            required={false}
+            style={
+              Object {
+                "height": 0,
+                "width": 50,
+              }
+            }
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset
+        className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <div
+          aria-labelledby="sluggingPercentageThresholdType-label"
+          className="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          role="radiogroup"
+        >
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={true}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="sluggingPercentageThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={0}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11zohuh-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以上
+            </span>
+          </label>
+          <label
+            className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-lqx019-MuiFormControlLabel-root"
+          >
+            <span
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1ee40bz-MuiButtonBase-root-MuiRadio-root"
+              onBlur={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input css-1m9pwf3"
+                disabled={false}
+                name="sluggingPercentageThresholdType"
+                onChange={[Function]}
+                required={false}
+                type="radio"
+                value={1}
+              />
+              <span
+                className="css-hyxlzm"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                  data-testid="RadioButtonUncheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                  data-testid="RadioButtonCheckedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+            >
+              以下
+            </span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+  </div>,
+]
+`;

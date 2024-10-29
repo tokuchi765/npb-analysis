@@ -162,6 +162,20 @@ func (mr *MockGradesRepositoryMockRecorder) InsertPlayers(careers interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertPlayers", reflect.TypeOf((*MockGradesRepository)(nil).InsertPlayers), careers)
 }
 
+// SearchBatterGrades mocks base method.
+func (m *MockGradesRepository) SearchBatterGrades(condition player.SearchBatterGradesCondition) []player.SearchBatterGradesResult {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchBatterGrades", condition)
+	ret0, _ := ret[0].([]player.SearchBatterGradesResult)
+	return ret0
+}
+
+// SearchBatterGrades indicates an expected call of SearchBatterGrades.
+func (mr *MockGradesRepositoryMockRecorder) SearchBatterGrades(condition interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchBatterGrades", reflect.TypeOf((*MockGradesRepository)(nil).SearchBatterGrades), condition)
+}
+
 // SearchCareerByName mocks base method.
 func (m *MockGradesRepository) SearchCareerByName(name string) []player.Players {
 	m.ctrl.T.Helper()
@@ -174,6 +188,20 @@ func (m *MockGradesRepository) SearchCareerByName(name string) []player.Players 
 func (mr *MockGradesRepositoryMockRecorder) SearchCareerByName(name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchCareerByName", reflect.TypeOf((*MockGradesRepository)(nil).SearchCareerByName), name)
+}
+
+// SearchPicherGrades mocks base method.
+func (m *MockGradesRepository) SearchPicherGrades(condition player.SearchPitcherGradesCondition) []player.SearchPitcherGradesResult {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchPicherGrades", condition)
+	ret0, _ := ret[0].([]player.SearchPitcherGradesResult)
+	return ret0
+}
+
+// SearchPicherGrades indicates an expected call of SearchPicherGrades.
+func (mr *MockGradesRepositoryMockRecorder) SearchPicherGrades(condition interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchPicherGrades", reflect.TypeOf((*MockGradesRepository)(nil).SearchPicherGrades), condition)
 }
 
 // MockTeamRepository is a mock of TeamRepository interface.

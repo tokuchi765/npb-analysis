@@ -489,3 +489,91 @@ func TestGradesInteractor_SearchCareerByName(t *testing.T) {
 		})
 	}
 }
+
+func TestGradesInteractor_SearchBatterGrades(t *testing.T) {
+	type args struct {
+		condition player.SearchBatterGradesCondition
+	}
+	tests := []struct {
+		name        string
+		args        args
+		wantResults []player.SearchBatterGradesResult
+	}{
+		{
+			"打撃成績検索",
+			args{
+				player.SearchBatterGradesCondition{
+					Total:    false,
+					FromYear: 2020,
+					ToYear:   2022,
+					TeamID:   "01",
+				},
+			},
+			[]player.SearchBatterGradesResult{
+				{PlayerID: "00001", Name: "テスト", Year: "2021"},
+			},
+		},
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().SearchBatterGrades(tt.args.condition).Return(tt.wantResults)
+
+			interactor := GradesInteractor{
+				GradesRepository: mGradesRepository,
+			}
+
+			actual := interactor.SearchBatterGrades(tt.args.condition)
+			assert.Exactly(t, tt.wantResults, actual)
+		})
+	}
+}
+
+func TestGradesInteractor_SearchPicherGrades(t *testing.T) {
+	type args struct {
+		condition player.SearchPitcherGradesCondition
+	}
+	tests := []struct {
+		name        string
+		args        args
+		wantResults []player.SearchPitcherGradesResult
+	}{
+		{
+			"投手成績検索",
+			args{
+				player.SearchPitcherGradesCondition{
+					Total:    false,
+					FromYear: 2020,
+					ToYear:   2022,
+					TeamID:   "01",
+				},
+			},
+			[]player.SearchPitcherGradesResult{
+				{PlayerID: "00001", Name: "テスト", Year: "2021"},
+			},
+		},
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			mGradesRepository := mock_repository.NewMockGradesRepository(mockCtrl)
+
+			mGradesRepository.EXPECT().SearchPicherGrades(tt.args.condition).Return(tt.wantResults)
+
+			interactor := GradesInteractor{
+				GradesRepository: mGradesRepository,
+			}
+
+			actual := interactor.SearchPicherGrades(tt.args.condition)
+			assert.Exactly(t, tt.wantResults, actual)
+		})
+	}
+}

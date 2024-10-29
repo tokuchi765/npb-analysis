@@ -20,6 +20,8 @@ type GradesRepository interface {
 	InsertPicherGrades(picher player.PitcherGrades)
 	InsertBatterGrades(batterGrades player.BatterGrades)
 	SearchCareerByName(name string) (careers []player.Players)
+	SearchBatterGrades(condition player.SearchBatterGradesCondition) (results []player.SearchBatterGradesResult)
+	SearchPicherGrades(condition player.SearchPitcherGradesCondition) (results []player.SearchPitcherGradesResult)
 }
 
 // TeamRepository チーム成績データアクセスを管理するインターフェース

@@ -205,3 +205,13 @@ func loadConfig(current string) (*config, error) {
 func setSingle(batterGrades *player.BATTERGRADES) {
 	batterGrades.Single = batterGrades.Hit - batterGrades.Double - batterGrades.Triple - batterGrades.HomeRun
 }
+
+// SearchBatterGrades 引数で受け取った条件で野手成績を検索する
+func (Interactor *GradesInteractor) SearchBatterGrades(condition player.SearchBatterGradesCondition) (results []player.SearchBatterGradesResult) {
+	return Interactor.GradesRepository.SearchBatterGrades(condition)
+}
+
+// SearchPicherGrades 引数で受け取った条件で投手成績を検索する
+func (Interactor *GradesInteractor) SearchPicherGrades(condition player.SearchPitcherGradesCondition) (results []player.SearchPitcherGradesResult) {
+	return Interactor.GradesRepository.SearchPicherGrades(condition)
+}

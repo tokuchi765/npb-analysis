@@ -14,6 +14,7 @@ import {
   createPlayerIds,
   PlayerData,
 } from '../util/PlayerUtil';
+import Loading from '../common/Loading';
 
 interface Search {
   name: string;
@@ -30,12 +31,14 @@ function SearchPage(props: SearchCondition) {
   const [playerIdMap, setPlayerIds] = useState<Map<string, string>>(new Map<string, string>());
   const [noSearchResults, setNoSearchResults] = useState(false);
   const history = useHistory<Search>();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isNotEmptyName = name !== '';
 
     if (isNotEmptyName) {
+      setLoading(true);
       const result = await searchPlayer(name);
       if (_.isEmpty(result.careers)) {
         setNoSearchResults(true);
@@ -47,6 +50,7 @@ function SearchPage(props: SearchCondition) {
         setPlayerDatas(createPlayerDatas(result.careers));
         history.push({ state: { name: name } });
       }
+      setLoading(false);
     }
   };
 
@@ -65,6 +69,7 @@ function SearchPage(props: SearchCondition) {
 
   return (
     <GenericTemplate title="選手検索ページ">
+      <Loading loading={loading} />
       <TableContainer component={Paper}>
         <Paper
           component="form"
@@ -76,7 +81,6 @@ function SearchPage(props: SearchCondition) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="選手名を入力"
-            inputProps={{ 'aria-label': 'search google maps' }}
           />
           <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />

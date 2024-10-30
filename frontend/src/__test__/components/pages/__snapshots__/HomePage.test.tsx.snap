@@ -51,7 +51,7 @@ exports[`トップページテスト スナップショット作成 1`] = `
       <h1
         className="MuiTypography-root makeStyles-title-8 MuiTypography-h6 MuiTypography-colorInherit MuiTypography-noWrap"
       >
-        管理画面
+        プロ野球データ分析
       </h1>
     </div>
   </header>
@@ -1342,7 +1342,7 @@ exports[`トップページテスト スナップショット作成 1`] = `
             href="/"
             onClick={[Function]}
           >
-            管理画面
+            プロ野球データ分析
           </a>
            
           2024

@@ -147,7 +147,7 @@ const Copyright = () => {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" to="/">
-        管理画面
+        プロ野球データ分析
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -203,7 +203,7 @@ function GenericTemplate(props: GenericTemplateProps) {
               noWrap
               className={classes.title}
             >
-              管理画面
+              プロ野球データ分析
             </Typography>
           </Toolbar>
         </AppBar>

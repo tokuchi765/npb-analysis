@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { createTheme } from '@material-ui/core/styles';
 import * as colors from '@material-ui/core/colors';
@@ -18,9 +18,9 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Menu } from '@mui/material';
+import { Accordion, AccordionSummary } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
-  Groups,
   SportsCricket,
   SportsBaseball,
   Person,
@@ -29,6 +29,7 @@ import {
   ChevronLeft,
   Pentagon,
   Search,
+  Group,
 } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -162,24 +163,27 @@ export interface GenericTemplateProps {
 
 function GenericTemplate(props: GenericTemplateProps) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  function handleClick(event: any) {
-    if (anchorEl !== event.currentTarget) {
-      setAnchorEl(event.currentTarget);
+  const [expanded, setExpanded] = useState(() => {
+    const accordionExpanded = localStorage.getItem('accordionExpanded');
+    if (accordionExpanded) {
+      return JSON.parse(accordionExpanded) || false;
     }
-  }
-
-  function handleClose() {
-    setAnchorEl(null);
-  }
+    return false;
+  });
+  const handleExpandedChange = () => {
+    setExpanded((prevExpanded: any) => {
+      const newExpanded = !prevExpanded;
+      localStorage.setItem('accordionExpanded', JSON.stringify(newExpanded));
+      return newExpanded;
+    });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -229,52 +233,51 @@ function GenericTemplate(props: GenericTemplateProps) {
                 <ListItemText primary="トップページ" />
               </ListItem>
             </Link>
-            <ListItem className={classes.link} onMouseOver={handleClick}>
-              <ListItemIcon>
-                <Groups />
-              </ListItemIcon>
-              <ListItemText primary="チーム情報" />
-              <Menu
-                anchorEl={anchorEl}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                MenuListProps={{ onMouseLeave: handleClose }}
+            <Accordion expanded={expanded} onChange={handleExpandedChange} disableGutters>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                sx={{ display: 'flex', justifyContent: 'flex-start' }}
               >
-                <Link to="/season" className={classes.link}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <TableChart />
-                    </ListItemIcon>
-                    <ListItemText primary="シーズン成績ページ" />
-                  </ListItem>
-                </Link>
-                <Link to="/batting" className={classes.link}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <SportsCricket />
-                    </ListItemIcon>
-                    <ListItemText primary="打撃成績ページ" />
-                  </ListItem>
-                </Link>
-                <Link to="/pitching" className={classes.link}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <SportsBaseball />
-                    </ListItemIcon>
-                    <ListItemText primary="投手成績ページ" />
-                  </ListItem>
-                </Link>
-                <Link to="/strength" className={classes.link}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <Pentagon />
-                    </ListItemIcon>
-                    <ListItemText primary="チーム戦力チャート" />
-                  </ListItem>
-                </Link>
-              </Menu>
-            </ListItem>
+                <ListItemIcon>
+                  <Group />
+                </ListItemIcon>
+                <ListItemText primary="チーム情報" />
+              </AccordionSummary>
+              <Link to="/season" className={classes.link}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <TableChart />
+                  </ListItemIcon>
+                  <ListItemText primary="シーズン成績ページ" />
+                </ListItem>
+              </Link>
+              <Link to="/batting" className={classes.link}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <SportsCricket />
+                  </ListItemIcon>
+                  <ListItemText primary="打撃成績ページ" />
+                </ListItem>
+              </Link>
+              <Link to="/pitching" className={classes.link}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <SportsBaseball />
+                  </ListItemIcon>
+                  <ListItemText primary="投手成績ページ" />
+                </ListItem>
+              </Link>
+              <Link to="/strength" className={classes.link}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <Pentagon />
+                  </ListItemIcon>
+                  <ListItemText primary="チーム戦力チャート" />
+                </ListItem>
+              </Link>
+            </Accordion>
             <Link to="/players" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>

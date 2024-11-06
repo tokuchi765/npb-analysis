@@ -36,7 +36,7 @@ export default function Chart(props: {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="year" stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary}>
+          <YAxis stroke={theme.palette.text.secondary} domain={['auto', 'auto']}>
             <Label
               position="left"
               style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}

@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { Grid } from '@mui/material';
 import { getTeamBattingByYear } from '../../data/api/teamBatting';
 import { BasePaper } from '../common/papers';
+import { getTeamPitchingByYear } from '../../data/api/teamPitching';
 
 function createCentralBattingAverages(
   teams: {
@@ -28,32 +29,18 @@ function createCentralBattingAverages(
   }[] = [];
   let i = 0;
   years.forEach((year) => {
-    battingAverage.push(
-      createCentralBattingAverage(
-        year,
-        teams[i].Giants.BattingAverage,
-        teams[i].Baystars.BattingAverage,
-        teams[i].Tigers.BattingAverage,
-        teams[i].Carp.BattingAverage,
-        teams[i].Dragons.BattingAverage,
-        teams[i].Swallows.BattingAverage
-      )
-    );
+    battingAverage.push({
+      year: year,
+      Giants: teams[i].Giants.BattingAverage,
+      Baystars: teams[i].Baystars.BattingAverage,
+      Tigers: teams[i].Tigers.BattingAverage,
+      Carp: teams[i].Carp.BattingAverage,
+      Dragons: teams[i].Dragons.BattingAverage,
+      Swallows: teams[i].Swallows.BattingAverage,
+    });
     i = i + 1;
   });
   return battingAverage;
-}
-
-function createCentralBattingAverage(
-  year: string,
-  Giants: number,
-  Baystars: number,
-  Tigers: number,
-  Carp: number,
-  Dragons: number,
-  Swallows: number
-) {
-  return { year, Giants, Baystars, Tigers, Carp, Dragons, Swallows };
 }
 
 function createPacificBattingAverages(
@@ -78,37 +65,99 @@ function createPacificBattingAverages(
   }[] = [];
   let i = 0;
   years.forEach((year) => {
-    battingAverage.push(
-      createPacificBattingAverage(
-        year,
-        teams[i].Lions.BattingAverage,
-        teams[i].Hawks.BattingAverage,
-        teams[i].Eagles.BattingAverage,
-        teams[i].Marines.BattingAverage,
-        teams[i].Fighters.BattingAverage,
-        teams[i].Buffaloes.BattingAverage
-      )
-    );
+    battingAverage.push({
+      year: year,
+      Lions: teams[i].Lions.BattingAverage,
+      Hawks: teams[i].Hawks.BattingAverage,
+      Eagles: teams[i].Eagles.BattingAverage,
+      Marines: teams[i].Marines.BattingAverage,
+      Fighters: teams[i].Fighters.BattingAverage,
+      Buffaloes: teams[i].Buffaloes.BattingAverage,
+    });
     i = i + 1;
   });
   return battingAverage;
 }
 
-function createPacificBattingAverage(
-  year: string,
-  Lions: number,
-  Hawks: number,
-  Eagles: number,
-  Marines: number,
-  Fighters: number,
-  Buffaloes: number
+function createCentralEarnedRunAverages(
+  teams: {
+    Giants: any;
+    Baystars: any;
+    Tigers: any;
+    Carp: any;
+    Dragons: any;
+    Swallows: any;
+  }[],
+  years: string[]
 ) {
-  return { year, Lions, Hawks, Eagles, Marines, Fighters, Buffaloes };
+  const earnedRunAverages: {
+    year: string;
+    Giants: number;
+    Baystars: number;
+    Tigers: number;
+    Carp: number;
+    Dragons: number;
+    Swallows: number;
+  }[] = [];
+  let i = 0;
+  years.forEach((year) => {
+    earnedRunAverages.push({
+      year: year,
+      Giants: teams[i].Giants.EarnedRunAverage,
+      Baystars: teams[i].Baystars.EarnedRunAverage,
+      Tigers: teams[i].Tigers.EarnedRunAverage,
+      Carp: teams[i].Carp.EarnedRunAverage,
+      Dragons: teams[i].Dragons.EarnedRunAverage,
+      Swallows: teams[i].Swallows.EarnedRunAverage,
+    });
+    i = i + 1;
+  });
+  return earnedRunAverages;
+}
+
+function createPacificEarnedRunAverages(
+  teams: {
+    Lions: any;
+    Hawks: any;
+    Eagles: any;
+    Marines: any;
+    Fighters: any;
+    Buffaloes: any;
+  }[],
+  years: string[]
+) {
+  const earnedRunAverages: {
+    year: string;
+    Lions: number;
+    Hawks: number;
+    Eagles: number;
+    Marines: number;
+    Fighters: number;
+    Buffaloes: number;
+  }[] = [];
+  let i = 0;
+  years.forEach((year) => {
+    earnedRunAverages.push({
+      year: year,
+      Lions: teams[i].Lions.EarnedRunAverage,
+      Hawks: teams[i].Hawks.EarnedRunAverage,
+      Eagles: teams[i].Eagles.EarnedRunAverage,
+      Marines: teams[i].Marines.EarnedRunAverage,
+      Fighters: teams[i].Fighters.EarnedRunAverage,
+      Buffaloes: teams[i].Buffaloes.EarnedRunAverage,
+    });
+    i = i + 1;
+  });
+  return earnedRunAverages;
 }
 
 function HomePage(props: { years: string[] }) {
   const [centralData, setCentralData] = useState<Array<{ year: string; Giants: number }>>(Array);
   const [pacificData, setPacificData] = useState<Array<{ year: string; Lions: number }>>(Array);
+  const [centralPitchingData, setCentralPitchingData] =
+    useState<Array<{ year: string; Giants: number }>>(Array);
+  const [pacificPitchingData, setPacificPitchingData] =
+    useState<Array<{ year: string; Lions: number }>>(Array);
   const width = 400;
   const height = 300;
 
@@ -132,8 +181,8 @@ function HomePage(props: { years: string[] }) {
 
   useEffect(() => {
     (async () => {
-      const result = await getTeamBattingByYear('2005', '2023');
-      const centralTeams = _.map(result.data.teamBatting, (teamBatting) => {
+      const battingResult = await getTeamBattingByYear('2005', '2023');
+      const centralTeams = _.map(battingResult.data.teamBatting, (teamBatting) => {
         const teamBattings = {
           Giants: _.filter(teamBatting, { TeamID: '01' })[0],
           Baystars: _.filter(teamBatting, { TeamID: '02' })[0],
@@ -147,7 +196,7 @@ function HomePage(props: { years: string[] }) {
 
       setCentralData(createCentralBattingAverages(centralTeams, props.years));
 
-      const pacificTeams = _.map(result.data.teamBatting, (teamBatting) => {
+      const pacificTeams = _.map(battingResult.data.teamBatting, (teamBatting) => {
         const teamBattings = {
           Lions: _.filter(teamBatting, { TeamID: '07' })[0],
           Hawks: _.filter(teamBatting, { TeamID: '08' })[0],
@@ -160,6 +209,35 @@ function HomePage(props: { years: string[] }) {
       });
 
       setPacificData(createPacificBattingAverages(pacificTeams, props.years));
+
+      const pitchingResult = await getTeamPitchingByYear('2005', '2023');
+      const centralPitchings = _.map(pitchingResult.data.teamPitching, (teamPitching) => {
+        const teamPitchings = {
+          Giants: _.filter(teamPitching, { TeamID: '01' })[0],
+          Baystars: _.filter(teamPitching, { TeamID: '02' })[0],
+          Tigers: _.filter(teamPitching, { TeamID: '03' })[0],
+          Carp: _.filter(teamPitching, { TeamID: '04' })[0],
+          Dragons: _.filter(teamPitching, { TeamID: '05' })[0],
+          Swallows: _.filter(teamPitching, { TeamID: '06' })[0],
+        };
+        return teamPitchings;
+      });
+
+      setCentralPitchingData(createCentralEarnedRunAverages(centralPitchings, props.years));
+
+      const pacificPitchings = _.map(pitchingResult.data.teamPitching, (teamPitching) => {
+        const teamPitchings = {
+          Lions: _.filter(teamPitching, { TeamID: '07' })[0],
+          Hawks: _.filter(teamPitching, { TeamID: '08' })[0],
+          Eagles: _.filter(teamPitching, { TeamID: '09' })[0],
+          Marines: _.filter(teamPitching, { TeamID: '10' })[0],
+          Fighters: _.filter(teamPitching, { TeamID: '11' })[0],
+          Buffaloes: _.filter(teamPitching, { TeamID: '12' })[0],
+        };
+        return teamPitchings;
+      });
+
+      setPacificPitchingData(createPacificEarnedRunAverages(pacificPitchings, props.years));
     })();
   }, []);
 
@@ -179,6 +257,24 @@ function HomePage(props: { years: string[] }) {
             data={pacificData}
             title={'（パ）チーム打率推移'}
             label={'打率'}
+            chartDatas={pacificChartDatas}
+            width={width}
+            height={height}
+          />
+        </BasePaper>
+        <BasePaper>
+          <Chart
+            data={centralPitchingData}
+            title={'（セ）チーム防御率推移'}
+            label={'防御率'}
+            chartDatas={centralChartDatas}
+            width={width}
+            height={height}
+          />
+          <Chart
+            data={pacificPitchingData}
+            title={'（パ）チーム打率推移'}
+            label={'防御率'}
             chartDatas={pacificChartDatas}
             width={width}
             height={height}

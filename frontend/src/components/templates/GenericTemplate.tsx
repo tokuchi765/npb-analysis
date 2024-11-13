@@ -18,7 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Accordion, AccordionSummary } from '@mui/material';
+import { Accordion, AccordionSummary, Button, Grid } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   SportsCricket,
@@ -159,6 +159,8 @@ const Copyright = () => {
 export interface GenericTemplateProps {
   children: React.ReactNode;
   title: string;
+  displayBackButton?: boolean;
+  backOnClick?: () => void;
 }
 
 function GenericTemplate(props: GenericTemplateProps) {
@@ -315,15 +317,27 @@ function GenericTemplate(props: GenericTemplateProps) {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg" className={classes.container}>
-            <Typography
-              component="h2"
-              variant="h5"
-              color="inherit"
-              noWrap
-              className={classes.pageTitle}
-            >
-              {props.title}
-            </Typography>
+            <Grid item xs={12} display={'flex'}>
+              <Typography
+                component="h2"
+                variant="h5"
+                color="inherit"
+                noWrap
+                className={classes.pageTitle}
+              >
+                {props.title}
+              </Typography>
+              {props.displayBackButton && (
+                <Button
+                  sx={{ marginLeft: 2 }}
+                  onClick={props.backOnClick}
+                  variant="contained"
+                  color="primary"
+                >
+                  戻る
+                </Button>
+              )}
+            </Grid>
             {props.children}
             <Box pt={4}>
               <Copyright />

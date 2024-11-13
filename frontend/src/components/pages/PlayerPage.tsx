@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import GenericTemplate from '../templates/GenericTemplate';
-import { Button } from '@mui/material';
 import { TableComponent, HeadCell } from '../common/TableComponent';
 import _ from 'lodash';
 import { getPlayer } from '../../data/api/player';
@@ -274,10 +273,11 @@ function PlayerPage(props: PageProps | SearchCondition) {
   }, []);
 
   return (
-    <GenericTemplate title={playerName}>
-      <Button onClick={() => props.history.goBack()} variant="contained" color="primary">
-        戻る
-      </Button>
+    <GenericTemplate
+      title={playerName}
+      displayBackButton={true}
+      backOnClick={() => props.history.goBack()}
+    >
       {!_.isEmpty(battingDates) ? (
         <BasePaper>
           <Chart

@@ -46,7 +46,7 @@ exports[`投手成績ページテスト スナップショット作成 1`] = `
         </span>
       </button>
       <h1
-        className="MuiTypography-root makeStyles-title-8 MuiTypography-h6 MuiTypography-colorInherit MuiTypography-noWrap"
+        className="MuiTypography-root MuiTypography-h6 MuiTypography-noWrap makeStyles-title-8 css-2l1qg7-MuiTypography-root"
       >
         プロ野球データ分析
       </h1>
@@ -647,11 +647,15 @@ exports[`投手成績ページテスト スナップショット作成 1`] = `
     <div
       className="MuiContainer-root makeStyles-container-14 MuiContainer-maxWidthLg"
     >
-      <h2
-        className="MuiTypography-root makeStyles-pageTitle-9 MuiTypography-h5 MuiTypography-colorInherit MuiTypography-noWrap"
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
       >
-        チーム投手成績ページ
-      </h2>
+        <h2
+          className="MuiTypography-root MuiTypography-h5 MuiTypography-noWrap makeStyles-pageTitle-9 css-baveyi-MuiTypography-root"
+        >
+          チーム投手成績ページ
+        </h2>
+      </div>
       <div
         className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1ps6pg7-MuiPaper-root"
       >
@@ -1661,21 +1665,63 @@ exports[`投手成績ページテスト スナップショット作成 1`] = `
       <div
         className="MuiBox-root MuiBox-root-23"
       >
-        <p
-          className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+        <div
+          className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-pv8kf-MuiGrid-root"
         >
-          Copyright © 
-          <a
-            color="inherit"
-            href="/"
-            onClick={[Function]}
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-lrg872-MuiTypography-root"
           >
-            プロ野球データ分析
-          </a>
-           
-          2024
-          .
-        </p>
+            Copyright © 
+            <a
+              color="inherit"
+              href="/"
+              onClick={[Function]}
+            >
+              プロ野球データ分析
+            </a>
+             
+            2024
+            .
+          </p>
+        </div>
+        <div
+          className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
+        >
+          <div
+            className="MuiGrid-root MuiGrid-item css-1rjnvzg-MuiGrid-root"
+          >
+            <h2
+              className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+            >
+              参考サイト
+            </h2>
+            <a
+              href="https://npb.jp/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              日本野球機構公式サイト
+            </a>
+          </div>
+          <div
+            className="MuiGrid-root MuiGrid-item css-1rjnvzg-MuiGrid-root"
+          >
+            <h2
+              className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+            >
+              免責事項
+            </h2>
+            <p
+              className="MuiTypography-root MuiTypography-body1 css-cssm10-MuiTypography-root"
+            >
+              このサイトはNPB公式サイトより集計したデータを独自に再計算し提示しているサイトです。
+              <br />
+              このサイトにより生じた損害に付きましては一切責任を負いません。
+              <br />
+              自己責任でご使用頂くようお願い申し上げます。
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </main>

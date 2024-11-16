@@ -49,7 +49,7 @@ exports[`トップページテスト スナップショット作成 1`] = `
         />
       </button>
       <h1
-        className="MuiTypography-root makeStyles-title-8 MuiTypography-h6 MuiTypography-colorInherit MuiTypography-noWrap"
+        className="MuiTypography-root MuiTypography-h6 MuiTypography-noWrap makeStyles-title-8 css-2l1qg7-MuiTypography-root"
       >
         プロ野球データ分析
       </h1>
@@ -680,11 +680,15 @@ exports[`トップページテスト スナップショット作成 1`] = `
     <div
       className="MuiContainer-root makeStyles-container-14 MuiContainer-maxWidthLg"
     >
-      <h2
-        className="MuiTypography-root makeStyles-pageTitle-9 MuiTypography-h5 MuiTypography-colorInherit MuiTypography-noWrap"
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
       >
-        トップページ
-      </h2>
+        <h2
+          className="MuiTypography-root MuiTypography-h5 MuiTypography-noWrap makeStyles-pageTitle-9 css-baveyi-MuiTypography-root"
+        >
+          トップページ
+        </h2>
+      </div>
       <div
         className="MuiGrid-root MuiGrid-container css-go2vvz-MuiGrid-root"
       >
@@ -1604,25 +1608,983 @@ exports[`トップページテスト スナップショット作成 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-11fj2xm-MuiPaper-root"
+        >
+          <div
+            className="MuiBox-root css-1kxe5pk"
+          >
+            <h2
+              className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+            >
+              （セ）チーム防御率推移
+            </h2>
+            <div
+              className="recharts-wrapper"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onMouseMove={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              style={
+                Object {
+                  "cursor": "default",
+                  "height": 300,
+                  "position": "relative",
+                  "width": 400,
+                }
+              }
+            >
+              <svg
+                className="recharts-surface"
+                height={300}
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+                viewBox="0 0 400 300"
+                width={400}
+              >
+                <title />
+                <desc />
+                <defs>
+                  <clipPath
+                    id="recharts27-clip"
+                  >
+                    <rect
+                      height={254}
+                      width={300}
+                      x={84}
+                      y={16}
+                    />
+                  </clipPath>
+                </defs>
+                <g
+                  className="recharts-cartesian-grid"
+                >
+                  <g
+                    className="recharts-cartesian-grid-horizontal"
+                  >
+                    <line
+                      fill="none"
+                      height={254}
+                      stroke="#ccc"
+                      strokeDasharray="3 3"
+                      width={300}
+                      x={84}
+                      x1={84}
+                      x2={384}
+                      y={16}
+                      y1={16}
+                      y2={16}
+                    />
+                    <line
+                      fill="none"
+                      height={254}
+                      stroke="#ccc"
+                      strokeDasharray="3 3"
+                      width={300}
+                      x={84}
+                      x1={84}
+                      x2={384}
+                      y={16}
+                      y1={270}
+                      y2={270}
+                    />
+                  </g>
+                  <g
+                    className="recharts-cartesian-grid-vertical"
+                  >
+                    <line
+                      fill="none"
+                      height={254}
+                      stroke="#ccc"
+                      strokeDasharray="3 3"
+                      width={300}
+                      x={84}
+                      x1={84}
+                      x2={84}
+                      y={16}
+                      y1={16}
+                      y2={270}
+                    />
+                    <line
+                      fill="none"
+                      height={254}
+                      stroke="#ccc"
+                      strokeDasharray="3 3"
+                      width={300}
+                      x={84}
+                      x1={384}
+                      x2={384}
+                      y={16}
+                      y1={16}
+                      y2={270}
+                    />
+                  </g>
+                </g>
+              </svg>
+              <div
+                className="recharts-legend-wrapper"
+                style={
+                  Object {
+                    "bottom": 0,
+                    "height": "auto",
+                    "left": 24,
+                    "position": "absolute",
+                    "width": 360,
+                  }
+                }
+              >
+                <ul
+                  className="recharts-default-legend"
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                      "textAlign": "center",
+                    }
+                  }
+                >
+                  <li
+                    className="recharts-legend-item legend-item-0"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#FF4F02"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#FF4F02",
+                        }
+                      }
+                    >
+                      Giants
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-1"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#00FFFF"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#00FFFF",
+                        }
+                      }
+                    >
+                      Baystars
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-2"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#ffbf00"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#ffbf00",
+                        }
+                      }
+                    >
+                      Tigers
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-3"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#FF0000"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#FF0000",
+                        }
+                      }
+                    >
+                      Carp
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-4"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#005FFF"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#005FFF",
+                        }
+                      }
+                    >
+                      Dragons
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-5"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#000055"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#000055",
+                        }
+                      }
+                    >
+                      Swallows
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <div
+                className="recharts-tooltip-wrapper"
+                style={
+                  Object {
+                    "left": 0,
+                    "pointerEvents": "none",
+                    "position": "absolute",
+                    "top": 0,
+                    "transition": undefined,
+                    "visibility": "hidden",
+                  }
+                }
+                tabIndex={-1}
+              >
+                <div
+                  className="recharts-default-tooltip"
+                  style={
+                    Object {
+                      "backgroundColor": "#fff",
+                      "border": "1px solid #ccc",
+                      "margin": 0,
+                      "padding": 10,
+                      "whiteSpace": "nowrap",
+                    }
+                  }
+                >
+                  <p
+                    className="recharts-tooltip-label"
+                    style={
+                      Object {
+                        "margin": 0,
+                      }
+                    }
+                  >
+                    
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="MuiBox-root css-1kxe5pk"
+          >
+            <h2
+              className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+            >
+              （パ）チーム打率推移
+            </h2>
+            <div
+              className="recharts-wrapper"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onMouseMove={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              style={
+                Object {
+                  "cursor": "default",
+                  "height": 300,
+                  "position": "relative",
+                  "width": 400,
+                }
+              }
+            >
+              <svg
+                className="recharts-surface"
+                height={300}
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+                viewBox="0 0 400 300"
+                width={400}
+              >
+                <title />
+                <desc />
+                <defs>
+                  <clipPath
+                    id="recharts40-clip"
+                  >
+                    <rect
+                      height={254}
+                      width={300}
+                      x={84}
+                      y={16}
+                    />
+                  </clipPath>
+                </defs>
+                <g
+                  className="recharts-cartesian-grid"
+                >
+                  <g
+                    className="recharts-cartesian-grid-horizontal"
+                  >
+                    <line
+                      fill="none"
+                      height={254}
+                      stroke="#ccc"
+                      strokeDasharray="3 3"
+                      width={300}
+                      x={84}
+                      x1={84}
+                      x2={384}
+                      y={16}
+                      y1={16}
+                      y2={16}
+                    />
+                    <line
+                      fill="none"
+                      height={254}
+                      stroke="#ccc"
+                      strokeDasharray="3 3"
+                      width={300}
+                      x={84}
+                      x1={84}
+                      x2={384}
+                      y={16}
+                      y1={270}
+                      y2={270}
+                    />
+                  </g>
+                  <g
+                    className="recharts-cartesian-grid-vertical"
+                  >
+                    <line
+                      fill="none"
+                      height={254}
+                      stroke="#ccc"
+                      strokeDasharray="3 3"
+                      width={300}
+                      x={84}
+                      x1={84}
+                      x2={84}
+                      y={16}
+                      y1={16}
+                      y2={270}
+                    />
+                    <line
+                      fill="none"
+                      height={254}
+                      stroke="#ccc"
+                      strokeDasharray="3 3"
+                      width={300}
+                      x={84}
+                      x1={384}
+                      x2={384}
+                      y={16}
+                      y1={16}
+                      y2={270}
+                    />
+                  </g>
+                </g>
+              </svg>
+              <div
+                className="recharts-legend-wrapper"
+                style={
+                  Object {
+                    "bottom": 0,
+                    "height": "auto",
+                    "left": 24,
+                    "position": "absolute",
+                    "width": 360,
+                  }
+                }
+              >
+                <ul
+                  className="recharts-default-legend"
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                      "textAlign": "center",
+                    }
+                  }
+                >
+                  <li
+                    className="recharts-legend-item legend-item-0"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#BAD3FF"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#BAD3FF",
+                        }
+                      }
+                    >
+                      Lions
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-1"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#FFD700"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#FFD700",
+                        }
+                      }
+                    >
+                      Hawks
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-2"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#FF0461"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#FF0461",
+                        }
+                      }
+                    >
+                      Eagles
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-3"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#555555"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#555555",
+                        }
+                      }
+                    >
+                      Marines
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-4"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#000011"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#000011",
+                        }
+                      }
+                    >
+                      Fighters
+                    </span>
+                  </li>
+                  <li
+                    className="recharts-legend-item legend-item-5"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "marginRight": 10,
+                      }
+                    }
+                  >
+                    <svg
+                      className="recharts-surface"
+                      height={14}
+                      style={
+                        Object {
+                          "display": "inline-block",
+                          "marginRight": 4,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 32 32"
+                      width={14}
+                    >
+                      <title />
+                      <desc />
+                      <path
+                        className="recharts-legend-icon"
+                        d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16"
+                        fill="none"
+                        stroke="#4B0082"
+                        strokeWidth={4}
+                      />
+                    </svg>
+                    <span
+                      className="recharts-legend-item-text"
+                      style={
+                        Object {
+                          "color": "#4B0082",
+                        }
+                      }
+                    >
+                      Buffaloes
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <div
+                className="recharts-tooltip-wrapper"
+                style={
+                  Object {
+                    "left": 0,
+                    "pointerEvents": "none",
+                    "position": "absolute",
+                    "top": 0,
+                    "transition": undefined,
+                    "visibility": "hidden",
+                  }
+                }
+                tabIndex={-1}
+              >
+                <div
+                  className="recharts-default-tooltip"
+                  style={
+                    Object {
+                      "backgroundColor": "#fff",
+                      "border": "1px solid #ccc",
+                      "margin": 0,
+                      "padding": 10,
+                      "whiteSpace": "nowrap",
+                    }
+                  }
+                >
+                  <p
+                    className="recharts-tooltip-label"
+                    style={
+                      Object {
+                        "margin": 0,
+                      }
+                    }
+                  >
+                    
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         className="MuiBox-root MuiBox-root-17"
       >
-        <p
-          className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+        <div
+          className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-pv8kf-MuiGrid-root"
         >
-          Copyright © 
-          <a
-            color="inherit"
-            href="/"
-            onClick={[Function]}
+          <p
+            className="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-lrg872-MuiTypography-root"
           >
-            プロ野球データ分析
-          </a>
-           
-          2024
-          .
-        </p>
+            Copyright © 
+            <a
+              color="inherit"
+              href="/"
+              onClick={[Function]}
+            >
+              プロ野球データ分析
+            </a>
+             
+            2024
+            .
+          </p>
+        </div>
+        <div
+          className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-15zuw48-MuiGrid-root"
+        >
+          <div
+            className="MuiGrid-root MuiGrid-item css-1rjnvzg-MuiGrid-root"
+          >
+            <h2
+              className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+            >
+              参考サイト
+            </h2>
+            <a
+              href="https://npb.jp/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              日本野球機構公式サイト
+            </a>
+          </div>
+          <div
+            className="MuiGrid-root MuiGrid-item css-1rjnvzg-MuiGrid-root"
+          >
+            <h2
+              className="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-gutterBottom"
+            >
+              免責事項
+            </h2>
+            <p
+              className="MuiTypography-root MuiTypography-body1 css-cssm10-MuiTypography-root"
+            >
+              このサイトはNPB公式サイトより集計したデータを独自に再計算し提示しているサイトです。
+              <br />
+              このサイトにより生じた損害に付きましては一切責任を負いません。
+              <br />
+              自己責任でご使用頂くようお願い申し上げます。
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </main>

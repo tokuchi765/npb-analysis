@@ -10,7 +10,6 @@ import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
@@ -18,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Accordion, AccordionSummary, Button, Grid } from '@mui/material';
+import { Accordion, AccordionSummary, Button, Grid, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   SportsCricket,
@@ -32,6 +31,7 @@ import {
   Group,
 } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
+import Title from '../common/Title';
 
 const drawerWidth = 240;
 
@@ -145,14 +145,36 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Copyright = () => {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" to="/">
-        プロ野球データ分析
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <React.Fragment>
+      <Grid item xs={12} alignItems="center">
+        <Typography marginBottom={3} variant="body2" color="textSecondary" align="center">
+          {'Copyright © '}
+          <Link color="inherit" to="/">
+            プロ野球データ分析
+          </Link>{' '}
+          {new Date().getFullYear()}
+          {'.'}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} display={'flex'}>
+        <Grid item alignItems="center" width={'50%'}>
+          <Title>参考サイト</Title>
+          <a href="https://npb.jp/" target="_blank" rel="noopener noreferrer">
+            日本野球機構公式サイト
+          </a>
+        </Grid>
+        <Grid item alignItems="center" width={'50%'}>
+          <Title>免責事項</Title>
+          <Typography sx={{ fontSize: '12px' }} color="textSecondary">
+            このサイトはNPB公式サイトより集計したデータを独自に再計算し提示しているサイトです。
+            <br />
+            このサイトにより生じた損害に付きましては一切責任を負いません。
+            <br />
+            自己責任でご使用頂くようお願い申し上げます。
+          </Typography>
+        </Grid>
+      </Grid>
+    </React.Fragment>
   );
 };
 

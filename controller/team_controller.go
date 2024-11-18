@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"reflect"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -133,6 +134,9 @@ func (controller *TeamController) GetCareers(c Context) {
 	var careers []player.Players
 	for _, player := range players {
 		career := controller.GradesInteractor.GetCareer(player.PlayerID)
+		if reflect.DeepEqual(career, reflect.Zero(reflect.TypeOf(career)).Interface()) {
+			continue
+		}
 		careers = append(careers, career)
 	}
 	c.JSON(http.StatusOK, gin.H{

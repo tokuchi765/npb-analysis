@@ -278,6 +278,13 @@ function PlayerPage(props: PageProps | SearchCondition) {
       displayBackButton={true}
       backOnClick={() => props.history.goBack()}
     >
+      <a
+        href={'https://npb.jp/bis/players/' + props.match.params.id + '.html'}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        日本野球機構公式サイト：個人ページ
+      </a>
       {!_.isEmpty(battingDates) ? (
         <BasePaper>
           <Chart

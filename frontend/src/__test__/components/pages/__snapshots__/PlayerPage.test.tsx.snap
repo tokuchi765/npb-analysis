@@ -677,6 +677,13 @@ exports[`選手詳細ページテスト スナップショット作成 1`] = `
           戻る
         </button>
       </div>
+      <a
+        href="https://npb.jp/bis/players/test.html"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        日本野球機構公式サイト：個人ページ
+      </a>
       <div
         className="MuiBox-root MuiBox-root-17"
       >

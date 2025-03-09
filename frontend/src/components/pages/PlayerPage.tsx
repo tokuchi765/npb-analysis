@@ -7,6 +7,7 @@ import { getPlayer } from '../../data/api/player';
 import { BasePaper } from '../common/papers';
 import Chart, { ChartData } from '../common/Chart';
 import { SearchCondition } from './SearchPage';
+import { Link } from '@mui/material';
 
 type PageProps = RouteComponentProps<{ id: string }>;
 
@@ -278,13 +279,16 @@ function PlayerPage(props: PageProps | SearchCondition) {
       displayBackButton={true}
       backOnClick={() => props.history.goBack()}
     >
-      <a
+      <Link
         href={'https://npb.jp/bis/players/' + props.match.params.id + '.html'}
         target="_blank"
         rel="noopener noreferrer"
+        sx={{
+          width: 280,
+        }}
       >
         日本野球機構公式サイト：個人ページ
-      </a>
+      </Link>
       {!_.isEmpty(battingDates) ? (
         <BasePaper>
           <Chart

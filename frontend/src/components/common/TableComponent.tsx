@@ -1,22 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import Typography from '@material-ui/core/Typography';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import Grid from '@mui/material/Unstable_Grid2';
-import MenuItem from '@material-ui/core/MenuItem';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+  Typography,
+  Paper,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Box,
+} from '@mui/material';
 import _ from 'lodash';
-import { ClassNameMap } from '@material-ui/core/styles/withStyles';
-import { Paper } from '@mui/material';
 
 type Order = 'asc' | 'desc';
 
@@ -49,41 +51,39 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    table: {
-      minWidth: 650,
-    },
-    visuallyHidden: {
-      border: 0,
-      clip: 'rect(0 0 0 0)',
-      height: 1,
-      margin: -1,
-      overflow: 'hidden',
-      padding: 0,
-      position: 'absolute',
-      top: 20,
-      width: 1,
-    },
-    title: {
-      flex: 'auto',
-      paddingLeft: '10px',
-    },
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    paper: {
-      textAlign: 'center',
-      height: 50,
-      width: 300,
-      padding: theme.spacing(1, 2),
-    },
-    grid: {
-      paddingTop: 10,
-    },
-  })
-);
+/* const useStyles = styled((theme) => ({
+  table: {
+    minWidth: 650,
+  },
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
+  },
+  title: {
+    flex: 'auto',
+    paddingLeft: '10px',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  paper: {
+    textAlign: 'center',
+    height: 50,
+    width: 300,
+    padding: theme.spacing(1, 2),
+  },
+  grid: {
+    paddingTop: 10,
+  },
+})); */
 
 export interface HeadCell {
   disablePadding: boolean;
@@ -99,19 +99,29 @@ export function Selectable(props: {
   selects: string[];
   setSelect: (select: string) => void;
 }) {
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleChange = (event: SelectChangeEvent<string>) => {
     props.setSelect(String(event.target.value));
   };
 
   if (!_.isEmpty(props.selects)) {
     return (
-      <FormControl className={props.formControl}>
-        <InputLabel id="demo-simple-select-label">{props.selectLabel}</InputLabel>
+      <FormControl sx={{ height: '100%' }}>
+        <InputLabel sx={{ paddingTop: 2 }} id="demo-simple-select-label">
+          {props.selectLabel}
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={props.initSelect}
           onChange={handleChange}
+          MenuProps={{
+            PaperProps: {
+              sx: {
+                maxHeight: 300,
+                overflowY: 'auto',
+              },
+            },
+          }}
         >
           {props.selects.map((select) => {
             return (
@@ -147,29 +157,36 @@ export class SelectItem {
   }
 }
 
-function TableComponentTitleBar(props: {
-  classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
-  selectItems: SelectItem[];
-  title: string;
-}) {
+function TableComponentTitleBar(props: { selectItems: SelectItem[]; title: string }) {
   return (
-    <Typography className={props.classes.title} variant="h6" id="tableTitle" component="div">
-      <Grid container className={props.classes.grid}>
+    <Typography variant="h6" id="tableTitle" component="div" sx={{ height: 60 }}>
+      <Grid container>
         <Grid key={1}>
-          <Paper className={props.classes.paper}>
-            {props.selectItems.map((selectItem) => selectItem.initSelect + '_')}
-            {props.title}
+          <Paper
+            sx={{
+              height: '100%',
+              width: 300,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <Typography variant="h6">
+              {props.selectItems.map((selectItem) => selectItem.initSelect + '_')}
+              {props.title}
+            </Typography>
           </Paper>
         </Grid>
         <Grid key={2}>
           {props.selectItems.map((selectItem) => (
             <Selectable
               key={selectItem.selectLabel}
-              formControl={props.classes.formControl}
               selectLabel={selectItem.selectLabel}
               initSelect={selectItem.initSelect}
               selects={selectItem.selects}
               setSelect={selectItem.setSelect}
+              formControl=""
             />
           ))}
         </Grid>
@@ -179,7 +196,6 @@ function TableComponentTitleBar(props: {
 }
 
 export function TableComponentHader(props: {
-  classes: ClassNameMap<'formControl' | 'title' | 'table' | 'grid' | 'visuallyHidden' | 'paper'>;
   headCells: HeadCell[];
   orderBy: string;
   order: Order;
@@ -202,9 +218,22 @@ export function TableComponentHader(props: {
             >
               {headCell.label}
               {props.orderBy === headCell.id ? (
-                <span className={props.classes.visuallyHidden}>
+                <Box
+                  component="span"
+                  sx={{
+                    border: 0,
+                    clip: 'rect(0 0 0 0)',
+                    height: 1,
+                    margin: -1,
+                    overflow: 'hidden',
+                    padding: 0,
+                    position: 'absolute',
+                    top: 20,
+                    width: 1,
+                  }}
+                >
                   {props.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
+                </Box>
               ) : null}
             </TableSortLabel>
           </TableCell>
@@ -287,7 +316,6 @@ export function TableComponent(props: {
   initSorted: string;
   selectItems: SelectItem[];
 }) {
-  const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
@@ -302,14 +330,9 @@ export function TableComponent(props: {
   return (
     <React.Fragment>
       <TableContainer component={Paper}>
-        <TableComponentTitleBar
-          classes={classes}
-          selectItems={props.selectItems}
-          title={props.title}
-        />
-        <Table className={classes.table} aria-label="simple table">
+        <TableComponentTitleBar selectItems={props.selectItems} title={props.title} />
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableComponentHader
-            classes={classes}
             headCells={props.headCells}
             orderBy={orderBy}
             order={order}
@@ -331,7 +354,6 @@ export function TableLinkComponent(props: {
   linkValues: Map<string, string>;
   path: string;
 }) {
-  const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
@@ -346,14 +368,9 @@ export function TableLinkComponent(props: {
   return (
     <React.Fragment>
       <TableContainer component={Paper}>
-        <TableComponentTitleBar
-          classes={classes}
-          selectItems={props.selectItems}
-          title={props.title}
-        />
-        <Table className={classes.table} aria-label="simple table">
+        <TableComponentTitleBar selectItems={props.selectItems} title={props.title} />
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableComponentHader
-            classes={classes}
             headCells={props.headCells}
             orderBy={orderBy}
             order={order}
@@ -379,8 +396,6 @@ export function TableSearchComponent(props: {
   linkValues: Map<string, string>;
   width?: number;
 }) {
-  const classes = useStyles();
-
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<string>(props.initSorted);
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
@@ -395,10 +410,9 @@ export function TableSearchComponent(props: {
   return (
     <React.Fragment>
       <TableContainer component={Paper} sx={{ width: props.width }}>
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          <Table className={classes.table} aria-label="simple table">
+        <Typography paddingLeft={2} variant="h6" id="tableTitle" component="div">
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableComponentHader
-              classes={classes}
               headCells={props.headCells}
               orderBy={orderBy}
               order={order}

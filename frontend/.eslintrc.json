@@ -24,6 +24,8 @@
         "react/prop-types": [
             "off"
         ],
-        "@typescript-eslint/no-explicit-any": "off"
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true }],
+        "react/display-name": "off"
     }
 }

@@ -1,0 +1,8 @@
+.vscode/
+__debug_bin
+debug.log
+.prettierrc
+docker-compose.yml
+csv/players/batting_grades/
+csv/players/careers/
+csv/players/pitching_grades/
